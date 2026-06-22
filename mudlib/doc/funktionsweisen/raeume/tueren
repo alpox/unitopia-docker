@@ -1,0 +1,62 @@
+Es gibt unter /obj/tuer eine Standard-Tür, mit der man alles machen kann,
+sei es eine simple Haustür oder ein Burg-Tor, dass man nur mit einer
+Brechstange "aufschließen" kann.
+
+Das Objekt '/obj/tuer' muss sich in den beiden Räumen befinden, die durch
+die Türe verbunden sind, d.h. jede Seite der Tür ist ein eigenes Objekt!
+
+Die Tür wird einfach gecloned und in den jeweiligen Raum gemoved.
+Natürlich muss man noch die Richtung, in der die Türe liegt angeben,
+und welcher Raum sich hinter der Türe befindet.
+
+Das sieht dann z.B. so aus (Datei /room/kirche/unten): 
+
+void reset()
+{
+    if (!present("tür", this_object())) {
+        tuer=clone_object("/obj/tuer");
+        tuer->move(this_object());
+        tuer->init_door("/room/church","süden");
+        tuer->set_keys(({"kirchturm#key"}));
+    }
+    tuer->lock_door();
+}
+
+und im anderen Raum (/room/church):
+
+void reset()
+{
+    if (!present("tür", this_object())) {
+        tuer=clone_object("/obj/tuer");
+        tuer->move(this_object());
+        tuer->init_door("/room/kirche/unten","norden");
+        tuer->set_keys(({"kirchturm#key"}));
+    }
+    tuer->lock_door();
+}
+
+Man sollte nur noch jeweils im create() einmal reset() aufrufen. Das wars!
+
+Die Tür kann natürlich auch zum TOR gemacht werden: 
+das geht einfach mit tuer->set_name("tor"); tuer->set_gender("sächlich");
+nun sind alle Meldungen auf das Tor gesetzt.
+Falls einem die Standard-Settings nicht gefallen, kann man alles neu setzten
+(naeheres siehe in /i/object/tuer.c)
+
+Die Tür kann man verschließen mit tuer->lock_door() oder man übergibt dem 
+init_door() gleich noch den Anfangszustand. (-1 für verschlossen, 1 = offen)
+Die Kommandos zum öffnen, schließen, aufschließen, zuschließen usw.
+kann man auch anders setzten. (naeheres siehe /i/object/tuer.c)
+
+Der dazugehörige Schlüssel ist unter /obj/schluessel zu finden:
+man muss in der ID des Schlüssels den gleichen String haben, wie
+bei set_keys(...) in der Tür. Wenn also ein Schlüssel für die obige
+Tür passen soll, muss er etwa so aussehen:
+    object schlüssel;
+
+    schluessel=clone_object("/obj/schluessel");
+    schluessel->set_id(({"schlüssel","bank schlüssel"}));
+
+Man kann aus dem Schlüssel natürlich auch eine Brechstange machen, indem
+man mit set_short, set_long das Aussehen des "Schlüssels" verändert.
+

@@ -1,0 +1,15 @@
+Count-Objekte: 1000 Taler und 10 Pfeile
+=======================================
+
+Was sind Count-Objekte?
+-----------------------
+
+Count-Objekte sind Objekte, die zusätzlich eine Anzahl definiert haben,
+also zB. 1000 Taler, 10 Pfeile etc. pp.
+
+1000 Taler können deshalb zu einem Objekt zusammengefasst werden, da jeder
+dieser Taler die gleichen Eigenschaften besitzt. Deshalb eignen sich die
+meisten Objekte nicht als Count-Objekte.
+
+Auch besteht hier die Notwendigkeit, 1000 Taler in einem statt 1000
+Objekten zu realisieren. Man denke nur mal an einen Taler-Millionär...

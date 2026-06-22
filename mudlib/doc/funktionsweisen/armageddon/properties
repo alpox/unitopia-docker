@@ -1,0 +1,25 @@
+Es wird ein Property-Mapping P_CONSERVATION (/sys/properties.h)
+mit folgenden Unterschluesseln verwendet:
+- P_CONSERVATION_PRECHECK(string)
+  Überlagerung des Standardtextes, wenn es nicht eingelagert werden kann. 
+- P_CONSERVATION_FACTORY(string) 
+  Datei, die das Objekt erzeugt. 
+- P_CONSERVATION_IDENTIFIER(string)
+  Identifier für die Factory, um das Objekt zu erzeugen.
+- P_CONSERVATION_ITEM_TARIFF (float,taler) 
+  Preis des Gegenstandes, wenn er abweicht vom Standard (1%). 
+- P_CONSERVATION_TROPHEY (0/1):
+  wenn 1 wird der Sondertarif für Trophäen gezogen.
+
+Das Property-Mapping P_ORIGIN (/sys/properties.h) wird mit folgenden
+Unterschluesseln verwendet, wird auch bei zinfo angezeigt:
+- P_ORIGIN_ROOM(string)
+  der erste First_Room des Objektes vor dem allersten Einlagern!
+- P_ORIGIN_PLAYER(string)
+  der erste First_player des Objektes vor dem allersten Einlagern.
+- P_ORIGIN_CREATED_ON(int)
+  Zeitpunkt der object_time vor dem allersten Einlagern.
+- P_ORIGIN_CREATOR(string)
+  Der ursprüngliche Creator des Objektes.
+- Die Funktionen query_real_first_player, query_real_first_room,
+  query_real_creator berücksichtigen obige P_ORIGIN-Properties.

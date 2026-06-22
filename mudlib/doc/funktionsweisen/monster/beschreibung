@@ -1,0 +1,135 @@
+Hier folgt eine Beschreibung aller für Monster wichtigen Routinen in
+/i/item/description.c und /i/living/face
+
+
+1. Rasse
+
+       void initialize(string rasse [, int level])
+       
+    	   Damit setzt man die Rasse des Lebewesens. Es werden auch 
+	   Körperform, Fähigkeiten (Stats), Rüstung und Schlagkraft
+	   entsprechend der Rasse gesetzt. Außerdem wird die Rasse als
+	   Name gesetzt.
+	   
+	   Weiteres zu initialize() findet man im Kapitel
+	   "Das neue Stat-System" in den Funktionsweisen der Monster.
+
+       
+2. Namen
+
+       string query_name()
+       string query_cap_name()
+
+           Geben den Namen zurück, wobei der erste Buchstabe des Namens
+           bei letzterer Funktion ein Großbuchstabe ist.
+
+       Soll der Name der Rasse entsprechen, so wird er schon von
+       initialize(...) gesetzt und man braucht sonst nichts weiter tun.
+       Ansonsten muss man Name und Geschlecht mit
+       
+       void set_name(string name)
+       void set_gender(string name)
+       
+       setzen. Bei Monstern kann der Name ja sowohl ein Eigenname (harry)
+       als auch ein Typname (ork) sein, während er bei Spielern ja immer
+       ein Eigenname ist. Bei Spielern wird der folgende Aufruf standardmäßig
+       durchgeführt, bei Monstern, die einen Eigennamen haben muss man die
+       Routine selbst aufrufen:
+
+       void set_personal(1)
+       
+       Außerdem sollte man ihn zusätzlich nochmal mit
+       
+       void set_npc_name(string name)
+       
+       setzen, damit er mudweit gefunden wird.
+
+
+3. Kurzbeschreibung
+
+        void set_short(string Beschreibung)
+
+           Wird set_short(0) angegeben, so erhält das Monster eine
+           Kurz-Beschreibung wie ein Spieler, also zusammengesetzt
+           aus Name, titel und Align-String.
+
+        string query_short()
+
+
+4. Titel 
+
+        void set_title(string Titel)
+
+	string query_title()
+
+
+5. Ansehen
+
+        void set_align(int wieviel)
+
+           Setzt das Ansehen des Monsters.
+
+        int query_align()
+
+
+        void set_align_title(string Titel)
+
+           Setzt den Text, der in Klammern hinter dem Titel erscheint.
+
+
+6. Ausführliche Beschreibung
+
+
+        void set_long(string Beschreibung)
+
+        string query_long()
+
+
+
+7. Sichtbarkeit. (Was soll man mit unsichtbaren Monstern anfangen ?)
+
+        set_invis(V_INVIS)
+           Macht unsichtbar.
+
+        set_invis(V_VIS)
+           Macht wieder sichtbar
+
+        int query_invis()
+           Ist das Monster unsichtbar ?
+
+
+8. Fähigkeiten
+
+        void set_one_stat(int Fähigkeit, int Level)
+        int  query_stat(int Faehigkeit)
+
+            Die Fähigkeiten sind im Include-File stats.h definiert.
+	    Sie werden von initialize() entsprechend der Rasse gesetzt.
+	    Ausnahmen davon sollte man gut begründen können.
+
+
+9. Ausführen von Kommandos
+
+        int exec_command(string Kommando)
+        int exec_command(mixed Befehls-Teil, ...)
+
+            Es gibt den Return-Code des Kommandos zurück.
+
+
+10. Woraus besteht das Monster ?
+
+       void set_material(string *Elemente)
+       void add_material(string Element)
+
+       string *query_material()
+       int material(string Zu_ueberpruefendes_Material)
+
+           Näheres zu den Elementen in /doc/funktionsweisen/material
+
+
+11. Geruch
+
+          void set_smell(string Geruch)
+          string query_smell()
+
+             Wonach riecht das Monster ?

@@ -1,0 +1,159 @@
+Richtlinien und Tips zur Raetselprogrammierung:
+
+ 1. Bevor man überhaupt anfängt mit Programmieren MUSS ein Konzept erstellt
+    werden. Ein Konzept sollte einen ungefähren Lageplan, mögliche Loesungs-
+    wege, Ideen, EP-Vorstellungen usw. enthalten. Das Konzept ist mit einem
+    der Raetselgoetter und einem passenden DL zu bereden. Konzepte zu Rätseln
+    sollten (aus gegebenen Anlass) unter /w/.../priv aufbewahrt werden, dort
+    darf nur der Besitzer lesen. (Da dort auch die Rätsel- und Domainlords
+    nicht lesen können, muss man ihnen das Konzept per Mail schicken.)
+    Erst, wenn das Konzept von Raetselgott und DL befürwortet wurde,
+    sollte man anfangen! Die Raetselgoetter sind übrigens in
+    /room/rathaus/filed (zgehzu gouv) mit 'liste auth' zu erfragen.
+    Eine Mail an die Raetselgoetter (inkl. die Admins) kann man  mit
+    'schreibe raetsel' abschicken.
+ 
+ 2. VOR dem Programmieren sollte man unbedingt den zu erwartenden Aufwand
+    abschätzen! Ist das Projekt in einer absehbaren Zeit zu bewältigen?
+    Für mehr als 500kB Code sollte man sich dringend einen Helfer suchen,
+    denn sonst kann aus der schönsten Idee schnell eine traurige Sammlung
+    trostloser Räume und Objekte werden.
+
+ 3. Lest Euch in der Enzy unter 'Richtlinien/Konzepte' mal alles durch, was
+    beim Programmieren so zu beachten ist.
+
+ 4. Ein modernes Rätsel DARF kein Lab der Form 'Du kennst Dich nicht mehr 
+    aus.' haben! Nein, Nein, Nein. Jeder Raum muss detailliert beschrieben 
+    sein und es darf keine unlogischen Raumausgaenge geben. (Wenn es gut be-
+    gründet wird, darf auch mal ein krumm verpointerter Ausgang dabei sein.)
+
+ 5. Von Rätsel die zu einem Großteil aus Rennerei bestehen, sollte  auch 
+    abgesehen werden, d.h. wenn die Hauptzeit eines Rätsels dabei drauf 
+    geht von Ort zu Ort zu rennen, ist es sicherlich nicht das schönste 
+    Rätsel.
+
+ 6. Ein Rätsel sollte mehrere Loesungswege besitzen. Für jeden Weg muss es
+    Hinweise in irgendeiner Form geben. 'Metzelloesungen' gehen auch ohne.
+
+ 7. Rätsel müssen nicht gefährlich sein, aber sie sollten es sein. 
+    Schließlich soll ein Spieler beim Lösen ja auch Herzklopfen bekommen,
+    oder?
+
+ 8. Ein Rätsel muss nicht das schwierigste oder das gefährlichste sein. Das
+    ist gar nicht nötig:). Aber es darf gerne das schönste sein!
+
+ 9. Rätsel, die zum Teil oder insgesamt nur in einer Gruppe gelöst werden 
+    können, erhöhen das Spielvergnuegen ungemein - sie sind natürlich auch
+    schwieriger zu gestalten ;-) Lasst Euch mal was einfallen!
+
+10. Es muss ein detailliertes Lösungsfile geben, mit allen Lösungen. Es ist
+    allerdings unter Verschluss zu halten (siehe 1).
+
+11. Rechnet damit, dass die Spieler die verrücktesten Sachen machen. Sie 
+    werden jeden Trick versuchen, z.B. wenn man einem NPC etwas geben soll,
+    muss man das unbedingt mit accept_object() abarbeiten. Ich-Befehle oder 
+    Illusionen sind mittlerweile sehr beliebt.
+
+12. Die Syntax von add_actions sollte flexibel sein und ggf. irgendwo angge-
+    deutet werden. Der Befehl 'parse_com' bietet dazu viele Möglichkeiten.
+    Auch von me() und here() sollte man des öfteren Gebrauch machen.
+    Bitte keine 'festen' Stringvergleiche einbauen, sondern mit strstr()
+    oder explode() nach einzelnen Kernwoertern suchen.
+
+13. Viele V_Items machen zwar viel Arbeit, doch sie erzeugen erst die echte
+    Atmosphäre eines Raumes.
+
+14. Viele gleiche Räume, die sich nur anhand der Ausgänge unterscheiden,
+    sollten nicht sein! Jeder Raum sollte seine eigene Beschreibung haben.
+
+15. Verkaufbare Gegenstände dürfen nicht beliebig oft erzeugt werden, 
+    nur einmal pro Reset.
+
+16. Wenn möglich, sollte man oft inherit oder replace_programm benutzen,
+    um den Code effizienter zu machen. Man spart damit nicht nur Speicher,
+    sondern auch mögliche Veränderungen müssen nicht in jedem File einzeln
+    durchgeführt werden.
+
+17. Dokumentiert auch mal zwischendurch den Code und versucht wenigstens,
+    einigermaßen übersichtlich zu programmieren - es wird die Zeit kommen,
+    wo ein anderer den Code bearbeiten muss und dann nur Chaos vorfindet.
+
+18. Wenn man sein Quest schon in einem anderen deutschsprachigen MUD einge-
+    bunden hat, dann sollte man sich für UNItopia schon was eigenes und
+    neues ausdenken. Das Konzept kann ja ähnlich sein, doch der Feinschliff
+    sollte dann UNItopia-spezifisch sein.
+
+19. Einige Gilden haben recht mächtige Eigenschaften, die man zwar nicht
+    alle in seiner Programmierung beachten kann, doch man sollte sich ab
+    und zu nach Gefahrenquellen umhören (z.B. die Illusion der Druiden,
+    das Heino- bwz. Liebeslied der Barden oder das Erschrecken der
+    Vampyre).
+
+20. Rechnet damit, dass mehrere Spieler gleichzeitig auf Euer Rätsel los-
+    stürmen werden. Das kann oft zu Problemen führen: offene Türen,
+    entdeckte Geheimgänge, getötete Wächter-NPCs, nicht mehr vorhandene
+    Rätsel-Objekte, etc. Man sollte sich dringend Wege überlegen, wie
+    man so was regelt. Möglichkeiten sind z.B. ein NPC, der für einen
+    bestimmten Zeitraum den Spieler speichert, der ihm gerade hilft oder
+    ein Filter im Eingangsraum des Rätsels, der nur jemanden durchlässt,
+    wenn sich sonst niemand in den übrigen Questraeumen aufhält.
+
+21. Überlegt gut, wie Ihr die Erneuerung der einzelnen Räume und Objekte
+    des Rätsels gestaltet. Oft ist es angebracht, mehrere Räume synchron
+    zu resetten. Das erreicht man z.B., wenn man von einem Raum-reset()
+    aus in den gewünschten anderen Räumen eine eigene _reset()-Funktion 
+    aufruft (Tip: einen Raum, der noch nicht geladen ist, braucht man auch
+    nicht resetten, also erst mit find_object() prüfen!). 
+
+22. Wichtige Rätsel-Objekte sollten nicht ewig in einem Raum rumliegen, wo
+    sie nichts zu suchen haben, d.h. ihr reset() sollte das Objekt zerstören,
+    wenn es nicht in einem Spieler oder kein Spieler sich in seiner Umgebung
+    befindet. Ein später an diesen Ort kommender Spieler hat es sonst zu
+    leicht, wenn er solch ein Objekt einfach so findet.
+
+23. Immer wieder helfen Engel und befreundete Spieler einem mutigen Aben-
+    teurer bei einem Rätsel. Wenn man das verhindern will, sollte man in
+    wichtige Objekte eine Owner-Variable einbauen, die mit dem Namen des
+    Spielers gesetzt wird, der das Objekt zuerst findet oder an sich nimmt.
+    Bei jeder Aktion mit diesem Objekt kann man dann this_player() mit 
+    Owner vergleichen und ggf. eine Fehlermeldung ausgeben.
+
+24. Man sollte dran denken, dass ein unsichtbarer Spieler von einem ag-
+    gressiven Monster nicht automatisch angegriffen wird. Auch beim Starten
+    einer Rolle etc. sollte der Aspekt der Unsichtbarkeit beachtet werden.
+
+25. Ein Rätsel sollte gut in die darum bestehende Landschaft integriert
+    werden. Außer der Ankündigung am Newsbrett 'Spieler/Evolution' sollte
+    es auch unbedingt irgendwo einen Hinweis auf das Rätsel geben, 
+    besonders wenn es etwas abseits der normalen Wege und Städte liegt.
+    Dabei muss es sich nicht unbedingt um ein langweiliges Flugblatt 
+    handeln, dass am Stassenrand liegt ;-). Stimmt das einfach mit dem 
+    zuständigen DL ab.
+
+26. Ist ein Rätsel sehr lang, dann ist es angebracht, eine Unterteilung
+    in mehrere Abschnitte einzubauen. Für jeden Abschnitt bekommt man 
+    dann einen Skill. Wenn der Spieler mittendrin einsteigen will, fragt
+    man einfach seinen erreichten Skill ab. Wichtig dabei ist, dass einem
+    solchem 'Spaeteinsteiger' ggf. wichtige Objekte fehlen, die er sonst
+    in den ersten Abschnitten ergattert hätte. Mit Hilfe des Raumtyps
+    'kein_startraum' oder 'startraum' kann man auch einen alternativen
+    Startraum definieren, von dem der Spieler nach dem nächsten Einloggen
+    das Rätsel erneut beginnen kann. 
+
+27. Genauso gilt das Problem bei Spielern, die sich mitten im Rätsel aus-
+    loggen. Zum einen warten nun vielleicht irgendwelche NPCs auf diesen
+    nicht mehr vorhandenen Spieler und sollten das irgendwann mal merken
+    und andere Spieler sollten baldmöglichst wieder ein voll funktions-
+    fähiges Rätsel vorfinden! Möglichkeiten gibt es hierzu z.B. mit
+    einem Masterobjekt, dass einen Spieler während des ganzen Rätsels
+    überwacht und/oder mit der Funktion notify_quit() oder notify_dead().
+
+28. Es sollte für abbrechwillige Spieler möglichst einen Weg zurück in 
+    die freie Welt geben, d.h. Einbahnstraßen sollten vermieden werden!
+
+29. Rechnet nicht damit, dass Eure Arbeit beendet ist, sobald die Rätsel-
+    Admins das Rätsel eröffnet haben! Jetzt kommen die ganzen Fehler
+    und Ideen der Spieler - und das werden noch mal eine ganze Menge sein!
+
+30. Viel Spaß!
+    

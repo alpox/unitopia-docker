@@ -1,0 +1,43 @@
+FUNKTION: parse_com_error
+DEKLARATION: int parse_com_error(mixed *parsed, string errormsg [, string only_one [, int dont_overwrite]] )
+BESCHREIBUNG:
+parse_com_error dient der einfachen Behandlung von Fehlermeldungen.
+Liefert parse_com einen Fehler zurueck, kreiert parse_com_error eine
+entsprechende Fehlermeldung dazu und setzt sie via notify_fail().
+parse_com_error() liefert in diesem Falle dann 1 zurueck, so dass
+in der eigentlichen Action daraufhin ein 'return 0' folgenden sollte,
+so dass die notify_fail()-Meldung aktiv wird.
+
+Parameter:
+
+    mixed *parsed
+	ist das Resultat eines vorhergehenden parse_com-Aufrufs.
+	
+    string errormsg
+	ist ein String, der dann genommen wird, wenn kein Objekt gefunden
+	wurde (z.B. ein Tippfehler im Kommando) und keine passendere
+	Fehlermeldung generiert werden kann. (Normalerweise wird z.B.
+	bei 'trete xy' eine Fehlermeldung "Xy nicht gefunden." erzeugt.)
+	Wurde keine solche Fehlermeldung angegeben, wird "" geliefert.
+
+    string only_one
+	Dieser Parameter ist optional. 
+	Findet parse_com mehr als nur ein Objekt, auf dass die Beschreibung
+	passt, funktioniert aber das eigene Programm nur mit EINEM Objekt,
+	so wird dieser String als Fehlermeldung ausgegeben. Ist only_one
+	0, so beklagt sich parse_com_error_string nicht darueber.
+	(Zum Beispiel bei "alle fackeln" koennen mehrere Objekte gefunden
+	werden. Sie werden dann alle in parsed[PARSE_OBS] aufgelistet.)
+
+Beispiel:
+
+    mixed *parsed;
+
+    parsed = parse_com(command);
+    if (parse_com_error(parsed,"Nimm was?\n", "Immer nur eines nehmen.\n"))
+	return 0;
+    nimm(parsed[PARSE_OBS][0]);
+
+VERWEISE: parse_com, parse_com_error_string
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/parse_com.c

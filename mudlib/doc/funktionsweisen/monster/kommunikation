@@ -1,0 +1,127 @@
+Die Programmierung 'intelligenter' Monster, d.h. Monster, die auf Ansprache
+durch einen Spieler oder auf Verhaltensweisen eines Spielers angepasst
+reagieren können, kann man sich durch die eingebaute Routine:
+
+        set_parse_conversation(object ob, string *regeln)
+
+stark vereinfachen.
+
+Anhand des Regelwerks <regeln> werden sämtliche Meldungen, die das Monster
+erhält (das sind im Prinzip alle, die auch ein Spieler erhält !!),
+begutachtet, und im Falle einer Übereinstimmung wird eine in den Regeln
+benannte Routine im Objekt <ob> aufgerufen. Diese bekommt als Parameter
+die entsprechende Meldung und kann diese bei Bedarf noch genauer unter die
+Lupe nehmen und entsprechend darauf reagieren.
+
+Wird ein Monster durch einen Raum ge"clone"t, so schreibt man zweckmäßiger-
+weise diese Routinen in den Raumfile und setzt ob auf den Raum. Ein
+anderes Beispiel ist /obj/leo. Er "inherit"et /i/monster/monster und wird nur
+geladen, nicht ge"clone"t. Hier stehen die Routinen in /obj/leo selbst,
+nicht in dem Raum, von dem aus Leo geladen wird.
+
+Syntax der Regeln:
+
+     ({ Regel1, Regel2, ... })
+
+Syntax einer Regel:
+
+     "Funktionsname: Bedingung1 || Bedingung2 || ....."
+
+Syntax einer Bedingung:
+
+     Wort1 && Wort2 && ......
+
+und schlieslich die Syntax eines Wortes:
+
+          wort
+oder     {wort}
+oder     [silbe]
+oder     [{silbe}]
+
+Wie funktioniert das ?
+
+Eine Regel gilt dann als erfüllt, wenn MINDESTENS EINE ihrer Bedingungen
+erfüllt ist. Ein Bedingung wiederum ist dann erfüllt, wenn JEDES ihrer
+Worte in der angegebenen Reihenfolge innerhalb der Meldung gefunden wird.
+
+Wann wir ein Wort gefunden ?
+
+wort      steht für ein einzelnes Wort, vor dem ein Leerzeichen steht.
+          Nach ihm können ein weiteres Leerzeichen, ein Komma, ein Punkt,
+          ein Doppelpunkt oder ein \n (LINEFEED) folgen. Dabei wird NICHT
+          auf Groß- oder Klein-Schreibung geachtet.
+
+{wort}    verhält sich wie letzteres; allerdings wird hier auf Groß-
+          Klein-Schreibung geachtet.
+
+[silbe]   Dies wird gefunden, sobald die angegebene Zeichenkette als einzelnes
+          Wort ODER als Teil eines Wortes innerhalb der Meldung auftaucht.
+          Groß- oder Klein-Schreibung ist hierbei NICHT signifikant.
+
+{[silbe]} Beide Schreibweisen verhalten sich identisch und wie [..], nur dass
+[{silbe}] auf Groß-Klein-Schreibung geachtet wird.
+
+
+WICHTIG:  In den aufgerufenen Routinen gilt folgendes:
+
+          this_player()     == Spieler
+          this_object()     == ob (meistens der Raum, der das Monster erzeugt)
+          previous_object() == Monster
+
+
+Beispiel:
+
+/*
+ *   In einem Raum-File könnte folgendes programmiert sein:
+ */
+
+void reset() {
+
+    .........
+
+   monster->set_parse_conversation(this_object(),({
+"gruss:            hallo || grüß gott || guten tag || hi",
+"smalltalk:        harry && wie geht || was macht && harry",
+"raetsel_geloest:  gibt && dir && orkschlächter",
+"bedanke:          gibt && dir",
+"ansprache:        nähert sich",
+"wetter:           [wetter]",
+"antworte:          sagt: || redet zu dir:",
+"aergere:           {Francis nähert sich} || {Freaky} || {Maulwurf}"
+	}));
+
+    ........
+}
+
+
+
+void smalltalk(string str) {
+    previous_object()->message("Detlef verneigt sich und sagt: Danke der Nachfrage, mir gehts gut!");
+}
+
+void antworte(string str) {
+    previous_object()->do_command("sag Hallo "+der(this_player())+
+     ", ich hab dich nicht verstanden; Kannst Du das nochmal wiederholen?");
+}
+
+void aergere(string str) {
+    previous_object()->do_command("sag Mit DIR rede ich nicht mehr!");
+}
+
+void bedanke(string str) {
+	object *new;
+
+    new = new_inv();		// Gibt eine Liste ALLER Objekte zurück,
+				// die seit dem letzten Aufruf von new_inv()
+				// ins Monster gekommen sind. Das erste in der
+				// Liste ist das neueste.
+
+    if (sizeof(new) <= 0) {	// Der Spieler hat nur ein echo gemacht.
+	previous_object()->do_command(
+				"sage Darauf falle ich nicht mehr rein!");
+	return;
+	}
+
+    previous_object()->do_command("sage Danke für "+den(new[0])+
+				  ", "+der(this_player())+".");
+}

@@ -1,0 +1,36 @@
+This is a short summary of how special types are handled:
+
+    'static' variables: Will not be saved at save_object(), nor modified at
+    restore_object(). 'static' functions can not be called through
+    call_other(). 'static' inheritance will make all inherited definitions
+    'static'.
+
+    'private' variables and functions: Can not be accessed by a sub class
+    inheriting their definitions. Functions can not be called through
+    call_other(). 'private' inheritance will make all variables and functions
+    'private'. 
+
+    'nomask' functions and variables can not be redefined by a sub class.
+    'nomask' inheritance will make all inherited definitions 'nomask'.
+
+    'public' variables and functions can be redefined by a sub class, even if
+    they have been inherited 'private'ly. 'public' inheritance will make all
+    inherited definitions 'public'. 
+
+    The type 'protected' is reserved, but does not mean anything currently.
+
+    "varargs" bedeutet, dass der Funktion nicht alle Parameter
+    übergeben werden muss
+
+
+    "int"    : 32 bit Integer
+    "status" : gleich wie int
+    "object" : Pointer auf ein Objekt
+    "string" : Normaler String unbegrenzte Länge
+    "mixed"  : Beliebiger Variablen-Typ
+   
+    Ein Stern (*) vor dem Variablen-Namen bedeutet, dass diese Variable
+    ein Pointer auf ein Array des Typs ist. Z.B.:
+	string *str;
+    str ist ein Array of strings.
+

@@ -1,0 +1,21 @@
+FUNKTION: search_object
+DEKLARATION: mixed search_object(string objekt_string [,int flag] )
+BESCHREIBUNG:
+Sucht ein Objekt ueber den angegebenen Objektstring. Damit kann man in
+eigenen Goettertools, Plugins usw. die vom Zauberstab gewohnte Syntax
+zur Angabe von Objekten benutzen.
+
+Infos zum Objektstring siehe /doc/hilfe/goetter/zauberstab/objektstring.
+
+Mit dem optionalen Flag kann man beeinflussen, was wie gesucht wird:
+
+    SO_V_ITEM    (1)    Auch nach V-Items suchen
+    SO_DONT_LOAD (2)    Objekt in der Zauberstab-Markierung nicht laden
+    SO_ENV_FIRST (4)    Zuerst in der Umgebung suchen, dann im Player.
+                        (Diese Reihenfolge ist bei den Spielern ueblich.)
+
+Diese Flags kann man mit dem Operator | verknuepfen.
+Die Defines stammen aus /sys/simul_efuns.h
+GRUPPEN: simul_efun, objekt
+VERWEISE: 
+SOURCE: /secure/simul_efun/search_object.inc

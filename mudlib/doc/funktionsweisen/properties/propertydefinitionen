@@ -1,0 +1,160 @@
+Property-Definition
+-------------------
+
+Die Definition geschieht über die Funktion set_property_info:
+
+FUNKTION: set_property_info
+DEKLARATION: void set_property_info(string name, mapping info)
+BESCHREIBUNG:
+Hiermit wird eine Eigenschaft definiert. 
+Das set_property_info() im Master erwartet als ersten Parameter den 
+vollständigen Property-Namen, damit man dort das gleiche Define verwenden 
+kann, wie sonst bei den set- und query-Aufrufen.
+
+Die Definition 'info' kann folgende Einträge enthalten (es sind alle
+freiwillig, Defines in property_master.h):
+
+    PI_VALUE:       Der Standardwert
+    PI_FLAGS:       Flags:
+
+                        PF_SET_LOCAL   Darf nur vom Objekt selbst gesetzt
+                                       werden (wie eine static set-Funktion).
+                                       Impliziert PF_GET_NOMASK.
+
+                        PF_LOCAL       Nur lokal les- und schreibbar.
+                                       Impliziert PF_GET_NOMASK und
+                                       PF_SET_NOMASK.
+
+                        PF_GET_NOMASK  Beim Abfragen werden keine modify-
+                                       Controller aufgerufen.
+
+                        PF_SET_NOMASK  Beim Setzen (set, add) werden keine
+                                       modify-Controller aufgerufen.
+
+                        PF_SINGLE_SHOT Darf nur einmal gesetzt werden
+                                       (auch kein add, delete).
+
+                        PF_NO_CLOSURE  Closures werden nicht automatisch
+                                       ausgewertet.
+
+                        PF_PERSISTANT  Diese Eigenschaft wird vom
+                                       save_properties() gesichert.
+
+    PI_TYPES:       Hiermit kann man angeben, welche Typen erlaubt sind
+                    (Kombination von PT_MIXED, PT_INT, PT_STRING, PT_ARRAY,
+                    PT_OBJECT, PT_MAPPING, PT_FLOAT, PT_CLOSURE, PT_SYMBOL,
+                    PT_QUOTED_ARRAY und PT_STRUCT moeglich).
+                    Wenn PF_NO_CLOSURE nicht angegeben wurde, sind unabhängig
+                    von dieser Information Closures immer möglich.
+
+    PI_SHORTNAME:   Der alte Name (ohne Master-Prefix) dieser Eigenschaft.
+                    Dieser wird z.B. vom QUERY()-Makro genutzt, um
+                    Kompatibilität zu gewährleisten.
+
+    PI_WIZ_SHORT:   Eine Kurzbeschreibung dieser Eigenschaft für Goettertools.
+
+    PI_WIZ_LONG:    Eine ausführliche Beschreibung zur Anzeige für Götter.
+
+    PI_SET_FUN:     Damit kann man den Namen (keine Closure!) einer Funktion
+                    in diesem Master angeben, welcher zum Setzen der
+                    Eigenschaft aufgerufen wird:
+
+                        mixed set_fun(mapping property, mixed value,
+                                      object caller, object item)
+
+                    In die Property (enthaelt diese Definition und einen evntl.
+                    älteren Wert als PI_VALUE-Eintrag) soll der Wert 'value'
+                    eingetragen werden. 'caller' ist das aufrufende Objekt,
+                    'item' der Gegenstand mit dieser Eigenschaft. Diese
+                    Funktion soll den Wert in PI_VALUE speichern und den
+                    gespeicherten Wert (nicht das gesamte Mapping)
+                    zurueckliefern. Es ist erlaubt, weitere Details in
+                    zusätzlichen Einträgen im Mapping abzuspeichern.
+
+    PI_GET_FUN:     Der Name (keine Closure!) einer Funktion in diesem Master
+                    zur Abfrage der Eigenschaft:
+
+                        mixed get_fun(mapping property, mixed info,
+                                      object caller, object item)
+
+                    'property' enthält die Definition und den derzeitigen
+                    Wert in PI_VALUE. 'info' ist der query() übergebene
+                    Parameter.
+
+    PI_ADD_FUN:     Der Name (keine Closure!) einer Funktion in diesem Master
+                    zur Implementation von add():
+
+                        mixed add_fun(mapping property, mixed key, mixed value,
+                                      object caller, object item)
+
+                    'property' enthält die Definition und den derzeitigen
+                    Wert in PI_VALUE. 'key' und 'value' sind die Parameter
+                    von add().
+
+    PI_DEL_FUN:     Der Name (keine Closure!) einer Funktion in diesem Master
+                    zur Implementation von delete():
+
+                        mixed del_fun(mapping property, mixed key,
+                                      object caller, object item)
+
+                    'property' enthält die Definition und den derzeitigen
+                    Wert in PI_VALUE. 'key' ist der delete() übergebene
+                    Parameter.
+
+    PI_SAVE_FUN:    Der Name (keine Closure!) einer Funktion in diesem Master,
+                    um die Eigenschaft abzuspeichern:
+
+                        mapping save_fun(mapping property, object item);
+
+                    Die Funktion sollte das abzuspeichernde Mapping(dies sollte
+                    ein neues Mapping sein, nicht 'property') zurueckliefern.
+
+    PI_RESTORE_FUN: Der Name (keine Closure!) einer Funktion in diesem Master,
+                    um die Eigenschaft wiederherzustellen:
+
+                        void restore_fun(mapping property,
+                                         mapping saved_property, object item);
+
+                    Die Funktion erhält die Definition als 'property' und den
+                    gespeicherten Wert als 'saved_property' und soll den Wert
+                    als PI_VALUE-Eintrag in das 'property'-Mapping speichern.
+
+VERWEISE: query_property_info, query_property_names, query_property_infos
+GRUPPEN: properties
+
+Alle diese Angaben sind freiwillig. Im einfachsten Falle genügt das Anlegen
+eines Defines:
+
+    #define UW_PREFIX "Ebenen:Okeanos:Unterwasserwelt:"
+    #define P_UW_LUFTMENGE UW_PREFIX "luftmenge"
+
+Um dann set(P_UW_LUFTMENGE, 10) auszuführen. Dies entspräche einem
+    set_property_info("luftmenge", ([]));
+
+Der einzige Unterschied zwischen Minimaldefinition und gar keiner Definition
+ist der, dass bei ersterem auch die genannten Controller im Master aufgerufen
+werden. Ohne Definition werden die Controller nur im Item selbst aufgerufen.
+
+Wenn man eine Property definiert, so bitte ich um die Einträge PI_WIZ_SHORT
+und PI_WIZ_LONG. Diese sollen der Dokumentation dienen. Ich hoffe, dass es
+bald Goettertools gibt, die diese Informationen auswerten und anzeigen.
+(Gibt es Freiwillige?)
+
+Für die Lebensdauer einer Property an einem Item gilt die Definition zum
+Zeitpunkt des ersten Setzens bzw. des Restores. Spätere Änderungen werden
+nicht mehr berücksichtigt.
+
+
+Beispiel
+--------
+
+Ich habe von Mudlib-Seite bereits ein paar Properties definiert.
+Die Definitionen könnt Ihr Euch in /apps/property_defs.c anschauen.
+Vorhanden sind P_LOOK_MSG, P_READ_MSG, P_SMELL_MSG, P_HEAR_MSG,
+P_ATTACK_MSG und P_FEEL_MSG.
+
+Dadurch, dass man Funktionen hinterlegen kann, kann man mit Properties
+auch entsprechende Funktionalitäten verbinden. So habe ich zu
+Demonstrationszwecken Code aus einem alten Aprilscherz reaktiviert,
+so dass man mit einem set(P_NAHRUNG, 1) beliebige Gegenstände zur
+Nahrung machen kann.

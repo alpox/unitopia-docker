@@ -1,0 +1,10 @@
+
+    DROP TRIGGER
+    
+    Befehl ::= DROP TRIGGER [Datenbank .] Triggername
+
+    Die 'DROP TRIGGER'-Anweisung entfernt einen (mit 'CREATE TRIGGER'
+    erstellten) Trigger. Der Trigger wird aus dem Datenbankschema
+    entfernt. Beachte, dass Triggers automatisch entfernt werden,
+    wenn die zugehörige Tabelle gelöscht wird.
+

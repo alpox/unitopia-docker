@@ -1,0 +1,183 @@
+       Help for Ed  (V 2.0)
+---------------------------------
+     by Qixx [Update: 7/10/91]
+
+
+Commands
+--------
+/       search forward for pattern
+?       search backward for a pattern
+=       show current line number
+a       append text starting after this line
+	Command: a   Usage: a
+	Append causes the editor to enter input mode, inserting all text
+	starting AFTER the current line. Use a '.' on a blank line to exit
+	this mode.
+
+A       like 'a' but with inverse autoindent mode
+	Command: A   Usage: A
+	Like the 'a' command, but uses inverse autoindent mode.
+
+c       change current line, query for replacement text
+	Command: c   Usage: c
+	Change command causes the current line to be wiped from memory.
+	The editor enters input mode and all text is inserted where the previous
+	line existed.
+
+d       delete line(s)
+	Command: d   Usage: d  or [range]d
+	Deletes the current line unless preceeded with a range of lines,
+	then the entire range will be deleted.
+
+e       replace this file with another file
+	Commmand: e  Usage: e filename
+	Causes the current file to be wiped from memory, and the new file
+	to be loaded in.
+
+E       same as 'e' but works if file has been modified
+	Commmand: E  Usage: E filename
+	Causes the current file to be wiped from memory, and the new file
+	to be loaded in.  Different from 'e' in the fact that it will wipe
+	the current file even if there are unsaved modifications.
+
+f       show/change current file name
+	Command: f  Usage: f  or f filename
+	Display or set the current filename.   If  filename is given as
+	an argument, the file (f) command changes the current filename to
+	filename; otherwise, it prints  the current filename.
+
+g       Search and execute command on any matching line.
+	Command: g  Usage: g/re/p
+	Search in all lines for expression 're', and print
+	every match. Command 'l' can also be given
+	Unlike in unix ed, you can also supply a range of lines
+	to search in
+	Compare with command 'v'.
+
+h       help file (display this message)
+	Command: h    Usage:  h  or hc (where c is a command)
+	Help files added by Qixx.
+
+i       insert text starting before this line
+	Command: i   Usage: i
+	Insert causes the editor to enter input mode, inserting all text
+	starting BEFORE the current line. Use a '.' on a blank line to exit
+	this mode.
+
+I       indent the entire file (from DGD ed v0.1)
+	This command indents your entire file under the
+	assumption that it is LPC code.  It is only useful
+	for files that are not yet indented, since the
+	indentation style is unlikely to satisfy anyone.
+	Originally from DGD ed.
+
+j       join lines together
+	Command: j    Usage: j or [range]j
+	Join Lines. Remove the NEWLINE character  from  between the  two
+	addressed lines.  The defaults are the current line and the line
+	following.  If exactly one address is given,  this  command does
+	nothing.  The joined line is the resulting current line.
+
+k       mark this line with a character - later referenced as 'a
+	Command: k   Usage: kc  (where c is a character)
+	Mark the addressed line with the name c,  a  lower-case
+	letter.   The  address-form,  'c,  addresses  the  line
+	marked by c.  k accepts one address; the default is the
+	current line.  The current line is left unchanged.
+
+l       line line(s) with control characters displayed
+	Command: l   Usage: l  or  [range]l
+	List the current line or a range of lines in an unambiguous
+	way such that non-printing characters are represented as
+	symbols (specifically New-Lines).
+
+m       move line(s) to specified line
+	Command: m   Usage: mADDRESS or [range]mADDRESS
+	Move the current line (or range of lines if specified) to a
+	location just after the specified ADDRESS.  Address 0 is the
+	beginning of the file and the default destination is the
+	current line.
+
+n       toggle line numbering
+	Command: n   Usage: n
+	This command toggles the internal flag which will cause line
+	numbers to be printed whenever a line is listed.
+
+p       print line(s) in range
+	Command: p    Usage: p  or  [range]p
+	Print the current line (or range of lines if specified) to the
+	screen. See the commands 'n' and 'set' if line numbering is desired.
+
+q       quit editor
+	Command: q    Usage: q
+	Quit the editor. Note that you can't quit this way if there
+	are any unsaved changes.  See 'w' for writing changes to file.
+
+Q       quit editor even if file modified and not saved
+	Command: Q    Usage: Q
+	Force Quit.  Quit the editor even if the buffer contains unsaved
+	modifications.
+
+r       read file into editor at end of file or behind the given line
+	Command: r    Usage: r filename
+	Reads the given filename into the current buffer starting
+	at the current line.
+
+s       search and replace
+
+set     query, change or save option settings
+	Without arguments: show current settings.
+	'set save' will preserve the current settings for subsequent invocations of ed.
+	Options:
+
+	number     will print line numbers before printing or inserting a lines
+	list       will print control characters in p(rint) and z command like in
+	l(ist)
+	print      will show current line after a single substitution
+	eightbit
+	autoindent will preserve current indentation while entering text.
+        	   use ^D or ^K to get back one step back to the right.
+	excompatible will exchange the meaning of \( and ( as well as \) and )
+
+	An option can be cleared by prepending it with 'no' in the set command, e.g.
+	'set nolist' to turn off the list option.
+
+	set shiftwidth <digit> will store <digit> in the shiftwidth variable, which
+	determines how much blanks are removed from the current indentation when
+	typing ^D or ^K in the autoindent mode.
+
+t       move copy of line(s) to specified line
+	Command: t   Usage: tADDRESS or [range]tADDRESS
+	Transpose a copy of the current line (or range of lines if specified)
+	to a location just after the specified ADDRESS.  Address 0 is the
+	beginning of the file and the default destination
+	is the current line.
+
+v       Search and execute command on any non-matching line.
+	Command: v   Usage: v/re/p
+	Search in all lines without expression 're', and print
+	every match. Other commands than 'p' can also be given
+	Compare with command 'g'.
+
+x       save file and quit
+	Command: x   Usage: x
+	Save file under the current name, and then exit from ed.
+
+w       write to current file (or specified file)
+
+W       like the 'w' command but appends instead
+
+z       display 20 lines, possible args are . + -
+	Command: z   Usage: z  or  z-  or z.
+	Displays 20 lines starting at the current line.
+	If the command is 'z.' then 20 lines are displayed being
+	centered on the current line. The command 'z-' displays
+	the 20 lines before the current line.
+
+Z       display 40 lines, possible args are . + -
+	Command: Z   Usage: Z  or  Z-  or Z.
+	Displays 40 lines starting at the current line.
+	If the command is 'Z.' then 40 lines are displayed being
+	centered on the current line. The command 'Z-' displays
+	the 40 lines before the current line.
+

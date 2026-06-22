@@ -1,0 +1,41 @@
+
+    ALTER TABLE
+    
+          Befehl ::= ALTER TABLE [Datenbank .] Tabelle Veränderung
+    
+    Veränderung ::= RENAME TO Neuer-Tabellenname
+                 ::= ADD [COLUMN] Spaltendefinition
+
+
+    Dieser Befel erlaubt es, eine Tabelle umzubenennen oder eine Spalte
+    zur Tabelle hinzuzufügen. Es ist nicht möglich, eine Spalte von
+    einer Tabelle zu entfernen.
+    
+    Die 'RENAME TO'-Syntax wird verwendet, um die mit [Datenbank.]Tabelle
+    angegebene Tabelle in Neuer-Tabellenname umzubenennen. Dieser Befehl
+    kann nicht benutzt werden, um eine Tabelle von einer in eine andere
+    Datenbank zu verschieben, man kann nur die Tabelle in der Datenbank
+    umbenennen.
+    
+    Falls die umzubenennende Tabelle Trigger oder Indizes hat, dann
+    bleiben sie auch nach der Umbenennenung in dieser Tabelle erhalten.
+    Wenn allerdings View-Definitionen oder Befehle innerhalb der Trigger
+    gibt, die auf diesen Tabellennamen verweisen, so wird dort nicht
+    automatisch der Tabellenname geändert, so dass die Trigger oder
+    View-Definitionen gelöscht und von Hand neu erstellt werden müssen.
+    
+    Die 'ADD COLUMN'-Syntax wird verwendet, um eine neue Spalte zu einer
+    bestehenden Tabelle hinzuzufügen. Die Spalte wird immer hinten
+    an die Liste der bestehenden Spalten angehängt. Für die Spalten-
+    definition ist jede Form zulässig, die auch in einem 'CREATE TABLE'-
+    Befehl stehen kann, mit den folgenden Einschränkungen:
+    
+    * Die Spalte darf keine 'PRIMARY KEY'- oder UNIQUE-Bedingung haben.
+    * Die Spalte darf nicht CURRENT_TIME, CURRENT_DATE oder
+      CURRENT_TIMESTAMP als Default-Wert angeben.
+    * Wenn die Spalte eine 'NOT NULL'-Bedigung hat, so muss sie einen
+      Default-Wert, der nicht NULL ist, haben.
+
+    Die Ausfuehrungsdauer des 'ALTER TABLE'-Befehls ist unabhängig
+    von der Datenmenge in der Tabelle.
+

@@ -1,0 +1,272 @@
+Anwendung von Count-Objekten: Wenn man einem Count-Objekt begegnet
+==================================================================
+
+1.) Woran erkennt man, dass ein Objekt ein Count-Objekt ist?
+------------------------------------------------------------
+
+Mit der Lfun
+
+    int query_count()
+
+Liefert query_count() bei einem beliebigen Objekt einen Wert ungleich 0,
+so handelt es sich um ein Count-Objekt.
+
+Beispiel:
+
+    // 1000 Taler besorgen:
+    ob=clone_object("/obj/money")
+    ob->init_money(1000, "taler")
+
+    if(ob->query_count())
+        write("Oh, ein Count-Objekt.\n");
+
+2.) Wie bekommt man die Anzahl eines Count-Objektes?
+----------------------------------------------------
+
+Ebenfalls mit der Lfun
+
+    int query_count()
+
+Beispiel:
+
+    // 1000 Taler besorgen:
+    ob=clone_object("/obj/money")
+    ob->init_money(1000, "taler")
+
+    write(ob->query_count()+" Taler.\n");
+
+3.) Wie teilt man ein Count-Objekt, zB. 1000 Taler in 900 und 100 Taler?
+------------------------------------------------------------------------
+
+Mit der Lfun
+
+    object split_object(int i)
+
+Teilt ein Count-Objekt und liefert ein neues Count-Objekt mit der Anzahl i
+zurück. Die Anzahl des alten Count-Objektes ist entsprechend verkleinert.
+
+Ist i größer oder gleich der Anzahl des alten Count-Objektes, so wird
+stattdessen das alte zurück geliefert.
+
+Beispiel:
+
+    // 1000 Taler besorgen:
+    ob=clone_object("/obj/money")
+    ob->init_money(1000, "taler")
+
+    // Nun 100 Taler abspalten:
+    ob2=ob->split_object(100);
+
+    // ob sind nun 900 Taler und ob2 sind nun 100 Taler.
+
+4.) Was entscheidet darüber, dass zwei Count-Objekte zu einem verschmolzen
+--------------------------------------------------------------------------
+    werden, wenn das eine in die Umgebung des anderen bewegt wird?
+    --------------------------------------------------------------
+
+Die Lfun
+
+    string query_count_type()
+
+Liefert den Count-Type eines Count-Objektes.
+
+Der Count-Type entscheidet darüber, ob zwei Count-Objekte zu einem
+verschmolzen werden, wenn eines in die Umgebung des anderen bewegt wird.
+Deshalb müssen Count-Types in UNItopia einmalig sein.
+
+5.) Darf man Count-Objekte verändern?
+-------------------------------------
+
+Wenn man einiges dabei beachtet, dann schon.
+
+Ein Beispiel dazu: Man setzt in 100 Talern ein Adjektiv "dreckig". Legt man
+diese 100 Taler zu 900 anderen Talern, so wird auf das
+100-Taler-Count-Objekt 900 draufaddiert und das 900-Taler-Count-Objekt
+zerstört. Folge: 1000 Taler sind dreckig. Legt man aber die 900 Taler zu
+den 100 Talern, so sind die 1000 Taler sauber. In der richtigen Reihenfolge
+hin und her verschoben werden in UNItopia nach und nach alle Talerbestaende
+dreckig, auch wenn das sehr unwahrscheinlich ist.
+
+Was mit einem Adjektiv noch eher harmlos anmuten mag, kann mit anderen
+Änderungen schon sehr ärgerlich für Spieler werden, weil das Verhalten
+nicht logisch und idR. auch nicht sinnvoll ist.
+
+Änderungen darf man prinzipiell also nur dann machen, wenn man das
+Kriterium für die Verschmelzung mit ändert: den Count-Type.
+
+Zusätzlich muss man dafür Sorgen, dass immer dann, wenn ein Objekt
+gesplittet wurde, das neue Objekt ebenfalls diese Änderung mitbekommt.
+
+Ein Beispiel für Pfeile, die geschärft wurden:
+
+Funktion in einem Verkäufer, der Pfeile schärft:
+
+    void schaerfe_pfeil(object pfeil)
+    {
+        // Shadow überwerfen:
+        clone_object(SCHAERFE_PFEIL_SHADOW)->setup_shadow(pfeil);
+    }
+
+Der SCHAERFE_PFEIL_SHADOW:
+
+    inherit "/i/shadow";
+
+    void setup_shadow(object opfer)
+    {
+        // Eine Lfun-Closure als Controller eintragen, damit wir
+        // mitbekommen, wenn das Objekt gesplittet wird:
+        opfer->add_controller("notify_countob_split_from", (:
+            // $1=="notify_countob_split_from"
+            // $2==altes Objekt
+            // $3==neues Objekt
+
+            // Dem neuen Objekt auch einen Shadow überwerfen:
+            clone_object(load_name())->setup_shadow($3);
+            :));
+            
+        // Den Shadow überwerfen:
+        init_shadow(opfer);
+
+        // Neuen Count-Type verpassen. Er muss einmalig sein.
+        // Verschiedene bisherige Count-Types müssen zu verschiedenen
+        // neuen Count-Types führen.
+        // Verschiedene Schärfe-Shadows, die verschieden schärfen,
+        // müssen zu verschiedenen neuen Count-Types führen, also nur
+        // " geschärft" anhängen geht nicht.
+        // ZB. so:
+        opfer->set_count_type(
+            opfer->query_count_type()+" "+load_name()+":geschärft"
+            );
+
+        // Ein nettes Adjektiv setzen (Bei einem Split werden Adjektive
+        // weitergegeben):
+        opfer->set_adjektiv("geschärft");
+    }
+
+    // Die Schärfe:
+    int query_extra_damage(object feind, object besitzer,
+        object schusswaffe)
+    {
+        return 1+query_shadow_owner()->query_extra_damage(feind, besitzer,
+            schusswaffe);
+    }
+
+Bevor der Verkäufer schärft, sollte er noch testen, ob der Pfeil schon
+ein Adjektiv "geschärft" trägt, um mehrfaches Schärfen zu vermeiden.
+
+Das Schärfen funktioniert dabei ueberigens auch mit Nicht-Count-Objekten.
+
+6.) parse_com() und Count-Objekte.
+----------------------------------
+
+Wie man mittels parse_com() den Spielerwunsch erkennt, von 1000 Talern 100
+zu nehmen, und diesen umsetzt, lässt sich am besten an einem Beispiel
+erklären:
+
+Beispiel:
+
+In this_player() befinden sich 1000 Taler.
+
+    mixed parsed;
+
+    // Parsen:
+    parsed=parse_com("100 Taler", environment(this_player()));
+
+    // Automatische Fehler-Bearbeitung:
+    if(parse_com_error(
+        parsed,
+        "Was willst Du nehmen?\n",
+        "Eines nach dem anderen!\n"
+        ))
+    return 0;
+
+    // Ein Count-Objekt?
+    if(parsed[PARSE_OBS][0]->query_count())
+    {
+        // In parsed[PARSE_OBS][0] befindet sich jetzt das Count-Objekt
+        // 1000 Taler. Die tatsächlich gewünschte Anzahl findet man in
+        // parsed[PARSE_ID], dort steht "100 taler". Man muss die
+        // gewünschte Anzahl also noch aus diesem String herausfiltern:
+        // "100 taler" nun in die Zahl 100 und "taler" zerlegen.
+
+        // Wurde nur "Taler" bei parse_com() angegeben, so ist
+        // parsed[PARSE_ID]=="taler" und sscanf()==0, da sscanf() nicht das
+        // Format "%d !%s" vorgefunden hat. Dies bedeutet, dass das ganze
+        // Objekt genommen werden soll.
+        // Ansonsten kennen wir jetzt die gewünschte Anzahl.
+
+        int anzahl;
+
+        if(sscanf(parsed[PARSE_ID], "%d !%s", anzahl));
+        {
+            // Interessieren wir uns nun für die Anzahl: Ist diese Unsinn?
+            if(anzahl<=0)
+                return notify_fail("Wie soll das gehen?\n");
+
+            // Oder zu groß?
+            if(anzahl>parsed[PARSE_OBS][0]->query_count())
+                return notify_fail("Soviel liegt da nicht.\n");
+
+            // Ist wieder das ganze Objekt gemeint, so wird es wie ein
+            // normales Objekt behandelt.
+            // Ansonsten wird jetzt ein Objekt abgesplittet und bewegt:
+            if(anzahl!=parsed[PARSE_OBS][0]->query_count())
+            {
+                object split;
+                int ret;
+
+                split=parsed[PARSE_OBS][0]->split_object(anzahl);
+
+                // Nehmen und den Rückgabe-Wert auswerten:
+                ret=nimm_objekt(split);
+
+                // nimm_objekt() soll dabei zurückgeben:
+                // 1: Nehmen hat geklappt.
+                // 0: Nehmen hat nicht geklappt und es soll 0
+                //    zurückgegeben werden (notify_fail).
+                // 2: Nehmen hat nicht geklappt und es soll 1
+                //    zurückgegeben werden (forbidden-controller).
+
+                if(ret!=1)
+                {
+                    // Die Anzahl des abgesplittenen Objektes im
+                    // Ursprungsobjekt hinzuaddieren und das angesplittene
+                    // Objekt zerstören.
+
+                    // Das abgesplittete Objekt könnte allerdings bereits
+                    // zerstört sein, ebenso wie das Ursprungsobjekt, man
+                    // denke an einen Fluch, der alles, was man Person X
+                    // geben will, zerstört, oder zur Strafe gleich das
+                    // ganze eigene Inventar dabei entfernt...
+
+                    if(split && parsed[PARSE_OBS][0])
+                        parsed[PARSE_OBS][0]->add_count(split->query_count());
+
+                    if(split)
+                        split->remove();
+                }
+
+                return ret?1:0;
+            }
+        }
+    }
+
+    return nimm_objekt(parsed[PARSE_OBS][0])?1:0;
+
+7.) Man bekommt ein paar Taler, hatte aber schon Taler bei sich. Wieviel
+------------------------------------------------------------------------
+    hat man denn bekommen?
+    ----------------------
+
+Mittels der Lfun
+
+    int query_transaction_count()
+
+Wird ein Count-Objekt A in die Umgebung eines zweiten Count-Objektes B
+mit demselben Count-Type bewegt, so wird das nicht bewegte Objekt B
+zerstört und die Anzahl von A entsprechend erhöht. Die ursprüngliche
+Anzahl von A erhält man mit der Funktion query_transaction_count().
+
+Der Mechanismus von set_accept_objects() in Monstern verhindert übrigens,
+dass bis zum Aufruf der Funktionen, mit Hilfe derer reagiert werden soll,
+mehr als ein Count-Objekt eines Count-Types in ein Monster kommt.

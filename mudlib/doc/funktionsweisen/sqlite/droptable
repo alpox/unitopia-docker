@@ -1,0 +1,16 @@
+
+    DROP TABLE
+    
+    Befehl ::= DROP TABLE [Datenbank .] Tabellenname
+
+    Die 'DROP TABLE'-Anweisung etnfernt die angegebene (mit 'CREATE TABLE'
+    erstellte) Tabelle aus der Datenbank. Diese Tabelle wird komplett
+    mit ihrem Inhalt aus dem Datenbankschema und der Datei gelöscht
+    und kann nicht wiederhergestellt werden. Alle mit dieser Tabelle
+    verknüpften Indizes werden ebenfalls gelöscht.
+    
+    Die 'DROP TABLE'-Anweisung reduziert nicht die Größe der Datenbank-
+    datei. Frei gewordener Speicher wird für spätere INSERT-Anweisungen
+    aufgehoben. Um diesen freien Speicher abzubauen, kann man den
+    VACUUM-Befehl nutzen.
+

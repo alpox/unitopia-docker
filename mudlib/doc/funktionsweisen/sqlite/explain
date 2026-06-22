@@ -1,0 +1,13 @@
+
+    EXPLAIN
+    
+    Befehl ::= EXPLAIN Befehl
+
+    EXPLAIN kann vor jeder anderen SQL-Anweisung vorangestellt werden.
+    Anstatt, dass diese Anweisung dann ausgeführt wird, liefert
+    EXPLAIN die Folge von VM-Instruktionen zurück, welche normalerweise
+    für diese SQL-Anweisung ausgeführt worden wären. Für weitere
+    Informationen zur virtuellen Maschine und ihren Instruktionen
+    wird auf die SQLite-Dokumentation, insbesondere zur Architektur
+    verwiesen.
+

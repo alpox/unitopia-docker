@@ -1,0 +1,123 @@
+Was geht in alten Rollen nicht?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+o Anstatt beliebigen Termen dürfen in GoTo, GoSub, If, Time_Out, Wait und
+  NPC-Befehlen nur Funktionen angegeben werden. Bei NPC-Befehlen haben
+  Funktionsaufrufe die Form $[<Objekt>->]Funktion(Parameter), wobei Objekt
+  entweder ein Dateiname oder die Nummer des Rollenpartners ist, und
+  Parameter bei LFuns ein String oder bei Efuns (ohne das <Objekt>->) die
+  Nummer eines Rollenpartners ist. In GoTo, GoSub, If und Wait-Befehlen haben
+  sie die Form [$Objekt->]Funktion(String). Wurde dabei kein Objekt
+  angegeben, wird der erste Rollenteilnehmer genommen. Es müssen bei allen
+  Befehlen bis auf den Wait-Befehl Klammern um diesen Funktionsaufruf
+  geschrieben werden.
+  
+  Beispiele:
+  
+   3: sage Du siehst gut aus, $2->query_cap_name() !
+   4: sage $/d/Mainland/uluji/sag->query_sag()
+
+   oder mit EFun's:
+
+   1: echo $Der(1) wirft etwas in die Luft.
+
+   Mit der Id 0 kann man das Objekt das beim Start der Rolle this_player()
+   war ansprechen:
+
+   1: ich sagt zu $dem(2): $Den(0) mag ich gern.
+   1: sage Hallo $0->query_cap_name()!
+
+   Und mit $tp und $Tp bekommt man den Real-Namen dieses Objektes
+   als String. Mögliche Anwendungen:
+
+   1: knuddle $tp
+   1: ich streckt $dem($tp) die Zunge raus.
+   1: ich gratuliert $dem($tp). $Der($tp) $(findet,findest) das prima.
+
+o Die Ergebnisse der Funktionsaufrufe in NPC-Befehlen müssen Strings sein.
+
+o Beim Pause, Auto_Pause und Time_Out-Befehl muss der erste Parameter eine
+  Zahl sein.
+
+o Um den Anweisungsblock einer if-Anweisung müssen immer geschweifte Klammern
+  gesetzt sein.
+
+o Bei allen Befehlen werden Strings nicht in Anführungszeichen gesetzt.
+
+o Man kann keine Rollenparameter nutzen.
+
+o Bei Wechsel_Rolle kann man keinen Label angeben.
+
+o Bei Wechsel_Rolle muss der vollständige Pfad angegeben werden.
+
+
+Wie konvertiere ich alte Rollen?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Also grundsätzlich muss im Header der Eintrag 'Version: 2' vorhanden sein.
+
+
+In Befehlen durften nur folgende Funktionsaufrufe vorkommen:
+  $[<Objekt>->]Funktion(Parameter)
+Dabei war <Objekt> entweder der Dateiname oder eine Zahl, welche
+dann den Rollen-Partner oder den rollenausloesenden Spieler angab.
+Parameter war entweder eine Zeichenkette ohne Anführungszeichen (bei
+Lfun-Aufrufen) oder eine Zahl (bei Efun-Aufrufen), welche den Rollen-Partner
+oder Spieler angab.
+
+Dieser Funktionsaufruf muss nun in einen Term umgeformt werden. Dieser
+Term muss mit einem $ beginnen. Ist <Objekt> ein Dateiname so muss er in
+Anführungszeichen gesetzt werden, ist es eine Zahl, so muss ihr ein $
+vorangestellt werden. Der Parameter ist ebenfalls in Anführungszeichen
+zu setzen bzw. ihm eine $ voranzustellen, wenn er eine Zahl ist.
+
+Also:
+
+  Alt                           Neu
+
+  $Efun(Zahl)                   $Efun($Zahl)
+  $Dateiname->Funktion(String)  $"Dateiname"->Funktion("String")
+  $Zahl->Funktion(String)       $$Zahl->Funktion("String")
+
+
+Für Funktionsaufrufe, welche keine NPC-Befehle darstellen, gilt dies
+genauso, nur dass dort der gesamte Term nicht mit einem $ beginnt.
+
+
+In allen Zeilen wurde bei den alten Rollen $tp und $Tp durch den (Real-)Namen
+des Spielers ersetzt. Bei den neuen Rollen muss man dies entweder
+diese durch $0->query_real_name()||$0->query_name()
+bzw. capitalize($0->query_real_name()||$0->query_name()) ersetzen.
+Dies kann man sich übrigens in der Rolle entsprechend definieren:
+
+#define tp ($0->query_real_name()||$0->query_name())
+#define Tp capitalize($0->query_real_name()||$0->query_name())
+
+Damit funktionieren $tp und $Tp genauso wie in der Version 1.
+Allerdings sollte man sowas nicht mehr benutzen. Um TP in einem Befehl
+anzusprechen geht $$0, damit wird exec_command mit dem Objekt aufgerufen,
+so dass der Befehl auch wirklich denjenigen trifft und nicht ein NPC oder
+Objekt mit (zufaellig?) demselben Namen. Falls man aber den Namen
+aussprechen will, so sollte der Real-Name erst recht nicht benutzt werden,
+denn derjenige kann getarnt sein. Dafür gibt es $der($0) bzw. für Anreden
+$wer($0,ART_KEINS). Falls man kein Adjektiv im Text haben möchte geht
+$wer($0,ART_DER|ART_NO_ADJEKTIV) bzw. $wer($0,ART_KEINS|ART_NO_ADJEKTIV).
+
+
+
+Als Parameter der GoTo, GoSub, If und Wait - Befehle konnten bzw. mussten
+Funktion der Form  [$Objekt->]Funktion(String)  angegeben werden.
+Ist Objekt ein Dateiname, so muss stattdessen "Objekt"->Funktion("String")
+geschrieben werden. Falls Objekt eine Zahl ist, entsprechend:
+$Zahl->Funktion("String")
+
+Also:
+
+  Alt                           Neu
+
+  Funktion(String)              Funktion("String")
+  $Dateiname->Funktion(String)  "Dateiname"->Funktion("String")
+  $Zahl->Funktion(String)       $Zahl->Funktion("String")
+
+
+Der Rollenname von Wechsel_rolle muss in Anführungszeichen gesetzt werden.

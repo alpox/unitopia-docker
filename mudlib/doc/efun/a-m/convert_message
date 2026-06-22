@@ -1,0 +1,12 @@
+FUNKTION: convert_message
+DEKLARATION: deprecated mixed convert_message(mixed str)
+BESCHREIBUNG:
+
+ACHTUNG: convert_message() führt keine Konvertierung mehr durch, sondern
+         liefert den String im Original zurück.
+
+Früher hat es Meldungen alten Typs in Pseudoclosures umgewandelt, in dem dort
+"$Der(OBJ_TP) " vorne angehängt wurde, falls kein $ in str enthalten war.
+VERWEISE: mixed_to_closure, string_parser, convert_message
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

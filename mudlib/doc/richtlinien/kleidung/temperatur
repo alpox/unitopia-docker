@@ -1,0 +1,14 @@
+Der Sinn der Kleidung besteht darin, Schutz vor Kälte bzw Wärme zu bieten.
+
+Die Höhe des Schutzes wird mit der Funktion set_schutz(int wieviel)
+in Grad Celsius festgelegt.
+
+Dieser Wert wird zu der Umgebungs-Temperatur des Raumes addiert.
+
+Ein positiver Wert bedeutet also Schutz vor Kälte und ein negativer
+Schutz vor Wärme.
+
+Die Temperatur-Spanne, bei der im Spieler noch keine Konsequenzen auftreten,
+liegt bei 10 - 25 Grad Celsius.
+
+Die normale Raum-Temperatur liegt bei 20 Grad Celsius.

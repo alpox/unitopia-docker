@@ -1,0 +1,235 @@
+MAPI-Light					      Freaky, Sissi  04.05.2001
+-------------------------------------------------------------------------------
+Wir haben uns mal ein einfaches einheitliches Konzept für die
+Gilden-Zauber überlegt. Das Ziel ist es, dass man einfacher und gezielter
+auf Gildenzauber reagieren kann und diese verhindern kann.
+Das ganze soll über den forbidden/notify-Mechanismus geregelt werden.
+
+Forbidden muss eventuelle Meldungen selber erzeugen.
+Falls eine Gilde etwas in der Art erzeugen will:
+
+    Der Magier hebt seine Hände.
+    Der Spruch scheitert.
+    Der Magier senkt frustriert seine Hände.
+
+Dann muss das Gilden-Objekt die erste und dritte Zeile selber vor und
+nach dem forbidden erzeugen. Die zweite Zeile erzeugt das forbidden.
+
+Sprüche, die delayed sind (z.B. Bombe oder Knacken) müssen forbidden
+und notify eventuell mehrmals aufrufen und eventuell auch mit
+unterschiedlichen Parametern. Bei der Bombe ist das Anzünden z.B.
+eine offensive flächen manipulation, das explodieren ist Kampf,
+offensiv, fläche
+
+forbidden und notify wird in (mindestens) folgenden Objekten aufgerufen:
+  - Verursacher
+  - Umgebung des Magiers
+  - Opfer
+  - Umgebung des Opfers (nur bei Fernzaubern)
+Hierzu wird es eine Wrapper-Funktion geben, die alle Aufrufe erledigt,
+so dass der Programmierer nicht alle Aufrufe ausprogrammieren muss.
+
+Parameterliste:
+  - forbidden:
+    1. "magie" | "handwerk" (M_B_MAGIE | M_B_HANDWERK)
+    2. typ der Magie / des Handwerks aus /sys/mapil.h
+    3. Veroderbares Flag (siehe unten)
+    4. Genauer Name des Magiespruchs oder des Handwerks als String
+    5. Verursacher
+    6. Opfer
+    7. Einen Wert von 1 bis 100, wie gut es geklappt hat
+       Für Fehlschläge muss forbidden nur aufgerufen werden, wenn
+       der Fehlschlag eine Aktion ausführt, die nicht auf den Magier
+       zielt (z.B. es fängt an zu regnen oder so) Dann wird forbidden neu
+       aufgerufen mit positivem Wert im Opfer des Regens und Env des Opfers
+    8. Ein optionales Mapping mit weiteren Infos
+  - notify
+    1. "magie" | "handwerk" (M_B_MAGIE | M_B_HANDWERK)
+    2. typ der Magie / des Handwerks aus /sys/mapil.h
+    3. Veroderbares Flag (siehe unten)
+    4. Genauer Name des Magiespruchs oder des Handwerks als String
+    5. Verursacher
+    6. Opfer
+    7. Einen Wert von -100 bis +100, wie gut es geklappt hat
+       (0 heißt nicht geklappt, negativ heißt Fehlschlag -100 ist dann
+	der übelste Fehlschlag)
+    8. Ein optionales Mapping mit weiteren Infos
+
+magictypes (Parameter 2):
+  Dies sind Defines in /sys/mapil.h
+  - Kampf			M_T_FIGHT
+  - Schutz			M_T_PROTECT
+  - Heilung			M_T_HEAL
+  - Information			M_T_INFO
+  - Teleport			M_T_TELEPORT
+  - Versand eines Gegenstandes	M_T_TRANSPORT
+  - Nahrungsaufnahme		M_T_NUTRITION
+  - Manipulation		M_T_MANIPULATION (oder kurz: M_T_MP)
+  - Gedankenmanipulation	M_T_MINDCONTROL (oder kurz: M_T_MC)
+  - Tarnung			M_T_HIDE
+  - Kommunikation		M_T_COMM
+
+Flag (Parameter 3):
+  Dies sind Defines in /sys/mapil.h
+  - M_F_FAR		fern (Fuer Fernzauber)
+  - M_F_OFFENSIVE	offensiv (Fuer Sprüche, die Schaden verursachen)
+  - M_F_AREA		fläche (Fuer Flaechenzauber bzw. Flaechenwirkungen)
+  - M_F_POSITIVE	positiv (Auswirkung auf das Opfer ist positiv)
+  - M_F_NEGATIVE	negativ (Auswirkung auf das Opfer ist negativ)
+  - M_F_TEST		test (Es soll nur getestet werden, ob es klappen
+	  würde oder nicht.
+	  Der Rückgabewert sollte ein Integer sein, an dem man ablesen kann,
+	  warum es nicht ging) Es darf keine Meldung erzeugt werden und
+	  sonst nichts verändert werden.
+
+Wert (7. Parameter):
+  Für Aktionen, bei denen es (noch) keine Information gibt, wie gut
+  die Aktion geklappt hat, übergibt man einfach 50, damit man dies
+  später, falls man so einen Wert einbauen will, auch höher und
+  niedriger übergeben kann.
+
+Mapping (8. Parameter):
+  Das Mapping ist für erweiterte Daten da, die jede Gilde für sich
+  übergeben kann. Es ist optional und kann also auch 0 sein.
+  Das schöne ist, dass sich durch das Mapping auch Sprüche modifizieren
+  lassen, indem die Werte des Mappings verändert werden.
+  Falls ein Objekt dies tut, muss es auf jeden Fall
+  'extra["modified"] = 1' setzen, damit der Spruch die Änderungen
+  mitbekommt. WICHTIG: das Mapping darf nur durch Zuweisungen verändert
+  werden, und nicht durch Addition.
+  Beispiel:
+     extra["chance"] = 10;      Korrekt
+     extra += (["chance":10]);  FALSCH
+
+  Mögliche Einträge des Mapping:
+  - stufe:	Stufe des Zaubers von 1 bis 10
+  - ZP:		Wieviele ZPs dafür notwendig sind
+  - modified:	Dies muss auf 1 gesetzt werden, wenn ein Controller
+		das Mapping verändert hat.
+  - gegenstand:	Der Gegenstand, der gestohlen werden soll, der manipuliert
+		werden soll usw.
+  - ...
+
+
+Hier sind jetzt mal einige Gildenskills und die von uns vorgeschlagene
+Zuordnung, damit man sehen kann, ob alle Zauber einordenbar sind.
+Gildenkommunikation ähnlich dem Reden und Brüllen sollten nicht MAPI Light
+verwenden.
+
+Diebesgilde:
+  - Knacke:		Handwerk manipulation
+  - Stehle:		Handwerk manipulation negativ
+  - Taxieren:		Handwerk information
+  - Schleiche:		Handwerk tarnung
+  - Verstecke:		Handwerk tarnung
+  - Schätze:		Handwerk information
+  - Geheimzeichen:	Handwerk kommunikation
+  - Beschreibung:	Handwerk manipulation?
+  - Ersteche:		Handwerk kampf offensiv
+  - Verschwinden lassen:Handwerk manipulation oder tarnung?
+
+Hexenvolk:
+  - ängstige:		Magie gedankenmanipulation negativ
+  - aufgaben:		Info
+  - balsamiere:		Magie manipulation | heilung?
+  - befriede:		Magie gedankenmanipulation
+  - bekehre:		Magie gedankenmanipulation
+  - beschleunige:	Magie manipulation positiv
+  - bespreche:		Magie heilung
+  - blähe:		Magie manipulation negativ
+  - blick:		Magie gedankenmanipulation negativ
+  - braue:		Handwerk
+  - diagnose:		Handwerk information
+  - ekel:		Magie manipulation oder gedankenmanipulation
+  ! entlarve:		Magie gedankenmanipulation UND information (Sollte Weg)
+  - erkenne:		Magie information
+  - erlaube:		Magie gedankenmanipulation
+  - erleichtere:	Magie manipulation positiv
+  - erschwere:		Magie manipulation negativ
+  - feuerangst:		Magie gedankenmanipulation negativ
+  - finger:		Magie information
+  - fluche:		Magie kampfzauber offensiv
+  - hexen:		Magie information
+  - hexenbann:		Magie gedankenmanipulation negativ
+  - hexenfluch:		Magie gedankenmanipulation negativ
+  - hexeninfo:		Magie information
+  - hexenkreis:		Magie defensiv
+  - hexenliste:		Magie ???
+  - hexenschuss:	Magie gedankenmanipulation negativ offensiv
+  - hexenzauber:	Magie information
+  - hexenzeit:		Magie information
+  - hexenziel:		Magie teleport (wow.. mächtig?)
+  - hexenziele:		Magie information
+  - hitzewelle:		Magie manipulation fläche [fern]
+  - hrufe:		Magie kommunikation fern
+  - kälte:		Magie manipulation fläche [fern]
+  - kehre:		Handwerk manipulation
+  - krähe:		Magie gedankenmanipulation fern
+  - läutere:		Magie gedankenmanipulation
+  - massiere:		Magie heilung
+  - mitglieder zirkel:	Magie information
+  - vernebele:		Magie manipulation [fern] ???
+  - neutralisiere:	Magie heilung
+  - pestilenz:		Magie manipulation offensiv negativ???
+  - pflege:		Handwerk? heilung positiv
+  - prüfe:		Handwerk information
+  - reite:		Magie teleport
+  - schnupfen:		Magie manipulation negativ (offensiv??)
+  ! sonnenfeuer:	Magie manipulation fläche fern ???
+  ! sonnenfinsternis:	Magie manipulation fläche fern ???
+  - sprich:		Magie kommunikation fern
+  - spüre:		Magie information fläche?
+  - starre:		Magie gedankenmanipulation negativ
+  - stasis:		Magie gedankenmanipulation negativ
+  - statistik:		Magie information
+  - sternzeichen:	Magie information
+  - todesfluch:		1. Magie manipulation, 2. Magie gedankenmanipulation negativ offensiv
+  - übelkeit:		Magie manipulation|heilung? negativ oder positiv?
+  - unterstütze:	Magie gedankenmanipulation positiv
+  - verarzte:		Handwerk heilung
+  - verbiete:		Magie gedankenmanipulation??
+  - verbote:		Info
+  - verfluche:		Magie manipulation negativ
+  - vergifte:		Magie manipulation negativ
+  - verhexe:		Magie manipulation negativ
+  - verlangsame:	Magie manipulation negativ
+  - verunstalte:	Magie manipulation negativ
+  - verwittere:		Magie manipulation negativ
+  - verzaubere:		Magie manipulation
+  - wahrsage:		Magie information
+  - walpurgisnacht:	Magie ??
+  - windgeflüster:	Magie kommunikation
+  - wirbelwind:		Magie manipulation fläche negativ
+  - wofür:		Handwerk information
+  - wolke:		Magie manipulation offensiv negativ fläche fern
+  - zerkratze:		Handwerk kampfzauber offentiv negativ
+
+
+Beispiel:
+
+inherit "/i/tools/mapil";
+#include <mapil.h>
+
+int stehlen_cmd(string str)
+{
+    object opfer, gegenstand;
+    int chance, success;
+
+    opfer = (SUCHE_OPFER_PER_PARSE_COMMAND);
+    gegenstand = (SUCHE_GEGENSTAND_PER_PARSE_COMMAND);
+    chance = (BERECHNE_CHANCE_FUER_STEHLE);
+
+    // Handwerk manipulation negativ
+    if (mapil_forbidden(M_B_HANDWERK, M_T_MANIPULATION, M_F_NEGATIVE,
+		"stehlen",this_player(),opfer,chance,
+		(["gegenstand":gegenstand])))
+	return 1;
+    success = (BERECHNE_OB_STEHLEN_KLAPPT);
+    MACHE_STEHLE_AKTION;
+
+    mapil_notify(M_B_HANDWERK, M_T_MANIPULATION, M_F_NEGATIVE,
+	    "stehlen",this_player(),opfer,success,
+	    (["gegenstand":gegenstand]));
+    notify_owner("Ok.\n");
+    return 1;
+}

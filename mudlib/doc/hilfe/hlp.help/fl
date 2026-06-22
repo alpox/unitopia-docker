@@ -1,0 +1,13 @@
+------------------------------------------------------------------------------
+ 
+Diese Gabe erlaubt Dir die Erscheinung deiner Engelsflügel zu
+verändern. Du kannst das Aussehen, den Geruch, das Geräusch 
+und die Meldung beim Betasten deiner Flügel damit beschreiben.
+ 
+Syntax:
+   flügel aussehen <Text>
+   flügel geruch <Text>
+   flügel gefühl <Text>
+   flügel geräusch <Text>
+ 
+------------------------------------------------------------------------------

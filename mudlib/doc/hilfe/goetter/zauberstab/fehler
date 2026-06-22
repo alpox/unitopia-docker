@@ -1,0 +1,67 @@
+------------------------------------------------------------------------------
+#idee                         #fehler | #typo | #toll | #detail
+#idee  <Objekt>               #fehler | #typo | #toll  <Objekt>
+#idee  <Objekt> $ <Text>      #fehler | #typo | #toll  <Objekt> $ <Text>
+#idee  $<Objekt> <Text>       #fehler | #typo | #toll  $<Objekt> <Text>
+#idee  hier $ <Text>          #fehler | #typo | #toll  hier $ <Text>
+
+Mit diesen vier Befehlen kann man den Göttern eine Botschaft zukommen
+lassen.
+Mit  #idee  kann man Verbesserungsvorschläge anbringen.
+Mit  #toll  oder  würdige  kann man seine Begeisterung zum Ausdruck bringen.
+Mit  #fehler  kann man auf Schreibfehler oder schlimmeres hinweisen.
+Mit  #typo  werden Rechtschreibfehler festgehalten (Variante von #fehler).
+Mit  #detail  kann man neue Raumdetails vorschlagen und beschreiben.
+
+Wird "hier" vor dem "$" angegeben, dann geht die Meldung <Text> an die für
+den Dich umgebenden Raum zuständigen Göttern, sonst an die für das
+benannte Objekt. Statt "hier" kann man auch "raum" verwenden.
+
+<Objekt> darf alles sein was man auch anschauen kann, wie z.B. Gegenstände,
+Monster oder Detailbeschreibungen!
+Hat man eine Idee zu einem Kommando (wie z.B. klettern oder fliegen) sollte
+man versuchen das Objekt, das dieses Kommando ermöglicht anzugeben (hier der
+Raum oder die Engelskugel). Im Zweifelsfall sollte eine Idee dem Raum
+zugeordnet werden.
+
+Götter können bei den Objektangaben vor dem "$" oder beim Nachfrage-Prompt
+auch Objektstrings wie beim Zauberstab (z.B. parsec:kuscheli, Pfadkürzel oder
+Markierungen. Siehe auch 'hilfe Objektstring') oder Dateinamen verwenden.
+
+Hat man einen allgemeinen Fehler, der nirgends ersichtlich zugeordnet werden
+kann, so sollte man sich selbst als <Objekt> angeben, d.h. tippe "#idee mich".
+
+<Objekt>, "$" und <Text> können auch weggelassen werden. In diesem Fall wird
+bei Unklarheiten nachgefragt bzw. der Idee-Editor aufgerufen, mit dem man auch
+leicht mehrzeilige Texte schreiben kann.
+Ist <Text> angegeben so ist es aber meist ratsam auch "$" zu verwenden, um
+diesen klar abzugrenzen. Deshalb sollte in <Text> keine "$" verwendet werden.
+
+Allgemein gilt: Je genauer man den Fehler beschreibt, desto leichter kann er
+behoben werden. Am besten weißt man nicht nur auf den Fehler hin, sondern
+gibt auch einen Vorschlag ab wie es nach der Korrektur auszusehen hat.
+------------------------------------------------------------------------------
+Beispiele:
+  #idee            (Objekt wird abgefragt und Start des Idee-Editors.)
+  #toll franz      (Du findest Franz ganz super. Editor zum Schreiben starten.)
+  #idee mich $ Ich würde gerne das Aussehen meiner Finger beschreiben können
+  #fehler hier $ beim Riechen sollte hier kommen: Es riecht köstlich nach ...
+  #idee mein schwert $ Dieses Schwert sollte maximal 500 kosten, weil ...
+  #fehler fenster $ Das Fenster lässt sich nicht öffnen.
+  #typo 2. ork $ In der Beschreibung ist 'narbe' kleingeschrieben.
+  #detail hier
+
+------------------------------------------------------------------------------
+Beispiele speziell für Götter:
+      idee  Parsec:kuscheli  [$] Das ist eine Idee ...
+  - Verwendung von Dateinamen
+      idee  /w/pars*/work*  [$] Das ist eine Idee ...
+  - Pfadkürzel
+      pk w /w/parsec
+      idee  w/wo*  [$] Das ist eine Idee ...
+  - Markierungen
+      zm Parsec:kuscheli
+      idee  @0  [$] Das ist eine Idee ...
+  Nützlich ist das vorallem bei Objekten die keine Umgebung haben,
+  wie Inherits oder irgendwelchen Master-Objekten.
+------------------------------------------------------------------------------

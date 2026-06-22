@@ -1,0 +1,735 @@
+
+Der Verkäufer
+~~~~~~~~~~~~~
+
+Dateinamen: zum inheriten: /i/money/verkaeufer.c
+            zum clonen:    /obj/verkaeufer.c
+
+lfuns: void set_roman (int i)                      römische Ziffern
+       void set_valuta (string s)                  Währung
+       string query_valuta ()
+       string query_valutas ()
+       void set_accept_tip (mixed t)               Trinkgeld
+       void set_dont_serve_murderers (mixed msg)   werden Mörder bedient?
+       void set_lagerraum (string dateiname)
+       string query_lagerraum ()
+       void set_standard_conversation (mapping C)
+       mapping query_standard_conversation ()
+       void change_standard_conversation (mapping changes)
+       void add_to_filter (mixed s)                was wird aus Spielereingabe
+       void delete_from_filter (mixed s)           herausgefiltert
+       string *query_filter ()
+       void set_filter (string *s)
+       void add_react_on (mixed add)
+       void delete_react_on (mixed del))
+       void set_react_on (string* react)
+       string* query_react_on ()
+
+lfuns zum Überladen:
+       mapping want (string was, object wer)
+       mapping given (object was, object wer)
+       int want_while_serving (string was, object wer)
+
+
+Vorbemerkung:
+~~~~~~~~~~~~
+Der Verkäufer ist mittlerweile unheimlich umfangreich geworden, man kann
+mit ihm so ziemlich alles machen, angefangen vom Gildenein- und Austritt
+bis hin zum Einsatz als Raetselmonster. Diese ganzen Funktionalitäten
+machen zwangsweise diese Dokumentation auch irre groß, sodass sie für
+jemanden, der dies hier zum ersten mal liest, abschreckend wirken muss.
+
+Keine Angst, es ist alles halb so wild; für einen normalen Verkäufer
+braucht man zunächst nur einen kleinen Teil all dieser Funktionalitäten,
+wie man an dem ersten Beispiel etwas tiefer sehr schön sieht.
+
+Erst im Lauf der Zeit, wenn auch immer mehr Sonderwünsche und ungewöhnliche,
+neue Ideen kommen, kann man dann immer mehr der Möglichkeiten des
+Verkäufers ausnutzen, und wird dabei selten an Grenzen stoßen.
+
+Also, nicht abschrecken lassen!
+
+
+Allgemeines:
+~~~~~~~~~~~
+Der Verkäufer kann entweder geclont und in den Verkaufsraum hineingestellt
+werden oder er kann inheritet werden. Inheriten ist nur für einen
+herumlaufenden Verkäufer sinnvoll. Wird der Verkäufer geclont, so
+programmiert man die benötigten der folgenden Funktionen in den Raum hinein,
+andernfalls in das Objekt, welches den Verkäufer inherittet:
+
+mapping want (string was, object wer)
+mapping given (object was, object wer)
+int want_while_serving (string was, object wer)
+
+Zu want, want_while_serving und given weiter unten mehr.
+
+Beim inheriten ist zu Beachten, dass im create ein ::create(); ganz am Anfang
+von create steht, wird sogar ein eigenes init programmiert, so darf auch hier
+am Anfang von init ein ::init(); nicht fehlen.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+
+Einführendes Beispiel: Ein einfacher Fackelverkaeufer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mit "sage will fackel" bringt man den Fackelverkaeufer dazu, einem eine Fackel
+zu verkaufen. Ein richtig schöner Verkäufer sollte natürlich noch auf
+Begrüßung und Seelebefehle reagieren etc. pp.
+
+    inherit "/i/money/verkaeufer";
+    
+    void create()
+    {
+        ::create();
+        set_name("karl");
+        add_id("karl");
+        set_valuta("gulden");
+    }
+    
+    mapping want(string str, object wer)
+    {
+        if(strstr(str, "fackel")!=-1)
+        {
+            return ([
+                "good": clone_object("/obj/fackel"),
+                ]);
+        }
+    }
+
+
+Weitere Beispiele
+~~~~~~~~~~~~~~~~~
+           /d/Vaniorh/Tadmor/Laeden/room/schmied
+           /d/Vaniorh/Tadmor/Laeden/room/pub
+           (er zeigt auch die Verwendung von set_accept_tip)
+           Connor:
+           /d/Vaniorh/Tadmor/Laeden/room/connor
+           /d/Vaniorh/Terqa/Laeden/room/vegi zeigt vor allem "messages"
+           /d/Vaniorh/Tadmor/Troedlermarkt/room/pfand zeigt den Lagerraum
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+Bei den Meldungen besteht nun die Möglichkeit, generell ein ! voran zu
+stellen. Beginnt der Text mit einem ! (Ausrufezeichen), so wird er dabei
+nicht ausgegeben sondern via do_command ausgeführt.
+
+Eine Sonderstellung nimmt dabei der Befehl !GEBEN ein (in Großbuchstaben,
+damit Konflikte zu existierenden Befehlen ausgeschlossen sind).
+Trifft der Verkäufer auf diesen Befehl, so geschieht folgendes:
+- falls der Spieler gerade eine Ware bezaht hat, gibt der Verkäufer
+  ihm an dieser Stelle diese Ware,
+- falls der Spieler dem Verkäufer irgendeinen Gegenstand gegeben hat,
+  gibt der Verkäufer ihn an dieser Stelle wieder zurück.
+
+Siehe Beispiele.
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+Die Standardmeldungen des Verkäufers können mit set_standard_conversation
+und change_standard_conversation beeinflusst werden. Während die erstere
+alle Meldungen neu setzt, kann mit der zweiten eine einzelne Meldung
+geändert werden. In dem übergebenen Mapping sollten natürlich nur
+die Einträge drinstehen, die verändert werden sollen. An der Stelle,
+an welcher im Text ein Parameter rein muss, fügt man ein $ - Zeichen
+ein. Im Folgenden nun alle setzbaren Einstellungen an einem Beispiel
+(das mehr sagt als tausend Worte):
+
+Beispiel:
+   verkaeufer->set_standard_conversation (([
+      "unsichtbarer_sagt":
+         "Hans sagt: Nanu, jetzt hör ich schon Gespenster.\n"
+         "Hans kratzt sich reichlich ratlos hinterm Ohr.\n",
+      "unsichtbarer_gibt":
+         "Hans sagt: Nanu, wo kommt denn $ her?\n",
+      "unsichtbarer_gibt_verschwinden":
+         "Hans wirft $ in den Brunnen.",
+      "al_kann_nicht_mehr_tragen":
+         "Hans sagt: Du kannst $ nicht mehr tragen, Du hast zuviel bei Dir.",
+            // Der Verkäufer verkauft einen AutoLoader, den der Spieler nicht
+            // mehr tragen kann.
+      "bedient_bereits_diesen_spieler":
+         "Hans sagt: Moment, eines nach dem anderen.",
+            // Wenn der Spieler, der gerade bedient wird, noch etwas will,
+            // bevor er bezahlt hat
+      "bedient_bereits_anderen_spieler":
+         "Hans sagt: Moment, ich bediene gerade $.",
+            // Wenn bereits ein anderer Spieler bedient wird.
+      "kunde_verschwunden":
+         "Hans sagt: Nanu, wo ist denn $ hin?",
+            // ein Kunde ist davongelaufen, hat sich ausgeloggt, ...
+      "was_willst_du_haben":
+         "Hans sagt: Bitte? Was möchtest Du gerne haben?",
+           // Wird benutzt, falls ein Spieler nur "will" oder "möchte"
+           // eingibt, nicht jedoch, was er will.
+      "hab_ich_nicht":
+         "Hans sagt: Tut mir leid, sowas hab ich nicht.",
+            // Wird benutzt, falls "want" nix zurückgibt
+      "das_kostet":
+         "Hans sagt: Das kostet $, wenn ich bitten darf...",
+            // wird verwendet, wnn keine procemessage angegeben ist
+      "zu_wenig_geld":
+    	 "Hans sagt: Das ist zu wenig, das kostet $.",
+ 	    // Der Spieler hat dem Verkäufer zu wenig Geld gegeben.
+      "zu_viel_geld":
+         "Hans sagt: Das ist zu viel, das kostet $.",
+            // Der Spieler hat dem Verkaeufefr zu viel Geld gegeben, der
+            // Verkäufer akzeptiert kein Trinkgeld (-> set_accept_tip)
+      "bittesehr":
+         "Hans sagt: Da hast Du $, viel Spaß damit!",
+      "dann_halt_nicht":
+         "Hans sagt: Dann eben nicht.\n"
+         "Hans seufzt tief.\n",
+      "nanu":
+         "Hans sagt: Nanu, was ist denn das und was soll ich damit?",
+            // Dem Verkäufer wurde was einfach so gegeben,
+            // given hat nicht reagiert, oder der Spieler hat bei einem
+            // Tauschgeschäft das Falsche gegeben.
+      "illusion":
+          ({"!betrachte meine illusion",
+            "!lache",
+            "!GEBEN",
+            "!sage Bin ich blind oder was?"}));
+            // Reaktion auf Illusionen
+      "moment":
+         "Hans sagt: Moment, moment.",
+            // Der Verkäufer tut grad was (beispielsweise reparieren)
+      "falsche_waehrung":
+         "Hans sagt: Das ist jetzt aber die falsche Währung, "
+         "$ nehm ich nicht an.",
+      "fehler":
+         "Hans sagt: Tut mir leid, das ist mir ausgegangen",
+            // Programmierer hat nen Fehler gemacht,
+            // erhält mit do_error eine Nachricht,
+            // aber der Spieler soll auch was kriegen.
+   ]));
+
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+
+want, want_while_serving und given
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Die Funktion "want" wird aufgerufen, wenn ein Spieler sagt, dass er was
+möchte, will, oder sonstwie gerne hätte, der übergebene String ist der
+Text, den der Spieler haben will, aus dem einige, aber nicht alle Fuellwoerter
+bereits entwernt wurden. Es bietet sich an, ihn mit strstr zu bearbeiten. Alle
+Großbuchstaben wurden bereits in Kleinbuchstaben umgewandelt.
+
+Mit den Methoden add_react_on, delete_react_on und set_react_on kann
+beeinflusst werden, worauf der Verkäufer reagiert; mit query_react_on
+kann dies abgefragt werden. Dies wird nur in Ausnahmefällen benötigt.
+
+Welche Fuellwoerter herausgefiltert werden, kann mit den Funktionen
+add_to_filter, delete_from_filter und set_filter beeinflusst werden, mit
+query_filter kann der aktive Filter abgefragt werden. Dies kann beispielsweise
+dazu verwendet werden, das Wort "bitte" nicht herausfiltern zu lassen, mit
+delete_from_filter ("bitte"), um testen zu können, ob ein Spieler "bitte"
+verwendet hat.
+
+"want_while_serving" deckt einen Spezialfall ab: der Verkäufer kann keine
+zwei Kunden gleichzeitig bedienen, es gibt jedoch Aktionen wie das Zeigen
+der Karte bei einem Wirt, die ein Wirt auch schnell dazwischenschieben kann,
+während er bedient. Für diese Aktionen gibt es want_while_serving; gibt
+die Funktion 0 zurück, so macht der Verkäufer normal weiter, in der Regel
+bedeutet dies "Moment, ich bediene gerade", liefert die Funktion etwas von
+0 verschiedenes zurück, so geht der Verkäufer davon aus, dass
+want_while_serving die Arbeit abgeschlossen hat und macht nichts weiteres.
+
+"given" wird aufgerufen, wenn der Spieler dem Verkäufer etwas gibt, vondem 
+der Verkäufer nicht weiß, was er damit anfangen soll, sprich, wenn der
+Verkäufer, ohne dabei zu sein, etwas zu verkaufen, Geld gekriegt hat oder
+einen Gegenstand bekommen hat.
+Gibt given 0 zurück und das Objekt existiert weiterhin, so geht der Verkäufer
+davon aus, dass given mit dem Objekt nichts anfangen konnte und sagt "nanu,
+was soll ich denn damit?" und gibt das Objekt zurück.
+Liefert given ([]) und der Gegenstand existiert noch, so gibt der Verkäufer
+den Gegenstand zurück, ohne die Meldung "Nanu? Was soll ich denn damit?"
+zu erzeugen.
+Liefert given ein Mapping, so wird dieses wie bei "want" benutzt; enthält
+dieses Mapping den Eintrag "keep_given" (s.u.), so behält der Verkäufer
+den ihm gegebenen Gegenstand.
+Zerstört given das übergebene Objekt und liefert 0 zurück, so geht der 
+Verkäufer davon aus, dass "given" alles nötige getan hat und tut nix mehr.
+
+Das zweite Argument für given und want ist der Spieler.
+
+Das Mapping, das given und want zurueckliefern, kann die folgenden Einträge
+beinhalten:
+
+
+"message": Text, den alle Spieler im Raum erhalten.
+    	   Der Text kann aus einem String oder aus eimem Stringarray
+    	   bestehen. Der Text wird sofort ausgegeben.
+           Beginnt der Text mit einem ! (Ausrufezeichen), so wird er nicht
+           ausgegeben sondern via do_command ausgeführt.
+           Ausnahme: Der Befehl !GEBEN bewirkt die Übergabe eines
+           Gegenstandes an den Spieler; im Falle einer Kostenlosen Ware
+           die Ware, im Falle eines unmotiviert an den Verkäufer
+           übergebenen Gegenstandes dieser Gegenstand
+
+    Beispiel für die Stringarrays:
+    	"message":({"Der Bäcker nimmt eine Brezel aus einem Korb.",
+    	            "Der Bäcker riecht an der Brezel."}),
+    ist das Selbe wie:
+    	"message":"Der Bäcker nimmt eine Brezel aus einem Korb.\n"
+    		  "Der Bäcker riecht an der Brezel.\n",
+
+
+"messages": Ein Feld aus Texten, die dann alle nacheinander ausgegeben
+            werden.
+            Feldelemente, die mit ! (Ausrufezeichen) beginnen, werden
+            nicht ausgegeben, sondern via do_command ausgeführt.
+
+    Beispiel für mehrere "messages":
+        return ([
+            "messages": ({
+                "Surgi nimmt eine Karaffe mit dunkelrotem Saft vom Tisch.",
+                "Surgi gießt Saft aus der Karaffe in ein Glas.",
+                "Surgi stellt die Karaffe wieder auf den Tisch zurück."}),
+            "good":ob
+        ]);
+
+"messages_speed": Ein int-Wert mit der Geschwindigkeit in Sekunden, in der
+                  die messages nacheinander ausgegeben werden sollen;
+                  dieser muss >= 2 sein, Vorgabewert ist 2.
+
+"soldmessage": Diesen Text erhalten alle Spieler im Raum, wenn
+    	       der Spieler bezahlt hat.
+    	       Ist er nicht angegeben, so sagt der Verkäufer:
+    	       "Bitteschön, <Spieler>, ein <Ware>.".
+    	       Durch "soldmessage":""
+    	       kann diese Standardmeldung unterdrückt werden, ohne
+    	       eine eigene Meldung zu definieren.
+    	       Ist der Preis 0 (s.u.), so ist es "natürlich"
+    	       sinnlos, diesen Text anzugeben.
+
+"soldmessages": Ein Feld von Texten, die alle nacheinander im Abstand
+                von "messages_speed" ausgegeben werden.
+                Der Befehl !GEBEN bewirkt als einzelnes Element dieses
+                Feldes die Übergabe des gekauften Gegenstandes an den
+                Spieler. Siehe Beispiel.
+
+"pricemessage": Um die "Das macht dann x Taler, wenn ich bitten darf" -
+                Meldung zu ersetzen, kann die pricemessage gesetzt sein,
+                dies ist ein ganz einfacher String.
+
+"price": Dieser Eintrag muss gesetzt sein, wenn eine closure oder
+         ein Funktionsaufrufspaar als Ware übergeben werden (s.u.),
+         in den anderen Fällen kann er, muss aber nicht, gesetzt sein.
+         Wird kein Preis gesetzt, so wird er aus 2 * ware->query_value()
+         berechnet und in die mit set_valuta gesetzte Währung umgerechnet
+         (was natürlich bei closures oder Funktionsaufrufsparen nicht geht).
+
+	 Falls "price" gesetzt wird, so kann es eine Zahl, ein Array aus
+	 IDs oder eine Closure sein:
+
+	  - Integer: Der geforderte Preis in Taler
+	  - Array aus Strings: Ein Objekt, welches eines dieser Strings als
+	    ID hat, wird als Tauschgegenstand akzeptiert.
+          - Closure: Diese Funktion aufgerufen, um zu prüfen, ob ein
+	    erhaltener Gegenstand als Tauschobjekt akzeptabel ist.
+	    Die Closure erhält folgende Parameter:
+             1. der will-string, den der Spieler eingegeben hat,
+    	     2. das Objekt, das der given-Funktion übergeben wurde,
+    	     3. das Objekt, mit dem der Spieler bezahlen will (Tausch),
+             4. der Container, aus dem das Objekt kam (sollte der Kunde sein),
+	     5. Das von will oder given zurückgelieferte Mapping
+	        (mit eben diesen Eintraegen),
+	     6. der Kunde selber.
+	     
+         Beispiel: Der Verkäufer tauscht Seile und Schaufeln gegen
+             Fackeln ein (ja, ein schlechtes Geschafft für einen Spieler),
+             dann setzt man
+             "price":({"seil","schaufel"}),
+             "pricemessage":"Wenn Du mir ein Seil gibst, geb ich Dir "
+                            "eine Fackel.",
+             "good":"/obj/fackel"
+
+         Ist der Preis 0 (also, als 0 gesetzt und nicht etwa weggelassen,
+         ([..., "preis":0, ...]) ist was anderes als wenn kein
+         "preis" - Eintrag da waere), so wird die mit "good" gesetzte
+         ware sofort dem Spieler gegeben.
+
+"good": Die zu verkaufende Ware. Dies kann ein Objekt, ein String,
+        ein Funktionsaufrufspaar oder eine Closure sein.
+
+         - objekt: Die zu verkaufende Ware als Objekt
+         - string: Ein String wird als ein Dateiname eines zu clonenden
+           Objektes interpretiert.
+           Statt  "good": clone_object ("/obj/fackel")
+           kann   "good": "/obj/fackel"
+           geschrieben werden.
+           Ist der Preis gesetzt, so hat letzteres den Vorteil, dass das
+           Objekt nur dann geclont wird, wenn der Spieler tatsächlich dafür
+           bezahlt. Es hat aber den Nachteil, dass das Objekt in einer
+           eigenen Datei stehen muss.
+
+         - Ein Funktionsaufrufspaar ist eine besonders primitive
+           Alternativ zu einer closure in Form eines zweielementigen
+           Arrays vom Typ ({object ob, string fun}).
+           Bezahlt der Spieler das, was im Preis-Eintrag gesetzt ist, so
+           wird im Objekt ob die Funktion fun aufgerufen. (ob->fun (...)).
+           Das ist übrigens dasselbe, wie wenn man die closure
+    	   symbol_function (fun, ob) übergeben hätte.
+    	   Der Preis muss gesetzt und ungleich 0 sein.
+
+         - eine closure. Bezahlt der Spieler den Preis, so wird diese
+    	   closure aufgerufen.
+    	   Der Preis muss gesetzt und ungleich 0 sein.
+
+    	Die Argumente für die Closure sowie für die mit dem
+    	Funktionsaufrufspaar gegebene Funktion sind folgende:
+            1. der will-string, den der Spieler eingegeben hat,
+    	    2. das Objekt, das der given-Funktion übergeben wurde,
+    	    3. das Objekt, mit dem der Spieler bezahlt hat (->Tausch).
+            4. ein Zeiger auf den Spieler selber.
+    	Diese Parameter werden nur deshalb zur Verfügung gestellt, um
+    	höchstmögliche Flexibilität zu erreichen.
+    	Gibt die Closure bzw. das Funktionsaufrufspaar ein Objekt zurück,
+    	so wird dieses dem Spieler gegeben; ist der Preis ("price") 0, so
+    	müssen Closure und Funktionsaufrufspaar ein Objekt liefern.
+    	Ist das Objekt, das der Spieler dem Verkäufer gegeben hat, (nicht
+    	das Zahlungsmittel, sondern der zweite Parameter) nachher immernoch
+    	im Besitz des Verkäufers, so gibt der Verkäufer dies an den
+    	Spieler zurück. Die Standardreparatur - Prozedur wäre somit ein
+        Funktionsaufrufspaar, welches das Objekt repariert und nichts
+        zurückgibt. Soll das Objekt nicht an den Spieler zurückgegeben
+        werden (->Tausch), so muss die Closure / das Funktionsaufrufspaar
+        das Objekt removen. Für einen Tausch bietet sich allerdings an,
+        als Preis die ids zu setzen, die man tauschen will.
+
+"timeout":
+        Dauer in Sekunden, bis wann dem Verkäufer die Geduld ausgeht
+        und er eben "Dann halt nicht" - oder die timeoutmessage - sagt:
+
+"timeoutmessage":
+        Die Meldung wird ausgegeben, wenn der Spieler nicht in einer gewissen
+        Zeit bezahlt. Dies kann ein String oder ein Stringarray sein.
+        Also beispielsweise (als Stringarray):
+            ({"Der Bäcker sagt: Dann halt nicht.",
+              "Der Bäcker legt die Brezel wieder in den Korb zurück."})
+        Das folgende wäre dasselbe (als String):
+              "Der Bäcker sagt: Dann halt nicht.\n"
+              "Der Bäcker legt die Brezel wieder in den Korb zurück.\n"
+        Wirt timeoutmessage nicht angegeben, so seufzt der Verkäufer und
+        sagt "Dann halt nicht.".
+
+"keep_given":
+        Wurde dem Verkäufer etwas gegeben, mit dem er nichts anfangen
+        konnte so ruft er die Funktion "given" auf. Zerstört diese das
+        übergebene Objekt nicht, so wird es nach dem Aufruf von given
+        durch den Verkäufer zurückgegeben. Manchmal ist dies jedoch nicht
+        erwünscht, der Verkäufer soll die übergebene Sache behalten.
+        Dies kann durch "keep_given":1 als Mappingeintrag im Ergebnis
+        von given verhindert werden, der Verkäufer behält dann das Gegebene.
+        Beispiel: /d/Maerchenland/Koboldingen/Schmied/rooms/schmied
+
+------------------------------------------------------------------------------
+
+Beispiel: Ganz normaler Brezelverkauf:
+    mapping want (string s)
+    {
+      if (strstr (s,"brezel") != -1)
+        return ([
+          "message":"Der Bäcker nimmt eine Brezel aus einem Korb.",
+          "soldmessage":"Der Bäcker tut die Brezel in eine Tüte.",
+          "timeoutmessage":"Der Bäcker legt die Brezel in den Korb zurück.",
+          "price":12,
+          "good":({this_object(),"mach_brezel_in_tuete"})
+        ]);
+    Dann passiert das folgende:
+    	Ein Spieler sagt: will brezel.
+    	Der Bäcker nimmt eine Brezel aus einem Korb.
+    	Der Bäcker sagt: Das macht 12 Taler, wenn ich bitten darf.
+    	Ein Spieler gibt dem Bäcker 12 Taler.
+    	Der Bäcker tut die Brezel in eine Tüte rein.
+    	Der Bäcker gibt dem Spieler eine Tüte.
+
+------------------------------------------------------------------------------
+
+Beispiel für "!GEBEN", Beispiel für Funktion given:
+        return ([
+            "messages":({
+                "sage Was soll ich denn mit sowas?",
+                "!GEBEN",
+                "sage Das will ich nicht haben, behalt Du es."})
+        ]);
+
+------------------------------------------------------------------------------
+
+Beispiel für "!GEBEN" in soldmessages, Funktion want:
+        return ([
+            ...
+            "soldmessages": ({
+                "!ich nimmt die Schokolade aus dem Regal.",
+                "!sage Da, nimm das süße Ding!",
+                "!GEBEN",
+                "!sage Lass Dir die Schokolade schmecken."
+                }),
+            ...
+    führt zu:
+        Hugo nimmt die Schokolade aus dem Regal.
+        Hugo sagt: Da, nimm das süße Ding!
+        Hugo gibt Dir eine Fackel.
+        Hugo sagt: Lass Dir die Schokolade schmecken.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Trinkgeld:
+~~~~~~~~~
+Die lfun set_accept_tip hat einen mixed Parameter. Wird der Wert 0 übergeben,
+so wird kein Trinkgeld genommen; dies ist die Standardeinstellung.
+Ist t vom Typ integer, so bedeutet jeder Wert außer 0 natürlich, dass der
+Verkäufer Trinkgeld nimmt. Eine Danke-schön-Meldung wird ausgegeben.
+Ist t ein String, so akzeptiert der Verkäufer Trinkgeld und gibt dann den 
+String als Meldung aus. Der String dürfte in den meisten Fällen soetwas 
+wie "Hugo sagt: Dankeschön für das Trinkgeld." sein. Ist der Parameter ein
+Funktionsaufrufspaar ({string/object wo, string funktionsname}) oder eine
+Closure, so wird die Funktion / die Closure aufgerufen mit einem int-Parameter
+als Argument, der die Höhe des Trinkgeldes anzeigt.
+Beispiel: Tadmorer Schänke /d/Vaniorh/Tadmor/Laeden/room/pub
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Römische Zahlen:
+~~~~~~~~~~~~~~~
+Mit der lfun set_roman kann der Verkäufer in den Römisch - Modus (fuer
+Gallien) und auch wieder zurück gesetzt werden.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Währung:
+~~~~~~~
+Mit der lfun set_valuta MUSS die Währung des Verkäufers gesetzt werden
+(es sei denn, es ist ein Tauschgeschäft-Verkaeufer).
+Diese Währung kann mit query_valuta (Einzahl) und query_valutas (Mehrzahl)
+auch wieder abgefragt werden.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Mörder:
+~~~~~~
+Der Verkäufer kann mit set_dont_serve_murderers so eingestellt werden, dass 
+er keine Mörder bedient. Als Argument wird der Text übergeben, den ein 
+Mörder erhält, eine 0, wenn Mörder bedient werden sollen 
+(Standardeinstellung) oder eine 1 zum Nicht-Bedienen von Mörder mit einer
+Standardmeldung.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Lagerraum:
+~~~~~~~~~
+Man kann dem Verkäufer auch einen Lagerraum geben, dann muss man die
+Gegenstände nicht zu ihm hinmoven, es genügt, dem Verkäufer einen
+Pointer zu übergeben. Beispiel, wo das sinnvoll ist: der Pfandleiher
+in Tadmor: /d/Vaniorh/Tadmor/Troedlermarkt/room/pfand.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Noch ein paar Beispiele, die die prinzipielle Vorgehensweise erläutern sollen:
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Normaler Laden: Spieler sagt: will fackel
+                want wird aufgerufen, want liefert eine Fackel
+                Spieler bezahlt, fertig.
+
+Reparatur: Spieler sagt: repariere mir bitte mein Schwert
+           want liefert: Wenn ich Dir Dein Schwert reparieren soll,
+                         dann gibs mir einfach.
+           Spieler gibt Schwert an Verkäufer
+           given wird aufgerufen, setzt den Preis für die Reparatur,
+           liefert ein Funktionsaufrufspaar für die Repariere-Funktion.
+           Spieler bezahlt.
+           Repariere-Funktion wird aufgerufen, Waffe an Spieler zurückgegeben.
+
+Maler: Maler malt einen auf Wunsch für Geld, vergisst aber seine Signatur.
+       Wenn man ihm nun das Bild zurückgibt, unterschreibt er es und gibt
+       es zurück.
+       Spieler sagt: male mich
+       want liefert:
+    	   "message":"Der Maler malt ein ganz tolles Bild."
+    	   "pricemessage":"Für 100 Taler is das Bild Deines."
+    	   "soldmessage":"Der Maler sagt: Pass auf, die Farbe ist noch "
+    		   "nicht ganz trocken.",
+    	   "timeoutmessage":({"Der Maler zerreist das Bild wieder.
+    			"Der Maler seufz tief."
+    			"Der Maler sagt: Dann halt nicht."})
+    	   "price":100,
+    	   "good":Bildobjekt
+       Spieler gibt dem Maler 100 Taler, kriegt das Bild.
+       Spieler sieht: Signatur fehlt.
+       Spieler sagt: will auch eine signatur haben
+       Maler sagt: Na, dann gib halt nochmal her.
+       Spieler gibt Bild an Maler zurück
+       given wird mit (Bildobjekt, Spieler) aufgerufen und
+    	   liefert lediglich die
+    	   "message":"Der Maler bringt seine Signatur auf dem Bild an."
+       der Maler gibt dem Spieler das Bild zurück.
+
+Tausch: Alterative 1: Seil gegen Fackel
+        Spieler sagt: will fackel
+        want liefert: Wenn Du mir ein Seil gibst, geb ich Dir eine Fackel.
+        want setzt ({"seil"}) als Preis, "/obj/fackel" als Ware.
+        Spieler gibt Seil an Verkäufer.
+        Verkäufer gibt Fackel an Spieler.
+
+Tausch: Alternative 2: Seil gegen Fackel
+        Spieler sagt: will fackel
+        want liefert nur: Wenn Du mir ein Seil gibst, geb ich Dir eine Fackel.
+        want setzt keinen Preis.
+        Spieler gibt Seil an Verkäufer.
+    	given wird aufgerufen mit mit dem Sail und dem Spieler;
+        given removt das Seil und liefert als Ware eine Fackel zum Preis 0.
+
+Tausch: Alternative 3: Irgendwas gegen Fackel
+        Spieler sagt: will fackel
+        want liefert nur: Wenn Du mir was schönes gibst, geb ich Dir
+                          eine Fackel.
+    	want setzt keinen Preis.
+    	Spieler gibt Streichholz an Verkäufer
+    	given wird aufgerufen mit dem Streichholz und dem Spieler;
+    	given überprüft, ob Nudelholz->query_value() >
+    	    streichholz->query_value() (duerfte nicht der Fall sein).
+    	given liefert (lediglich) die Meldung, dass das Streichholz
+    	    nicht "schön genug" ist, um dafür eine Fackel zu erhalten.
+        Der Verkäufer gibt dem Spieler das Streichholz zurück.
+        Spieler gibt Nudelholz an Verkäufer.
+        given wird aufgerufen mit dem Nudelholz und dem Spieler;
+        given überprüft, ob Nudelholz->query_value() > fackel->query_value().
+        given removt das Nudelholz und liefert als Ware eine Fackel zum
+        Preis 0.
+    	Verkäufer gibt dem Spieler die Fackel.
+
+Geldwechsler: want liefert: Wenn ich Dir Geld in Dukaten umwechseln
+              soll, dann gib es mir einfach.
+              Spieler gibt Geld an Geldwechsler.
+              given rechnet den Wert des Geldes in der neuen Währung um
+              und setzt das Geld auf die neue Währung, liefert die
+              Meldungen und als Preis den Wert 0
+              Der Verkäufer gibt dem Spieler das gewechselte Geld.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+Closures:
+~~~~~~~~
+
+Bei allen Meldungen der standard_conversation und in den Meldungen in den
+von want oder given zurückgelieferten Mappings kann man auch eine Closure
+angeben. Diese werden erst ausgewertet und dann ausgegeben oder, wenn der
+zurückgelieferte String mit ! beginnt, als Befehl ausgeführt.
+
+Die Standardmeldungen erhalten folgende Parameter in der angegebenen
+Reihenfolge:
+
+  "al_kann_nicht_mehr_tragen":
+      object verkaeufer - Wer jemanden was geben will.
+      object wer        - Wer nix mehr tragen kann.
+      object was        - Was er nicht mehr tragen kann.
+  "bedient_bereits_anderen_spieler":
+      object verkaeufer - Wer bedient bereits einen anderen Spieler.
+      object wer        - Wer hat was gesagt.
+      object kunde      - Wer wird gerade bedient.
+  "bedient_bereits_diesen_spieler":
+      object verkaeufer - Wer bedient bereits diesen Spieler.
+      object wer        - Wer wird gerade bedient.
+  "bittesehr":
+      object verkaeufer - Wer gibt ihm es gerade.
+      object kunde      - Wer bekommt es gerade.
+      object good       - Was bekommt er gerade.
+  "dann_halt_nicht":
+      object verkaeufer - Wer gibt es ihm nun nicht mehr.
+      object kunde      - Wer bekommt es nun nicht mehr.
+      mixed good        - Was bekommt er nun nicht mehr.
+  "das_kostet":
+      object verkaeufer - Wer will etwas verkaufen.
+      object kunde      - Wer will etwas kaufen.
+      mixed good        - Was will jemand kaufen.
+      int price         - Und wie teuer ist das in Talern.
+  "falsche_waehrung":
+      object verkaeufer - Wer wurde gerade bezahlt.
+      object kunde      - Wer bezahlt gerade.
+      object geld       - Womit hat er bezahlt.
+  "fehler":
+      object verkaeufer - Wer will gerade was loswerden.
+      object kunde      - Wer will gerade was.
+      mixed good        - Das wurde beim Mapping übergeben und ist falsch.
+  "hab_ich_nicht":
+      object verkaeufer - Wer hat was nicht.
+      object wer        - Wer will was.
+      string str        - Was hat er gesagt.
+  "kunde_verschwunden":
+      object verkaeufer - Vor wem ist er verschwunden.
+      object kunde      - Wer ist verschwunden. (Kann sehr wohl 0 sein!)
+  "nanu":
+      object verkaeufer - Wem hat er etwas gegeben.
+      object wer        - Wer hat dem Verkäufer etwas gegeben.
+      object was        - Was hat er dem Verkäufer gegeben.
+  "unsichtbarer_gibt":
+      object verkaeufer - Wem hat er etwas gegeben.
+      object wer        - Wer hat dem Verkäufer etwas gegeben.
+      object was        - Was hat er gegeben.
+  "unsichtbarer_gibt_verschwinden":
+      object verkaeufer - Wem hat er etwas gegeben.
+      object wer        - Wer hat dem Verkäufer etwas gegeben.
+      object was        - Was hat er gegeben.
+  "unsichtbarer_sagt":
+      object verkaeufer - Wer hat etwas gehört.
+      object wer        - Wer hat etwas gesagt.
+  "was_willst_du_haben":
+      object verkaeufer - Wer hat nix gehört.
+      object wer        - Wer hat nix gesagt.
+  "zu_viel_geld":
+      object verkaeufer - Wer ist jetzt reich.
+      object kunde      - Wer hat zuviel bezahlt.
+      mixed good        - Wofür hat er zuviel bezahlt.
+      int price         - Was hätte er bezahlen sollen.
+      int bezahlt       - Was hat er bezahlt.
+  "zu_wenig_geld":
+      object verkaeufer - Wer ist jetzt sauer.
+      object kunde      - Wer hat zuwenig bezahlt.
+      mixed good        - Wofür hat er zuwenig bezahlt.
+      int price         - Was hätte er bezahlen sollen.
+      int bezahlt       - Was hat er bezahlt.
+
+Und die Closures im Mapping von want oder given erhalten folgende Parameter:
+
+  "message":
+      object verkaeufer - Der bedienende Verkäufer
+      object kunde      - Der bediente Kunde
+      mixed good        - Der Gegenstand, um den es geht.
+  "messages":
+      object verkaeufer - Der bedienende Verkäufer
+      object kunde      - Der bediente Kunde
+      mixed good        - Der Gegenstand, um den es geht.
+  "pricemessage":
+      object verkaeufer - Der bedienende Verkäufer
+      object kunde      - Der bediente Kunde
+      mixed good        - Der Gegenstand, um den es geht.
+      int price         - Der Preis.
+  "soldmessage":
+      object verkaeufer - Der bedienende Verkäufer
+      object kunde      - Der bediente Kunde
+      object good       - Der Gegenstand, um den es geht.
+  "soldmessages":
+      object verkaeufer - Der bedienende Verkäufer
+      object kunde      - Der bediente Kunde
+      object good       - Der Gegenstand, um den es geht.
+  "timeoutmessage":
+      object verkaeufer - Der bedienende Verkäufer
+      object kunde      - Der bediente Kunde
+      mixed good        - Der Gegenstand, um den es geht.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------

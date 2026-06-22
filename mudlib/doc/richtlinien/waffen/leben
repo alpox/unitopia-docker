@@ -1,0 +1,20 @@
+Die Richtlinienwerte sollten nur in Ausnahmefällen überschritten werden,
+die Grenzwerte jedoch niemals!
+
+   max. Schaden                  Leben
+(incl. extra_damage)  Richtlinie       Grenze
+
+       1                 750            1500
+       2                 660            1320
+       3                 590            1180
+       4                 540            1080
+       5                 500            1000
+       6                 470             940
+       7                 450             900
+       8                 430             860
+       9                 410             820
+      10                 400             800
+      ...               ... linear weiter ...
+      20                 300             600
+      ...               ... linear weiter ...
+      30                 200             400

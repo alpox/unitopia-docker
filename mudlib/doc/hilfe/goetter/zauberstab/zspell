@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+zspell <Text>
+
+        Überprüft die Rechtschreibung des angegebenen Textes.
+
+        Wenn Fehler gefunden werden, so wird ein korrigierter Text und eine
+        Liste von Vorschlägen für jedes fehlerhafte Wort angezeigt.
+
+        Die Prüfung erfolgt wortweise ohne Berücksichtigung von Grammatik.
+-------------------------------------------------------------------------------

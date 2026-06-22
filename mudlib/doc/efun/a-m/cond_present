@@ -1,0 +1,48 @@
+FUNKTION: cond_present
+DEKLARATION: object cond_present(string was, object wo, mixed fun, [ mixed args])
+BESCHREIBUNG:
+cond_present (conditional present) sucht im Objekt 'wo' nach dem ersten
+Objekt ob mit der id 'was', welches beim Aufruf von ob->fun(arg1, arg2, ...)
+einen Wert != 0 zurueckgibt.
+args koennen beliebig viele Parameter arg1, arg2, ... sein.
+fun kann auch eine Closure sein, die dann mit ob als erstem Parameter und
+arg1, arg2, ... als restliche Parameter aufgerufen wird.
+Ist fun weder ein String noch eine Closure, liefert es present(was, wo)
+zurueck.
+Ist die id 'was' 0 oder "", dann wird nicht auf die id geachtet.
+
+Anwendungsbeispiele:
+
+Eine Fackel im Fackelhalter, hidden_until_next_move
+Ist eine Fackel im Fackelhalter:
+   if (cond_present("fackel",this_object(),"query_invis"))
+(In den Raum gelegte sichtbare Fackeln stoeren so nicht.)
+Besser noch den Fackelhalter zum echten Container machen ...
+
+Hat der Spieler einen bestimmten Schutzmantel angezogen (!) gegen
+Hitze/Kaelte/Saeure ... ?
+   if (cond_present("schutzmantel",this_player(),"query_worn"))
+Inkorrekt ist das naheliegende
+   if ((mantel = present("schutzmantel", this_player())) &&
+	    mantel->query_worn())
+es koennte ja von zwei Maenteln erst der zweite angezogen sein.
+
+Hat ein Spieler ein reissfestes Seil aus Leder?
+   cond_present("seil", player, "material", "leder")
+
+Hat ein Spieler eine Waffe mit Wirkung gegen das Monster dabei?
+   cond_present("waffe", this_player(), "query_extra_damage", monster, player)
+
+Ist hier jemand oder etwas im Raum aggressiv ?
+   cond_present(0, room, "query_aggressive")
+
+Gibts ein Lebewesen im Raum?
+   cond_present(0, room, #'living)
+
+
+Dies und noch mehr kann cond_deep_present.
+cond_deep_present(was, wo, CDP_FLAT, fun, ...) verhaelt sich voellig identisch.
+
+VERWEISE: cond_deep_present, present
+GRUPPEN: simul_efun
+SOURCE: /secure/simul_efun/util.inc

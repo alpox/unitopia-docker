@@ -1,0 +1,12 @@
+FUNKTION: xy2pol
+DEKLARATION: int *xy2pol(int x, int y)
+BESCHREIBUNG:
+Transformiert kartesische Koordinaten in Polar-Koordinaten.
+Zurueckgegeben wird ein Feld mit zwei Elementen, die
+den Winkel und den Radius enthalten.
+
+Uebersteigt der Wert von   x*x+y*y   die Grenzen der Integer-Variablen,
+so wird statt einem Feld einfach nur 0 zurueckgeliefert !
+GRUPPEN: simul_efun, rechnen
+VERWEISE: pol2xy
+SOURCE: /secure/simul_efun/math.inc

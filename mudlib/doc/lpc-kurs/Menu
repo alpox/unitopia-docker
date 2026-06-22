@@ -1,0 +1,21 @@
+INHALT		Inhaltsverzeichnis LPC Basics - Written by Descartes of Borg
+INTRO		Introduction
++line 0
+BASIC1		Kapitel 1	Introduction to the Coding Environment
+BASIC2		Kapitel 2	The LPC Program
+BASIC3		Kapitel 3	LPC Data Types
+BASIC4		Kapitel 4	Functions
+BASIC5		Kapitel 5	The Basics of Inheritance
+BASIC6		Kapitel 6	Variable Handling
+BASIC7		Kapitel 7	Flow Control
+BASIC8		Kapitel 8	The data type "object"
++line 0
+INTER1		Kapitel 1	Introduction
+INTER2		Kapitel 2	The LPMud Driver
+INTER3		Kapitel 3	Complex Data Types
+INTER4		Kapitel 4	The LPC Pre-Compiler
+INTER5		Kapitel 5	Advanced String Handling
+INTER6		Kapitel 6	Intermediate Inheritance
+INTER7		Kapitel 7	Debugging
++line 0
+COPY		Copyright of Intermediate LPC first edition

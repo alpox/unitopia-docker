@@ -1,0 +1,11 @@
+FUNKTION: deinem
+DEKLARATION: varargs string deinem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

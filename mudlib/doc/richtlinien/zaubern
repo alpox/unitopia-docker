@@ -1,0 +1,45 @@
+Zauber sollten immer ein Risiko darstellen.
+Ein Zauberspruch klappt nie 100 prozentig, teilweise richtet sich
+ein Zauberspruch sogar gegen den Spieler.
+Ein 5% Risiko muss immer vorhanden sein.
+Man kann sogar einen 'Kritischen Fehler' einbauen, so dass sich
+der Spruch gegen den Spieler wendet, oder einen 'Kritischen Erfolg',
+so dass der Zauberspruch besser wirkt.
+Wenn man aber einen 'Kritischen Erfolg' einbaut, so muss auch ein
+'Kritischen Fehler' möglich sein, wobei die Chance des
+'Kritischen Fehlers' größer sein muss, als die des
+'Kritischen Erfolgs'.
+
+Mit den Zauberpunkten sollten ungefähr folgende Sachen gemacht werden:
+
+- In andere Räume schauen können
+- Nachts für gewisse (kurze) Zeit einen Raum erleuchten
+- Erkundung von Gegnern (ohne konkrete Werte, nur Vergleich)
+- Erkundung der Gesinnung von Gegnern (besser oder schlechter)
+- Sich kurzzeitig mit einer "Aura" umgeben um nicht angegriffen zu werden
+- Trotz beschäftigter Hände Dinge aufnehmen zu können
+- Keine Bewegungs-Meldungen (schleichen)
+- Kommunikation über große Entfernungen
+- Magische Gegenstände bei Benutzung sollten Zauberpunkte abziehen
+
+Jedoch sollten sie weder als Waffen noch als Hitpointersatz verwendet werden.
+Auch sollen sie nicht schon vorhandene Objekte ersetzen.(z.B. Fackeln)
+
+Viele Zauber (z.B. Heilzauber, Kampfzauber) wandeln SP in AP um.
+Diese Umwandlung muss mit einem Faktor > 1:3 geschehen, d.h.:
+Um jemanden einen AP wegzunehmen, oder zu geben, benötigt man
+mindestens 3 SP (genauso umgekehrt)
+Auch Gegenstände (wie Gifte usw) müssen sich daran halten.
+
+Um Geld in AP oder SP umzuwandeln, benötigt man 5 Taler für einen AP oder SP.
+(Dies gilt auch für Heiltraenke)
+Um aus AP oder SP Geld zu machen gilt auch der Faktor von 1:5
+(1 Taler == 5 AP oder SP)
+
+
+Folgende Skills sind vorgesehen:
+
+skill zauber licht
+             abwehr
+             sicht
+	     bewerte

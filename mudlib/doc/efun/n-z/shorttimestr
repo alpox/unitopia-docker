@@ -1,0 +1,15 @@
+FUNKTION: shorttimestr
+DEKLARATION: varargs string shorttimestr(int clock, int full_year, int only)
+BESCHREIBUNG:
+Liefert einen String mit dem Datum in der Form: TT.MM.JJ hh.mm.ss
+clock ist dabei die Anzahl der Sekunden seit 1970 (time()).
+Wenn full_year ungleich 0 ist, wird die Jahreszahl nicht auf die letzten
+zwei Stellen gekuerzt.
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird beides geliefert. Diese Werte sind in simul_efuns.h definiert.
+Das Analogon fuer Spielzeit ist shortvtimestr().
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, timestr, strftime, vtime, vtimestr, shortvtimestr
+SOURCE: /secure/simul_efun/time.inc

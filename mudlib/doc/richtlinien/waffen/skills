@@ -1,0 +1,38 @@
+Folgende Skills sind vorgesehen:
+
+Offensiv-Waffen:
+
+nahkampf:
+skill offensiv haende
+skill offensiv scharf messer
+skill offensiv scharf schwert kurzschwert
+skill offensiv scharf schwert langschwert
+skill offensiv scharf saebel
+skill offensiv scharf degen
+skill offensiv scharf axt
+skill offensiv stumpf keule
+skill offensiv stumpf peitsche
+skill offensiv stumpf stock
+
+wurf:
+skill offensiv scharf speer
+skill offensiv scharf wurfmesser
+
+schuss:
+skill offensiv scharf bogen
+skill offensiv scharf blasrohr
+skill offensiv stumpf schleuder
+
+Defensiv-Waffen:
+
+skill defensiv schild klein
+skill defensiv schild gross
+
+Bevor neue Skills eingeführt werden, bitte mit den Göttern abstimmen,
+damit nicht bei Spielern skills eingetragen werden, die nachher geändert
+werden müssen.
+
+Zum Handskill: Dieser Skill sollte nur für Waffen verwendet werden, mit
+denen man genauso kämpft, als hätte man keine Waffe. Sowas wären
+zum Beispiel Handschuhe oder Schlagringe. Nicht dazu zählen aber sowas
+wie Klauen oder Greifer.

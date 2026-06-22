@@ -1,0 +1,64 @@
+Bad argument 1 to call_other
+    Es wurde versucht ein Aufruf der Form obj->fun() zumachen,
+    wobei obj kein Objekt oder kein ladbarer Filename war.
+    (Meistens ist obj 0)
+Calling a vanished simul_efun
+    Da ist was in der Mudlib schiefgegangen. 
+Can't load objects when no effective user.
+    Ein Objekt kann keine anderen Objekte laden, clonen und
+    keine Files lesen, solange es keine euid hat,
+    alle Objekte sollten dies automatisch haben.
+    Evntl. wurde irgendwo seteuid(0); ausgeführt?
+Error in loading object
+Failed to load file.
+    Fehler im zu ladenden Objekt, oder in einem seiner inherit files.
+    Oder inheritfile nicht gefunden.
+Illegal array size
+    Arrays dürfen maximnal 3000 Einträge haben.
+Illegal character constant
+    Irgendein ungültiges Zeichen im Quellcode, vielleicht hast Du
+    ein " vergessen?
+Illegal to call clone_object() with effective user 0\n
+    siehe Can't load objects when no effective user.
+Illegal to shadow 'nomask' function
+    Ein Shadow kann nicht über ein Objekt gelegt werden, dass
+    eine Funktion enthält die nomask deklariert wird, wenn der
+    shadow diese Funktion überlagert.
+Illegal use of restore_object()
+    siehe Can't load objects when no effective user.
+Illegal use of save_object()
+    Das Objekt darf dort nicht schreiben (fehlende/falsche ACLs?).
+    Siehe auch Can't load objects when no effective user.
+Indexing on illegal type.
+    Es wurde versucht ein Nicht Array/Mapping/String Variable 
+    zu indizieren.
+Newline in string
+    Ein " fehlt bei einem der Strings in dieser Zeile.
+Object the closure was bound to has been destructed\n
+    Das Objekt zu dem die Closure gehört, wurde zerstört, 
+    damit ist diese Closure quasi wertlos.
+Return type not matching
+    Du lieferst einen anderen Variablentyp als du solltest, laut der
+    Funktionsdeklaration.
+Too many local variables
+    Die Zahl der Argumente und lokaler Variablen einer Funktion 
+    ist auf 20 beschränkt.
+Unexpected end of file
+    Vermutlich eine Klammer bei einem Macroaufruf vergessen, vielleicht
+    fehlt auch ein " bei einem String?
+Unrecognized inheritance modifier qualifier
+    Meist ein Tippfehler am Anfang des Files.
+    Der inheritance modiefier qualifier steht vor dem 
+    inherit statement: static, static variables, ...
+add_action from object that was not present.\n
+    Ein Objekt hat eine add_action gemacht obwohl es gar nicht in der
+    Umgebung des Livings war. (Wahrscheinlich wurde es vorher weggemoved?)
+function not defined by inheritance as specified
+    Die Funktionsdeklarationen des Inheritfiles und des inheritenden Files
+    stimmen nicht überein.
+privilege violation : %s
+    Du hast ein Funktion verwendet, die vom master object nur für
+    bestimmte Objekte freigegeben ist.
+syntax error
+    Es fehlt eine Klammer oder ein Strichpunkt oder ähnliches.
+    Vielleicht ist auch eine Variable doppelt definiert...

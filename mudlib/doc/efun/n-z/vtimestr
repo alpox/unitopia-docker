@@ -1,0 +1,12 @@
+FUNKTION: vtimestr
+DEKLARATION: varargs string vtimestr(int vtime, int only)
+BESCHREIBUNG:
+Liefert einen String der Form Mittwoch 31. Maerz 12 18:47:15
+in Spielzeit, das Analogon fuer Realzeit heisst timestr().
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird Uhrzeit und Datum geliefert. Diese Werte sind in simul_efuns.h definiert.
+GRUPPEN: simul_efun, zeit
+VERWEISE: vtime, strfvtime, timestr, ctime, time, vtimearray, array_to_vtime
+SOURCE: /secure/simul_efun/time.inc

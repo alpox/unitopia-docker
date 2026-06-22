@@ -1,0 +1,53 @@
+Wie macht man sich sein Monster und bringt es ins Spiel ?
+
+
+1. Durch Clonen:
+
+Die einfachste Methode ist es, in der reset() - Routine des Raumes, in
+dem das Monster sich aufhalten soll, /obj/monster zu clonen.
+(reset() wird vom Game-Driver ca alle 30 Minuten aufgerufen)
+
+    void reset() {
+	if ( ...Bedingung... ) {
+		object ob;
+	    ob = clone_object("/obj/monster");
+	    ob->initialize("harry",15);
+	    ob-> ........
+	    ob->move(this_object());
+	    }
+    }
+Die genaue Beschreibung der einzelnen Funktionen sind im File:  design
+zu finden.
+
+Ein wichtiger Punkt ist hier die Bedingung, wann ein Monster erschaffen wird,
+da die bereits früher erschaffenen sich ja woanders hinbewegt haben können:
+
+	1. Das Monster darf es garantiert nur einmal im gesamten Spiel geben:
+		if ( !find_living("detlef") ) {
+	   Es wird nach "detlef" im gesamten Spiel gesucht.
+
+	2. Das Monster kann ruhig öfters auftauchen:
+		if ( !present("ork")              ) {  /* äquivalent */
+		if ( !present"ork",this_object()) ) {
+	   Es wird nach "ork" nur in diesem Raum gesucht.
+
+
+2. Durch inheriten:
+
+Man erstellt sich ein File, zB /w/francis/obj/mein_monster.c :
+
+----------------------------------
+inherit "/i/monster/monster";
+
+void create() {
+    monster::create();
+    initialize("uluji",100);
+      ......
+}
+
+mixed eigene_funktionen(..) {..}
+
+----------------------------------
+
+Diese File kann nun wahlweise geladen oder geclont werden.
+

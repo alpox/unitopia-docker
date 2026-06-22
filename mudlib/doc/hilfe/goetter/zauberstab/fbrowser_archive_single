@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Hier wird ein gelöschter Fehler in der Archivansicht angezeigt.
+Mögliche Befehle:
+
+    + / -       zum nächsten /vorherigen Fehler springen.
+    < / >       Zur ersten / letzten Seite des archivierten Fehlers springen.
+    j [errnum]  Zu einem beliebigen anderen Fehler springen bzw. zurück.
+    b           Eine Seite runterblättern.
+    u           Eine Seite hochblättern.
+    M           schickt DIR den archivierten Fehler als Mail, 
+                so dass du darauf antworten kannst.
+    w <datei>   archivierten Fehler in eine Datei schreiben,
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

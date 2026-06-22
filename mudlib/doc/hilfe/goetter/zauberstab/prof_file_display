@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Zeigt den Quellcode eines Programmes an. Am linken Rand wird zu jeder Zeile
+die Anzahl der dort verbrauchten Evals oder Zeit angezeigt.
+
+Desweiteren stehen folgende Befehle zur Auswahl:
+    t: Benötigte Zeit (in Mikrosekunden) anzeigen.
+    e: Benötigte Evals anzeigen (dies ist Standard).
+    i: Auch die Evals/Zeit von aufgerufenen Funktionen einberechnen.
+-------------------------------------------------------------------------------

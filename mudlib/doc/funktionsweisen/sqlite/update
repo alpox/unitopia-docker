@@ -1,0 +1,22 @@
+
+    UPDATE
+    
+       Befehl ::= UPDATE [OR Konfliktstrategie] [Datenbank .] Tabelle
+                  SET Zuweisung [, Zuweisung]*
+	          [WHERE Ausdruck]
+
+    Zuweisung ::= Spaltenname = Ausdruck
+
+    Die UPDATE-Anweisung verändert die Werte in den Spalten bestimmter
+    Zeilen einer Tabelle. Jede Zuweisung in einem UPDATE-Befehl
+    gibt einen Spaltennamen links des Gleichheitszeichen und einen
+    beliebigen Ausdruck rechts davon an. Die Ausdrücke dürfen auch
+    Werte anderer Spalten nutzen. Alle Ausdrücke werden ausgewertet,
+    bevor die Zuweisungen ausgeführt werden. Die WHERE-Klausel kann
+    genutzt werden, um die Zeilen, welche verändert werden sollen,
+    einzuschränken.
+    
+    Optional kann eine Konfliktstrategie für Konflikte während der
+    Ausführung dieser Anweisung angegeben werden. Siehe bei
+    'ON CONFLICT' für weitere Informationen.
+

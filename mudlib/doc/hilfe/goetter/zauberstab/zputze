@@ -1,0 +1,19 @@
+------------------------------------------------------------------------------
+zputze <objekt> [<id>]         Im angegebenen Objekt, welches ein Raum,
+zputze hier                    ein Spieler, ein Monster, eine Tasche oder
+                               ähnliches sein kann, wird an jedes Objekt
+                               ein remove() abgeschickt.
+                               Spieler werden davon allerdings nicht betroffen.
+			       Ist <id> angegeben werden nur Objekte mit 
+			       dieser id geputzt
+
+                               hier steht für die eigene Umgebung.
+
+Beispiele:
+
+zputze hier flugblatt          Zerstört alle Flugblätter im Raum
+zputze hier                    Zerstört alles im Raum außer Spieler.
+zputze mich fackel             Zerstört alle Fackeln die man bei sich hat.
+zputze mich     NICHT!!!!!     Zerstört alle Objekte, die man bei sich hat,
+			       das sollte man besser nicht tun.
+------------------------------------------------------------------------------

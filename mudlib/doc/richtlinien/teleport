@@ -1,0 +1,34 @@
+Regeln zur Teleportation von Gegenständen oder Lebewesen
+---------------------------------------------------------
+
+1. Teleportation im Form von Zaubersprüchen oder irgendwelchen Tools ist
+   generell nur in Absprache mit den Admins zugelassen.
+
+2. Hierbei sind die Raumtypen "teleport_rein_verboten",
+   "teleport_raus_verboten", "versand_rein_verboten" und
+   "versand_raus_verboten" folgendermaßen zu beachten:
+   
+    - Für Lebewesen, die direkt im Raum stehen:
+      Es ist das "teleport_raus_verboten" im Ursprungsraum und
+      das "teleport_rein_verboten" im Zielraum zu beachten.
+    
+    - Für Lebewesen und Gegenstände, die ein anderes Lebewesen bei sich
+      trägt:
+      Es ist das "versand_raus_verboten" im Ursprungsraum und
+      das "versand_rein_verboten" im Zielraum zu beachten.
+     
+    - Für Gegenstände, die kein Lebewesen bei sich trägt:
+      Dies ist vorher mit den Admins zu vereinbaren, in welcher Form
+      sowas überhaupt möglich sein soll.
+
+   Sobald ein zu beachtender Raumtyp einen Wert ungleich 0 besitzt,
+   darf der Teleport nicht durchgeführt werden. Ist dieser Wert ein
+   String, so beinhaltet er die In-Game-Begründung, warum der Teleport
+   schief ging und kann dementsprechend an den Spieler weitergegeben werden.
+
+3. Teleports von Spielern zu Räumen des Pantheon sowie zu Goettern/Testies
+   sind nicht zulässig. Es ist query_room_domain() des umgebenden Raumes
+   sowie wizp()/testplayerp() zu beachten. Dies muss natürlich nicht
+   zutreffen, wenn es sich bei dem zu teleportierenden Spieler selbst um
+   einen Gott oder Testie handelt.
+

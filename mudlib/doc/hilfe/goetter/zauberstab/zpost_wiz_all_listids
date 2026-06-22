@@ -1,0 +1,5 @@
+Alle Benachrichtigungsgruppen für einen Programmier:
+  n <listenname>   Erstellt eine neue Liste mit Angabe des Namens.
+  <nr>             Verzweigt in die zugehörigen Listeneinstellung.
+  z                Zurück zur vorherigen Ebene
+  q                Menü ganz verlassen.

@@ -1,0 +1,23 @@
+------------------------------------------------------------------------------
+spielstand                     Momentaner Zustand deiner Spielerfigur.
+sp
+
+Es wird angezeigt:
+
+Name, Titel.
+Ansehen.
+Prozentpunkte der Erfahrungen.
+Aktuelle, (maximale) Ausdauerpunkte und aktuelle, (maximale) Zauberpunkte.
+Deine Fähigkeiten: 
+Stärke: St, Intelligenz: In, Ausdauer: Ko, Geschicklichkeit: Ge
+Gelöste Rätsel: GR, Gelöste Spiele: GS, Getötete Wesen: GW
+Dein Geburtstag (in Spielzeit).
+Dein Alter (in Realzeit im Mud).
+Fluchtmodus.
+Verteidigungsmodus.
+Kampfmeldungen.
+Temperaturempfinden.
+Eventuelle Hunger-/Durstmeldungen.
+
+siehe auch:   erfahrung
+------------------------------------------------------------------------------

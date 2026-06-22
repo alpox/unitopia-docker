@@ -1,0 +1,117 @@
+Wie mache ich Eigenschaften von V-Items dynamisch?
+
+Dazu kann man Pseudoclosures oder Closures als Wert einer Eigenschaft angeben.
+
+Pseudoclosures sind Strings, welche an einigen Stellen Aufrufe von Grammatik-
+Funktionen eingeläutet durch das Dollarzeichen besitzen. Man kann sie bei
+"look_msg", "look_msg_night", "read_msg", "smell_msg", "hear_msg", "take_msg",
+"attack_msg" und "feel_msg" angeben.  Dort wird OBJ_TP durch den Ausführenden
+und 'vitem durch das aktuelle V-Item ersetzt. Weitere Dokumentation zu
+Pseudoclosures findet sich in /doc/funktionsweisen/pseudoclosures.
+
+Beispiel:
+
+   "look_msg": "$Der(OBJ_TP) schaut $seinen('vitem) an.",
+   "smell_msg":"Uah, $der() traut sich wirklich, an $dem('vitem) zu riechen."
+
+Reichen Pseudoclosures nicht aus, oder sind sie nicht verfügbar (z.B. bei
+"long" oder "smell"), so kann man richtige Closures angeben. Diese Closures
+erhalten das eigene V-Item als 1. Parameter übergeben. Bei diesem
+übergebenen V-Item gibt es dann aber einen zusätzlichen Eintrag
+"environment", welcher auf das V-Item, den Gegenstand bzw. Raum, an welchem
+dieses V-Item hängt, verweist. Closures für den "long"-Eintrag eines
+V-Items erhalten zusätzlich noch wie bei query_long den Betrachter 
+als 2. Parameter übergeben. Closures für "read" erhalten
+string parse_rest, string str, mapping vitem, object leser (der 1., 2. und
+4. Parameter entsprechen denen von query_read) übergeben.
+
+Beispiele:
+
+   string vitem_long(mapping vitem, object betrachter)
+   {
+       if(wizp(betrachter))
+           return "Beim ersten Blick auf "+dem(vitem)+" erkennst Du sofort, "
+               "dass für dich folgende Befehle zur Verfügung stehen:\n"
+               "  abschuss <min> - Das solltest Du lieber nicht machen\n"
+               "  ende           - Loggt Dich selber aus\n";
+       else
+           return "Das ist einfach "+ein(vitem,({"stinknormales"}))+".";
+   }
+   
+   string vitem_text(string parse_rest, string str, mapping vitem,
+       object betrachter)
+   {
+       betrachter->more("/doc/hilfe/toll");
+       return "";
+   }
+   
+   
+   void create()
+   {
+       add_v_item( ([
+           "long": #'vitem_long,
+           "read": #'vitem_text,
+           "smell": lambda(({'vitem}),({#'call_other,SMELL_MASTER,
+                        "get_the_smell", 'vitem})),
+                    // Ich sag mit diesem Beispiel nicht, dass obige Lambda
+                    // sinnvoll ist, sondern nur wie sie aussehen sollte.
+		    //
+		    // Bei "long" wäre es zum Beispiel:
+		    //   lambda(({'vitem,'viewer}), ({#'call_other,
+		    //       <irgendeinObjekt>, "query_long", 'viewer}) )
+           "name": "wasweissich",
+           "gender": "saechlich",
+           ]) );
+
+       // ...
+
+   }
+
+Für die identifizierenden Eigenschaften "id" und "adjektiv" gibt es zwei
+Varianten, eine Closure anzugeben.
+
+1. Die Closure kann eine komplette Liste der Ids oder Adjektive zurückgeben.
+
+     "id": function string*(mapping vitem)
+           {
+               return "knopf";
+           }
+
+2. Die Closure kann auf eine konkrete Anfrage einer Id oder Adjektiv zurück-
+   liefern, ob diese Id oder Adjektiv paßt.
+
+     "id": function int(mapping vitem, string id)
+           {
+               return id == "knopf" || id == "knopfs";
+           },
+
+   Achte, daß zur Anzeige (in der Grammatik) auch die erste Variante benötigt
+   wird, damit die Grammatik alle anzuzeigenden Adjektive ermitteln kann.
+   Man kann daher beides in einer Closure vereinen:
+
+     "adjektiv": function int | <string|<string|int>*>*(mapping vitem,
+                                                        string adj)
+                 {
+                    if (!adj)
+                        // Es wird kein spezielles getestet, alle liefern.
+                        return ({ "rot" });
+                    else
+                        // Wir testen auf rot und lila (geheimes Adj.)
+                        return search_adjektiv(({"rot", "lila"}), adj);
+                 }
+
+
+Wie frage ich dynamische Eigenschaften ab?
+
+Dies sollte entweder mit dem Define QUERY oder QUERY_PARS aus parse_com.h
+geschehen. Man kann sie sowohl auf Objekte und V-Items anwenden.
+Die Abfrage des Geruchs eines V-Items vitem würde dann einfach mit
+
+  QUERY("smell",vitem)
+
+durchgeführt werden. Genauso bei einem Objekt ob (QUERY("smell",ob)).
+Muss man noch weitere Parameter bei der Abfrage angeben (z.B. bei "long",
+wo der Betrachter erwartet wird), so geht das mittels QUERY_PARS, wo man
+noch zusätzlich ein Array mit allen Parametern angeben muss:
+
+  QUERY_PARS("long", vitem, ({ this_player() }) )

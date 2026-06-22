@@ -1,0 +1,130 @@
+Der Virus
+=========
+
+Dieses Objekt simuliert Verletzungen, Krankheiten, Seuchen, Vergiftungen usw.
+Der Virus zieht seinem Besitzer jeder Minute APs ab und gibt dabei nette
+Meldungen aus. Um die Gemeinheit perfekt zu machen, ist er ein Autoloader.
+Man kann eine Hoechstdauer und eine Minimalanzahl von APs festlegen, bei 
+denen der Virus abstirbt, in jedem Fall aber endet der Virus mit dem Tod.
+Die Seuche ist zu allem Überfluss ansteckend: In jeder Minute werden alle
+Spieler im Raum mit einer gewissen Wahrscheinlichkeit angesteckt. Damit das
+nicht ausufert, ist man nach Ausheilen einer Seuche gegen diesen bestimmten
+Typ immun.
+
+
+Wie mach ich das? 
+=================
+
+Man clont den Virus (/obj/virus), ruft ein paar set-Funktionen auf
+moved das Ergebnis in den Spieler.
+
+Welche set-Funktionen denn?
+===========================
+(Bemerkung: zu jedem "set_blabla" gibt es auch ein "query_blabla", das genau
+ das liefert, was man erwarten moechte)
+
+void set_virus_name(string name)
+    Damit setzt man den Namen des Virus. Gleichzeitig werden id und name 
+    richtig gesetzt. Default: "Grippe".
+void set_virus_str(int strength)
+    Damit setzt man den AP-Abzug pro Minute. Default: 1.
+    Dafür gibt es auch eine Funktion add_virus_str().
+void set_virus_min(int minimal)
+    Wenn die APs unter die Grenze <minimal> fallen, dann verflüchtigt sich der
+    Virus. Natürlich können die ganz gemeinen hier -1 angeben. Default: 25.
+void set_virus_dur(int duration)
+    Nach <duration> heilt der Virus von ganz alleine (wenn nicht vorher ein 
+    Heiler aufgesucht wurde oder die mit set_virus_min() gesetzte Grenze 
+    unterschritten wurde). Der Wert -1 bedeutet endlos. Ihgitt. Default: 300.
+    Hier gibt es auch eine Funktion add_virus_dur().
+void set_virus_look(string look)
+    Ein extra_look für den Spieler. <look> wird einfach an Er(spieler) 
+    angehängt. Default: "sieht total verschwitzt aus."
+    Mit set_virus_look(0) schaltet man dieses Feature ab.
+void set_virus_type(string type)
+    Virus-Art. Folgendes steht zur Auswahl:
+    "verletzung", "krankheit", "gift", "seuche" und "fluch". Seuchen stecken
+    andere Spieler an! Je nach Art des Virus, sollte man diesen auch auf
+    unterschiedliche Arten heilen können. Default: "seuche"
+void set_virus_chance(int chance) 
+    Damit stellt man bei einer Seuche die Ansteckungswahrscheinlichkeit ein.
+    Bei anderen Virus-Typen sinnlos.
+void set_immun_time(int time):
+    Setzt die zeit, wie lange der Player nach der Seuche immun bleibt. 
+    (0 ist möglich, aber sonst nur Werte zwischen 300 <= time <= 7200)
+    Bei anderen Virus-Typen sinnlos.
+void set_virus_heal_msg(string heal_msg)
+    Welche Nachricht, soll der Spieler erhalten, wenn er die
+    Krankheit überwunden hat? Mit set_virus_heal_msg(0) werden für jeden 
+    Typ eine andere Default-Meldung ausgegeben.
+void set_virus_messages(string *messages)
+    Jede Minute werden str Punkte von den HP's des Spielers abgezogen,
+    dabei wird eine Meldung aus messages ausgegeben. Default: ein paar
+    Meldungen für eine Grippe.
+void set_vanishing_virus()
+    Der Virus ist nach Aufruf dieser Funktion kein Autoloader mehr.
+    Nicht besonders sinnvoll.
+void set_virus_shadow_path(string shadow_path)
+    Damit kann man dem Spieler noch einen Shadow verpassen, der weitere
+    Krankheitseffekte hervorruft.
+
+Wie Funktioniert das mit dem Shadow?
+====================================
+
+Ein Beispiel ist weiter unten...
+Mit set_virus_shadow_path() kann man den Pfad auf den passenden Shadow setzen.
+Bei Ansteckung bekommt das Opfer einen Clone dieses Shadows übergeworfen.
+Bei jeder 'Krankheitsaktion' wird in diesem Shadow die Funktion
+void do_virus_shadow_action() aufgerufen, hier können alle möglichen
+Ausgaben erzeugt werden. Die Funktion heal_virus() entfernt den Shadow 
+wieder. Mit query_virus_shadow() bekommt man das Shadow-Objekt, mit
+query_virus_shadow_path() den Filenamen.
+
+
+Beispiel eines Virus-shadows (Uebelkeit) aus der Hexengilde
+===========================================================
+
+(wichtig ist, dass im Virus set_virus_messages(0) gesetzt wird, da
+sonst sowohl der Virus als auch der Shadow Meldungen ausgeben)
+
+inherit "/i/shadow";
+
+int has_enough_fp(int i) { return 1; }
+int has_enough_wp(int i) { return 1; }
+int has_enough_alc(int alc) { return 1; }
+// Das Opfer kann nichts mehr Trinken/Essen, und kein Alkohohl
+
+void do_virus_shadow_action()
+{
+    switch( random(9) )
+    {
+    // Meldung an an alle anderen und das Opfer 
+    case 0: query_shadow_owner()->send_message( MT_LOOK|MT_NOISE, MA_UNKNOWN,
+                Der(query_shadow_owner())+" muss sich übergeben.\n",
+                "Du musst Dich übergeben.\n",
+                query_shadow_owner() );
+            if( query_shadow_owner()->query_fp() > 0 )
+                query_shadow_owner()->add_fp(-random(50));
+            if( query_shadow_owner()->query_wp() > 0 )
+                query_shadow_owner()->add_wp(-random(50));
+            break;                                               
+    // Meldung an alle außer dem Opfer
+    case 1: query_shadow_owner()->send_message( MT_LOOK, MA_UNKNOWN,
+                Der(query_shadow_owner())+" hat plötzlich ein "
+                "schmerzverzerrtes Gesicht.\n" );
+            // add_headache() gibt selber Meldungen an das Opfer aus!
+            query_shadow_owner()->add_headache(1);
+    // Meldung nur an das Opfer
+    case 2: query_shadow_owner()->send_message_to(query_shadow_owner(),
+		MT_NOTIFY, MA_UNKNOWN, "Dir ist schlecht.\n");
+            break;                                               
+    case 3:
+    [...]
+    }
+}
+
+Und nun?
+=======
+
+Schön die Klappe halten, damit niemand rausbekommt, von wem dieser miese
+Virus stammt :).

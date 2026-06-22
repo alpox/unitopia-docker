@@ -1,0 +1,25 @@
+FUNKTION: call_proved
+DEKLARATION: mixed call_proved(string fn|object ob|object *ob, string fun|mapping fun|mixed *fun, varargs mixed *par)
+BESCHREIBUNG:
+call_proved ist eine Erweiterung von call_other, welche einen Fehler wirft,
+wenn die Funktion fun nicht aufrufbar ist (d.h. entweder existiert sie nicht
+oder ist static oder private, und ein Shadow mit dieser Funktion ist auch nicht
+uebergeworfen).
+
+Gegenueber call_other kann man als Funktion auch Mappings der Form:
+    ([
+        "funktion1": ({ arg1, arg2, ...}), // Bei mehreren Argumenten
+        "funktion2": arg1,                 // Bei einem nicht-Array-Parameter
+    ])
+oder Arrays der Form:
+    ({
+	({ "funktion1", arg1, arg2, ... }),
+	...
+    })
+uebergeben.
+
+Das Ergebnis fuer jedes Objekt ist ein Mapping ([ "funktionsname": ergebnis ])
+bzw. ein Array mit den Ergebnissen jeder Funktion.
+VERWEISE: call_other, call_resolved, call_with_this_player
+GRUPPEN: Objekt
+SOURCE: /secure/simul_efun/util.inc

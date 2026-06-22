@@ -1,0 +1,14 @@
+------------------------------------------------------------------------------
+
+Die Gabe 'Flughafen' ermöglicht es Dir zu wählen, ob Du von anderen
+Engeln angeflogen werden möchtest oder nicht.
+Der Befehl wirkt wie ein Schalter.
+Mit flughafen ? kann man den aktuellen Zustand abfragen.
+
+Syntax:
+   flughafen
+
+Beispiel:
+   flughafen
+
+------------------------------------------------------------------------------

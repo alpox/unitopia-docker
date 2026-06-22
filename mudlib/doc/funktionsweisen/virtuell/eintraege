@@ -1,0 +1,274 @@
+Folgende Einträge der v_items werden unterstützt:
+
+"Externes" vorweg:
+    Für Wasser - Einträge siehe /doc/funktionsweisen/wasser,
+    für tageszeitabhaengige V-Items siehe /p/Room/i/night_and_day.c,
+    für das "Fressen" für Hexenvertraute siehe
+        /p/INFO/Enzyclopedia/vertrautenfutter.
+
+
+Grundlegendes:
+
+    Name und Geschlecht müssen definiert sein!
+
+    name                Der Name des V-Items
+    cap_name		Der Name mit großen Anfangsbuchstaben
+			(falls anders als capitalize(vitem["name"]))
+    gender              Das Geschlecht des V-Items
+    adjektiv            ein einzelnes Adjektiv oder eine ganze Menge
+                        Adjektive des vitems, es wird beispielsweise bei
+                        "XYZ schaut sich die vielen, fliegenden Fische an."
+                        verwendet
+    id                  Die id braucht nur gesetzt zu werden, wenn das vitem
+                        auf mehr reagieren soll als den Namen (was allerdings
+                        meistens der Fall sein duerfte); wird dann als
+                        Menge angegeben.
+    invis		Folgende Einträge (bzw. Rückgabewerte bei Closures)
+                        sind möglich:
+			    V_VIS: V-Item ist normal sichtbar
+			    V_HIDDEN: V-Item ist versteckt. (Andere im Raum
+			              erhalten z.B. beim Betrachten, dass
+				      derjenige "etwas" betrachtet.)
+			    V_INVIS: Das V-Item ist überhaupt nicht sichtbar.
+    personal            Für personifizierte V-Items. (Wo der Name keine
+                        Artenbezeichnung darstellt.)
+    eigen               Für bestimmte V-Items. (V-Items, welche immer ein
+                        bestimmtes Pronomen verlangen.)
+    nummer		Die Nummer des V-Items. Die Nummer 0 wird genau
+			dann genommen, wenn der Spieler keine spezielle
+			Nummer angegeben hat. Falls man bei "id" ein Array
+			angegeben hat, so kann man hier ein Array mit den
+			korrespondierenden Nummern angeben.
+    plural              Handelt es sich bei dem vitem um etwas, was sich
+                        in der Mehrzahl befindet, wie beispielsweise "seile",
+                        so wird dies durch "plural":1 gekennzeichnet.
+    menge               Eine Mengenangabe. Das genaue Format steht in der
+                        Dokumentation zu set_menge/query_menge.
+    far			ist das vitem etwas weiter weg, so wird dies mit
+			"far":1 angezeigt. Dies wirkt sich aus aufs
+			riechen, horchen, fühlen, nehmen und angreifen,
+			bei lebenden vitems ("living", s.u.) auch auf die
+			Seelenbefehle.
+			Es wirkt sich nicht aus aufs lesen, da bei Sternen oder
+			Vögel am Himmel die Meldung, dass man sie nicht lesen
+			kann, weil sie zu weit weg sind, grausam wäre.
+			Wer ein fliegendes Buch machen will, muss halt ein
+			entsprechendes "read" basteln.
+			Man kann statt 1 auch selber eine Begründung angeben,
+			welche dann ausgegeben wird. (Diese muss aber auf
+			alle möglichen Aktionen passen.)
+    visible_in_the_dark Auch im Dunkeln sichtbar (Mond, Sterne,
+                        Glühwürmchen zum Beispiel)
+    debug_info		Ein Mapping (oder eine Closure, welche ein
+			Mapping zurueckliefert), welches abgefragt und
+			gespeichert wird, wenn ein Fehler am V-Item
+			abgesetzt wird. (Existiert dieser Eintrag nicht,
+			werden die Debug-Infos der Umgebung genommen.)
+			Das Mapping sollte nur Strings als Schlüssel
+			und Strings oder Zahlen als Werte beinhalten.
+    origin		Das Objekt, welches durch dieses V-Item vertreten
+			wird (z.B. das Spielerausweis-V-Item, welches
+			am Spieler klebt, vertritt das Spielerausweis-
+			Objekt im Inventar des Spielers, "origin" ist hier
+			also der Spielerausweis).
+
+
+Grammatikunterstuetzung:
+    genitiv             Falls definiert, benutzen Grammatikfunktionen diesen
+                        Eintrag bei Genitivgenerierung statt den Genitiv
+                        zu ermitteln. Sollte nur verwendet werden, wenn 
+                        die Deklinationsfunktionen Fehler beim Generieren
+                        des Genitivs machen.
+    dativ               Bewirkt wie der Eintrag "genitiv" die Benutzung des
+                        gesetzten Dativs statt eines automatisch generierten.
+    akkusativ           Wie bei den Einträgen "genitiv" und "dativ" wird 
+                        so ein alternativer Akkusativ angegeben.
+    prep                Wenn ein V-Item an einem Gegenstand oder anderem
+                        V-Item klebt, kann man damit die zugehörige
+                        Praepostion ("auf","in","unter","neben") angeben. Die
+                        Umgebung des V-Items wird im Dativ angehängt. (Dies
+                        wird nur zur Textausgabe verwendet, sonst nirgendwo.)
+
+    dekliniert          Ist dieser Eintrag enthalten und sinnvollerweise
+                        eine Closure, so rufen die Grammatik-Funktionen bei
+                        der Deklination des Namens die Closure mittels
+
+                        funcall(v_item["dekliniert"], fall,
+                            previous_object())
+                        auf statt den Namen selbst zu generieren.
+
+                        Ist der Rückgabewert 0, so wird auf herkömmlichem
+                        Wege versucht, den Namen zu deklinieren. Dieser
+                        Eintrag hat Vorrang vor den Einzelfall-Einträgen
+                        wie "genitiv".
+
+                        Die Defines für fall stehen in /sys/deklin.h (sind
+                        1-4 für Nominativ-Akkusativ), das Objekt
+                        interessent ist das Objekt, welches die
+                        Grammatikfunktion aufgerufen hat, die den Namen
+                        dekliniert haben will.
+
+                        Dieser Eintrag ist für Problemfälle der
+                        Deklination gedacht; im Allgemeinen dürften die
+                        Einzelfall-Einträge ausreichen.
+
+                        Ein Beispiel findet sich am Ende dieses Textes.
+                        
+Beschreibungen:
+    long                Aussehen eines vitems (betrachte X)
+    long_night          Aussehen bei Nacht
+    noise               Geräusch eines vitems (horche an X)
+    smell               Geruch des vitems (rieche an X)
+    read                Text, den man beim Lesen des vitems erhaellt.
+                        Natürlich nur angeben, wenn es was zum lesen gib.
+    feel                Wie sich ein vitem anfühlt (befuehle / betaste X)
+
+                        long, feel, noise, smell und read, werden automatisch
+                        umgebrochen.
+
+    seher_info          Extra Info - Text für die Sehergilde.
+
+
+Die Meldungen hierzu:
+
+    Die *_msg's werden für die anderen ausgegeben, wenn ein Spieler was mit
+    dem v_item macht. Sie sind vordefiniert.
+
+    look_msg            $Der(OBJ_TP) schaut $seinen('vitem) an
+    look_msg_night      $Der(OBJ_TP) schaut $seinen('vitem) an
+    read_msg            $Der(OBJ_TP) liest $seinen('vitem)
+    smell_msg           $Der(OBJ_TP) riecht an $seinem('vitem)
+    hear_msg		$Der(OBJ_TP) horcht an $seinem('vitem)
+    feel_msg            $Der(OBJ_TP) befühlt $seinen('vitem)
+
+
+Seele-Aktionen mit V-Items:
+    Für jede Seelenaktion mit Vitems als Partner gibt es zwei Einträge:
+    Beispiele für Knabbern:
+    "seele_knabber_msg": "Du knabberst an $dem('vitem)"
+    "seele_knabber_msg_other": "$Der(OBJ_TP) knabbert an $dem('vitem)"
+    Wenn sonstige Reaktionen erfolgen sollen gibt es auch was...
+    "seele_default_msg":"Du versuchst etwas, scheiterst aber kläglich.",
+    "seele_default_msg_other":"$Der(OBJ_TP) versucht etwas, "
+            "scheiterst aber kläglich.",
+    
+Aktionen mit vitems:
+    take                take wird ausgegeben, wenn jemand versucht, das
+                        v_item zu nehmen, was natürlich nicht geht.
+                        take wird automatisch umgebrochen.
+    take_msg            ist diese angegeben, so wird beim Versuch, das
+                        vitem zu nehmen, diese Meldungen an die anderen
+                        ausgegeben; ist sie nicht angegeben, so erscheint
+                        keine Meldung; take_msg wird automatisch umgebrichen.
+                        Beispiel: Sparschweinchen im Tadmorer Pub:
+                           "take":"Das Schweinchen wird lebendig und beißt "
+                                  "Dir ganz fürchterlich in die Hand. "
+                                  "Danach erstarrt das Sparschweinchen wieder "
+                                  "und guckt, als ob nix geschehen wär.",
+                           "take_msg":"Als $der(OBJ_TP) nach dem "
+                                  "Sparschweinchen auf der Theke greift wird "
+                                  "dieses lebendig und beißt $den(OBJ_TP) "
+                                  "ganz fürchterlich in die Hand. Danach "
+                                  "erstarrt das Sparschweinchen wieder und "
+                                  "guckt, als ob nix geschehen wär",
+    living              ein v-item kann als lebend eingestuft werden, indem
+                        man ihm den Eintrag "living":1 gibt. Dies kann dann
+                        von weis der Geier was allem ausgenutzt werden, diese
+                        vitems können dann geknuddelt, gewuschelt,
+                        gestreichelt und so weiter werden.
+    align               Die erkannte Gesinnung bei lebenden V-Items.
+    soul                Lebende v-items, die trotz ihrer Lebendigkeit nicht
+                        geknuddelt werden sollen, erhalten außer dem
+                        Eintrag "living":1 noch den Eintrag
+                        "soul":"Fehlermeldungstext".
+                        Beispiel: Wächter auf Stadtmauer:
+                            "living":1,
+                            "soul":"Der Wächter ist viel zu weit entfernt.",
+    attack              Lebende v-items und Kämpfe: Mit einem vitem kann
+    attack_msg          man natürlich nicht kämpfen, es kann die beiden
+                        folgenden Einträge enthalten:
+                           "attack":"Meldung an den Angreifer",
+                           "attack_msg":"Meldung an die anderen im Raum",
+                        attack_msg kann genauso wie take_msg wegbleiben.
+                        Beispiel: 
+                           Auf einem Baum sitzt ein Eichhörnchen, unerreichbar
+                           weit oben für einen Spieler:
+                           "attack":"Du springst wie blöde am Baum hoch, "
+                                    "kommst aber nicht an das Eichhörnchen "
+                                    "heran.",
+                           "attack_msg":"$Der(OBJ_TP) springt wie blöde am "
+                                    "Baum hoch, aber $er(OBJ_TP) hat zu "
+                                    "kurze Ärmchen, um an das "
+                                    "Eichhörnchen ranzukommen."
+    enter_room		Falls vorhanden, ist dieses V-Item betretbar.
+			Dieser Eintrag gibt dann den Zielraum an.
+			(Eine Closure wird mit dem V-Item und dem Lebewesen
+			als Parameter ausgewertet.)
+    enter_messages	Beinhaltet bei einem betretbaren V-Item die Verlassens-
+			und Ankunftsmeldung in einem Array. Pseudclosures
+			und Closures werden entsprechend ausgewertet.
+			(Closures wie bei enter_room.)
+			Bsp:
+			    "enter_messages": ({
+				"$Der(OBJ_TP) zwängt sich  in $den('vehikel).",
+				"$Der(OBJ_TP) kommt herangekrochen."
+			    })
+
+
+Automatisch generierte Einträge: (Diese Einträge sollte man nicht selber
+vornehmen, da sie überschrieben werden.)
+    environment		Verweist auf das umgebende V-Item oder auf das Objekt/
+			den Raum, an welchem dieses V-Item hängt.
+    v_item_master,	Diese Einträge sind interner Natur. Sie können sich
+    v_item_path		in der Zukunft noch ändern. Beide bilden zusammen
+			eine UNItopia-weit eindeutige Kennung des V-Items.
+			Diese Einträge werden add_/change_/delete_v_item
+			genutzt, um ein V-Item wiederzufinden.
+    
+
+Beispiele zu dekliniert:
+
+                        Beispiel 1:
+
+                        string v_item_name(int fall, object interessent)
+                        {
+                            return ({
+                               "Atlas",
+                               "Atlasses",
+                               "Atlasse",
+                               "Atlas",
+                               })[fall-1];
+                        }
+
+                        void create()
+                        {
+                            ...
+                            add_v_item(([
+                                "name":"atlas",
+                                "gender":"maennlich",
+                                "long":"Ein Atlas.",
+                                "dekliniert":#'v_item_name,
+                                ]));
+                        }
+
+                        Beispiel 2 für die Freunde von Inline-Closures:
+
+                        void create()
+                        {
+                            ...
+                            add_v_item(([
+                                "name":"atlas",
+                                "gender":"maennlich",
+                                "long":"Ein Atlas.",
+                                "dekliniert":
+                                    (:
+                                        ({
+                                            "Atlas",
+                                            "Atlasses",
+                                            "Atlasse",
+                                            "Atlas",
+                                            })[$1-1]
+                                    :),
+                                ]));
+                        }
+

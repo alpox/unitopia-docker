@@ -1,0 +1,9 @@
+FUNKTION: not_alone
+DEKLARATION: int not_alone(object ob)
+BESCHREIBUNG:
+Liefert 1 zurueck, wenn sich weitere Objekte mit derselben Id wie ob
+in der Umgebung von ob befinden.
+(wird beispielsweise zur Automatischen Artikel Auswahl (ART_AAA) in
+der Grammatik/Deklination verwendet.
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

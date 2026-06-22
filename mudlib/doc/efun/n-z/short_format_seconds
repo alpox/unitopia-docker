@@ -1,0 +1,8 @@
+FUNKTION: short_format_seconds
+DEKLARATION: string short_format_seconds(int seconds)
+BESCHREIBUNG:
+Liefert einen String der Form:
+'xd xh xm xs'
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_vseconds, short_format_vseconds, format_seconds
+SOURCE: /secure/simul_efun/time.inc

@@ -1,0 +1,82 @@
+
+Autoloader - Richtlinien
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Autoloader für Spieler müssen genehmigt werden, dies geschieht im
+  Gouverneursbüro. Dort kann man auch eine Liste aller genehmigten
+  Autoloader einsehen ("liste a").
+- beim Einloggen eines Spielers werden nur die Gegenstände aus dieser
+  Liste geladen
+- nur AutoLoader für Spieler müssen genehmigt werden.
+- um einen AutoLoader genehmigen zu lassen wende Dich an einen Admin
+  Deines Vertrauens (Brief, ansprechen).
+- jeder nicht für Spieler gedachte AutoLoader, jedes "GoetterTool" muss
+  abgesichert sein.
+     Bsp.1: Ein Tool, das nur für Götter ist:
+            #include <level.h>
+            ...
+            void init ()
+            {
+                KEINE add actions!
+                if (this_player() != environment()) return;
+                if (!wizp (this_player())) {
+                    call_out ("remove",0);
+                    return;
+                }
+                add_actions
+            ...
+            Beispiel: /p/garthan/obj/wicht.c, /i/zauberstab/zauberstab.c
+
+     Bsp.2: Ein Gegenstand, den Spieler haben dürfen, der aber für
+            Götter zusätzliche Funktionen hat:
+            #include <level.h>
+            ...
+            void init ()
+            {
+                if (this_player() != environment()) return;
+                add_actions für Spieler und Wizards
+                if (wizp (this_player())) {
+                    zusätzliche add_actions für wizards
+                }
+            }             
+
+
+Um die Entscheidung, welche AutoLoader genehmigt werden, nicht zur
+Willkuerentscheidung werden zu lassen, gibt es folgende
+Entscheidungsrichtlinien, anhand derer man seine eigenen AutoLoader
+selbst überprüfen kann:
+
+- Als AutoLoader sind grundsätzlich keine Rüstungen, Waffen, Kleider
+  und sonstige Gebrauchsgegenstände zugelassen
+- Ein AutoLoader darf einem Spieler keine Vorteile gegenüber
+  anderen verschaffen
+- der AutoLoader muss ins Mud passen, das spielt nun mal bis auf den
+  Campus in der weit entfernten Vergangenheit
+  (also keine Kuschelroboter oder Taschenlampen oder ähnliches, gilt 
+  natürlich nicht nur für AutoLoader)
+- mindestens Gewicht 1 (Ausnahme: Gildentools)
+- der Spieler muss den Autoloader loswerden können und zwar "relativ
+  leicht".
+- es muss einen logischen Grund dafür geben, warum der Gegenstand ein
+  AutoLoader sein soll; für das Thermometer der Alchis gibts zum
+  Beispiel absolut keinen Grund, einen Ehering steckt man aber an
+  den Finger, einen Schnuller hängt man um den Hals; dieser Punkt 
+  ist vermutlich in vielen Fällen nicht eindeutig zu entscheiden;
+  Kleidungsstücke jedoch sind nie AutoLoader, sonst gibts Chaos
+- ein AutoLoader ist nicht käuflich erwerbbar, man erhält ihn
+  für eine besondere Leistung, beispielsweise für ein Rätsel
+  oder Spiel oder für ein Minirätsel, für das es eben keine
+  EPs sondern eben den AutoLoader gibt, oder als Belohnung für den
+  höchsten in einer Gilde erreichbaren Rang; eine Ausnahme wird 
+  vermutlich der Druidenflugpass sein, der wird allerdings zu einem 
+  Jahresflugpass werden, ein Spieljahr nach Kauf wird er ungültig
+- ein AutoLoader darf keine gildentypischen Funktionen enthalten
+  (beispielsweise: brülle zu allen Spielern, die diesen AutoLoader
+  haben, sende einen Gegenstand an einen anderen Spieler)
+- ein AutoLoader darf prinzipiell keine mächtigen Funktionen haben,
+  die dem Spieler deutliche Vorteile verschaffen; dafür sind die
+  Gilden da
+- der AutoLoader sollte einen deutlichen Bezug zu UNItopia haben, also
+  beispielsweise keine Elvis-Fan-Club-Buttons
+- da ich immer die wichtigsten Dinge vergesse gibts garantiert noch
+  irgendwas, was ungeheuer wichtig ist, was mir jetzt nicht einfällt

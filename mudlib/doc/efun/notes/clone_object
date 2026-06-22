@@ -1,0 +1,8 @@
+
+        In UNItopia kann clone_object() auch lokale Pfade übergeben werden:
+	    ob = clone_object("../obj/fackel");
+	oder per Suchpfad:
+	    ob = clone_object("%fackel");
+	Dabei wird vom lokalen Verzeichnis aus, in allen Verzeichnissen
+	.../obj/fackel.c gesucht.
+

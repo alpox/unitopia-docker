@@ -1,0 +1,116 @@
+Weitere Rollenbefehle
+~~~~~~~~~~~~~~~~~~~~~
+
+1. Kann ich Funktionen ohne einen Befehl für den NPC aufrufen?
+--------------------------------------------------------------
+
+Es ist möglich auf eine einzelne Zeile einen beliebigen Term zu schreiben,
+welcher dann ausgeführt wird. Danach wird allerdings nicht auf Auto_Pause
+geachtet.
+
+Beispiel:
+
+   environment()->action();
+   
+Zusammen mit einer if-Funktion sieht das schon wie echter LPC-Code aus:
+
+   if(!present_clone("/obj/soul",this_object()))
+     clone_object("/obj/soul")->move(this_object());
+
+     
+2. Wie kann ich eine Rolle anhalten, und auf eine bestimmte Gegebenheit warten?
+-------------------------------------------------------------------------------
+
+Dafür gibt es den Befehl: "Wait <Term>". Die Rolle wird solange
+angehalten, bis <Term> einen Wert != 0 zurückgibt. Die Funktion
+wird während jedes Heart-Beats aufgerufen, d.h. alle 2 Sekunden!
+
+Beispiel:
+
+   1: sage Wo bleibt denn mein Partner?
+   Pause: 1
+   Wait present("partner_id",environment())
+   1: sage Huhu Partner! :-)
+
+
+3. Was bewirkt der "Time_Out"-Befehl?
+-------------------------------------
+
+Mit Hilfe des "Time_Out"-Befehls besteht die Möglichkeit, eine Position
+im Rollentext nach einer festgelegten Zeit anzuspringen, und währenddessen
+die Rolle weiterlaufen zu lassen.
+Die Syntax des Befehls lautet:
+
+   Time_Out <Zeit>, <Label>
+
+z.B.:
+
+   Time_Out 60+random(120), \
+            ({"Schlägerei","Woanders","NochnGetraenk"})[random(3)]
+
+
+Mit Hilfe des Befehls
+
+   Stop_Time_Out
+
+kann man diesen Vorgang vorzeitig unterbrechen.
+ 
+ 
+4. Kann eine Rolle sich selbst abbrechen?
+-----------------------------------------
+
+Ja, dafür gibt es das Kommando "Stop"
+
+z.B.:
+
+   if( nothing_here() )
+   {
+      1: sage Moensch, nix los hier!
+      Stop
+   }
+
+
+5. Kann man in einer Rolle eine neue Rolle aufrufen?
+----------------------------------------------------
+
+Natürlich, warum auch nicht?
+Dazu dient der Befehl:
+
+   Wechsel_Rolle: <file> [, <label>]
+
+z.B.:
+
+   if( check_present(jost) )
+      Wechsel_Rolle: "/d/MeinGebiet/ich/rolle"+random(2)
+
+Hier wird entweder rolle0 oder rolle1 gestartet.
+Die alte Rolle wird danach NICHT weiter abgehandelt!
+
+Die Rolle kann auch relativ zur aktuellen angegeben werden:
+
+   Wechsel_Rolle: "../andere_rolle"
+
+
+6. Kann ich die Typ der Meldung für send_message angeben?
+---------------------------------------------------------
+
+Klar, das geht mit:
+
+   Message_Type: msg_type, msg_action
+
+z.B.:
+
+   Message_Type: MT_NOISE|MT_LOOK, MA_PUT
+
+Alle nachfolgenden send_message-Meldungen erhalten dann diese Werte als Typ.
+
+
+7. Kann ich andere Dateien einfügen?
+------------------------------------
+
+Ja, und zwar funktionieren die Preprozessorbefehle aus LPC und C in den
+Rollen auch. Dazu gehören:
+
+#include, #if, #ifdef, #ifndef, #else, #elif, #undef und #define.
+
+Das #include mit <> ist auf Dateien mit der Endung .h oder .inc beschränkt.

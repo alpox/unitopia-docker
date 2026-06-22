@@ -1,0 +1,15 @@
+FUNKTION: real_time_diff
+DEKLARATION: int real_time_diff(int zeit_von, int zeit_bis)
+BESCHREIBUNG:
+Liefert aus zwei Spielzeiten (Format: hhmmss)
+die Differenz in realen Sekunden zurueck.
+Ist der zweite Parameter kleiner als der erste, so wird
+ein Spieltag (!) hinzuaddiert.
+Anwendung zB bei call_outs.
+
+Beispiel:
+       real_time_diff(11259,20011)  -->  314
+
+VERWEISE: vtime, vclock, clock
+GRUPPEN: simul_efun, zeit
+SOURCE: /secure/simul_efun/time.inc

@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+Dies ist die Fehlerübersicht für einen Bereich.
+Mögliche Befehle:  (Angaben in [ ] sind optional.)
+    <nr>          Fehler Nummer <nr> im Detail betrachten.
+    n             Den ersten neuen Fehler im Detail betrachten.
+    N <nr>[-<nr>] Fehler als ungelesen markieren.
+    m <nr>[-<nr>] Fehler als gelesen markieren.
+    < / >         Zur ersten / letzten Seite der Übersicht springen.
+    u             Eine Seite hochblättern.
+    a <nr>[-<nr>] Gruppe/Gott
+                  Ihn bei allen Fehlern als zuständigen Debugger eintragen.
+    A <nr>[-<nr>] Objekt/Datei
+                  Bei allen Fehlern als neuen 'File'-Eintrag verwenden und
+                  passende Debugger mit eintragen.
+    l <nr>[-<nr>] Fehler mit den angegebenen Nummern aus der FDB löschen
+                  oder (bei bereits gelöschten Fehlern in der Backup-Gruppe)
+                  Fehler wiederherstellen.
+    v <nr>[-<nr>] Fehler aus Deiner Übersicht entfernen.
+                  (klappt nur, wenn Du nicht der einzig zuständige für den 
+                  den Fehler bist). v <nr>-<nr> * wird per default zu
+                  v <nr>-<nr> *,!*:Done
+    w <nr>[-<nr>] <+t|datum>    
+                  Fehler zur Wiedervorlage markieren
+                  +t: Anzahl Tage oder zukünftiges Datum.
+    W <nr>[-<nr>] Fehler aus allen Wiedervorlagen entfernen
+    Z [-t] [-i] <nr>-[<nr>]
+                  Alle Fehler auf einmal anzeigen.
+                  -t: Auch Trace mitanzeigen
+                  -i: Auch Debuginfos anzeigen
+    z             Zurück zur Bereichsanzeige / Fehlerübersicht neu Ausgeben.
+    q / ?         Browser Beenden / Diese Hilfe.
+-------------------------------------------------------------------------------

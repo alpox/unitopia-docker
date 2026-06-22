@@ -1,0 +1,87 @@
+Controller
+----------
+
+Die Grundfunktionen (set, query, add, delete) sind nomask und damit nicht
+ueberlagerbar. Abweichungen vom Standardverhalten sollten einerseits über
+die Definition der Properties (dazu später mehr) und über Controller
+geschehen. Jeder Controlleraufruf geschieht dazu zweimal, einmal ohne und
+einmal mit Attributnamen im Controllernamen. Die Controller werden im
+Item mit der jeweiligen Property aufgerufen.
+
+Beim Setzen sind dies (in dieser Reihenfolge):
+
+    modify_set(mixed neuer_wert, string property_name,
+               mixed alter_wert, object aufrufer, object item);
+    modify_set_<propertyname>(mixed neuer_wert, string property_name,
+               mixed alter_wert, object aufrufer, object item);
+
+    forbidden_set(string property_name, mixed neuer_wert,
+               mixed alter_wert, object aufrufer, object item);
+    forbidden_set_<propertyname>(string property_name, mixed neuer_wert,
+               mixed alter_wert, object aufrufer, object item);
+
+    notify_set(string property_name, mixed neuer_wert,
+               mixed alter_wert, object aufrufer, object item);
+    notify_set_<propertyname>(string property_name, mixed neuer_wert,
+               mixed alter_wert, object aufrufer, object item);
+
+
+Beim Abfragen:
+
+    modify_query(mixed wert, string property_name,
+                 mixed info, object aufrufer, object item);
+    modify_query_<propertyname>(mixed wert, string property_name,
+                 mixed info, object aufrufer, object item);
+
+
+Beim add():
+
+    modify_add(mixed add_wert, string property_name,
+               mixed key, mixed alter_wert, object aufrufer, object item);
+    modify_add_<propertyname>(mixed add_wert, string property_name,
+               mixed key, mixed alter_wert, object aufrufer, object item);
+
+    forbidden_add(string property_name, mixed key,
+               mixed add_wert, mixed alter_wert, object aufrufer, object item);
+    forbidden_add_<propertyname>(string property_name, mixed key,
+               mixed add_wert, mixed alter_wert, object aufrufer, object item);
+
+    notify_add(string property_name, mixed key,
+               mixed add_wert, mixed alter_wert, object aufrufer, object item);
+    notify_add_<propertyname>(string property_name, mixed key,
+               mixed add_wert, mixed alter_wert, object aufrufer, object item);
+
+
+Beim delete():
+
+    forbidden_delete(string property_name, mixed key,
+               mixed alter_wert, object aufrufer, object item);
+    forbidden_delete_<propertyname>(string property_name, mixed key,
+               mixed alter_wert, object aufrufer, object item);
+
+    notify_delete(string property_name, mixed key,
+               mixed alter_wert, object aufrufer, object item);
+    notify_delete_<propertyname>(string property_name, mixed key,
+               mixed alter_wert, object aufrufer, object item);
+
+
+   Die Namen der Controller enthalten den vollständigen Property-
+   Namen, also inklusive Präfix, um Mehrdeutigkeiten zu vermeiden.
+   Da es saudoof ist, Funktionsnamen wie
+        notify_set_Ebenen__Okeanos__Unterwasserwelt__luftmenge(...)
+   zu schreiben, sollte man der Funktion lieber einen einfachen Namen
+   geben und sie als Closure anmelden:
+
+        private void notify_set_luftmenge(...);  
+
+        add_controller(NOTIFY_SET(P_UW_LUFTMENGE), #'notify_set_luftmenge);
+
+   Zu beachten ist dabei, dass Closures als Controller einen zusätzlichen
+   ersten Parameter (den Controllernamen, einen String) bekommen. Wer
+   Closures nicht will, weil die beim Zernen verschwinden, für den gibt's
+   ein Makro in <control.h>, welches über den Closure-Container geht:
+
+        add_controller(NOTIFY_SET(P_UW_LUFTMENGE),
+            CONTROLLER_CALL("notify_set_luftmenge"))
+
+   Hierbei gibt's keinen zusätzlichen ersten Parameter.

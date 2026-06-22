@@ -1,0 +1,52 @@
+FUNKTION: query_deklin_ein_adjektiv
+DEKLARATION: varargs string query_deklin_ein_adjektiv(string|<string|int>* adj, int fall, string gender_string, int plural)
+BESCHREIBUNG:
+Diese Funktion liefert ein dekliniertes Adjektiv.
+
+adj
+   hat die Syntax eines ELEMENTS der Adjektivliste:
+      string        Grundform eines Adjektivs           "gruen", "blau",...
+         ODER
+      string *      Ein zweielementiges Feld:           ({"lila", "lilan"})
+                    ({ grundform, unregelmaessiger_wortstamm })
+         ODER
+      string|int*   Ein zweielementiges Feld:           ({"rosa",
+                                                          ADJ_NICHT_DEKLIN })
+                    ({ grundform, art })
+         ODER
+      string *      Ein einelementiges Feld:            ({"blau"})
+
+fall  (default 1)
+      1            Nominativ (mit bestimmtem Artikel davor)
+      2            Genitiv        "          "
+      3            Dativ          "          "
+      4            Akkusativ      "          "
+      5            Nominativ (mit unbestimmtem Artikel davor)
+      6            Genitiv        "          "
+      7            Dativ          "          "
+      8            Akkusativ      "          "
+      9            Nominativ (ohne Artikel davor)
+     10            Genitiv        "          "
+     11            Dativ          "          "
+     12            Akkusativ      "          "
+
+gender_string   (default saechlich)
+      "saechlich"
+      "maennlich"
+      "weiblich"
+
+plural   (default 0)
+      0            Singularform
+      1            Pluralform
+
+An sich braucht man diese Funktion nie direkt, da man alles auch mit
+den Funltionen wer,wessen,wem,wen und dessen Spezialformen erreichen kann.
+
+BEISPIEL:
+   query_deklin_ein_adjektiv("gross", FALL_DAT, "maennlich")   --> "grossen"
+
+VERWEISE: set_adjektiv, query_adjektiv, adjektiv,
+          add_adjektiv, delete_adjektiv,
+          query_deklin_adjektiv, query_deklin, wer, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

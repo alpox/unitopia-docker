@@ -1,0 +1,140 @@
+Wie funktioniert ein Laden ?
+
+Hier werden nur Läden diskutiert, die Objekte an- und wieder verkaufen,
+reine Verkaufs-Läden sind ja in der programmierung weniger problematisch.
+
+So ein Laden ist eine sehr komplexe Sache, man sollte sich lieber den bereits
+vorhandenen Laden /room/laden/*.c kopieren und ihn entsprechend abändern.
+
+1. Grundlegende Eigenschaften von Läden
+
+   a. Räume
+
+   Ein Laden besteht in der Regel aus dem für Spieler zugänglichen 
+   Verkaufsraum und den nur für Götter zugänglichen Lagerräumen.
+
+   b. Ankauf
+
+   Beim Ankauf eines Objektes soll zuerst in ihm gefragt werden,
+   ob es zum Handeln gedacht ist. Dies geschieht, indem im Objekt
+   die Routine
+
+               int query_sellable()
+
+   aufgerufen wird. Nur wenn darauf 1 zurückgeliefert wird, darf damit
+   gehandelt werden.
+
+   Nun wird der Wert des Objektes mittels der Routine
+
+               int query_value()
+
+   in der BASIS-WÄHRUNG TALER festgestellt. Will man andere Währungen
+   verwenden, so sollte man diesen Wert erst anhand eines eigenen Wechselkurses
+   umrechnen.
+
+   Daraufhin wird das Objekt in einen der Lagerräume transferiert,
+   /obj/money geclont, dessen Währung und Menge gesetzt und in
+   den Spieler transferiert.
+
+   c. Verkauf
+
+   Zum Verkauf stehen alle Objekte, die sich in einem Lagerraum des Ladens
+   befinden. Die Überprüfung von query_sellable() sollte auch hier
+   stattfinden.
+
+   Der Preis, um den die Waren verkauft werden, ist frei aushandelbar,
+   im Allgemeinen liegen sie jedoch um ca das Doppelte über dem Einkaufs-
+   Preis (Wechselkurs beachten!).
+
+   Falls der Spieler genugend Geld der entsprechenden Währung bei sich hat,
+   festzustellen zB mit
+
+         money = present(waehrungs_name,this_player());
+         wieviel = (int)money->query_money();
+
+   zieht man dem Spieler mit
+
+          add_money(-preis);
+
+   das Geld ab und transferiert ihm die Ware zu.
+
+
+2. Funktion von /room/laden/verkaufsraum.c
+
+   Alle benötigten Routinen sind in den Inherit-File /i/money/shopping
+   und /i/money/exchange ausgelagert; es müssen nur noch im create()
+   diverse Setze-Routinen aufgerufen werden.
+
+   a. Lagerräume
+
+      Um die Anzahl der Objekte pro Raum möglichst gering zu halten,
+      werden die verschiedenen Waren in verschiedenen Räumen gelagert.
+      Beispielsweise werden Waffen in einem anderen Raum gelagert als
+      Rüstungen oder Kleidungen. 
+      Mit set_store_room(string *kommando, string *file_name, string *routine)
+      werden 
+      I.   die Kommandos mit denen ein Spieler einen Teil des Angebotes
+           listen oder kaufen kann,
+      II.  die Räume in denen die jeweiligen Angebotsgruppen
+           gelagert werden,
+      III. und die Routinen mit denen geprüft wird in welche Gruppe ein
+           Objekt gehört,
+      festgelegt. Hierbei ist zu beachten, dass die Reihenfolge der Tests
+      bei einer Ware genau die ist, in der die Routinen angegeben werden.
+      Dies bedeutet, dass der letzte Test immer zutreffen muss, damit
+      auf jeden Fall ein Raum gefunden wird, in dem die Waren dann landet.
+      (Am sinnvollsten ist hier wohl die routine 'query_value')
+      Man kann eigene Räume machen, in denen die Waren abgelegt werden,
+      oder man kann durchaus auch die Lagerräume des /room/laden/verkaufsraum
+      (/room/laden/waffen|sonstiges|ruestungen|kleidungen) hier verwenden,
+      da hierdurch das Angebot an Waren für die Spieler steigt.
+      Wenn das Angebot in dem Laden selbst groß genug ist, sollten
+      eigene Lagerräume verwendet werden.
+
+   b. Währung
+
+      Die Währung, mit der im Laden gehandelt wird, kann mit der Routine
+      set_valuta(string waehrungs_name_einzahl) gesetzt werden.
+
+      Den Wechselkurs gibt man mit folgenden Routinen an:
+
+            set_valuta_tafel(string *Waehrungs-Namen-Einzahl)
+            set_valutas_tafel(string *Waehrungs-Namen-Mehrzahl)
+            set_kurs_tafel(int *kurse)
+
+      Näheres siehe /doc/funktionsweisen/handel/wechselkurs.
+
+      Damit der Laden funktioniert, muss auf jeden Fall eine Minimal-
+      Kurs-Tabelle gesetzt werden:
+  
+      Wenn die Währung des Ladens "taler" ist:
+                 set_valuta_tafel(  ({"taler"}) );
+                 set_valutas_tafel( ({"taler"}) );
+                 set_kurs_tafel(    ({ 1000  }) );
+
+      und wenn sie zB "zorkmid" heißt:
+                 set_valuta_tafel(  ({"taler", "zorkmid" }) );
+                 set_valutas_tafel( ({"taler", "zorkmids"}) );
+                 set_kurs_tafel(    ({ 1000,    2000     }) );
+
+
+   c. Preis-Limit
+
+      Den höchsten Preis, den der Laden für ein Objekt zahlt,
+      kann mit set_max_value(int limit) gesetzt werden.
+
+   d. Kommandos
+
+      - wert <etwas>
+      - verkaufe <etwas>
+      - verkaufe alles
+      - für jedes Kommando das gesetzt wird:
+        - <kommando> 
+        - <kommando> <name>
+        - <kommando> kaufe <name|nr>
+
+   e. Limit für die listenden Kommandos
+
+      Es ist ein Limit vorgegeben, das vor 'Too long evaluation'-Fehlern
+      schützen sollte. Eine Änderung diese Wertes ist nicht mehr vorgesehen.
+

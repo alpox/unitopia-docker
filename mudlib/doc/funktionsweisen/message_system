@@ -1,0 +1,190 @@
+Das neue Message System.
+------------------------
+
+Messages werden in der Mudlib über eine ganze Menge von Funktionen erzeugt.
+State of the Art sind momentan die folgenden 6 Lfuns(Lfun-Gruppe message):
+
+    set_message_filter 
+    query_message_filter 
+    propagate_message_to_env 
+    send_message_to 
+    send_message 
+    receive_message
+
+Zu diesen Funktionen gibt es in der Enzyclopedia UNItopia jeweils einen
+Eintrag.
+-------------------------------------------------------------------------------
+Machen wir erst mal ein Beispiel:
+Ein Spieler tritt in einem speziellen Raum gegen ein v_item "felsblock":
+#include <message.h>
+
+add_v_item(([
+    "name":"felsblock",
+    "gender":"maennlich",
+    "id":({"felsblock", "fels", "block"}),
+    "long":"Ein großer Felsblock. Sieht so aus, als könne man dagegen "
+	    "treten"]));
+
+Im init ist eine add_action:
+    add_action("treten", "tritt");
+
+Und nu braucht man ein treten():
+int treten(string str) {
+    mapping stein;
+    if (here(str, "felsblock", &stein)) {
+	this_player()->send_message_to(this_player(), MT_NOTIFY, MA_MOVE,
+	    "Du trittst volle Kanone gegen "+den(stein)+". AUA!\n");
+	this_player()->send_message(MT_LOOK, MA_MOVE,
+	    wrap(Der()+" tritt volle Kanone gegen "+den(stein)+". Das "
+	    "muss doch weh tun."), "", this_player());
+	this_player()->send_message(MT_NOISE, MA_MOVE,
+	    wrap(Der()+" schreit laut auf."), "", this_player());
+	this_player()->add_hp(-5);
+	return 1;
+    }
+}
+
+-------------------------------------------------------------------------------
+Zum Beispiel gibt's zu sagen:
+- Der Raum inherited zwar auch message.c, aber es ist nicht der Raum, der die
+  Messages erzeugt, sondern der Player, also wird das bei dem aufgerufen.
+  So werden dann auch die richtigen Filter (so sie existieren) ausgewertet.
+- Man hätte die 2 send_message() auch in einer formulieren können:
+	this_player()->send_message(MT_LOOK | MT_NOISE, MA_MOVE,
+	    wrap(Der()+" tritt volle Kanone gegen "+den(stein)+". Das "
+	    "muss doch weh tun.\n"+Der()+" schreit laut auf."), 
+	    "", this_player());
+  Das hat aber den Nachteil, dass ein Tauber Spieler trotzdem den Schrei
+  "hört", es sei denn, er ist auch blind. (Message Types kann man |ern,
+  die Message wird aber weitergeleitet, wenn nur einer der angesprochenen
+  Sinne funktioniert)
+------------------------------------------------------------------------------- 
+Was ist jetzt dieses MT_XXXX und MA_XXXX?
+
+Messages haben einen Typ und eine Aktionsart, dazu gib es in 
+/sys/message.h jeweils defines:
+
+Message-Typ: 
+Der Typ definiert, welcher Sinn beim Empfänger der Message
+angesprochen wird:
+    MT_UNKNOWN	Sollte nicht verwendet werden, ist eine Notlösung
+    MT_LOOK   	alles, was man sieht
+    MT_NOISE  	alles, was man hört
+    MT_FEEL   	alles, was man fühlt
+    MT_TASTE  	alles, was man schmeckt
+    MT_SMELL  	alles, was man riecht
+    MT_SENSE    alle übersinnlichen Wahrnehmungen, z.B. rede
+    MT_NOTIFY   Statusmeldungen: "Ok.", "Du nimmst den Blasuelz."
+    MT_CHANNEL  Kurier-Kanäle.
+    MT_FAR      alles, was aus der Ferne kommt (nicht vom gleichen Raum)
+    MT_DEBUG    Debugmeldungen (geht nur an Goetter)
+
+Message-Aktionen:
+Die Aktion legt fest, durch welche Aktion eine Message ausgelöst wird
+    MA_UNKNOWN		Die Notlösung. 
+    MA_LOOK        	Jemand sieht etwas an
+    MA_NOISE       	Jemand macht ein Geräusch
+    MA_FEEL         	Jemand betastet etwas
+    MA_TASTE        	Jemand leckt etwas ab
+    MA_SMELL       	Jemand schnüffelt herum
+    MA_SENSE        	Jemand macht eine übersinnliche Wahrnehmung
+    MA_PUT          	Jemand legt etwas hin
+    MA_TAKE        	Jemand nimmt etwas
+    MA_MOVE_IN     	Jemand betritt den Raum
+    MA_MOVE_OUT    	Jemand betritt verlässt Raum
+    MA_MOVE        	Jemand bewegt sich
+    MA_EMOTE       	Jemand grinst (oder so)
+    MA_FIGHT        	Jemand kämpft
+    MA_WIELD       	Jemand führt eine Waffe
+    MA_UNWIELD     	Jemand senkt eine Waffe
+    MA_WEAR        	Jemand zieht etwas an
+    MA_UNWEAR      	Jemand zieht etwas aus
+    MA_EAT         	Jemand isst etwas (kotzen ist ein MA_EMOTE,
+    			kein MA_UNEAT)
+    MA_DRINK       	Jemand trinkt etwas
+    MA_COMM        	Jemand sagt was
+    MA_MAGIC       	Keines von alledem, is aber magisch
+    MA_READ             Jemand liest etwas
+    MA_USE              Jemand benutzt etwas
+    MA_CRAFT            Jemand werkelt rum (bearbeitet etwas)
+    MA_REMOVE           Etwas verschwindet.
+	
+Wozu braucht man das? Na klar, um effektive Filter zu bauen. So kann man
+nun selektiv jeden einzelnen Sinn des Spielers blockieren oder
+festlegen, dass eine Tasche z.B. nur Geräusche nach außen dringen lässt,
+aber keine Gerüche (bei Stofftaschen des Mittelalters eher unrealistisch).
+-------------------------------------------------------------------------------
+Message Filter:
+
+Im Standard-Container sind die Funktionen set_message_filter() und das
+Gegenstück query_message_filter() definiert, mit denen man sehr einfach
+eine Tasche definiert, die nur Geräusche durchlässt. (Nehmen wir mal
+an, ein Spieler hat einen Wecker in der Tasche, den kann man natürlich
+klingeln hören. Außerdem liegt ein Käse drin, der gelegentlich
+Gestankwolken von sich gibt, was man dann auch im Raum riecht.)
+
+Dazu muss man einfach set_message_filter(MT_NOISE | MT_SMELL) in der
+Tasche aufrufen und die entsprechende Message wird an das Environment 
+der Tasche weitergeleitet. 
+
+Damit man von außen Fragen kann, welche Message-Eigenschaften (geruchsdicht,
+schalldicht, blickdicht) ein Container hat, kann man den Message Filter 
+auch mit query_message_filter() abfragen.
+
+ACHTUNG: Das Argument von set_message_filter() gibt an, welche Meldung
+durchgelassen werden soll. Mit MT_MASK kann man einen Container definieren,
+der alle Message-Typen passieren lässt.
+-------------------------------------------------------------------------------
+receive_message:
+
+Ein Objekt, das Messages empfangen können soll, muss die ALfun
+receive_message() definieren. Livings haben das bereits, aber auch tote
+Objekte können Messages über diese Funktion empfangen.
+
+#include <message.h>
+void receive_message(int msg_type, int msg_action, object who, string msg) {
+    if (msg_type & MT_NOISE) {
+	send_message_to(owner, msg_type, msg_action, 
+	    "Dein magisches Ohr hört:\n"+msg);
+    }
+}
+-------------------------------------------------------------------------------
+Ich hab hier ein halbes MB an Sourcen, aber die verwenden say, write, 
+tell_room, tell_object usw.
+
+Konvertierung dieser Funktionen ist leider nicht automatisierbar, der 
+Messagetyp und der Aktionstyp ist jeweils für jede einzelne Message zu
+wählen. Oft macht es auch Sinn, die Message zu splitten, um die
+angesprochenen Sinne zu trennen.
+
+urheber ist typischerweise this_object(), also das Objekt, das die Message
+erzeugt, auslöser this_player(), also das Objekt, das die Message auslöst.
+MT_XXX, MA_YYY sind die jeweils ausgeknobelten Types. Und nicht vergessen:
+Bei der Konvertierung muss bei jedem File, das Messages verwendet, ein
+#include <message.h> oben rein.
+
+say("blablub")             => urheber->send_message(MT_XXX, 
+					MA_YYY, 
+					"blablub",
+					"", 
+					({urheber, ausloeser}))
+write("blablub")           => urheber->send_message_to(ausloeser, 
+					MT_XXX,
+					MA_YYY,
+					"blablub")
+tell_object(ob, "blablub") => urheber->send_message_to(ob,
+					MT_XXX,
+					MA_YYY,
+					"blablub")
+tell_room(raum, "blablub") => raum->send_message(MT_XXX,
+					MA_YYY,
+					"blablub")
+printf(format, var, ...)   => urheber->send_message_to(ausloeser, 
+					MT_XXX,
+					MA_YYY,
+					sprintf(format, var, ...))
+message("blablub",         => urheber->send_message(MT_XXX,
+	"suelz", 			MA_YYY,
+	({ob1, ob2 }))			"blablub",
+					"suelz",
+					({ob1, ob2}))

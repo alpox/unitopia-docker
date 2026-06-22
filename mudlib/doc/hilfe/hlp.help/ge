@@ -1,0 +1,15 @@
+------------------------------------------------------------------------------
+
+Diese Gabe erlaubt Dir, Dir einen Geruch zu verpassen.
+
+Syntax:
+   geruch [<Text>]
+
+Fehlt <Text>, so wird der Geruch gelöscht.
+
+Beispiel:
+   geruch Garthan riecht nach dem Duft aus dem hellblauen Fläschchen\n
+          in der obersten Reihe des Regals in der Parfumerie von Mentila.
+(Alles in eine Zeile, Zeilenumbruch durch \n)
+
+------------------------------------------------------------------------------

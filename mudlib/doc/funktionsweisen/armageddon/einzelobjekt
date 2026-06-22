@@ -1,0 +1,38 @@
+Ein Einzelobjekt in diesem Zusammenhang steht für ein ausprogrammiertes 
+Objekt, dass inkl. der hier vorgestellten Funktionen nur noch geclonet und
+an seinen Bestimmungsort bewegt werden muss. Im Gegensatz dazu stehen
+mudlibaehnliche Objekte, welche über eine Reihe von set-Funktionen noch 
+adaptiert werden, bevor sie bewegt werden. Letztere Kategorie wird bei den
+Factories behandelt.
+
+Die hier vorgestellten Funktionen sind:
+- string precheck_conservation()
+- mixed query_conservation_arg()
+- void init_conservation_arg(mixed m)
+- float query_conservation_item_rent()
+- clear_initial_conservation_data()
+
+- string precheck_conservation()
+Wenn ein Gegenstand grundsätzlich oder in einem bestimmten, inneren Zustand
+nicht eingelagert werden soll, so kann precheck_conservation den Grund
+zurückgeben, der eine Standardmeldung damit ablöst. Liefert diese 0,
+werden weitere Prüfungen zur Einlagerung durch geführt.
+
+- mixed query_conservation_arg()
+Um den inneren Zustand eines Objektes zu sichern, 
+so muss query_conservation_arg diese Datenstrukturen zurueckliefern.
+Existiert diese Funktion nicht oder liefert sie 0, so kann der Gegenstand 
+nicht eingelagert werden. (Ausnahme Factory, siehe dort.)
+
+- void init_conservation_arg(mixed m)
+Die von query_conservation_arg gespeicherten Daten werden beim auslagern
+(=wiederherstellen) an das Objekt zur Initialisierung übergeben.
+
+- float query_conservation_item_rent()
+Das Objekt kann diese Methode überlagern, falls die Gegenstandsmiete 
+dynamisch anzupassen ist. Alternativ gibt es auch eine Property zum setzen.
+
+- clear_initial_conservation_data();
+Sollte am Ende vom Create verwendet werden, da mudlib-ähnliche Veränderungen
+am Objekt mitgespeichert werden können.
+

@@ -1,0 +1,15 @@
+FUNKTION: unliste
+DEKLARATION: string * unliste(string str [, string pad, ...])
+BESCHREIBUNG:
+Versucht aus einer Aufzaehlung wieder ein String-Array zu machen.
+Es ist auch moeglich, mehrere pad anzugeben. Gibt man pad als 0
+an, so wird gar nicht erst nach einem solchen gesucht.
+
+    unliste("eins, zwei und drei")
+        -> ({"eins", "zwei", "drei"})
+
+    unliste("gruen, rot oder blau", " und ", " oder ")
+        -> ({"gruen", "rot", "blau"})
+VERWEISE: liste
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc

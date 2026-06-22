@@ -1,0 +1,8 @@
+Es können nun vorbereitete Objekte vor Armageddon sicher eingelagert werden.
+Diese Objekte können in Standardobjekte, Einzelobjekte, Shadows und 
+Factory-Objekte unterteilt werden.
+Für jedes Objekt gibt es z.T. andere Verfahren, um sie einlagerbar zu machen,
+ergänzt durch Properties.
+Auch wenn es nicht einlagerbar sein soll, kann man die Standardmeldung
+entweder durch eine Funktion (precheck_conservation) oder eine Property
+(add(P_CONSERVATION,P_CONSERVATION_PRECHECK,"grund") überlagert werden.

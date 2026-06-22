@@ -1,0 +1,95 @@
+
+                        SPIELREGELN FÜR UNItopia
+                        *************************
+
+1. Namensgebung:
+----------------
+Ein Name darf niemanden verletzen oder beleidigen. Dazu gehören
+Verunglimpfungen von bereits bestehenden Namen ebenso wie negativ
+vorbelastete Namen bekannter Persönlichkeiten.
+
+
+2. Fehler im Spiel / Bugs:
+-------------------------
+Offensichtliche Programmierfehler dürfen nicht ausgenutzt werden.
+Außerdem müssen sie per #fehler / #idee gemeldet werden.
+
+
+3. Mudclients:
+--------------
+Erlaubt sind alle Aktionen, die ein MUDclient lokal ausführt (z.B. eine
+Nachbearbeitung des Textes für Hervorhebungen, Tonsignale, etc. oder auch
+Kürzel für einzelne Aktionen).
+Verboten sind dagegen Automaten jeglicher Art, die Kommandos ohne Zutun des
+Spielers an das MUD schicken. Dazu zählen auch Skripte, die nach 
+einmaligem Aufruf automatisch eine Reihe von Kommandos ausführen. Diese 
+sind allen Spielern gegenüber, die diese Möglichkeiten nicht haben, sehr 
+unfair und belasten außerdem UNItopia unnötig. 
+
+
+4. Zweitcharaktere / Zweities:
+-----------------------------
+Zweitcharaktere von Spielern sind generell erlaubt, sie müssen jedoch
+angemeldet werden. Dies kann man im Menü 'Zweitcharaktere' des
+Befehls '#einstellungen' (kurz '#einst') erledigen.
+
+Solche Zweitcharaktere dürfen in keiner Weise miteinander spielen.
+Verboten sind somit beispielsweise:
+
+  * Bankzweities (zum Aufbewahren von Geld),
+  * Schummelzweities (fuer Spiele, die zu zweit gespielt werden muessen),
+  * Kampfzweities (die in Vertretung Monster töten),
+  * Rätselzweities (die Rätselgegenstände aufbewahren).
+
+
+5. Götter
+--------
+Spieler mit einem Göttercharakter unterliegen im Spiel weiteren
+Einschränkungen, da sie aufgrund ihrer Möglichkeiten und Kenntnisse von 
+Spielinterna ansonsten Vorteile gegenüber anderen Spielern hätten. Auch 
+die Weitergabe solcher Interna an Spieler ohne Goettercharakter ist 
+untersagt.
+
+
+6. Weitergabe / Ausleihen von Charakteren:
+-----------------------------------------
+Weitergeben, Übernehmen, Verleihen und Ausleihen von Charakteren bzw.
+Passwörtern ist nicht erlaubt. Es ist unfair, wenn sich das Wissen, das
+Können und/oder der Charakter eines Spielers ändern, weil ein Charakter
+auf einmal von einer anderen Person gespielt wird. Man stelle sich nur vor, 
+man nimmt bei Olympia beim Zehnkampf teil und bei jeder Disziplin geht
+jemand anderes an den Start.
+
+
+7. Newsbretter:
+---------------
+Es wird gebeten, keine verletzenden oder unsinnigen Artikel zu schreiben,
+d.h. sinnloses Flamen ist an den meisten Brettern verboten.
+
+
+8. Spielspaß:
+-------------
+Ein Ziel von UNItopia ist es, Spaß zu haben. Anderen Leuten gezielt und
+systematisch das Spiel zu verderben, ist absolut verpönt... wer's trotzdem
+macht, fliegt raus.
+Auch darf der Mensch hinter seinem gespielten Charakter nicht persönlich
+angegriffen oder beleidigt werden. Ebenso dürfen Informationen über
+den Spieler hinter seinem Charakter nicht ohne seine Genehmigung
+veröffentlicht werden.
+
+
+9. Ansprechpartner:
+-------------------
+Bei Problemen kannst Du Dich an den Spielerrat (siehe 'hilfe spielerrat') 
+oder jedes Mitglied des Obersten Rates (z.B. per mudmail an 'admin') wenden.
+
+
+Notabene:
+---------
+Das Spielen in UNItopia ist ein Privileg und kein Recht. Die Regeln sind als
+Leitfaden aufzufassen. Nicht alles, was nicht explizit verboten ist, ist 
+daher automatisch erlaubt.
+
+Grobe Verstöße gegen diese Regeln ziehen die Löschung des jeweiligen
+Charakters nach sich, in schwerwiegenden Fällen wird der Zugang zu UNItopia
+gesperrt.

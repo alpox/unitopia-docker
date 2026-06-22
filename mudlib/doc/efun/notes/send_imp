@@ -1,0 +1,4 @@
+
+        Diese Funktion ist geschützt und erzeugt bei Benutzung einen Fehler.
+	(Ausserdem ist sie veraltet; send_udp hat dieselbe Funktionalität.)
+

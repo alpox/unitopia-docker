@@ -1,0 +1,20 @@
+
+    CREATE VIEW
+    
+    Befehl ::= CREATE [TEMP | TEMPORARY] VIEW [Datenbank .] Viewname
+               AS Select-Anweisung
+
+    Der 'CREATE VIEW'-Befehl gibt einer vorbereiteten SELECT-Anweisung
+    einen Namen. Einmal erstellt kann diese View in einer FROM-Klausel
+    einer anderen SELECT-Anweisung den Platz einer normalen Tabelle
+    einnehmen.
+    
+    Falls 'TEMP' oder 'TEMPORARY' angegeben wurde, so ist diese View
+    nur für dieses Objekt sichtbar und wird gelöscht, wenn die
+    Datenbank geschlossen wird.
+
+    Man kann keine DELETE-, INSERT- oder UPDATE-Anweisungen für eine
+    VIew ausführen. Views sind nur lesbar. In vielen Fällen jedoch
+    kann man Trigger für eine View definieren, um diese Anweisungen
+    zu simulieren. Views werden mit dem 'DROP VIEW'-Befehl entfernt.
+

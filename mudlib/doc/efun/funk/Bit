@@ -1,0 +1,11 @@
+and_bits
+clear_bit
+copy_bits
+count_bits
+invert_bits
+last_bit
+next_bit
+or_bits
+set_bit
+test_bit
+xor_bits

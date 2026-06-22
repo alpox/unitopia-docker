@@ -1,0 +1,125 @@
+-------------------------------------------------------------------------------
+zfe[hler]
+
+Ein interaktiver Browser für die Fehlermeldungen und Ideen, die sich in einem 
+Goetterleben so ansammeln. Die Meldungen, die ein Spieler mit 'fehler' und 
+'idee' erzeugt, landen mit allen Runtime-, Heartbeat- und Compile-Fehlern in 
+einer Datenbank. Mit dem Browser können sie angesehen, bearbeitet und aus der
+Datenbank gelöscht werden. Unter einstellungen->zauberstab können Gruppen
+zum Anschauen hinzugefügt werden.
+
+WICHTIG: Jeder Fehler/Idee steht in der Datenbank immer nur ein mal, auch wenn
+es mehrere Zuständige dafür hat. Wenn Du einen Fehler aus der Datenbank
+löschst, dann ist er noch in einem Archiv gespeichert, kann aber nicht mehr
+bearbeitet werden. Also löscht man Fehler nur dann, wenn sie sich
+erledigt haben (durch Beseitigen des Files, des Fehlers oder was sonst).
+Wenn Du sie nicht mehr sehen willst und eh ein anderer diese Fehlermeldung 
+bearbeiten wird, dann kannst Du sie verstecken! (Das heißt, Du erklärst Dich
+für 'nicht zustaendig' und bekommst diese Meldung nicht mehr.
+-------------------------------------------------------------------------------
+Der Browser besitzt mind. 2 Ebenen, abhängig von der Option -h:
+Gruppenhierarchie (-h9 und -h3), die Gruppenübersicht (-h2),
+die Fehlerübersicht (-h1) und die Detailanzeige. 
+Wenn Du nur einen Bereich angefordert hast, 
+startest Du direkt in der Fehlerübersicht für diesen Bereich, 
+sonst in der Gruppenübersicht. Abhängig von Optionen gibt es weitere Ebenen
+oder z.B. eine Ansicht für Wiedervorlagen.
+
+  Gruppenhierarchie:  Hier sind alle angeforderten Bereiche aufgelistet,
+                      in Klammern dahinter die Anzahl der Fehlermeldungen
+                      in diesem Bereich. Umfasst ein Bereich mehrere 
+                      Unterbereiche, so wird das beim Bereich mit einem *
+                      am Ende angedeutet.
+  Gruppenübersicht: Hier sind alle angeforderten Bereiche aufgelistet, in 
+                Klammern dahinter steht die Anzahl der Fehlermeldungen in
+                diesem Bereich. Mit ? bekommst Du ein wenig Hilfe.
+  Fehlerübersicht: Hier steht eine Übersicht über die angesammelten Fehler-
+                Meldungen eines Bereichs. Hilfe ist mit ? erhältlich.
+  Detailanzeige:    Hier stehen die Details zu einer Fehlermeldung: 
+                    Bei Runtime-Errors werden zu einem Fehler die letzten 5 
+                    Meldungen angezeigt. Hilfe mit ?.
+  Wiedervorlage:    Zeigt alle neuen Fehler die verschiedenen Wiedervorlagen
+                    in einer Übersicht an, darunter ist die Ebene der
+                    Fehlerübersicht.
+  Archivanzeige: Solange die Fehler in der FDB sind (+) sind die Fehler auch
+                 normal bearbeitbar. Sind die Fehler nur noch im Archiv (-)
+                 dann wird eine reine Textanzeige hervorgeholt.
+-------------------------------------------------------------------------------
+Beim Aufruf von 'zfehler' gibt es folgende Optionen:
+
+  -w <ber> Fehler für Bereich <ber>, <ber> kann ein Goettername, Domainname 
+           oder "Root" sein. Sollte <ber> für mehr als einen Bereich 
+	   zuständig sein, wird eine Übersicht für alle Bereiche angezeigt.
+  -e <ber> (exclusiv) Fehler nur für Bereich <ber>.
+  -E <ber> (exclude) Keine Fehler mit <ber> als Debugger. (Koennen auch
+           mehrere Bereiche durch Komma (ohne Leerzeichen!) getrennt sein.)
+  -x <ber> Folgenden Bereich nicht in der Hauptuebersicht anzeigen.
+           (Man kann * als Wildcard benutzen, mehrere Ausdrücke mit Komma
+           trennen. Beispiel -x *:Done,*:Wuerdigungen)
+  -a <ptn> Pattern über ALLE Fehlergruppen. (NEU!!!)  
+  -z <tim> Hiermit kann nach Erstelldatum (-ze) oder Aenderungsdatum (-za)
+           gefiltert werden. Beispiele -ze-01.01.2001 -ze01.01.2013- 
+           -za01.01.2012-01.01.2013, -za07.07.2013- usw.
+           Zusätzlich kann man mit -zd<tage> alle Fehler, die das
+           Aenderungsdatum innerhalb der letzten Anzahl <tage> liegt, 
+           filtern. Aehnlcihes ist mit -zD<tage> fürs Erstelldatum möglich.
+  -A"<ptn>" Archivansicht-Volltextrecherche: gibt man hier eine Liste
+           von Wörtern ein, z.B. -A"Root Monster" sucht nach allen
+           Fehlern im Offlinearchiv, die 'Root' und 'Monster' enthalten.
+           -A kann mit -z und -b kombiniert werden.
+  -h <nr>  1 Für eine flache Fehlerliste.
+           2 Der bisherige Standard: Gruppenliste und darunter Fehlerliste
+           3 Gruppenhierachie, dann Einzelgruppenliste und dann Fehlerliste
+           9 Beliebig viele Ebenen als Gruppenhierachie und dann Fehlerlisten.
+  -b <nr>  1 nach Erstelldatum aufsteigend sortieren
+           2 nach Erstelldatum absteigend sortieren
+           3 nach letztem Aenderungsdatum aufsteigend sortieren
+           4 nach letztem Aenderungsdatum absteigend sortieren
+           0 unsortiert ausgeben.
+  -W       Verwaltungsanzeige der Wiedervorlage
+  <ber>    Weiteren Bereich <ber> in die Übersicht aufnehmen.
+  <num>	   Direkt zu dem Fehler mit dieser Nummer gehen.
+  -d       Alle Domains listen.
+  -s       Nur Bereiche, die nicht leer sind, werden aufgelistet.
+  -S       Die Option -s dauerhaft ein- und ausschalten.
+  -g       Beim zuletzt gesehenen Fehler starten.
+  -G       Die Option -g dauerhaft ein- und ausschalten.
+  -f <ptn> Nur die Fehler/Ideen zu Dateien, deren Dateiname (+ Pfad) in die 
+           Regular-Expression <ptn> passen, werden angezeigt.
+  -v <ptn> Nur die Fehler/Ideen von Spieler, deren Name in die 
+           Regular-Expression <ptn> passen, werden angezeigt.
+  -i       Nur Ideen anzeigen.
+  -t       Nur Typos anzeigen.
+  -m       Nur Fehler anzeigen.
+  -l       Nur Würdigungen anzeigen.
+  -c       Nur Compile-Fehler anzeigen.
+  -r       Nur Laufzeitfehler anzeigen.
+  -D       Nur Details anzeigen.
+  -n       Nur neue Fehler anzeigen.
+  -R       Die für einen selbst reservierten Fehler anzeigen
+  -H       Bis zu 20 Fehler aus der Kurzhistorie anschauen, die bei anderen
+           zfe-Optionen in der Einzelanzeige "gesammelt" werden.
+  -V<nr>   Von Fehlernummer <nr> an anzeigen.
+  -B<nr>   Bis Fehlernummer <nr> anzeigen.
+  -L"<list>" Bei -L"<list>" wird die Workflow-Liste <list> angezeigt,
+             bei -L"" alle. Ist im Alpha-Testmodus nur für Admins zugreifbar.
+
+Beispiel: 
+zfe Kokosinsel Gallien -w sissi = listet die Fehler für Sissi,
+                                  Kokosinsel und Gallien
+zfe -f natumo = nur die Fehler, deren Dateiname (+ Pfad) 'natumo' enthält
+zfe -o zap:ttool = nur die Fehler für das Objekt 'ttool' in Zap
+zfe Root -v west = nur die Fehler, welche vom Spieler West verursacht wurden
+zfe Root -t -v rompler = nur Typos von Root die von Rompler verursacht wurden 
+zfe -e Backup = alle gelöschten Fehler anzeigen
+zfe -d -h1 -zd10 -b4  Alle Fehler(-d) der letzten 10 Tage (-zd10) als eine
+                      Fehlerliste (-h1) und Neueste zuerst anzeigen (-b4).
+zfe -d -h9 -zd10 -b4  Selbe Fehlerliste, diesmal hierachisch (-h9) anzeigen.
+zfe -A"" -zd10 -b4    Alle archivierten und aktiven Fehler (-A"") der letzten
+                      10 Tage (-zd10) und Neueste zuerst anzeigen (-b4).
+zfe -a.*:Done -h9     Alle Fehler in :Done (-a) Gruppen hierarchisch (-h9).
+zfe -W                Wiedervorlagenansicht inkl. einer Rubrik für neueste 
+                      Fehler.
+
+Per Default werden alle Fehler für den User angezeigt.
+-------------------------------------------------------------------------------

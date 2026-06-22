@@ -1,0 +1,70 @@
+Da die Spieler-Konten und die Werte von Handelswaren in Talern gerechnet
+werden, muss man bei Verwendung anderer Währungen diese gegeneinander
+verrechnen.
+
+Der Inherit-File /i/money/exchange liefert ein paar Hilfs-Routinen für diese
+Zwecke.
+
+1. Setzen des Wechselkurses
+
+   Dies geschieht mit den Routinen:
+
+              set_valuta_tafel(string *Waehrungs-Name-Einzahl)
+              set_valutas_tafel(string *Waehrungs-Name-Mehrzahl)
+              set_kurs_tafel(int *kurse)
+
+   Beispiel:
+
+           set_valuta_tafel(  ({"taler", "zorkmid",  "gulden"}) );
+           set_valutas_tafel( ({"taler", "zorkmids", "gulden"}) );
+           set_kurs_tafel(    ({ 1000,    500,        700    }) );
+
+
+ +----------------------------------------------------------------------+
+ |                                                                      |
+ |    Damit die Integer-Umrechnungen richtig funktionieren MUSS die     |
+ |    Basis-Währung Taler die kleinste sein, oder anders ausgedrückt,   |
+ |    in der kurs_tafel muss der Taler die größte Zahl besitzen !!!!!   |
+ |                                                                      |
+ +----------------------------------------------------------------------+
+
+ Prizipiell kann man die Kurse frei wählen, aber bei größeren Kurs-
+ Schwankungen zwischen verschiedenen Banken besteht die Gefahr, das Spieler
+ durch Waehrungs-Transfers Geld scheffeln. Die Kurse sollten also nicht mehr
+ als 15% von den Kursen der ZENTRALBANK abweichen. Die ZENTRALBANK ist im
+ Include-File money.h definiert. In ihr kann man mit:
+
+        z_valuta_tafel  = (string *)ZENTRALBANK->query_valuta_tafel();
+        z_valutas_tafel = (string *)ZENTRALBANK->query_valutas_tafel();
+        z_kurs_tafel    = (int *)ZENTRALBANK->query_kurs_tafel();
+
+ deren aktuelle Kurse abfragen.
+
+
+2. Umrechnen der Währungen
+
+   Hierfür gibt es die Routine:
+
+           Wert_in_Waehrung2 = convert(int    Wert_in_Waehrung1,
+                                       string Waehrung1,
+                                       string Waehrung2         )
+
+
+3. Welche Währungen sind konvertierbar ?
+
+   Falls ein Spieler mit einer x-beliebigen Währung daherkommt,
+   kann man mit der Routine
+
+         string query_accepted_valuta(string Waehrung_Einzahl_oder_Mehrzahl)
+
+   abfragen, ob diese in der Umrechnungs-Tabelle eingetragen ist.
+   Sie liefert bei Erfolg einen String mit dem Namen der eingetragenen
+   Währung (Einzahl,kleingeschrieben) zurück, andernfalls 0.
+
+4. Mehrzahl-Form einer Währung bestimmen
+
+   Um die Mehrzahl-Form einer Währung zu bestimmen, die in der Umrechnungs-
+   Tabelle eingetragen ist, benutzt man:
+
+          string query_accepted_valutas(string Waehrung_Einzahl_oder_Mehrzahl)
+

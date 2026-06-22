@@ -1,0 +1,25 @@
+FUNKTION: foldr
+DEKLARATION: mixed foldr(mixed *array, mixed startwert, closure funktion, ...)
+BESCHREIBUNG:
+
+Diese Funktion geht das Array von rechts nach links durch, ruft
+
+    funktion(element, startwert, ...)
+
+fuer jedes Element auf und uebernimmt das Ergebnis als Startwert fuer
+das naechste Element. Der letzte ermittelte Wert wird zurueckgeliefert.
+
+
+BEISPIEL: Um die Summe aller Gegenstaende in 'ob' zu ermitteln:
+
+    foldr(all_inventory(ob), 0, (: $1->query_weight() + $2 :))
+    
+Als Array werden alle Gegenstaende uebermittelt, Startwert ist 0, als
+neuer Wert wird immer das Gewicht das jeweiligen Gegenstands ermittelt.
+
+Hinweis:
+Bei foldl() wird das Array nicht nur in der Gegenrichtung durchlaufen,               
+sondern auch die ersten beiden Parameter an die Closure vertauscht.
+VERWEISE: foldl, map, filter, funcall, apply
+GRUPPEN: simul_efun, array
+SOURCE: /secure/simul_efun/util.inc

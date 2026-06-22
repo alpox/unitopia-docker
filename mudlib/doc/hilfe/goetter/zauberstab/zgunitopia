@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+zgu[nitopia] [<Objektstring>]
+        Geht über das Portal nach UNItopia in den entsprechenden Raum wie
+        der aktuelle Aufenthaltsort. Bei Angabe eines Objektes wird
+        der dazugehörige Raum betreten.
+
+Siehe auch: zgehzu, zteleport
+-------------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+Der Mindest-Tagesbedarf liegt bei ca 480 wp/fp, der Durchschnitt könnte
+wohl das Doppelte bis dreifache davon betragen.
+(Siehe auch /doc/funktionsweisen/verbrauch)
+
+Eine Scheibe Brot sollte daher nicht unbedingt mehr als 50 fp haben, und
+umgekehrt ein Schnitzel wohl nicht weniger als 200.
+
+Bei Speisen sollten der Wert (in Taler) in etwa den gegebenen fp entsprechen
+(plusminus 25%), haben sie noch eine Zusatzheilung, sollte
+noch /doc/richtlinien/heilkosten beruecksichtig werden.
+
+Bei Getränken sollte sich der Wert eher am Alkoholgehalt bzw der Heilung
+richten, wobei zB ein Schnaps deutlich weniger wp's haben sollte als ein Bier,
+aber einen deutlich höheren Preis.
+
+Wasser gibts unter Umständen umsonst; die Feldflasche
+/obj/flasche.c kann z.B. in allen Räumen aufgefüllt
+werden, die ein Wasser- oder Brunnen-V-Item haben.
+
+

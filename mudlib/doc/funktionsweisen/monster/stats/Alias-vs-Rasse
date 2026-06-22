@@ -1,0 +1,18 @@
+Soll ich eher Rasse-Namen oder Alias-Namen verwenden?
+-----------------------------------------------------
+
+Das ist wohl eine Geschmacksfrage. ;-) Einerseits kannst du dir mit
+den Alias-Namen einiges an Tipparbeit sparen, weil initialize dir
+set_id() und set_name() abnimmt, wenn du gleich mit einem Alias-Namen
+initialisierst. Andererseits kann man so nicht immer gleich sehen,
+welche Rasse nun tatsächlich verwendet wird, sondern muss unter
+Umständen schon mal in MONSTER_DEFS nachsehen, ob das gewählte
+Tier dort auch tatsächlich in der Liste steht, und als was. 
+
+Kürzer wäre sicherlich: initialize("skorpion", 100);
+
+Erklärender mag sein:    initialize("klein-tier, 100);
+                          set_name("skorpion");
+                          set_id("skorpion");
+
+

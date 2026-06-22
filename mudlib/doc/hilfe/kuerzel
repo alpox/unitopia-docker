@@ -1,0 +1,46 @@
+Kürzel: Mit Hilfe der Kürzel können Kommandos abgekürzt werden:
+
+  kürzel		     - zeigt eine Liste aller Kürzel
+  kürzel <Name> <Kommando>  - setzt 'Name' als Kürzel für 'Kommando'
+  kürzel <Name>	     - zeigt das Kürzel 'Name'
+  entkürzel <Name>	     - löscht das Kürzel 'Name'
+  \<Kommando>                - führt <Kommando> aus ohne Kürzel zu
+                               expandieren (wenn ein Kürzel einen anderen
+                               Befehl ueberlagert)
+
+Die Kürzel dürfen in sich selber wiederrum keine Kürzel nutzen.
+Sie können folgende Parameter enthalten:
+
+  $0 oder $*  für die gesamte Eingabe hinter dem Kürzel
+  $1..$9      für das erste .. neunte Wort der Eingabe
+  $1*..$9*    für den Rest der Eingabe ab dem ersten .. neunten Wort
+
+Beispiele:
+    kürzel lt lege $0 in tasche
+dabei wird: lt fackel	  -> lege fackel in tasche
+	    lt 2. fackel -> lege 2. fackel in tasche
+
+    kürzel grunz ich grunzt $den($1) $2* an.
+ dann wird: grunz sysop laut und vernehmlich
+                -> ich grunzt $den(sysop) laut und vernehmlich an.
+            (siehe auch "hilfe ich")
+
+Die Parameter können in beliebiger Reihenfolge stehen.
+Statt $ kann auch & benutzt werden. Um im eigentlichen Kommando $ oder &
+zu nutzen, kann man \$ bzw. \& angeben.
+
+Wenn das Kürzel keine Parameter hat, wird aller Text, den man nach dem
+Kürzel eintippt, an das Kommando hinten drangehaengt.
+
+Standardkürzel: s, sw, so, n, no, nw, o, w für die Himmelsrichtungen
+		 h = hoch, r = runter, a = ausgang
+		 sa = schaue auf, sc = schau, b = betrachte, v = verkaufe
+		 f = führe, se = senke, t = töte,
+		 le = lege, ni = nimm, na = nimm alles,
+		 li = lies, i = ausrüstung
+
+Definierst Du ein Kürzel mit dem Namen "login", so wird dieses Kürzel
+jedesmal, wenn Du UNItopia betrittst, ausgeführt; dies kann auch ein tue -
+Kürzel sein. Beispiel:
+kürzel login ziehe alles an
+kürzel login tue ziehe alles an, führe alles,freunde

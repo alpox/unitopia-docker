@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Hier wird eine Workflow-Listen angezeigt.
+Mögliche Befehle:
+
+    t           Wahl des Fehlertyps
+    k           Aktionen, die für diese Liste hinterlegt werden/wurden
+    i           Filter für diese Liste.
+    f           Anzeige Fehlerliste
+    a           Anzeige der Fehler im Archivmodus.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

@@ -1,0 +1,91 @@
+Generell sollte man Taschen und Kisten von /i/object/tasche,
+/i/object/rucksack oder /i/object/kiste ableiten.
+Diese Inherit-Files inheriten alle /i/base/container.c und setzen einige
+Werte sinnvoll.
+
+Man kann natürlich /i/base/container.c direkt inheriten, wenn man etwas
+speziellere Objekte machen möchte.
+
+Funktionen aus /i/base/container.c:
+	int query_tasche()
+    		Liefert immer 1 zurück.
+	void set_no_door(int i)
+    		Damit kann man setzen, ob der Container eine Klappe/Tuer/Deckel
+		hat.
+	void set_no_lock(int i)
+    		Damit kann man setzen, ob der Container ein schloss hat.
+	void lock_con(int lock, object who, object key)
+    		Damit kann man einen Container abschließen.
+	void set_keys(string *keys)
+    		Damit kann man setzen, mit welchen Schlüsseln sich
+		der Container aufschließen lässt.
+	void set_crack(int i)
+    		Damit kann man setzen, mit welcher Chace ein Dieb den
+		Container knacken kann.
+	
+weitere Funktionen von /i/contain.c: (wird von /i/base/container.c geerbt)
+     	int query_container()
+		Liefert immer 1 zurück.
+
+	int query_con_close()
+		Liefert zurück, ob der Container offen oder geschlossen ist.
+		Bewegungen in einen geschlossenen Container hinein oder aus
+		ihm hinaus sind nicht mehr möglich.
+		Zurückgegebene Werte:
+
+			1: geschlossen.
+			0: offen.
+
+	void open_con()
+		Oeffnet den Container.
+
+	void close_con()
+		Schließt den Container.
+
+	void set_max_internal_encumbrance(int max)
+		Hiermit wird das Fassungsvermögen diese Objektes gesetzt.
+		Ist dieses 0 (Voreinstellung), so kann das Objekt
+		beliebig viel in sich aufnehmen.
+
+	int add_encumbrance(object ob, int enc_type, int enc_diff)
+		Wird von /i/move benutzt.
+		Diese Funktion darf nie überlagert werden.
+		Jedes Objekt, welches hier hineinbewegt wird, fragt
+		hiermit ab, ob noch genug Platz	vorhanden ist und
+		addiert gleichzeitig sein Gewicht. enc ist hierbei
+		das Gewicht des fragenden Objektes.
+		Jedes Objekt, welches hinausbewegt wird zieht
+		selbstverständlich sein Gewicht mit dieser Funktion
+		wieder ab. Zurückgegebene Werte:
+
+			1: Es ist Platz vorhanden.
+			0: Nicht genug Platz vorhanden.
+		
+		Man kann selbst abfragen, ob ein Objekt noch reinpasst
+		mit ob->add_encumbrance(testob,ENC_TEST_ADD)
+
+	query_max_internal_encumbrance()
+		Gibt das Fassungsvermögen diese Objektes zurück.
+
+	query_internal_encumbrance()
+		Gibt die aktuelle Füllung zurück.
+
+     	allow_only(stringids)
+		Der Container lässt nur Gengenstaende rein, die eine
+		der in ids angegebenen Id's besitzt.
+
+     	query_transparent()
+		Gibt 1 zurück, wenn der Container durchsichtig ist.
+
+     	set_transparent(1)
+		Macht den Container durchsichtig.
+
+     	set_transparent(0)
+		Macht den Container undurchsichtig (Default).
+
+     	set_content_message(string str)
+		Die Message, die an Anfang einer Inhaltsliste erscheint.
+		(Default keine, sie wird von /i/living/eyes dann selbst
+		 zusammengestrickt.)
+             Beispiel:
+                set_content_message("Die Truhe enthält:")

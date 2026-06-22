@@ -1,0 +1,12 @@
+FUNKTION: plural
+DEKLARATION: varargs string plural(string einzahl_str, string plural_str, object|mapping|int ob, int art)
+BESCHREIBUNG:
+Liefert plural_str, wenn ob im Plural ist, sonst einzahl_str.
+ob kann hierbei ein v-item, ein Objekt sein oder OBJ_TO/PO/TP/OW/TI sein.
+Wenn ob nicht angegeben wird, wird this_object() angenommen.
+art hat die gleiche Bedeutung wie der zweite Parameter von query_deklin.
+BEISPIEL:
+Der(ob) + plural(" braucht"," brauchen",ob) + " nichts."
+VERWEISE: ist, query_deklin
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

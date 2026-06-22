@@ -1,0 +1,12 @@
+tue [-l] cmd1,cmd2,cmd3   - führt eine Liste von Kommandos aus
+                            Wird -l angegeben, so werden die einzelnen
+                            ausgeführten Befehle dabei angezeigt.
+tue			  - stoppt tue
+
+Beispiele:  'tue westen,schaue,osten'
+
+Siehe auch: 'hilfe tippse' und 'hilfe kuerzel'
+
+Hinweis: Über das Einstellungsmenü unter "Spieler und Charakter",
+         "Sonstiges", "Tue Trenner" lässt sich der Trenner, der bei
+         einem Tue verwendet wird, selber einstellen.

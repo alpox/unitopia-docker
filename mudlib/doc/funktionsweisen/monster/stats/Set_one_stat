@@ -1,0 +1,32 @@
+Kann ich von den Voreinstellungen des Monster-Masters abweichen?
+----------------------------------------------------------------
+
+Ja, das ist möglich. Um einzelne Werte zu erhöhen oder zu senken
+kannst du die Funktion set_one_stat() aufrufen. Mit Werten größer 
+als 100 oder kleiner als 0 kannst du den voreingestellte Rahmen einer
+Rasse sogar über- oder unterschreiten. Allerdings sollten diese 
+Abweichungen nicht zu krass ausfallen, oder es sollte jedenfalls 
+eine gute Begründung dafür geben. 
+
+Initialize selber kann nicht mit Werten über 100 oder unter 0 
+aufgerufen werden.
+
+Beispiele:
+
+froschkoenig->set_one_stat(STAT_INT, 170); // soll sprechen können
+
+saeugling->set_one_stat(STAT_INT, -20);    // kann nicht sprechen oder
+                                           // mit Waffen kämpfen
+
+Der Monster-Master berechnet den einzeln gesetzten STAT, hier die
+INT, nach der Formel "min + ((max - min) * level / 100)".
+
+Setze ich also bei einem "gross-tier", das für CON die Werte 
+min = 40, max = 85 hat, set_one_stat(2, 120); so ergäbe dies:
+
+    40 + ((85 - 40) * 120 / 100) = 94
+
+Um nach der Statmanipulation alle weiteren Werte zu aktualisieren,
+musst Du noch im NPC update_stat_dependencies(1); aufrufen.
+
+

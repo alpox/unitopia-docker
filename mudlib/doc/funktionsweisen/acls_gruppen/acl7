@@ -1,0 +1,37 @@
+7. Technische Informationen zum Gruppenmaster
+
+Datei: /apps/groups.c
+
+Der Gruppenmaster verwendet als Datenstruktur ein Array.
+Abgelegt werden die Gruppendefinitionen in der Variablen groupdefs.
+Ein einzelnes Arrayelement besteht wiederum aus einem Array:
+   ({"Name", ({Admins}), ({Members}), ({SubGroups})
+dem Namen der Gruppe, den Admins der Gruppe, den Mitgliedern der
+Gruppe und den Untergruppen der Gruppe.
+Die Untergruppen sind wiederum genau so aufgebaut wie die
+Hauptgruppen.
+
+Gruppen können dabei auch andere Gruppen beinhalten. So beinhaltet
+beispielsweise die Gruppe Vaniorh standardmäßig die beiden Untergruppen
+Vaniorh:DL und Vaniorh:DH. Gruppen können beliebig tief werden.
+
+Die Standardgruppen werden von der Funktion compute_standardgroups
+berechnet, hier kann man sich sicher noch die eine oder andere ausdenken.
+Die Standardgruppen sind "read only", können also nicht verändert
+werden.
+
+Die zentrale Gruppenveraenderungsfunktion ist die change_group - Funktion,
+sie beinhaltet fast die ganze Gruppenverwaltungsfunktionalitaet.
+Sie ist gut lesbar und gut kommentiert. Die anderen Gruppenfunktionen
+greifen auf sie zu und sind selbst sehr knapp.
+
+Interessant wirds schließlich bei der Gruppen Berechnung.
+Diese geschieht "on demand", Gruppen werden also solange lediglich als
+Gruppendefinitionen geführt, bis sie benötigt werden. Werden sie
+benötigt, so werden sie ausgerechnet, vorher nicht.
+Wurden sie berechnet, so werden sie gespeichert, sodass sie zur Verfügung
+stehen. Erst, wenn an den Gruppen etwas geändert wird, müssen die
+Gruppen wieder neu berechnet werden. Das werden sie dann ja aber auch
+nur bei Bedarf.
+
+Die einzelnen / anderen Funktionen sind eigentlich recht selbsterklärend.

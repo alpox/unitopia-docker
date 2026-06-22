@@ -1,0 +1,81 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:	/map/i/stranden.c
+// Description:	Zum Ermoeglichen von Todeskampfes- bzw.
+//		Sterbensmeldungen etc., falls ein Tier
+//		aufs Land bewegt wird.
+// Author:	Pif (05.04.1998)
+
+inherit "/i/monster/monster";
+
+#include <landschaft.h>
+#include <invis.h>
+
+#define IGNORE_LANDSCHAFT (L_DRINNEN|L_STEG)
+
+string query_agonie()
+{
+  return Der()+" windet sich im Todeskampf.";
+}
+string query_sterben()
+{
+  return Der()+" bleibt regungslos liegen.";
+}                                            // Zum Setzen der entsprechenden
+                                             // Meldungen, bzw.
+string query_leiche_kurz()                   // Leichenbeschreibungen in den
+{                                            // Tier-Dateien
+  return "Die Leiche "+eines();
+}
+
+string query_leiche_lang()
+{
+  return "Die Leiche "+eines()+", der auf das Land geraten ist.";
+}
+
+void raumtyp_test()
+{
+  int i;
+  if (!((i=(environment()->query_type("landschaft")&~IGNORE_LANDSCHAFT)) &&
+     ((i & (L_WASSER | L_FLIESSEND | L_UNTERWASSER)) == i))) {
+       if (query_invis()) {
+           set_invis(V_VIS);
+           // remove_call_out("abtauchen"); 
+           // Bloeder Wal-call_out-Wust :-(
+           }
+       //set_start_random(0);
+       tell_room(environment(),wrap(query_agonie())); // Koennt ihr lachen -
+       remove_call_out("auftauchen");                 // koennt ihr frieren -
+       if (find_call_out("verenden") == -1)           // seid ihr Fische?
+           call_out("verenden",5);
+       }
+  else set_start_random(1);
+}
+
+void verenden()
+{
+  object ex_tier;
+  tell_room(environment(),wrap(query_sterben())); // I don't want to start 
+  ex_tier = clone_object("/obj/leiche.c");        // any blasphemous rumours 
+  ex_tier->set_short(query_leiche_kurz());        // but I think that god has  
+  ex_tier->set_long(query_leiche_lang());         // got a sick sense of humour 
+  ex_tier->add_id(query_id());                    // and when I die, I expect 
+  ex_tier->set_smell("Der süßliche "              // to find him laughing. 
+                     "Verwesungsgeruch "+des()+
+                     " lässt Dich angewidert zurückweichen.");
+  ex_tier->move(environment());
+  ex_tier->start_decay(this_object());
+  remove();
+  // Keine Sorge - ist zu spaet - es langweilt mich,
+  // was vor sich geht - schliess die Augen - komm zur
+  // Ruh - morgen hat der Laden zu.
+}
+void stranden_my_notify_move(string ctrl,mapping mv_infos)
+{
+    if (find_call_out("raumtyp_test") == -1)
+      call_out("raumtyp_test",0);
+}
+void create()
+{
+    "*"::create();
+    add_controller("notify_move",#'stranden_my_notify_move);
+}

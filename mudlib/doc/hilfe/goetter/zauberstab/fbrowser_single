@@ -1,0 +1,56 @@
+-------------------------------------------------------------------------------
+Dies ist die Detailanzeige für einen Bereich.
+Mögliche Befehle:  (Angaben in [ ] sind optional.)
+  <nr>            Zu Fehler Nummer <nr> gehen.
+  + / -           Nächsten / Vorherigen Fehler im Detail anzeigen.
+  < / >           Zur ersten / letzten Seite der Übersicht springen.
+  u / d           Eine Seite hoch- /runterblaettern.
+  n               Nächsten neuen Fehler im Detail anzeigen.
+  N               Fehler als ungelesen markieren.
+  a <name>        <name> als zusätzlichen Debugger eintragen. Erlaubt snd 
+                  Götter, Domain- und Gruppennamen (Grossschreibung),
+                  "Root" (Admins), Datei- und Verzeichnisnamen.
+  A <was>         <was> als neuen 'File'-Eintrag des Fehlers verwenden und
+                  passende Debugger mit eintragen. Erlaubt sind Objekte oder
+                  Dateien.
+  l               Momentanen Fehler aus der FDB löschen oder
+                  bereits gelöschten Fehler wiederherstellen (Backup-Gruppe).
+  v <Zustaendige> Entfernt den Fehler aus der Übersicht der angegeben
+                  Zuständigen. (* ist als Platzhalter erlaubt. Mit
+                  '!Gruppe' kann man angeben, wen man nicht dabei nicht
+                  entfernen will. Beispiel: v *,!*:Done)
+                  Dabei wird v * per default zu v *,!*:Done, wenn anwendbar.
+  c <text>        <text> mit deinem Namen und Uhrzeit als Kommentar anfügen.
+                  (Ohne <text> wird ein Editor gestartet.)
+  F <text>        Rückfrage an denjenigen, der den Fehler abgesetzt hat
+                  (Ohne <text> wird ein Editor gestartet.)
+  f <text>        Feedback an denjenigen, der den Fehler abgesetzt hat
+                  (Ohne <text> wird ein Editor gestartet.)
+
+  e / E [<name>]  Lädt <name> in den ED / XED bzw. WED. Wenn kein Name angeben
+                  wurde, dann wird das File, das hinter 'File:' steht, geladen.
+  g               Versucht, in den Raum zu teleportieren.
+  G               Teleport in dem Raum, in dem der Fehler abgesetzt wurde.
+  s / S           Quellcode an der Fehlerstelle anzeigen. (3 Zeilen / im more)
+
+  i               Zeigt gespeicherte Infos zum Objekt an. (s. query_debug_info)
+  t [nr]          Zeigt den Programm-Trace zum Fehler an. 
+                  Mit nr>0 kann ein bestimmter Trace angesprungen werden,
+                  <0 zählt von hinten, z.B. -1 für den neuesten Trace.
+
+  M               schickt DIR den Fehler als Mail, so dass du darauf antworten
+                  kannst.
+  p               Wechselt mittels cd den Pfad zum Pfad der aktuellen Datei.
+  T f|i|t|w|d     Typ des Fehlers ändern.
+  w<+t|datum>     aktuellen Fehler zur Wiedervorlage markieren
+                  +t: Anzahl Tage oder zukünftiges Datum.
+  W               aktuellen Fehler aus allen Wiedervorlagen entfernen
+  j [errnum]      Zu einem beliebigen anderen Fehler springen bzw. zurück.
+  #+<wort1>,<wort2>,...     Ein oder mehrere Schlagworte hinzufügen.
+  #-<wort1>,<wort2>,...     Ein oder mehrere Schlagworte entfernen.
+  R               Anzeige der Reservierungen
+  R+,R+<wizname>  Hinzufügen zu der eigenen/fremden Reservierungen
+  R-,R-<wizname>  Herauslöschen aus einer eigenen/fremden Reservierung
+  z               Zurück zur Übersicht / Neuanzeige des Fehlers.
+  q / ?           Browser Beenden / Diese Hilfe.
+-------------------------------------------------------------------------------

@@ -1,0 +1,9 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Aufgabe übernimmt
+        configure_object(this_object(), OC_COMMANDS_ENABLED, 0)
+
+        Diese Funktion sollte nicht mehr außerhalb der Mudlib genutzt
+        werden. Stattdessen kann man meist die Simul-Efun call_with_this_player
+        verwenden.
+

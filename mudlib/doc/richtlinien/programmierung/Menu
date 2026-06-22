@@ -1,0 +1,3 @@
+path-restrictions	Die Pfad-Restriktionen für Objekte und Files
+shadows			Regeln zu nomask und '#pragma no_shadow'
+modern			Modernes LPC

@@ -1,0 +1,9 @@
+FUNKTION: get_unique_string
+DEKLARATION: string get_unique_string()
+BESCHREIBUNG:
+Funktion liefert einen einmaligen String.
+Jeder spaetere Aufruf dieser Funktion liefert garantiert einen
+anderen String, auch nach Neustart des Systems.
+GRUPPEN: simul_efun
+VERWEISE:
+SOURCE: /secure/simul_efun/util.inc

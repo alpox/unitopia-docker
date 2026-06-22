@@ -1,0 +1,7 @@
+FUNKTION: vclock
+DEKLARATION: int vclock()
+BESCHREIBUNG:
+Liefert einen Integer im Format: hhmmss mit der Spieluhrzeit
+GRUPPEN: simul_efun, zeit
+VERWEISE: clock, time, timestr, vtime, vtimestr
+SOURCE: /secure/simul_efun/time.inc

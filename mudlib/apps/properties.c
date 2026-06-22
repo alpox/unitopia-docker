@@ -1,0 +1,85 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:        /apps/properties.c
+// Description: Property-Verwaltung
+// Author:      Gnomi
+
+inherit "/i/tools/property_master";
+
+#include <apps.h>
+#include <error.h>
+#include <property_master.h>
+#include <touch.h>
+
+mapping shortnames = ([:1]);	// Kurz -> Lang
+mapping longnames = ([:1]);	// Lang -> Kurz
+
+private void check_master(string prefix, string file)
+{
+    object master = touch(file, NO_LOG|NO_WRITE);
+    if(master)
+        add_property_master(prefix, object_name(master));
+}
+
+void update()
+{
+    mapping newshorts = ([:1]), newlongs = ([:1]);
+
+    check_master("Root", "/apps/property_defs");
+    check_master("P", "/p/Apps/properties");
+    foreach(string gouv: ({"Gilden", "Raetsel", "Spiele", "Schiffe"}))
+        check_master(gouv, "/z/"+gouv+"/apps/properties");
+    foreach(string domain: DOMAIN_INFOS->query_domains())
+        check_master(domain, "/d/"+domain+"/apps/properties");
+
+    foreach(string name, mapping prop: query_property_infos(""))
+    {
+        string shortname = prop[PI_SHORTNAME];
+        if(!shortname)
+            continue;
+
+        if(member(shortname, ':') >= 0)
+            do_warning2(sprintf("Illegaler kurzer Name: '%s' für '%s'\n", shortname, name),
+                __FILE__, prop[PI_MASTER][0], __LINE__);
+        else if(member(newshorts, shortname))
+            do_warning2(sprintf("Doppelter kurzer Name '%s' für '%s' vs. '%s'\n", shortname, newshorts[shortname], name),
+                __FILE__, prop[PI_MASTER][0], __LINE__);
+        else
+        {
+            m_add(newshorts, shortname, name);
+            m_add(newlongs, name, shortname);
+        }
+    }
+
+    shortnames = newshorts;
+    longnames = newlongs;
+}
+
+void create()
+{
+    update();
+}
+
+void reset()
+{
+    update();
+}
+
+string expand_property_name(string name)
+{
+    return shortnames[name] || name;
+}
+
+string shorten_property_name(string name)
+{
+    return longnames[name];
+}
+
+int is_short_property_name(string name)
+{
+    return member(shortnames, name);
+}
+
+void prepare_renewal() {}
+void finish_renewal(object neu) {}
+void abort_renewal() {}

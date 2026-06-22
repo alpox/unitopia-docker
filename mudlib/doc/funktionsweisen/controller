@@ -1,0 +1,301 @@
+
+
+Controller
+----------
+
+Die Controller sind in UNItopia ein mächtiges Werkzeug, mit dem
+praktisch jeder Gott früher oder später einmal zu tun bekommt.
+Man kann damit bestimmte Aktionen kontrollieren und beeinflussen.
+Allgemein geht es um Kommunikation zwischen beliebigen Objekten.
+
+
+Das Prinzip erläutert am Beispiel einer Türglocke
+---------------------------------------------------
+
+Eine Glocke kann an eine beliebige Tür gehängt werden. Wenn die
+Tür von jemandem geöffnet oder geschlossen wird, stößt sie
+an die Glocke, die dann bimmelt.
+
+Normalerweise hat eine Tür aber keine Glocke. Und die Glocke hat
+keine Ahnung davon, ob die Tür jetzt gerade geöffnet wurde oder
+geschlossen. Also kann sie auch nicht bimmeln.
+
+Damit das Problem gelöst werden kann, müssen Tür und Glocke
+miteinander kommunizieren. Sie führen kurze Unterhaltungen,
+die man sich etwa wie folgt vorstellen kann.
+
+Wenn die Glocke an die Tür gehängt wird:
+
+Glocke: "Du, Tür..."
+Tür:   "Hmmmm?"
+Glocke: "Wenn du auf- oder zugemacht wirst, sag mir bitte Bescheid."
+Tür:   "Okay, mach ich."
+
+Wenn die Tür dann geöffnet wird, findet eine neue Unterhaltung statt:
+
+Tür:   "Du, Glocke..."
+Glocke: "Ja, was gibts?"
+Tür:   "Ich wurde gerade aufgemacht. Ich sollte dir doch Bescheid sagen..."
+Glocke: "Ah, ja, danke. Dann muss ich jetzt bimmeln."
+Die Glocke bimmelt.
+
+Wenn die Tür dann wieder geschlossen wird, passiert das gleiche:
+
+Tür:   "Hey, Glocke!"
+Glocke: "Jo?"
+Tür:   "Ich wurde gerade wieder zugemacht. Nur zur Info."
+Glocke: "Ahso. Ja. Bimmeln. Genau."
+Die Glocke bimmelt.
+
+Wenn die Glocke wieder von der Tür abgehängt wird:
+
+Glocke: "Türchen!"
+Tür:   "Ja, Glöckchen?"
+Glocke: "Ich mach jetzt Schluss mit dir."
+Tür:   "Gut, dann geb ich dir aber auch nicht mehr Bescheid."
+
+Und wenn die Tür jetzt geöffnet oder geschlossen wird, sagt sie
+der Glocke nichts mehr davon, also bimmelt sie auch nicht.
+Bis sie irgendwann eine neue Tür gefunden hat, an die sie gehängt
+wird, und die Unterhaltung wieder von vorne losgeht...
+
+
+Die Türglocke aus etwas technischerer Sicht
+--------------------------------------------
+
+Tatsächlich haben sich Tür und Glocke natürlich nicht so unterhalten,
+dass ein Spieler das mithören könnte. Die Wahrheit ist viel trockener
+und technischer: Tür und Glocke rufen in sich gegenseitig Funktionen
+auf. Man sagt, die Glocke meldet bei der Tür einen Controller an.
+
+Die Anmeldung läuft über die Funktion add_controller(). Ein Controller
+ist zum Beispiel das Geöffnet- oder Geschlossen-Werden der Tür.
+Die Glocke meldet sich für diese Controller an, wenn sie an die Tür
+gehängt wird:
+
+    tuer->add_controller("notify_open_door", glocke);
+    tuer->add_controller("notify_close_door", glocke);
+
+Wenn 'tuer' nun geöffnet oder geschlossen wird, ruft sie in 'glocke'
+die Funktion "notify_open_door" bzw "notify_close_door" auf.
+
+    glocke->notify_open_door(...)
+    glocke->notify_close_door(...)
+
+Die Glocke selbst hat so eine Funktion, in der sie dann eben bimmelt:
+
+    void notify_open_door(...)
+    {
+        send_message(MT_NOISE, MA_MOVE, "Die Glocke an der geöffneten Tür"
+                                        "bimmelt.\n");
+    }
+
+    void notify_close_door(...)
+    {
+        send_message(MT_NOISE, MA_MOVE, "Die Glocke an der geschlossenen Tür"
+                                        "bimmelt.\n");
+    }
+
+Wenn die Glocke dann wieder von der Tür abgehängt wird, meldet sie
+die zuvor bei der Tür angemeldeten Controller wieder ab. Die Abmeldung
+läuft über die Funktion delete_controller().
+
+    tuer->delete_controller("notify_open_door", glocke);
+    tuer->delete_controller("notify_close_door", glocke);
+
+Fertig ist der ganze Zauber.
+
+
+Verschiedene Controller-Arten
+-----------------------------
+
+Es gibt mehrere verschiedene Arten von Controllern:
+
+    - notify:       Man möchte mitbekommen, dass etwas passiert (ist).
+    - forbidden:    Man möchte verhindern, dass etwas passieren wird.
+    - allowed:      Man möchte zulassen, dass etwas passieren wird.
+    - concerned:    Man möchte etwas selbst in die Hand nehmen.
+    - modify:       Man möchte etwas verändern.
+
+Am häufigsten genutzt werden "notify" und "forbidden"-Controller.
+Das obige Beispiel mit der Türglocke arbeitet mit "notify".
+Wenn die Tür geöffnet oder geschlossen wurde, möchte die Glocke
+das mitbekommen, damit sie bimmeln kann.
+
+Es sind nicht immer alle Controller-Arten zu einem bestimmten Ereignis
+verfügbar. So gibt es zum Beispiel kein allowed_open_door oder
+modify_open_door. Welche Controller es gibt, kann man zum Beispiel
+mit dem dek-Befehl der Enzyclopedia UNItopia herausfinden.
+
+Sämtliche Controller-Funktionen sind dokumentiert (oder sollten es sein).
+Jeder Controller ist verschieden. Wo wird er aufgerufen, und mit welchem
+Parameter? So erfährt man in notify_open_door nicht nur, dass eine Tür
+geöffnet wurde, sondern auch von wem und in welchem Raum. Diese Details
+erfährt man nur über eine entsprechende Dokumentation.
+
+
+notify (ankuendigen, benachrichtigen, melden, kundtun)
+------------------------------------------------------
+
+Ein notify-Controller wird meist aufgerufen, direkt nachdem etwas passiert
+ist. Alle Objekte, die sich für den betreffenden Controller angemeldet
+haben, werden der Reihe nach benachrichtigt.
+
+Eine notify-Funktion hat keinen Rückgabewert. Der Aufrufer teilt nur
+mit: dies und das ist passiert. Was die angemeldeten Objekte mit dieser
+Information anstellen, ist dem Aufrufer egal.
+
+Beispiel:
+  Türglocke, siehe oben.
+
+
+forbidden (verboten, untersagt, unzulaessig)
+--------------------------------------------
+
+Ein forbidden-Controller wird aufgerufen, wenn etwas passieren soll, aber
+noch verhindert werden kann. Die Objekte, die sich für den betreffenden
+Controller angemeldet haben, werden der Reihe nach gefragt, ob sie etwas
+verhindern wollen oder nicht. Sobald ein Objekt das Ereignis verhindert,
+werden alle übrigen angemeldeten Objekte ignoriert - das Ereignis wurde
+dann schließlich schon verhindert.
+
+Eine forbidden-Funktion hat einen Rückgabewert. Ist der Wert == 0, wird
+das Ereignis nicht verhindert, bei allen anderen Rückgabewerten dagegen
+schon. In den meisten Fällen liefert man 1 zurück und muss selbst eine
+Meldung ausgeben, warum das Ereignis verhindert wurde.
+
+Beispiel:
+  Brett, mit dem man eine Tür verbarrikadieren kann.
+  Das Brett meldet sich bei der Tür für "forbidden_open_door" an.
+  In dieser Funktion verhindert das Brett, dass die Tür geöffnet wird
+  und gibt eine entsprechende Meldung aus.
+
+
+allowed (genehmigt, gestattet, zulaessig)
+-----------------------------------------
+
+Ein allowed-Controller ist das Gegenstück zu forbidden. Eine Aktion,
+die normalerweise nicht möglich ist, kann hiermit ausnahmsweise erlaubt
+werden. Die Objekte, die sich für den Controller angemeldet haben, werden
+der Reihe nach gefragt, ob die Aktion ausnahmsweise zugelassen werden soll.
+Wenn ein Objekt mit dem Kopf nickt, darf die Aktion ausgeführt werden.
+Ist kein Objekt angemeldet, ist die Aktion nicht möglich.
+
+Eine allowed-Funktion hat einen Rückgabewert. Ein Wert == 0 bedeutet,
+dass das Objekt nicht mit dem Kopf nickt, also die Aktion nicht zulässt.
+Ein Wert != 0 bedeutet, dass dieses Objekt mit der Aktion einverstanden ist.
+Sobald ein Objekt 1 liefert, werden die weiteren angemeldeten Objekte
+ignoriert. Die Aktion ist dann bereits erlaubt.
+
+Beispiel:
+  Gegenstände kann man normalerweise nicht knuddeln, weil sie nicht
+  lebendig sind. Mit "allowed_seele" kann man aber eine Ausnahme machen.
+
+
+concerned (zustaendig)
+----------------------
+
+Oft werden bestimmte Aktionen durchgeführt, die man aber eigentlich
+ganz anders haben wollte. Der concerned-Controller gibt die Möglichkeit
+dazu, ein bestimmtes Ereignis selbst ausführen zu können. Die angemeldeten
+Objekte werden der Reihe nach gefragt, wie sehr sie sich für eine
+bestimmte Aktion zuständig fühlen.
+
+Eine concerned-Funktion hat einen Rückgabewert. Ein Wert == 0 bedeutet,
+dass das Objekt sich nicht zuständig fühlt. Ansonsten gilt, je größer
+die zurückgelieferte Zahl, desto wichtiger ist es, dass dieses Objekt
+die Aktion selbst ausführt. Das Objekt mit der größten Zahl erhält
+den Zuschlag.
+
+In dem Objekt, das den Zuschlag erhalten hat, wird dann eine weitere
+Funktion aufgerufen. Welche, ist der Dokumentation des jeweiligen
+Controllers zu entnehmen, meist ist es ein do_irgendwas().
+
+Beispiel:
+  Legt man eine Waffe auf das Meer, geht sie normalerweise unter (removed).
+  Nun kann man an manchen Stellen aber tauchen, und man möchte, dass
+  der schwere Gegenstand nicht removed wird, sondern im Unterwasserraum
+  landet. Mit "concerned_sink" kann man einen Gegenstand selbst untergehen
+  lassen, und anstatt ihn zu removen, ihn in den Unterwasserraum bewegen.
+
+
+modify (aendern, abwandeln)
+---------------------------
+
+Ein modify-Controller erlaubt es, ein bestimmtes Ereignis zu ändern.
+Im Gegensatz zu concerned, wo man die Aktion komplett selbst bestimmt,
+sind hier meist nur leichte Modifikationen möglich. Die angemeldeten
+Objekte werden der Reihe nach gebeten, ihre Änderungen vorzunehmen.
+
+Eine modify-Funktion hat keinen Rückgabewert. Es ist dem Objekt, das
+den modify-Controller aufruft, also egal, wer was modifiziert hat.
+Wie die Modifikation vorzunehmen ist, muss der Dokumentation des jeweiligen
+Controllers entnommen werden.
+
+Beispiel:
+  Ein Spieler bekommt eine Wäscheklammer auf die Nase und kann dann
+  nicht mehr richtig sprechen. Die Wäscheklammer kann sich für
+  den Controller modify_comm anmelden, und den Text, den der Spieler
+  so von sich gibt, vernuscheln.
+
+
+Eigene Controller programmieren
+-------------------------------
+
+Bisher wurde nur behandelt, wie man sich für bestehende Controller
+anmeldet. Damit Controller aber überhaupt funktionieren, müssen
+sie erst einmal aufgerufen werden. Die Türglocke würde zum Beispiel
+nicht funktionieren, wenn die Standard-Tür nicht die Controller
+notify_open_door und notify_close_door beim Oeffnen und Schließen
+der Tür aufrufen würde.
+
+Der Aufruf wird von den Funktionen notify(), forbidden(), allowed(),
+concerned() und modify() übernommen. Diese Funktionen schauen,
+welche Objekte sich für den gewünschten Controller angemeldet haben
+und rufen in diesen die eigentliche Funktion aus und werten ggf.
+den Rückgabewert aus.
+
+Der Aufruf des notify_open_door-Controllers in der Tür könnte
+beispielsweise etwa so aussehen:
+
+    tuer->notify("open_door", spieler, tür, raum);
+
+Damit wird in allen Objekten, die sich per tuer->add_controller(...)
+bei der Tür für "notify_open_door" angemeldet haben, die Funktion
+notify_open_door(spieler, tür, raum) aufgerufen.
+
+Die Tür könnte diesen Event genausogut auch anderen Objekten melden,
+zum Beispiel:
+
+    spieler->notify("open_door", spieler, tür, raum);
+    raum->notify("open_door", spieler, tür, raum);
+
+Dieser Aufruf landet dann dementsprechend bei den Objekten, die sich
+beim Spieler bzw. beim Raum per add_controller(...) für "notify_open_door"
+angemeldet haben.
+
+In welchen Objekten ein Controller aufgerufen wird, ist der jeweiligen
+Dokumentation zu entnehmen. Meist wird der Aufruf in mehr als einem Objekt
+gemacht und dies leider nur recht umständlich erklärt.
+
+Es gibt auch noch zwei Hilfsfunktionen für den Aufruf eines Controllers
+in mehreren Objekten: do_notifies() und do_forbiddens(). Hierzu sollte
+man die jeweilige Dokumentation studieren.
+
+
+Anmerkungen zum Schluss
+-----------------------
+
+Am besten lernt man den Umgang mit Controllern, indem man einfach mal
+etwas rumprobiert. Meldet euch mal für den einen oder anderen Controller
+an, lasst euch Debugmeldungen ausgeben, schaut ob er aufgerufen wird
+und was passiert, wenn ihr eine bestimmte Aktion mit forbidden verhindert
+und so weiter...
+
+Dokumentation zu Controllern ist leider oft recht kompliziert geschrieben.
+Stellt in diesem Fall einfach Fragen dazu auf dem Kanal. Meist ist jemand
+da, der diesen Controller schon einmal benutzt hat und weiterhelfen kann.
+
+Komplizierte Formulierungen können oft auch durch einfachere ersetzt werden.
+
+

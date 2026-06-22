@@ -1,0 +1,11 @@
+command
+disable_commands
+enable_commands
+living
+set_heart_beat
+this_player
+set_living_name
+query_living_name
+find_living
+query_livings
+call_with_this_player

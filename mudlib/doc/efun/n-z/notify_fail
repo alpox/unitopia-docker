@@ -1,0 +1,48 @@
+FUNKTION: notify_fail
+DEKLARATION: varargs int notify_fail(mixed fail, int priority, int dont_overwrite)
+BESCHREIBUNG:
+Mit notify_fail() wird eine Fehlermeldung gesetzt, die der Spieler
+anstelle der Standardmeldung "Wie bitte?" bekommt, wenn die Ausfuehrung
+eines seiner Kommandos fehlschlaegt.
+
+Anstatt eines Strings kann auch eine Closure benutzt werden. Diese wird 
+ausgewertet, unmittelbar bevor der Spieler die Meldung erhaelt.
+Sie erhaelt den Befehlsgeber als Argument.
+
+In priority gibt man die Prioritaet der Meldung an. Dafuer gibt es folgende
+Konstanten in notify_fail.h:
+
+  FAIL_NOT_CMD:   Dieses Objekt definiert dieses Kommando eigentlich gar nicht,
+                  hat aus technischen Gruenden dies Aktion aber trotzdem oder
+                  will einfach nur dafuer sorgen, dass kein "Wie bitte?" kommt:
+                  Beispiel: "oeffne brot"
+
+  FAIL_NOT_OBJ:   Das Objekt definiert zwar dieses Kommando ist aber
+                  offensichtlich nicht gemeint. (Dies ist die Voreinstellung)
+                  Beispiel: "trink tee", wenn das Objekt aber Wein ist.
+
+  FAIL_WRONG_ARG: Das Objekt definiert dieses Kommando, koennte auch gemeint
+                  sein, die Argumente stimmen aber nicht.
+                  Beispiel: "schliesse tuer mit brot auf"
+
+  FAIL_INTERNAL:  Die Argumente stimmen, aber aus internen Gruenden
+                  funktioniert es nicht.
+                  Beispiel: "schliesse tuer mit schluessel auf", die Tuer
+                            ist aber schon offen.
+
+Es wird die zuletzt gesetzte Meldung mit der hoechsten Prioritaet ausgegeben.
+
+Nach Moeglichkeit sollte ein Kommando
+        notify_fail(meldung); return 0;
+    anstatt von
+        write(meldung); return 1;
+    benutzen, da dann andere Objekte das Kommando auch noch auswerten koennen.
+
+notify_fail() liefert immer 0 als Returnwert. Man kann also auch schreiben:
+    return notify_fail(meldung);
+
+Hinweis: Obwohl notify_fail mit notify_ anfaengt, ist es kein Controller.
+
+VERWEISE: add_action, query_verb, query_notify_fail
+GRUPPEN: simul_efun, grundlegendes, player
+SOURCE: /secure/simul_efun/notify_fail.inc

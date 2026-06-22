@@ -1,0 +1,9 @@
+FUNKTION: short_format_vseconds
+DEKLARATION: string short_format_vseconds(int seconds)
+BESCHREIBUNG:
+Liefert fuer seconds einen String der Form:
+'xd xh xm xs'
+wobei die Ausgabe in Spielzeit ist.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_seconds, short_format_seconds, format_vseconds
+SOURCE: /secure/simul_efun/time.inc

@@ -1,0 +1,9 @@
+FUNKTION: wessen
+DEKLARATION: varargs string wessen(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Genitiv deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat.
+Weitere Beschreibung ->wer
+VERWEISE: wer, wen, wem
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

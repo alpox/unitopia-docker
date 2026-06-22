@@ -1,0 +1,126 @@
+Funktionsdokus
+==============
+
+
+Der grundsätzliche Aufbau der Dokumentation einer Lfun
+------------------------------------------------------
+
+/*
+FUNKTION: funktionsname
+DEKLARATION: static varargs mixed funktionsname(string parameter, ...)
+BESCHREIBUNG:
+Hier kommt die eigentliche Dokumentation der Funktion.
+VERWEISE: weitere, funktionsnamen
+GRUPPEN: Gruppe1, Gruppe2
+*/
+
+
+Zu den einzelnen Elementen
+--------------------------
+
+    Kommentar:    Die Doku wird mit einem /*, welches am Zeilenanfang
+		  beginnen muss, eingeleitet. In der nächsten Zeile
+		  muss unmittelbar der Eintrag 'FUNKTION:' folgen.
+		  Abschließen muss die Doku mit einem */, welches ebenfalls
+		  am Zeilenafang steht.
+
+    FUNKTION:	  Dieser Eintrag wird gefolgt vom Funktionsnamen.
+		  Dieser Name darf wie in LPC nur aus Buchstaben, Zahlen
+		  oder Unterstrichen bestehen.
+		
+    DEKLARATION:  Hier kommt die Deklaration der Funktion. Sie ist
+                  auch bei Überlänge in einer Zeile zu schreiben.
+		  Man muss nicht die Originaldeklaration nehmen, sondern
+		  kann sie etwas verständlicher machen.
+		  (z.B. statt 'mixed arg' könnte man 'string file|object ob'
+		  schreiben, oder durch eine eckige Klammer andeuten, dass
+		  ein Parameter optional ist.)
+		  Man sollte jedoch die Modifier (nomask, static, private,
+		  varargs etc.) beibehalten.
+		  
+    BESCHREIBUNG: Unmittelbar nach der Deklaration beginnt mit diesem Eintrag
+                  die eigentliche Doku. Es ist zwar erlaubt, direkt
+		  hinter 'BESCHREIBUNG: ' noch in dieser Zeile mit der Doku
+		  zu beginnen, schöner ist es jedoch, mit einer neuen Zeile
+		  anzufangen.
+		  
+    VERWEISE:     Die durch Kommata getrennten Verweise können sich über
+                  mehrere Zeilen erstecken und sollten auf andere Funktionen
+		  (Lfuns oder Efuns) verweisen. Um von einer Lfun auf eine
+		  Efun (oder umgekehrt) zu verweisen, kann man dem Funktions-
+		  namen den Präfix 'efun::' (bzw. 'lfun::') voranstellen.
+		  Verweise auf Dateien sind nicht gern gesehen (und werden
+		  vom WWW-Script fehlerhaft verarbeitet).
+		  Dieser Eintrag ist optional.
+
+    GRUPPEN:      Hier folgt eine durch Kommata getrennte Auflistung von
+                  Gruppen, denen diese Funktion zugerechnet wird.
+		  Diese Auflistung kann sich ebenfalls über mehrere Zeilen
+                  erstrecken. Was alles als Gruppe zählt, dazu weiter unten
+		  mehr. Es sollte mindestens eine Gruppe eingetragen sein.
+
+    SOURCE:       Dieser Eintrag ist optional und sollte nur selten eingesetzt
+                  werden. Falls eine Dokumentation für Implementationen in
+		  verschiedenen Dateien gilt, so kann man damit die anderen
+		  Dateien angeben, die ebenfalls diese Funktion implementieren.
+		  Jede Datei hat auf einer einzelnen Zeile (jeweils mit einem
+		  'SOURCE: ' davor) zu stehen.
+
+Die Reihenfolge der Einträge bis zu BESCHREIBUNG ist genau einzuhalten.
+Da restlichen Einträge (VERWEISE, GRUPPEN, SOURCE) können in beliebiger
+Reihenfolge auftauchen, es wird der Übersichtlichkeit halber aber empfohlen,
+obige Reihenfolge zu übernehmen.
+
+
+Die Gruppen
+-----------
+
+Es gibt 3 Arten von Gruppen, welche in der Doku angegeben werden können:
+ - ACL-Gruppen:
+   Ein Gott, welcher direktes oder indirektes Mitglied dieser Gruppe oder
+   einer seiner Untergruppen ist, sieht diese Funktion.
+ - Virtuelle Gruppen:
+   Man kann eine ACL-Gruppe einfach um Untergruppen erweitern.
+   Ein Gott, welcher direktes oder indirektes Mitglied dieser ACL-Gruppe
+   ist, sieht diese Funktion.
+ - Gruppennamen, welche keine ACL-Gruppen sind und auch keine Doppelpunkte
+   haben: Jeder Gott sieht diese Funktion.
+
+Funktionen, welche nicht für das öffentliche Interesse bestimmt sind,
+sollten daher ausschliesslich(!) Gruppen der 1. und 2. Kategorie nutzen.
+Ausnahmen von diesen Regeln kann jeder Gott für sich mit dem
+(no)listgroup-Befehl definieren.
+
+Zur Schreibweise: ACL-Gruppen und virtuelle Gruppen sollten so geschrieben
+werden, wie sie angemeldet sind. Gruppen der 3. Kategorie sollten klein
+oder mit großen Anfangsbuchstaben geschrieben werden. (Dies ist keine
+Pflicht, falls man aber von dieser Regel abweicht, sollte man diese Gruppe
+überall einheitlich schreiben.)
+
+Die Gruppen 'Texte', 'Funktionen', 'Statistiken', 'Deklarationen',
+'WasIstWo' und 'WoIstWas' sind tabu.
+
+
+Enzy-Direktiven
+---------------
+
+Beim Einlesen der Dokumentation werden folgende Direktiven erkannt:
+
+// ENZY: KEINE
+ -> Das Einlesen der Doku dieser Datei wird an dieser Stelle abgebrochen
+ 
+// ENZY: GRUPPEN: Gruppe1, Gruppe2
+ -> Falls eine Doku keinen GRUPPEN-Eintrag besitzt, werden diese Gruppen
+    dort eingetragen.
+
+
+Sonstiges
+---------
+
+Die Doku wird jeden Sonntag morgen aus allen Dateien im /d, /p und /z, welche
+die Endung .c, .h oder .inc haben oder API heißen, eingelesen. Verzeichnisse
+mit dem Namen OLD, Old, TEST oder NEU werden ignoriert.
+Fehlermeldungen beim Einlesen werden nach /log/sys/DOKU geschrieben.
+Die Dokumentation aus dem /d, /p und /z ist nicht im öffentlichen
+muddocs.tar.gz enthalten. Stattdessen gibt es ein /tar/Doc/doc.tar.gz mit
+diesen Dokus.

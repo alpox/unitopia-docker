@@ -1,0 +1,13 @@
+Folgende Werte dürfen nicht unterschritten werden, das Minimum darf aber
+ruhigen Gewissens bei allen Waffen genutzt werden.
+
+      max. Schaden                   Gewicht
+(einschliesslich extra_damage)     
+
+      bis  5                            1
+      bis 10                            2
+      bis 15                            3
+      bis 20                            4
+      bis 25                            5
+   26 und höher                         6
+

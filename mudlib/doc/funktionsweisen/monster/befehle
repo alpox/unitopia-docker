@@ -1,0 +1,49 @@
+Spezielle Befehle, die Monster besitzen, spieler aber nicht.
+
+echo <text>    Der angegebene Text wird an alle Spieler
+               im selben Raum geschickt.
+
+
+
+Für Monster mit Seele:
+
+ich <text>     Wie der Spieler-ich-Befehl, aber mit normalen Message-Typen.
+
+emote <text>   Entspricht 100 % dem ich-Befehl der Spieler.
+               (Bei Monster-ich kommt die Meldung mit Message-Action
+                MA_UNKNOWN, Monster-emote und Spieler-ich mit MA_EMOTE)
+
+emote: <text>  Ähnlich dem emote-Befehl, nur das hier der vollständige
+               Text erst hinter dem Doppelpunkt folgt. D.h. es wird kein
+	       Der(this_player())+" " vorangestellt.
+	       (Beispiel: 'emote: $Des(ich) Schweinehund will nicht.')
+
+comm <text>    Der Befehl funktioniert wie der ich-Befehl und ermöglich
+               beliebige Kommunikationsformen, also nicht nur die festen
+               sage, frage, lisple, stottere, ...
+
+comm: <text>   Verhält sich wie der emote:-Befehl, nur mit MA_COMM
+               statt MA_EMOTE.
+
+
+   Beispiel:
+      comm schreit laut: HALLO !
+      Ausgabe:  Das Monster schreit laut: HALLO !
+
+      comm schreit $den(parsec) laut an: HALLO !
+      Ausgabe:  Das Monster schreit Parsec/Dich laut an: HALLO !
+
+   Unterschied zu ich und emote:
+      - Message-Action ist MA_COMM
+      - Der Text nach dem : wird mit wrap_say() umgebrochen (wie bei
+        allen Kommunikationsbefehlen).
+
+Alle Befehle sollen es erleichtern schnell 'richtig' gefärbte und
+umgebrochene Meldungen mit do_command, exec_command, in Rollen, Talk-NPCs,
+load_chat, usw. zu erzeugen ohne extra Funktionen schreiben zu müssen.
+
+Beispiele:
+  echo Du hörst ein lautes Knacken.
+  ich schaut $dem(Sissi) über die Schulter.
+  emote grinst und schmunzelt $den(Gnomi) an.
+  comm schreit laut: Hallo!

@@ -1,0 +1,12 @@
+------------------------------------------------------------------------------
+zsage   <text>                 Unterhaltung zwischen Göttern im selben Raum.
+zsag                           Diesen Text können nur Götter lesen,
+z'                             Spieler und NPCs bekommen davon nix mit.
+                               (Meldungstyp für die Farben: Debug)
+
+Beispiel:
+   zsage Hallo Garthan!
+   z'Und tschüss!
+
+siehe auch:   sage, farben, echo
+------------------------------------------------------------------------------

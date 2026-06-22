@@ -1,0 +1,12 @@
+3. WOFÜR werden einzelne Rechte vergeben?
+
+Rechte können für einzelne Dateien oder ganze Verzeichnissbaeume
+vergeben werden. Es ist also möglich, einzelnen Göttern ganz
+gezielt Schreibrechte auf einzelne Dateien zu geben.
+
+Hat ein Gott / ein Gruppe / eine Datei Rechte für ein ganzes
+Verzeichnis, so schließt dies auch alle Unterverzeichnisse mit ein!
+
+Insbesondere bei save_object kann es sehr sinnvoll sein, einem
+Objekt das Recht zu geben, sich auf genau eine und sonst keine Datei
+abzuspeichern.

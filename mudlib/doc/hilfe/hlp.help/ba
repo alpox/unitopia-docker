@@ -1,0 +1,16 @@
+------------------------------------------------------------------------------
+
+Als Bankier hast Du die Fähigkeit Bankgeschäfte zu tätigen ohne auf eine 
+Bank zu gehen.
+Der Bankier hat die Kommandos 'zahle', 'hebe ab', 'kontostand', 'wechsle' und
+'waehrung'
+
+Syntax:
+   zahle xxx Taler ein
+   hebe  xxx Taler ab
+   kontostand
+   wechsle xxx <valuta>    
+   währung [<waehrung>]	Setzt die Währung, in der Du mit den obigen
+				Befehlen handelst.
+
+------------------------------------------------------------------------------

@@ -1,0 +1,108 @@
+Die Basis der Landschaft in UNItopia bildet die sogenannte Map.
+
+Map:
+====
+
+Sie ist eigentlich ein zweidimensionaler Koordinaten-Raum im Bereich
+von  -2147483648  bis  +2147483647; es sind also theoretisch
+ca. 1.84 hoch 19 Räume möglich. Durch den Integerueberlauf gibt es
+allerdings keine Ränder, d.h. man kann sich die gesamte Map als einen
+Torus vorstellen.
+
+
+
+Map-Räume:
+==========
+
+Map-Räume haben als File-Namen grundsätzlich /map/mX_Y,
+wobei X und Y für die entsprechenden Koordinaten steht.
+
+Beim Laden eines Map-Raumes wird zuerst nach einer Datei entsprechenden
+Namens gesucht:
+
+- Existiert diese nicht wird sie erzeugt, geladen und sofort
+  wieder gelöscht. Diese Standard-Datei enthält nur eine Zeile, nämlich
+  > inherit "/i/room"; <.
+  Das Aussehen wird danach von dem File /map/map gesetzt.
+
+- Existiert die Datei, so wird sie nur geladen, d.h. /map/map
+  bekommt nichts davon mit.
+
+
+
+Domains:
+========
+
+Aus dieser Map können nun rechteckige Teil-Bereiche, die sogenannten
+"Domains" herausgeschnitten werden. Die Verantwortung für Verwaltung
+und Gestaltung liegt hierbei bei dem jeweiligen "Gouverneur", einem
+Spieler vom Level 25.
+
+Alle Domains sind in dem File /adm/DOMAINS mitsamt den Koordinaten
+ihrer linken unteren Ecke, ihren Ausmaßen und ihrem Gouverneur eingetragen.
+
+Ihr "physikalischer" Standort ist ein Subdirectory unter /d , der 
+erste Buchstabe einer Domain muss hierbei immer ein Großbuchstabe sein.
+
+
+
+Domain-Teilbereiche:
+====================
+
+Eine Domain wird wiederum in Teilbereiche unterteilt, wobei ein Teilbereich
+weitere Unterteilbereiche besitzen kann. 
+
+Die Teilbereiche sind Directorys unterhalb des Domain-Directorys.
+ 
+
+Domain-Maps:
+============
+
+Jede Domain bzw. jeder Teilbereich kann seinen eigenen map-File besitzen,
+d.h. /map/map sucht einfach nach /d/Domain/map und diese wiederum
+nach /d/Domain/map bzw. /d/Domain/mitglied/bereich/unterbereich/map.
+
+Der Vorteil dieser tiefen Verschachtelung liegt nun darin, dass
+jede Domain bzw. jeder Teilbereich lokale Koordinaten bezüglich
+seiner linken unteren Ecke bekommt, d.h. man muss nicht mehr seinen
+absoluten Standort in /map kennen.
+
+In
+	/d/std
+befindet sich eine Beispiel-Domain.
+
+
+
+Domain-Map-Räume:
+=================
+
+Beim Laden eines Raumes, der zu einer Domain gehört, wird nun zuerst
+nach dem entsprechenden File mit lokalen Koordinaten gesucht:
+
+/d/Domain/mX_Y bzw.
+/d/Domain/bereich/mX_Y
+/d/Domain/bereich/unterbereich/mX_Y
+
+- Ist dieser vorhanden, wird er auf den entsprechenden File mit
+  absoluten Koordinaten  /map/mX_Y kopiert.
+  Dieser wird geladen und sofort wieder aus dem Directory /map gelöscht.
+
+- Ist dieser nicht vorhanden, so werden zuerst die Voreinstellungen von
+  /map/map gesetzt und danach die Domain-Map /d/Domain/map, wenn
+  vorhanden, aufgerufen. Diese führt dann das gleiche Spielchen mit
+  ihrem Unterbereich und der Bereichs-Map /d/Domain/bereich/map bzw.
+  /d/Domain/bereich/unterbereich/map durch.
+
+
+
+Verlassen der Map:
+==================
+
+Kompliziertere Topologien wie Labyrinthe etc lassen sich in der Map
+nicht oder nur schwer realisieren. Deshalb können in Map-Räumen Ausgänge
+zu Nicht-Map-Räumen gesetzt werden.
+
+Nähres ist in
+	/doc/funktionsweisen/raeume/raumarten
+				    ausgaenge
+zu finden.

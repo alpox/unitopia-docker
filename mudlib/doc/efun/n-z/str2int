@@ -1,0 +1,16 @@
+FUNKTION: str2int
+DEKLARATION: int str2int(string str, int &value, int base = 10)
+BESCHREIBUNG:
+str2int wandelt einen String in einen Integer um, und liefert in der
+Referenz 'value' diesen Integerwert.
+Wenn ein Wert > 0 returned wird, konnte der String nicht vollstaendig
+umgewandelt werden wobei der Wert die Stelle anzeigt, an der der
+Fehler liegt (1. Buchstabe = 1).
+Bsp:
+   fehler=str2int("123", &i)    -> i==123; fehler==0;
+   fehler=str2int("123abc", &i) -> i==123; fehler==4;
+   fehler=str2int("abc", &i)    -> i==0;   fehler==1;
+Als Basis wird sofern nicht angegeben 10 genommen.
+VERWEISE: to_int, to_float, to_string
+GRUPPEN: simul_efun, typen
+SOURCE: /secure/simul_efun/math.inc

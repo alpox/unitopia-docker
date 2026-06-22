@@ -1,0 +1,4 @@
+export_uid
+geteuid
+getuid
+seteuid

@@ -1,0 +1,7 @@
+FUNKTION: query_livings
+DEKLARATION: object *query_livings()
+BESCHREIBUNG:
+Liefert alle Objekte, die einen Living-Namen haben.
+VERWEISE: set_living_name
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc

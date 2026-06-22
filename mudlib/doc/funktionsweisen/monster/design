@@ -1,0 +1,131 @@
+Was kann das Monster alles und welche Funktionen muss man aufrufen ?
+
+
+1. Um ein Monster zu initialisieren, sollte man im create nach dem
+   Aufruf von ::create() die Funktion
+
+	varargs void initialize(string rasse, int level)
+
+   aufrufen.
+
+   rasse   Damit wird die Rasse des Monsters festgelegt. Alle nachfolgenden
+           Angaben zu Stärke, Geschicklichkeit, Intelligenz und Ausdauer
+	   (siehe set_one_stat) werden dann relativ zu dieser Rasse gesehen.
+	   Alle verfügbaren Rassen sind in /static/adm/MONSTER_DEFS definiert.
+	   Das Monster erhält diese Rasse auch als Namen und ID gesetzt.
+	   Geschlecht, Hände, Körperform, -größe und die Fähigkeiten
+	   werden entsprechend der Rasse gesetzt.
+
+   level   Es werden Werte zwischen 1 und 100 aktzeptiert. Ist nichts
+           angegeben, wird level auf 1 gesetzt.
+	   Stärke, Geschicklichkeit, Intelligenz, Ausdauer (und damit
+	   verbunden die Ausdauer- und Zauberpunkte) und die Werte für den
+	   waffenlosen Kampf werden auf die Werte eines Lebewesens dieser
+	   Rasse mit vergleichbaren Level gesetzt.
+
+   Ist man mit den obigen Werten nicht zufrieden, kann man diese auch einzeln
+   angeben. Dies sollte aber nur in Ausnahmefällen geschehen.
+
+         1. Setzen von Stärke, Intelligenz, Ausdauer oder Geschlicklichkeit
+	 
+	        void set_one_stat(int stat, int level)
+		
+         2. Setzen der HPs:
+ 
+                void give_hp(int wieviel)
+
+         3. Setzen der SPs:
+
+                void give_sp(int wiviel)
+
+         4. Setzen des Hand-Kampfwertes:
+
+                void give_weapon_level(int wieviel)
+
+         5. Setzen der Ruestungs-Stärke (Dicke des Fells :-) ):
+
+                void give_armour_level(int wieviel)
+
+
+
+2. Das Monster kann Gegenstände aufnehmen, die in der Umgebung herumliegen.
+   Dies geschieht im Heartbeat, passiert also nur, wen ein Spieler in der
+   Nähe ist.
+
+          void set_random_pick(int Wahrscheinlichkeit_in_Prozent)
+
+   Bei set_random_pick(0) wird nie etwas aufgehoben (default), bei
+   set_random_pick(100) bei jeder sich bietenden Gelegenheit.
+
+
+
+3. Soll das Monster sofort angreifen, wenn ein Spieler in seine Nähe kommt,
+   so setzt man
+
+          void set_aggressive(1);
+
+   Voreinstellung ist set_aggressive(0).
+
+
+
+4. Soll das Monster nur bestimmte Spieler angreifen, gibt man zusätzlich
+   noch
+
+          void set_attack_list(string *Namen_der_Spieler)
+
+   an. Soll es bestimmte Spieler NICHT angreifen, dann wählt man:
+
+           void set_no_attack_list(string *Namen_der_Spieler)
+
+
+
+5. Soll im Init des Monsters (wenn ein Spieler sich naehert) bestimmte
+   Dinge ausgeführt werden (zB fragen was er will), kann man dem Monster
+   mit:
+
+          void set_init_ob(object Objekt)
+
+   ein Objekt miteilen (meistens der Raum, der das Monster erzeugt), in
+   dem es dann die Funktion
+
+          void monster_init()
+
+   aufruft. In dieser Funktion kann dann alles mögliche gemacht werden.
+   
+   WICHTIG: this_player() == Spieler
+            this_object() == Objekt (meistens der Raum)
+            previous_object() == Monster
+
+   Ein Beispiel ist Ole Olsen in /d/Vaniorh/uluji/zoll/hafenmeister.c
+
+
+
+6. Stirbt das Monster und will man dabei noch irgend welche Sachen machen
+   (zB ein neues Monster erzeugen, Türen öffnen oder schließen etc),
+   gibt man dem Monster mit:
+
+
+          void set_dead_ob(object Objekt)
+
+   ein Objekt an (meistens der Raum, der das Monster erzeugt) in dem dann
+   die Funktion
+
+          void monster_died(object Sterbendes_Monster)
+
+   aufgerufen wird und ein Pointer auf das sterbende Monster übergeben wird.
+   Das Monster kann allerdings NICHT am Leben erhalten werden. 
+
+   WICHTIG: this_player() == Spieler
+            this_object() == Objekt (meistens der Raum)
+            previous_object() == Monster
+
+
+
+7. Erhält der Raum, in dem sich das Monster befindet einen cleanup-Aufruf,
+   und ist das Monster bei voller Gesundheit, so wird es mitsamt dem Raum
+   gelöscht! Will man das verhindern (weil zB das Monster im Zuge eines
+   Rätsels erhalten werden muss) ruft man:
+
+          void set_prevent_cleanup()
+
+   auf.

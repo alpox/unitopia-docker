@@ -1,0 +1,7 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität übernimmt:
+            driver_info(DI_LOAD_AVERAGE_COMMANDS)
+        bzw.
+            driver_info(DI_LOAD_AVERAGE_LINES)
+

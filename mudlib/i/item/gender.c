@@ -1,0 +1,93 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:	/i/item/gender.c
+// Description:
+// Modified by:	Freaky (26.02.1998) set_gender() jetzt auch mit "w" und "m"
+
+#pragma save_types
+#pragma strong_types
+
+#include <error.h>
+
+private string gender;
+private int plural;
+
+
+/*
+FUNKTION: set_gender
+DEKLARATION: void set_gender(string gender)
+BESCHREIBUNG:
+Setzt das grammatikalische Geschlecht des Objektes.
+Moeglich sind: "maennlich", "weiblich" oder "saechlich" (default).
+VERWEISE: query_gender, set_name
+GRUPPEN: grundlegendes
+*/
+void set_gender(string g)
+{
+    if (member(({"maennlich","männlich","weiblich","saechlich","sächlich","m","w","s"}),g)==-1)
+    {
+        do_error2("set_gender("+g
+                +") nicht maennlich, männlich, m, weiblich, w, saechlich, sächlich, s\n",
+                __FILE__, 
+                object_name(extern_call()?previous_object():this_object()), 
+                __LINE__);
+    }
+    if (g == "maennlich" || g == "weiblich")
+        gender = g;
+    else if (g == "m" || g == "männlich")
+        gender = "maennlich";
+    else if (g == "w")
+        gender = "weiblich";
+    else
+        gender = "saechlich";
+    this_object()->add_setter_conservation("set_gender",({gender}) );
+}
+
+/*
+FUNKTION: query_gender
+DEKLARATION: string query_gender()
+BESCHREIBUNG:
+Gibt das grammatikalische Geschlecht eines Objektes zurueck.
+VERWEISE: set_gender, query_real_gender
+GRUPPEN: grundlegendes
+*/
+string query_gender() { return gender; }
+
+/*
+FUNKTION: query_real_gender
+DEKLARATION: nomask string query_real_gender()
+BESCHREIBUNG:
+Gibt das "echte", nicht von Shadows beeinflusste grammatikalische Geschlecht
+eines Objektes zurueck.
+VERWEISE: set_gender, query_gender
+GRUPPEN: grundlegendes
+*/
+nomask string query_real_gender() { return gender; }
+
+
+
+/*
+FUNKTION: set_plural
+DEKLARATION: void set_plural(int p)
+BESCHREIBUNG:
+Gibt an, ob der Name des Objektes in der Pluralform vorliegt.
+Moeglich sind: 1 oder 0.
+VERWEISE: query_plural, set_name
+GRUPPEN: grundlegendes
+*/
+void set_plural(int a)
+{
+    plural = a!=0;
+    this_object()->add_setter_conservation("set_plural",({plural}) );
+}
+
+/*
+FUNKTION: query_plural
+DEKLARATION: int query_plural()
+BESCHREIBUNG:
+Gibt 1 zurueck, wenn der Name des Objektes in der Pluralform vorliegt,
+ansonsten 0.
+VERWEISE: set_plural
+GRUPPEN: grundlegendes
+*/
+int query_plural() { return plural; }

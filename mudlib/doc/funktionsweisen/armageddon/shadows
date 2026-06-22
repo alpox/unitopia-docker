@@ -1,0 +1,25 @@
+Shadows, welche Einzelobjekte oder Factory-Objekte überlagern,
+können mit dem Objekt gespeichert werden, wenn sie ein bestimmtes
+Funktionsinterface unterstützen. Wenn nicht, dann verhindert "eine Art Fluch"
+die Einlagerung.
+
+Folgende Funktionen sind denkbar:
+- string precheck_conservation()
+- mixed query_conservation_arg_sh(object shadow)
+- void init_conservation_shadow_arg(mixed m)
+
+- string precheck_conservation()
+Sollte der Shadow permanent oder temporär eine Einlagerung verhindern,
+kann mit dieser Funktion ein Grund für die Spieler angegeben werden,
+welcher von der Standardmeldung abweicht.
+
+- mixed query_conservation_arg_sh(object shadow)
+Wenn shadow==this_object() soll diese Funktion die Daten !=0 zurückgeben,
+welche zum Initialisieren des Shadows notwendig sind, im einfachsten Fall 1.
+
+- void init_conservation_shadow_arg(mixed m)
+Beim Wiedererschaffen(auslagern) wird der Shadow geladen und vor dem 
+Überwerfen über den Gegenstand mittels init_conservation_shadow_arg
+initialisiert, welche als Daten durch query_conservation_arg_sh übergeben 
+wurde.
+

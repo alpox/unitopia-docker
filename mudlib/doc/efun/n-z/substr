@@ -1,0 +1,16 @@
+FUNKTION: substr
+DEKLARATION: string substr(string text, int n[, int len [,string pattern]] )
+BESCHREIBUNG:
+Gibt den Teil von text zurueck, der mit dem n'ten Zeichen beginnt
+und len lang ist. Wenn noetig wird mit dem Zeichen pad aufgefuellt.
+Voreinstellung fuer pad ist das Leerzeichen.
+Wird len nicht angegeben, so wird der Rest von text zurueckgegeben.
+
+Beispiele:
+        substr("abc",2)         -->     "bc"
+        substr("abc",2,4)       -->     "bc  "
+        substr("abc",2,6,".")   -->     "bc...."
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, center, right, wrap
+SOURCE: /secure/simul_efun/string.inc

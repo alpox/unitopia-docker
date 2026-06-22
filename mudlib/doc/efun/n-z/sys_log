@@ -1,0 +1,9 @@
+FUNKTION: sys_log
+DEKLARATION: void sys_log(string file_name, string message)
+BESCHREIBUNG:
+Haengt den String 'message' an das file /log/sys/<file_name> an.
+Ist fuer Debuggingzwecke oder zum Mitloggen von Systemdaten.
+Steht nicht fuer normale Objekte zur Verfuegung.
+GRUPPEN: simul_efun, file
+VERWEISE: write_file, log_file
+SOURCE: /secure/simul_efun/log.inc

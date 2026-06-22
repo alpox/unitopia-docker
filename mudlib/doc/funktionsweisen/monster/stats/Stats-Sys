@@ -1,0 +1,19 @@
+Das Stats-System
+----------------
+
+Die Fähigkeiten eines Lebewesens (Monster, Spieler) werden vor allem 
+durch seine Stats bestimmt. 
+
+Ein Lebewesen ab Intelligenz 30 kann sprechen und handeln und gilt als 
+'intelligent', d.h. als kein Tier. 
+
+Ein Lebewesen ab Intelligenz 25 kann Waffen führen. 
+
+Für Monster, die keine Waffen führen können, kann man statt dessen 
+v_items mit der id "natural#weapon" erstellen, mit denen man die Namen 
+der "Hände" setzen kann.   
+
+Es werden auch Werte über 100 bei Monstern zugelassen. Hier muss man 
+sich aber genau überlegen, welche. Menschen bekommen das auf keinen Fall.
+
+

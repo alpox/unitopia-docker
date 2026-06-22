@@ -1,0 +1,558 @@
+
+  move()
+  ======
+
+  Möchte ein Objekt sich selbst bewegen oder sich von anderen
+  bewegen lassen, so muss es folgende Funktion aufrufen:
+  
+  -----------------------------------------------------
+  varargs nomask int move(mixed ziel, mapping mv_infos)
+  -----------------------------------------------------
+
+  die von allen bewegbaren Objekten mittels  inherit "/i/move";  inheritet 
+  werden muss.
+  
+
+  mixed ziel:
+  -----------
+
+    Als Ziel wird eines von folgenden Typen akzeptiert:
+
+    - object raum
+
+      Ein Objektpointer auf das Objekt in das dieses gemoved 
+      werden soll.
+      OBJ("/room/church")
+     
+     - string Richtung
+
+      Ein Richtung, in die das Objekt den Raum in dem es sich 
+      befindet, verlassen soll.
+      "norden", "osten",...
+
+    - string Filename eines Raums
+
+          Der Filename des Objekts, in das dieses Objekt gemoved 
+      werden soll. 
+      "/room/church"
+
+  int mv_infos[MOVE_FLAGS]:
+  -------------------------
+  
+      Es wird zwischen folgenden Bewegungs-Arten unterschieden:
+  
+      mv_infos[MOVE_FLAGS] = MOVE_NORMAL
+
+          Normale Bewegung.
+          Es werden Bewegungsmeldungen ausgegeben.
+          Das bewegte Objekt bekommt auch davon mit.
+          siehe auch MOVE_MSG_* für alternative Meldungen.
+          Beispiel: Spielerbewegung
+
+      mv_infos[MOVE_FLAGS] = MOVE_MAGIC
+      
+          Magische Bewegung.
+          Es werden die Bewegungsmeldungen für magische
+          Bewegungen ausgegeben, sonst wie  MOVE_NORMAL.
+          siehe auch MOVE_MSG_* für alternative Meldungen.
+          Beispiel: Teleport-Fähigkeiten der Götter
+          
+      mv_infos[MOVE_FLAGS] = MOVE_SECRET 
+         
+          Geheime Bewegung.
+
+          Niemand soll etwas davon mitbekommen, 
+          nicht einmal das bewegte Objekt selbst.
+          (D.h. just_moved() wird nicht aufgerufen.)
+          Beispiel: in Befehl der Götter.
+
+      mv_infos[MOVE_FLAGS] = 0
+          Erweiterte geheime Bewegung;
+          
+          Nur das bewegte Objekt bekommt eine Mitteilung.
+          Es werden keine Bewegungsmeldungen ausgegeben.
+          (D.h. just_moved() wird aufgerufen.)
+
+          Beispiel: Fast alle Objekte werden so ins Spiel
+                gebracht.
+                
+      mv_infos[MOVE_FLAGS] = MOVE_GHOST
+          wird nur von der Mudlib gesetzt, wenn ein Geist sich
+          z.B. durch eine Tür bewegt. (Erweiterung von MOVE_MAGIC)
+                
+      mv_infos[MOVE_FLAGS] |= MOVE_ERR_REMOVE
+          Zusätzlich oder ersatzweise zu obigen Flags
+          kann das Objekt bei Fehlschlag des moves
+          mit Hilfe dieses Flags zerstört werden.
+          Beispiel: Schlägt der Move bei der Erschaffung fehl.
+          
+      mv_infos[MOVE_FLAGS] |= MOVE_FORCE
+          Nur prviligierte Objekte dürfen ein move durchführen,
+          dass ohne modify_ oder forbidden_-Controller bewegt wird.
+          
+          Beispiel: Mailreader in den Player bewegen (auf jeder Post).
+
+    Die Konstanten sind im Include-File /sys/move.h definiert.
+    Siehe auch Beispiele 'bsp move'.
+
+  string mv_infos[MOVE_MSG_ENTER]:
+  string mv_infos[MOVE_MSG_LEAVE]:
+  string mv_infos[MOVE_MSG_ME]:
+  mixed* mv_infos[MOVE_MSG_LEAVE_OTHERS]:
+  mixed* mv_infos[MOVE_MSG_ENTER_OTHERS]:
+  -----------------
+
+        Hiermit können (muessen aber nicht) dem move explizite Regeln
+    für die Bewegungsmeldungen übergeben werden, die dann alle anderen
+    (die des Objekts und die des Raumes) überlagern.
+
+    Zu den Bewegungsmeldungen siehe unten.
+
+              
+  Returncodes:
+  ------------
+      move() gibt folgende der im Include-File /sys/move.h
+      definierten Werte zurück:
+  
+          MOVE_NOT_ALLOWED    Bewegung nicht erlaubt.
+ 
+          MOVE_OK             Bewegung erfolgreich.
+  
+          MOVE_NO_ROOM        Nicht genügend Platz im Ziel.
+  
+          MOVE_DEST_CLOSED    Ziel ist geschlossen.
+                              (siehe /i/contain)
+  
+          MOVE_ENV_CLOSED     Umgebung ist geschlossen.
+                              (siehe /i/contain)
+
+          MOVE_NO_DEST        Ziel exsistiert nicht.
+
+          MOVE_DESTRUCTED     Objekt wurde beim move zerstört.
+
+
+
+  Funktionsweise:
+  ---------------
+
+
+  - Als erstes versucht move() aus dem übergebenen Parameter 'ziel' den
+    Raum zu bestimmen, in den das Objekt bewegt werden soll.
+    Kann dieser nicht gefunden/geladen werden so bricht move() ab und
+    liefert MOVE_NO_DEST zurück. Es wird bei MOVE_FORCE geprüft, ob das 
+    bewegende/bewegte Objekt priviligiert für einen MOVE_FORCE ist.
+   
+  - Nach dem ERSTEN move-Aufruf wird gespeichert, wo sich das Objekt
+    momentan befindet, um somit rauszubekommen wo ein Objekt das erste mal
+    Hinbewegt wurde. Auf diese Weise können Fehler leichter gefunden werden.
+    Abfrage geht mit query_first_room()
+
+  - In lebende Objekte darf man sich nicht als lebendes Objekt 
+    hineinbewegen. -> Abbruch des move(), return wert MOVE_NOT_ALLOWED
+    
+  - Vor den forbidden_move*-Controllern werdend ie modify_move*-Controller
+    aufgerufen, siehe Controller weiter unten.
+
+  - Das Gewicht des Objekts wird im Zielraum dazuaddiert, schlägt das fehl, 
+    weil der Raum voll ist, so wird der move() abgebrochen und
+    MOVE_NO_ROOM zurückgeliefert.
+
+  - Im Ursprungsraum wird die Funktion 
+
+    <string|int> let_not_out(mapping mv_infos)
+
+    aufgerufen. Liefert diese Funktion einen Wert ungleich 0, so ist 
+    die Bewegung verboten. (Unsichtbare Götter dürfen trotzdem raus.)
+
+    Anmerkung: Damit ist auch die filter_<richtung> Sache im Raum
+           realisiert. 
+    Rückgabewert kann ein String an den Bewegten sein wenn es nicht 
+    klappen soll. Bei int != 0 muss die Meldung z.B. mit set_not_moved_reason
+    oder mit send_message übermittelt werden.
+
+
+  - Im Zielraum wird die Funktion 
+
+    <string|int> let_not_in(mapping mv_infos)
+
+    aufgerufen. Liefert diese Funktion einen Wert ungleich 0, so ist
+    die Bewegung verboten. (Unsichtbare Götter dürfen trotzdem rein.)
+    Rückgabewert kann ein String an den Bewegten sein wenn es nicht 
+    klappen soll. Bei int != 0 muss die Meldung z.B. mit set_not_moved_reason
+    oder mit send_message übermittelt werden.
+
+  - Im Ursprungsraum wird das Gewicht des Objekts abgezogen.
+
+  - Wenn 'wie' entsprechend gesetzt ist wird jetzt im Ursprungsraum
+    eine Bewegungsmeldung ausgegeben. Diese hängt vom explizit über-
+    gebenen string MOVE_MSG_LEAVE Eintrag, von den eingestellten 
+    Bewegungsmeldungen des Objekts und des Ursprungsraums ab.
+    Näheres siehe unten.
+
+  - Jetzt wird im Ursprungsraum die Funktion
+
+    void moved_out(mapping mv_infos)
+
+    aufgerufen.
+
+  - Jetzt erfolgt die eigentliche Bewegung über den efun-call
+    move_object(). move_object() kann nur von move() aufgerufen werden.
+
+  - Wenn 'wie' entsprechend gesetzt ist wird jetzt im Zielraum
+    eine Bewegungsmeldung ausgegeben. Diese hängt vom explizit über-
+    gebenen string MOVE_MSG_ENTER Eintrag, von den eingestellten 
+    Bewegungsmeldungen des Objekts und des Ursprungsraums ab.
+
+  - Objekte mit der Eigenschaft sichtbar zu werden, nach dem nächten
+    move, werden jetzt sichtbar. (set_hidden_until_next_move)
+
+  - Wenn 'wie' entsprechend gesetzt ist (alles außer wie = MOVE_SECRET)
+    wird im bewegten Objekt die Funktion 
+
+    void just_moved()
+
+    aufgerufen.
+
+  - Im Zielraum wird entsprechend die Funktion 
+    
+    void moved_in(object bewegtes_obj, object woher)
+
+    aufgerufen.
+
+  - Da offensichtlich alles geklappt hat, wenn die Funktion hier
+    ankommt, wird  MOVE_OK zurückgeliefert. Das war's.
+
+
+
+
+  Gewicht
+  =======
+
+   Jedes bewegbare Objekt sollte ein Gewicht haben.
+
+         void set_weight(int gewicht)
+             Setzt das Gewicht diese Objektes.
+             Voreinstellung: 1
+
+         int query_weight()
+             Liefert das Gwicht dieses Objektes zurück.
+
+   Jedes Objekt, dass ein Gewicht hat, addiert bei Betreten oder
+   subtrahiert beim Verlassen einer Umgebung sein eigenes Gewicht
+   in der Encumbrance der Umgebung (siehe /i/contain).
+  
+
+
+  remove()
+  ========
+
+   Grundsätzlich sollten Objekte nicht mit destruct(..) beseitigt werden,
+   sondern mit der Funktion remove(). Programmierer können dann noch
+   Aktionen (Schatten zerstören, Variablen setzen etc) durchführen.
+   Damit jedes Objekt mit remove() zerstört werden kann, ist hier eine
+   "Default"-Routine definiert, die ein einfaches destruct(..) enthält,
+   aber jederzeit überlagert werden kann. Kurz vor dem Zerstören wird noch
+   notify_remove aufgerufen.
+
+
+  Bewegungsmeldungen
+  ==================
+
+
+  Alle Objekte, die an der Bewegung beteiligt sind sollten 
+  eine Möglichkeit haben, die Bewegungsmeldungen zu 
+  beinflussen.
+
+  Bislang werden allerdings nur das bewegte Objekt und der Ursprungs-
+  raum zur Erstellung der Bewegungsmeldungen herangezogen.
+
+  Der Zielraum bleibt unberücksichtigt. Die Bewegungsmeldung beim
+  Betreten eines Raumes hängt nur vom Usprungsraum und vom bewegten 
+  Objekt ab.
+
+  Um maximale Flexibilität zu ereichen wird folgende Hierarchie
+  benutzt:
+
+  - Zuerst werden die expliziten Parameter beim Aufruf von move()
+    abgefragt. (MOVE_MSG_LEAVE, MOVE_MSG_ENTER, MOVE_MSG_ME, 
+    MOVE_MSG_LEAVE_OTHERS,MOVE_MSG_ENTER_OTHERS )
+    Sind sie ungleich Null so werden sie verwendet.
+  - in modify_move* können die Bewegungsmeldungen noch während des moves
+    angepasst werden (siehe Controller unten).
+  - Jetzt wird im bewegten Objekt gefragt, ob es 
+    Bewegungsmeldungen gesetzt hat, die unabhängig vom Raum
+    immer verwendet werden sollen (Pflichtmeldungen)
+  - Sind keine solchen gesetzt, wird der Raum abgefragt.
+    Sind für den speziellen Ausgang Bewegungsmeldungen 
+    gesetzt, so werden diese benutzt, ansonsten Defaultmeldungen
+    des Raums.
+  - Liefert der Raum keine Bewegungsmeldungen, wird nochmals das
+    bewegte Objekt befragt, ob es Meldungen gesetzt hat 
+    (also keine Pflichtmeldungen).
+  - Hat auch das Objekt keine Meldung auf Lager, so wird eine 
+    Defaultmeldung von move() generiert.
+
+
+  Zum Setzen und Abfragen der Bewegungsmeldungen werden nun im Objekt 
+  und im Raum zahlreiche Bewegungsmeldungen zur Verfügung gestellt.
+
+  Die meisten setzten eine 'Regel' zur Erstellung der Bewegungsmeldung:
+
+  Eine Regel hat folgende Form:
+
+  "... $Der() ...beliebiger Text... $dir() ... "
+
+  Die Symbole $Der(), $der(), $Ein(), $ein() werden vom move() durch
+  die entsprechenden Grammatikaufrufe ersetzt (Pseudoclosures).
+
+  $dir() bzw. $Dir() wird durch die Richtung der Bewegung ersetzt.
+
+  Beispiel:
+
+     $Der()  ==>  "Garthan"
+
+     $dir()  ==>  "nach Osten"
+
+  Die Regel
+
+     "$Der() hopst $dir() davon."
+
+  ergibt dann:
+
+     "Garthan hopst nach Osten davon.\n"
+
+  
+  Folgende Funktionen gibt es zu den Bewegungsmeldungen 
+  in jedem bewegbaren Objekt: (Sie werden hier in /i/move definiert.)
+
+  Zum Setzen:  (im OBJEKT)
+  -----------
+
+  void set_msg_out (string verlassen_regel);
+  void set_msg_in  (string ankommen_regel);
+  void set_mmsg_out(string magisch_verlassen_regel);
+  void set_mmsg_in (string magisch_ankommen_regel);
+
+  Bei den letzten zwei wird $dir() bzw. $Dir() immer zu einem
+  Leerstring expandiert, da bei magischen Bewegungen keine Richtung
+  definiert ist.
+
+  Die ankommen_regeln beziehen sich IMMER auf das Ankommen im ZIELraum, nicht
+  im Ursprungsraum!
+
+  set_msg(string verlassen_regel, string ankommen_regel, int pflichtmeldung);
+  set_mmsg(string magisch_verlassen_regel, string magisch_ankommen_regel);
+
+  Die letzten zwei sind Kombinationsfunktionen der obigen vier.
+  Bei set_msg kann mitangegeben werden ob die Regel zur Pflichtregel wird,
+  und auf jeden Fall den Raummeldungen vorgezogen wird.
+
+
+  Zum Abfragen der Regeln: (im OBJEKT)
+  ------------------------
+
+  string query_msg_in();
+  string query_msg_out();
+  string query_mmsg_in();
+  string query_mmsg_out();
+
+  Zum Abfragen der precompilierten Regeln (zum Abfragen der Closures):
+  --------------------------------------------------------------------
+  (im OBJEKT)
+
+  closure query_c_msg_in();
+  closure query_c_msg_out();
+  closure query_c_mmsg_in();
+  closure query_c_mmsg_out();
+
+
+  Zum Abfragen der expandierten Bewegungsmeldungen: (im OBJEKT)
+  -------------------------------------------------
+
+  varargs string query_exp_msg_out(string dir);
+  varargs string query_exp_msg_in(string dir);
+  varargs string query_exp_mmsg_out(string dir);
+  varargs string query_exp_mmsg_in(string dir);
+
+  wobei man hier den Richtungsstring selbst übergeben kann ("nach Osten")
+
+
+
+  Und jetzt die Funktionen im RAUM:
+
+  Zum Setzen  der Defaultraummessage im RAUM:
+  -------------------------------------------
+
+  void set_msg_out(string verlassen_regel);
+  void set_msg_in(string ankommen_regel);
+
+  set_msg(string verlassen_regel, string ankommen_regel);
+
+  Die ankommen_regel bezieht sich IMMER auf das Ankommen im ZIELraum, nicht
+  im Ursprungsraum!
+
+  Zum Setzen einer speziellen Meldung für einen speziellen Ausgang im RAUM:
+  -------------------------------------------------------------------------
+
+  varargs void set_exit_msg(string dir, mixed raus, mixed rein, mixed selbst)
+
+  ausgangs_kommando ist dann der Befehl mit dem man den Raum 
+            regulär verlässt ( "norden", ... )
+
+
+  Richtungsmeldungen
+  ------------------
+
+  In der Regel erzeugt entweder der Raum oder das zu bewegende Objekt
+  die Richtungsmeldungen  ("nach Osten", "von unten", ...), die
+  dann vom move() in den Regeln für $dir() und $Dir()  eingesetzt 
+  werden.
+
+  Für gewöhnliche Richtungsmeldungen nimmt einem der move() die 
+  Arbeit ab. (alle Himmelsrichtungen und oben/unten/links/rechts)
+
+  Will man aber für einen bestimmten Ausgang eine bestimmte Richtungs-
+  meldung setzten so verwendet man im RAUM:
+
+  set_dir_msg(string ausgangs_kommando, string richtung_raus, 
+                    string richtung_rein);
+
+  
+  Für ganz abgefahrene Situationen kann man auch noch die 
+  Präpositionen ändern, die bei Standardrichtungsmeldungen
+  verwendet werden (normalerweise "nach" und "von").
+
+  Das geschieht im Raum für alle Raumausgaenge mit:
+
+  void set_dir_prep(string praep_raus, string praep_rein)
+
+  oder einzeln:
+
+  void set_dir_prep_in(string praep_rein);
+  void set_dir_prep_out(string praep_raus);
+
+  und abzufragen mit:
+
+  string query_dir_prep_in();
+  string query_dir_prep_out();
+
+
+  SET_NO_MOVE
+  ===========
+
+  Mit der Funktion set_no_move(1) können Objekte quasi installiert werden,
+  dass heißt sie können sich danach nicht mehr bewegen.
+  Mit set_no_move(0) können sie wieder bewegbar gemacht werden.
+  Letzeres funktioniert nicht mit echten "install"ed Objekten, diese
+  sollen ja NIE bewegt werden. Siehe auch set_no_move_reason.
+  
+  
+  Controller
+  ==========
+  Über zahlreiche Controller kann ein move beeinflusst oder vom move 
+  informiert werden, hier die Liste in der Reihe ihres Aufrufs:
+  
+    modify_move_out,modify_move,modify_move_in:
+    -------------------------------------------
+    Die modify_move-Controller werden in obiger Reihenfolge jeweils einmal 
+    aufgerufen, d.h. wenn sich z.B. mv_infos[MOVE_NEW_ROOM] in 
+    modify_move_in geändert werden, wird kein modify_move-Controller nochmals
+    informiert. Es kann jeder Parameter geändert werden, der Programmierer
+    muss für die Konsistenz sorgen. 
+    (Beispiel: MOVE_EXIT_INFO zusammen mit MOVE_DEST_STR usw.)
+    In den folgenden Controllern lassen sich die MOVE-Parameter nicht mehr
+    ändern, aber es ist möglich, vom move unabhängige Parameter zu verwenden.
+    
+    let_not_out,forbidden_move_out,let_not_in,forbidden_move_in,forbidden_move:
+    ---------------------------------------------------------------------------
+    Über mv_infos werden allen Controllern die Informationen zur Verfügung 
+    gestellt und alle Controller haben den Rückgabewert <int|string>.
+    Bei einem int-Wert ungleich 0 wird die Bewegung verhindert, der Controller
+    ist für ide Ausgabe einer Meldung verantwortlich. Bei einem String wird
+    eine Meldung an das bewegte Objekt ausgegeben.
+    
+    notify_move,notify_move_in,notify_move_out:
+    -------------------------------------------
+    Am objekt und im Zielraum wird der kurz vor dem move die Informationen
+    mit mv_infos geliefert.
+    
+    (eigentlicher move durch aufruf von efun::move_object)
+    
+    moved_out,notify_moved_out:
+    ---------------------------
+    Der alte Raum/dessen Controller werden über das Verlassen informiert.
+    
+    just_moved:
+    -----------
+    Das Objekt erhält die Info just_moved (ohne Parameter).
+    
+    moved_in,notify_moved_in:
+    -------------------------
+    Der neue Raum/dessen Controller werden über das Ankommen informiert.
+    
+    notify_moved:
+    -------------
+    Die Controller des Objektes erhalten die Informationen (mv_infos).
+    
+    notify_move_failed(mapping mv_infos,int ret):
+    --------------------------------------
+    Dieser spezielle Controller am Objekt wird nur in den Fällen aufgerufen,
+    in denen der Move fehlschlägt UND das Objekt noch existiert.
+    ret enthält den Rückgabewert des Moves, siehe ? move.
+
+  Controller-Parameter:
+  =====================
+    Für alle obigen Controller wird das mapping mv_infos übergeben:
+    Eingabeparameter:
+Name            Typ             Bedeutung
+--------------- --------------- -----------------------------------------------
+MOVE_FLAGS      int             Eine Kombination von Flags. Eine Liste der
+                                möglichen Flags gibt es weiter unten.
+
+MOVE_TYPE       string          Enthält das Verb für die Art der Bewegung.
+
+MOVE_MSG_LEAVE  string          Eine Bewegungsmeldung an die Umgebenden im
+                                Ausgangsraum.
+
+MOVE_MSG_ENTER  string          Eine Bewegungsmeldung an die Umgebenden im
+                                Zielraum.
+
+MOVE_MSG_ME     string          Bewegungsmeldung an den Bewegenden.
+
+
+MOVE_MSG_LEAVE_OTHERS
+                mixed*          Mit diesem Array kann man Bewegungsmeldungen
+                                an Dritte im Ausgangsraum formulieren:
+                                ({
+                                    <object|object*> whom1,
+                                    <string> meldung_an_whom1,
+
+                                    <object|object*> whom2,
+                                    <string> meldung_an_whom2,
+
+                                    ...
+                                })
+
+MOVE_MSG_ENTER_OTHERS
+                mixed*          Gleicher Aufbau und Funktion wie
+                                MOVE_MSG_LEAVE_OTHERS für den Zielraum.
+
+
+Folgende Einträge werden später für die Controller ergänzt:
+-----------------------------------------------------------
+MOVE_CALLER     object          Das Objekt, dass das move aufruft.
+
+MOVE_OBJECT     object          Das bewegte Objekt
+
+MOVE_OLD_ROOM   object          Der Ausgangsraum
+
+MOVE_NEW_ROOM   object          Der Zielraum
+
+MOVE_DEST_STR   string          Der Parameter 'ziel' vom Aufruf, sofern es
+                                ein String war (also entweder ein Dateiname
+                                oder der Name des Ausgangs).
+
+MOVE_DIRECTION  string          Der Name des Ausgangs (sofern bekannt)
+
+MOVE_EXIT_INFO  mixed*          Ein Array mit Informationen über den Ausgang
+                                (siehe query_exit_info())

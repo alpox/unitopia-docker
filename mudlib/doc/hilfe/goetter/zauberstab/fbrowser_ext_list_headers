@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Hier werden alle Workflow-Listen angezeigt.
+Mögliche Befehle:
+
+    <nr>        Liste für den Bereich Nummer <nr> anzeigen.
+    n <list>@<bereich>  Neue Liste anlegen.
+    w <list>@<bereich>  Zur Liste direkt wechseln.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u / d       Eine Seite hoch- /runterblaettern.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Zeigt alle Programme an, zu denen Profilinginformationen vorliegen. Am linken
+Rand wird zu jeder Datei die Anzahl der dort verbrauchten Evals oder Zeit
+angezeigt.
+
+Durch Eingabe der jeweiligen Nummer kannst Du Dir die jeweilige
+Datei mit den zugehörigen Informationen anzeigen lassen.
+
+Desweiteren stehen folgende Befehle zur Auswahl:
+    t: Benötigte Zeit (in Mikrosekunden) anzeigen.
+    e: Benötigte Evals anzeigen (dies ist Standard).
+-------------------------------------------------------------------------------

@@ -1,0 +1,12 @@
+FUNKTION: round
+DEKLARATION: int round(float op)
+BESCHREIBUNG:
+Rundet ein Float-Argument und gibt es als Integer zurueck.
+
+Beispiele:
+                round(36.8)             -->      37
+                round(-45.4)            -->     -45
+
+GRUPPEN: simul_efun, rechnen
+VERWEISE: abs
+SOURCE: /secure/simul_efun/math.inc

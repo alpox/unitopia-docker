@@ -1,0 +1,6 @@
+set_no_move
+query_no_move
+set_no_move_reason
+query_no_move_reason
+set_not_moved_reason
+query_not_moved_reason

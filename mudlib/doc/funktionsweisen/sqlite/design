@@ -1,0 +1,61 @@
+
+Datenbank-Design
+================
+
+SQLite-Abfragen laufen synchron ab, daher ist es wichtig, daß alle Abfragen
+schnell beantwortet werden können. Dies sollte beim Design beachtet werden.
+
+Notwendigkeit
+-------------
+Bevor man eine Datenbank in Angriff nimmt, sollte man sich wirklich gut
+überlegen, ob man eine Datenbank wirklich braucht. Datenbanken können
+nicht gut ins Versionssystem (Git) aufgenommen werden. Zudem ist es
+insbesondere für andere Götter sehr umständlich, den Inhalt von
+Datenbanken z.B. zu Debuggingzwecken auszuwerten.
+
+Für Konfigurationsdaten sind daher Textdateien (siehe z.B. /i/tools/config),
+XML-Dateien (siehe xml_parse()) oder gar LPC-Dateien sinnvoller.
+
+Tabellen
+--------
+Für jede logische Struktur ist üblicherweise eine eigene Tabelle sinnvoll.
+Die Datenbank sollte so strukturiert sein, daß jedes Datum nur einmal
+eingetragen werden muß. Es sollte also keine Redundanzen in der Datenbank
+geben.
+
+Wenn von einer solchen Tabelle aber regelmäßig nur ein Teil der Daten
+benötigt werden, so kann sich eine Aufteilung in zwei Tabellen mit den
+häufig und selten benötigten Spalten lohnen.
+
+Indizes
+-------
+Eine normale Abfrage sucht eine komplette Tabelle Reihe für Reihe durch,
+um den Datensatz finden, der den angefragten Bedingungen entspricht. Dies
+ist üblicherweise sehr langsam. Für schnelle Zugriffe sollte man Indizes
+anlegen. Ein Index ist eine zur Tabelle zusätzliche Datenstruktur, welche
+eine schnelle Suche über eine oder mehrere Spalten ermöglicht. Er wird mit
+dem 'CREATE INDEX'-Befehl angelegt.
+
+Ein Index wird nicht nur für WHERE-Filter, sondern auch für ORDER-Klauseln
+verwendet. Jede Datenbankabfrage, die also eines von beiden verwendet,
+sollte also über einen entsprechenden Index erfolgen können. Dies sollte
+man auch bei Änderungen des Codes im Auge behalten.
+
+Um zu prüfen, ob eine bestimmte Abfrage einen Index verwendet, so gibt es
+den Befehl: EXPLAIN QUERY PLAN SELECT ...
+Wenn dort 'SCAN TABLE' auftaucht, so wird die ganze Tabelle durchsucht,
+dies sollte man vermeiden. Bei 'SEARCH TABLE ... USING INDEX ...' wird
+der angegebene Index verwendet.
+
+Primary Keys
+------------
+Bei der Tabellendefinition (CREATE TABLE) kann man Primary Keys definieren.
+Das sind eine oder mehrere Spalten, die innerhalb der Tabelle einen Datensatz
+eindeutig definieren. SQLite legt für einen Primary Key automatisch einen
+Index zur schnellen Suche an.
+
+Integer Primary Keys sind jedoch besonders schnell, weil SQLite besonders
+dafür optimiert. Daher sind Integer Primary Keys gegenüber anderen Datentypen
+zu präferieren. (Achtung: 'INT PRIMARY KEY' hat diese Optimierung nicht,
+man muß 'INTEGER PRIMARY KEY' ausschreiben.)
+

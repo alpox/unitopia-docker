@@ -1,0 +1,121 @@
+Änderungen am Stat-System
+-------------------------
+
+  Wie funktioniert das Stat-System überhaupt?
+  Im initialize übergibt man nun die Rasse des Lebewesens und eine
+  Prozentzahl, die besagt, wie gut das Lebewesen innerhalb der Rasse ist.
+  Das Monster holt sich dann von /apps/monster_master die Werte der Rasse
+  und passt diese dem Prozentwert an.
+  Neben den Stats konfiguriert der Monster-Master noch folgende Eigenschaften:
+    - AP, ZP
+    - Anzahl der Hände
+    - Waffenstärke der Hände
+    - natürliche Ruestungsstaerke
+    - die 'natural-Weapons', d.h. die Beschriebung der 'Haende'
+
+  Falls der NPC mit 'find_living()' gefunden werden muss, muss der
+  Living-Name noch mit 'set_npc_name("name")' setzen.
+  Implizit setzt initialize den Living-Namen nur bei Menschen.
+  Mit set_name("name") muss der Name noch gesetzt werden.
+  
+Was muss ich als Programmierer tun?
+-----------------------------------
+
+Du musst alle Objekte, in denen query_stat() benutzt wird, überprüfen und
+evtl. ändern. Dies betrifft vor allem Gilden-Objekte.
+Eine Liste aller Objekte, die query_stat() verwenden findet ihr unter
+/d/QUERY_STAT
+Bitte schaut auch alle eure Monster an und passt sie evtl. an.
+Die gesetzten Werte werden aber noch gesetzt. Wichtig für euch ist nur
+jedes initialize durch ein besseres initialize zu ersetzen. Beispiel:
+
+ALT:
+   monster->initialize("küken",10);
+NEU:
+   monster->initialize("klein-vogel",10);
+   monster->set_name("küken");
+   monster->set_id("küken");
+
+Damit die Stats Sinn machen, soll folgendes Konzept eingeführt werden:
+
+NSC's:
+------
+Ein NSC ab Intelligenz 30 kann sprechen und handeln und gilt als
+'intelligent', d.h. als kein Tier.
+Ein NSC ab Intelligenz 25 kann Waffen führen. (sonst nur Natural-Weapon)
+Es werden auch Werte über 100 bei NSCs zugelassen. (hier muss man sich
+aber genau überlegen, welche. Menschen bekommen das auf keinen Fall)
+
+
+Beispiele für NSCs (Auszug aus /var/MONSTER_DEFS):
+                STR     INT     CON     DEX
+
+mensch		30-80	30-80	30-80	30-80
+ork		50-85	20-40	60-80	30-65
+troll		55-90	10-35	60-90	20-50
+bär		60-90	10-20	60-85	20-50
+hai		60-85	5-20	60-80	30-70
+wal		70-100	5-10	70-100	20-40
+grossvogel	15-30	5-15	15-30	40-60
+vogel		7-17	5-20	7-17	50-70
+insekt		1-5	1-10	1-5	10-20
+elf		20-70	40-85	30-80	40-85
+kleintier	10-30	5-20	10-30	30-60
+tier		20-60	5-20	20-60	30-60
+grosstier	40-85	5-20	40-85	30-60
+troll		55-90	10-35	60-90	20-50
+
+Neben den wichtigsten vorgefertigten Rassen gibt es noch Rassen-Typen:
+  - tier		(alle Arten von Vierbeinern)
+  - vogel		(alles was fliegen kann)
+  - insekt		(alles was recht klein ist und insektenartig)
+  - fisch		(alles was schwimmen kann)
+  - humanoid		(alles was menschenähnliche Form hat)
+
+Die Grundrassen kann man noch in der Größe spezifizieren:
+  - mini	(gibt es noch nicht)
+  - klein
+  - 		(nix)
+  - groß
+  - riesen
+
+  Beispiele: riesen-tier (z.B. Elefant), klein-tier kaninchen (z.B. Kaninchen)
+
+
+Spielerstats:
+-------------
+Die Spieler steigen bei Statwerten von 30 ein. Bis 80 geht es linear
+hoch. Von 30 bis 80 gelten als Maximal-Werte die MAX_SUM_* und
+2/3 der Spiele und Rätsel.
+Ab 80 gelten als Maximal-Werte jeweils das 1,5-Fache der MAX_SUM_*
+
+Dafür müssen alle Gilden ihre Stat-Vergleiche überprüfen.
+
+
+Bedeutung der Stats:
+--------------------
+STR: Im großen und ganzen die Stärke. Sie bestimmt, wie stark man
+     zuhauen kann, wieviel man tragen kann, und wen man wegschieben kann.
+INT: Die Intelligenz (siehe oben)
+     Hier kann man z.B. das 'Wille'-Ritual der Druiden besser nutzen,
+     da man anhand der Intelligenz entscheiden kann, ob man dem Opfer
+     seinen Willen aufzwingen kann.
+CON: Die Ausdauer: Sie bestimmt, wieviele AP's man hat, und auch wie
+     resistent man gegen Stürze, Gifte usw. ist,
+DEX: Geschicklichkeit. Sie bestimmt, wie schnell man reagieren kann,
+     und wie gut man mit einer Waffe umgehen kann, die leicht ist.
+     Hierauf kann man auch Stürze und Abwehr einfließen lassen.
+     Auch, wie gut man einem Physikalischen Zauber entgehen kann
+     (z.B. dem Eisblock der Magier)
+
+Bei vielen Zaubern sollte man den einen oder anderen Stat des Opfers
+überprüfen, um zu sehen, wie gut sich das Opfer dagegen schützen kann.
+Bei Stürzen, Kletteraktionen und sonstigen Aufgaben ist dies auch sinnvoll.
+
+Falls jemand Anregungen oder Verbesserungsvorschläge hat, bitte Mail
+an 'admin'
+
+P.S.: Wer das ganze für Spieler schonmal testen will, der kann das
+      im Home-Mud machen. Dazu die neueste Mudlib holen und in
+      /sys/stats.h 'NEW_STATS' definieren (aus dem #undef NEW_STATS
+      ein #define NEW_STATS machen)

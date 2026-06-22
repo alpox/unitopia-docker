@@ -1,0 +1,6 @@
+editor          ED         Wie bediene ich den eingebauten Zeileneditor?
+ed-online-help  EDHELP     Onlinehilfetexte des ed auf einen Streich
+FTP		FTP        Datei-Übertragung von und zu UNItopia
+ftp-perl-skript FTP-Skript Perl-Skript zum automatischen Übertragen und Abgleichen
+WWW		WWW        UNItopia World Wide Web Server
+wizshell	Wiz-Shell  Ein Shell-Zugang für Götter

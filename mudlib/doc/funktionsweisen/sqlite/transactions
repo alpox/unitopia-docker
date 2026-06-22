@@ -1,0 +1,43 @@
+
+    BEGIN TRANSACTION
+    
+    Befehl ::= BEGIN [DEFERRED | IMMEDIATE | EXCLUSIVE] [TRANSACTION [Name]]
+           ::= END [TRANSACTION [Name]]
+	   ::= COMMIT [TRANSACTION [Name]]
+	   ::= ROLLBACK [TRANSACTION [Name]]
+
+    Der optionale Transaktionsname wird ignoriert, denn SQLite unterstützt
+    zur Zeit keine verschachtelten Transaktionen.
+    
+    Jede Änderung an der Datenbank wird innerhalb einer Transaktion
+    durchgeführt. Jeder Befehl, der die Datenbank ändert, startet
+    automatisch eine Transaktion, sofern nicht bereits eine im Gange ist.
+    Automatisch gestartete Transaktionen werden am Ende des Befehls
+    auch automatisch ausgeführt ("committed").
+    
+    Transaktionen können manuell mit dem BEGIN-Befehl gestartet werden.
+    Solche Transaktionen dauern bis zum nächsten COMMIT- oder ROLLBACK-
+    Befehl. Ein ROLLBACK geschieht auch automatisch, wenn die Datenbank
+    geschlossen wird oder im Falle eines Fehlers, wenn 'ON ERROR ROLLBACK'
+    angegeben wurde.
+    
+    Transaktionen können als DEFERRED, IMMEDIATE oder EXCLUSIVE
+    spezifiziert werden. DEFERRED bedeutet, dass keinerlei Sperren
+    in der Datenbank aktiviert werden, bis auf die Datenbank zum ersten
+    Mal zugegriffen wird. Der erste Lesezugriff erstellt ein Sperre
+    mit gemeinsamen Zugriff, der erste Schreibzugriff eine mit exklusiven
+    Zugriff. Dadurch, dass die Sperren erst, wenn sie gebraucht werden,
+    eingerichtet werden, kann ein anderes Programm noch nach dem BEGIN
+    auf die Datenbank zugreifen und sie verändern. Wenn die Transaktion
+    IMMEDIATE ist, wird sofort eine Sperre mit reserviert exklusiven
+    Zugriff eingerichtet. Das ist eine Sperre, die solange andere
+    Sperren mit gemeinsamen Zugriff erlaubt, bis der erste Schreibzugriff
+    durchgeführt wird. Kein anderes Programm kann dann also auf diese
+    Datenbank schreibend zugreifen oder ein 'BEGIN IMMEDIATE' oder
+    'BEGIN EXCLUSIVE' ausführen, Lesezugriffe sind jedoch noch möglich.
+    Ein 'BEGIN EXCLUSIVE' richtet sofort eine Sperre mit exklusiven
+    Zugriff ein, so dass kein anderes Programm weder lesend noch
+    schreibend auf die datenbank zugreifen kann.
+    
+    Standardmäßig werden Transaktionen als DEFERRED gestartet.
+

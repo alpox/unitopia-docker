@@ -1,0 +1,56 @@
+# Dies ist ein Beispiel-Menü
+
+# Untermenü: <file-name> <Ueberschrift>
+# wenn <file-name> ein Directory ist, wird ein Untermenü gemacht
+# ansonsten wird einfach ein Menüpunkt erstellt
+/doc/menues/Bsp_Menue Dies ist das Beispielmenue
+/doc/menues Dies ist das Directory mit allen Menüs
+../menues Dies ist dieses Verzeichnis (lokal adressiert)
+
+# Menüpunkt Funktion: bis jetzt werden folgende Funktionen unterstützt:
+# @lfun_gruppen
+# @lfun_gruppe:<gruppe> (OHNE Space)
+# @efun_gruppen
+# @efun_gruppe:<gruppe> (OHNE Space)
+# @lfuns_low
+# @lfuns_high
+# @efuns_low
+# @efuns_high
+# @rest_files
+# sie beginnen alle mit '@' wenn man weitere Funktionen einführen will,
+# muss man im Master-Hilfe-Brett die Funktion 'get_stru_funk' erweitern
+@lfun_gruppen Hier sind alle Lfun-Gruppen
+@lfun_gruppe:kampf Alle Funktionen zum Kampf
++line 0
+@efun_gruppen Hier sind alle Efun-Gruppen
+@efun_gruppe:grammatik Hier sind alle Efuns zur Grammatik
++line 0
+
+# Additives Menü: bis jetzt werden folgende Funktionen unterstützt:
+# +line <laenge>	zieht eine Trennlinie der Länge <laenge>
+# +lfun <lfun>		addiert die Lfun <lfun> zum Menü
+# +lfun_gruppe <gruppe> addiert die Funktionen der Gruppe <gruppe> zum Menü
+# +efun <efun>		addiert die Efun <efun> zum Menü
+# +efun_gruppe <gruppe> addiert die Funktionen der Gruppe <gruppe> zum Menü
+# +wiki <Wiki-Seite>	fügt ein Verweis auf die Wiki-Seite ein
+# +rest_files <alle,files,durch,,,getrennt,die,nicht,rein,sollen>
++line 10
++lfun add_hp
++line 0
++lfun_gruppe kampf
++line 40
++efun add_action
++line 0
++efun_gruppe zeit
++line 60
++wiki HomePage
++line 60
++rest_files Menu,README
++line 60
+
+# Untermenü
+# >'filename'
+# das Menü-File 'filename' wird als Untermenü verwendet
+>/doc/funktionsweisen/grammatik/Menu Hilfe zur Grammatik
+
+

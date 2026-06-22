@@ -1,0 +1,29 @@
+FUNKTION: cond_deep_present
+DEKLARATION: varargs object cond_deep_present(string was, object wo, int flags, mixed fun, varargs mixed args)
+BESCHREIBUNG:
+cond_deep_present (conditional deep present) sucht im Objekt 'wo' und in 
+allen darin enthaltenen Objekten nach dem ersten Objekt ob mit der id 'was',
+welches beim Aufruf von ob->fun(arg1, arg2, ...) einen Wert != 0 zurueckgibt.
+
+args koennen beliebig viele Parameter arg1, arg2, ... sein.
+fun kann auch eine Closure sein, die dann mit ob als erstem Parameter und
+arg1, arg2, ... als restliche Parameter aufgerufen wird.
+Ist fun weder ein String noch eine Closure, liefert es einfach das erste
+gefundene Objekt mit der id 'was' zurueck.
+Ist die id 'was' 0 oder "", dann wird nicht auf die id geachtet.
+
+In flags kann angegeben werden, in welcher Reihenfolge die Suche stattfinden
+soll (Defines in simul_efuns.h):
+
+	CDP_DEPTH_FIRST		Zuerst in die Tiefe gehen.
+	CDP_BREADTH_FIRST	Das Objekt mit der geringsten Tiefe nehmen.
+	CDP_FLAT                Nicht in die Tiefe gehen. (gleiche Verhalten
+	                        wie cond_present.)
+
+Wurde weder CDP_DEPTH_FIRST, CDP_BREADTH_FIRST noch CDP_FLAT gewaehlt, so wird
+der Suchalgorithmus von deep_present genutzt: Erst in allen Objekten innerhalb
+von 'wo' suchen, dann rekursiv in den einzelnen Containern von 'wo' suchen.
+
+VERWEISE: cond_present, present
+GRUPPEN: simul_efun
+SOURCE: /secure/simul_efun/util.inc

@@ -1,0 +1,423 @@
+Eine Kurzreferenz über alle Befehle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Preprozessorbefehle
+----------------------
+
+o #define
+
+  Syntax: #define Name
+          #define Name Term
+          #define Name(Parameter) Term
+  Beschreibung: In der ersten Variante wird Name einfach der Liste aller
+  definierten Namen hinzugefügt. Die zweite Variante sorgt zusätzlich
+  dafür, dass, wenn in einem Ausdruck der Bezeichner Name auftaucht,
+  dafür Term eingesetzt wird. Die dritte Variante sorgt dafür, dass,
+  wenn in einem Ausdruck Name als Funktionsbezeichner auftaucht, dafür
+  Term mit den entsprechenden Parametern eingesetzt wird.
+  (Im Gegensatz zum LPC-#define muss Term ein richtiger (abgeschlossener)
+  LPC-Ausdruck sein!)
+
+
+o #if
+
+  Syntax: #if Term
+  Beschreibung: Die Zeilen bis zum #else, #elif oder #endif werden nur
+  dann einbezogen, wenn Term einen Wert !=0 ergibt.
+
+
+o #ifdef
+
+  Syntax: #ifdef Name
+  Beschreibung: Die Zeilen bis zum #else, #elif oder #endif werden nur
+  dann einbezogen, wenn Name mit #define definiert wurde.
+
+
+o #ifndef
+
+  Syntax: #ifndef Name
+  Beschreibung: Die Zeilen bis zum #else, #elif oder #endif werden nur
+  dann einbezogen, wenn Name mit #define nicht definiert wurde.
+
+
+o #elif
+
+  Syntax: #elif Term
+  Beschreibung: Die Zeilen bis zum nächsten #elif oder #endif werden nur
+  dann einbezogen, wenn die vorgehenden Zeilen nicht mit einbezogen wurden
+  und Term einen Wert !=0 ergibt.
+
+
+o #else
+
+  Syntax: #else
+  Beschreibung: Die Zeilen bis zum #elif oder #endif werden nur dann
+  einbezogen, wenn die vorgehenden Zeilen nicht mit einbezogen wurden.
+
+
+o #endif
+
+  Syntax: #endif
+  Beschreibung: Beendet den Wirkungsbereich eines #if, #ifdef, #ifndef, #else
+  oder #elif Befehls.
+
+
+o #include
+
+  Syntax: #include <datei>
+          #include "datei"
+  Beschreibung: Einfügen Zeilen aus einer anderen Datei. Die Variante
+  mit <> ist dabei auf Dateien mit den Endungen .h und .inc beschränkt.
+
+
+o #pragma globalvars
+
+  Syntax: #pragma globalvars
+  Beschreibung: Falls in einem Term unbekannte Bezeichner auftauchen,
+  so werden dafür automatisch globale Rollenvariablen angelegt.
+
+
+o #pragma localvars
+
+  Syntax: #pragma localvars
+  Beschreibung: Falls in einem Term unbekannte Bezeichner auftauchen,
+  so werden sie als innerhalb des Termes lokale Variablen behandelt.
+
+
+o #pragma novars
+
+  Syntax: #pragma localvars
+  Beschreibung: Falls in einem Term unbekannte Bezeichner auftauchen,
+  so ergibt dies eine Fehlermeldung.
+
+
+o #undef
+
+  Syntax: #undef Name
+  Beschreibung: Falls Name mit einem #define definiert wurde, so wird
+  dies wieder rückgängig gemacht.
+
+
+
+2. Initialisierungsbefehle für den Rollenkopf ('Header', alles vor "Text:"):
+----------------------------------------------------------------------------
+
+  Als Parameter für die Befehle ist entweder ein normaler Text (wie in den
+  einzelnen Rollen angegeben) oder ein LPC-Ausdruck mit vorangestelltem $
+  möglich. Bei Teilnehmer_<ID>_Lebewesen/Objekt muss dieser eine
+  Liste aller möglichen Objekte liefern, bei allen anderen Befehlen
+  einen String oder eine Zahlen (je nach Befehl).
+
+o Anzahl_Teilnehmer
+
+  Syntax: Anzahl_Teilnehmer: <1, 2, 3...>
+  Beschreibung: Festsetzen der Anzahl aktiver Teilnehmer einer Rolle
+
+
+o Rolle_abbrechbar
+
+  Syntax: Rolle_abbrechbar: <ja/nein>
+  Beschreibung: Rollen können nur dann abgebrochen werden, wenn man es
+  ihnen mit diesem Befehl erlaubt. 
+
+
+o Rollen_Debugger
+
+  Syntax: Rollen_Debugger: <Spielername oder Filename des Logfiles>
+  Beschreibung: Funktioniert genauso wie die Funktion "set_rollen_debugger()"
+
+
+o Start_Ort
+
+  Syntax: Start_Ort: <Filename des Startortes>
+  Beschreibung: Ist diese Option angegeben, wird die Rolle nur am festge-
+  legten Ort gestartet.
+ 
+ 
+o Teilnehmer_...
+
+  Syntax: Teilnehmer_<ID>_Objekt: <Pfad>
+          Teilnehmer_<ID>_Lebewesen: <Pfad>
+  <Pfad>= [(HIER|ICH|TO|TP|<File>):]{(<Id>|<Ausgang>|*|^):}(<Id>|<Ausgang>|*|^)
+  Beschreibung: Angabe, ob Mitspieler ein Lebewesen oder Objekt ist, und
+  aller Moeglicheiten für diesen Mitspieler. Der Pfad wird dabei
+   vom Anfang(HIER=Raum, ICH,TO=this_object(), TP=this_player() oder <File>
+  bzw. wenn nix angegeben wurde der Raum) durchlaufen (<Id>=alle Objekte mit
+  der Id, <Ausgang>=Raum in diesem Ausgang, *=alle Objekte, ^=die Umgebung).
+
+
+  Syntax: Teilnehmer_<ID>_<Funktion>: <gefordertes Resultat>
+  Beschreibung: Auswahl der richtigen Objekte.
+
+  
+o Version
+
+  Syntax: Version: 2
+  Beschreibung: Gibt an, dass es sich um eine Rolle, welche die
+  Rollenerweiterungen nutzt, handelt.
+  
+  
+
+3. Rollen-Befehle ('Body', alles hinter "Text:"):
+-------------------------------------------------
+
+o Auto_Pause
+
+  Syntax: Auto_Pause: <Zeit>
+  Beschreibung: Ist das Ergebnis der Berechnung von <Zeit> größer Null,
+  wird nach jedem Kommando automatisch eine Pause eingelegt.
+
+
+o GoSub
+
+  Syntax: GoSub <Label>
+  Beschreibung: merkt sich die aktuelle Position, und springt zu <Label>.
+  Mit "Return" gelangt man wieder an die alte Position zurück.
+  Weiteres: siehe GoTo.
+
+
+o GoTo
+
+  Syntax: GoTo <Label>
+  Beschreibung: Springt zu <Label>
+  Labels werden im Programmtext am Zeilenanfang mit [Labelname] gesetzt.
+  Wird hinter dem Befehl GoTo (oder GoSub) ein Term angegegeb, so wird
+  das geforderte Label durch dessen Berechnung ermittelt (indirekte
+  Adressierung).
+
+
+o If
+  Syntax: If( Term )
+          {
+             ...
+          }
+          Else
+          {
+             ...
+          }
+  Beschreibung: Ergibt <Term> einen Wert ungleich Null, werden die Zeilen
+  hinter "If" bearbeitet, ansonsten die Zeilen hinter "Else".
+  Die geschweiften Klammern können weggelassen werden, wenn nur jeweils ein
+  Befehl von der Bedingung abhängt.
+
+
+o Message_Type
+  Syntax: Message_Type <Msg-Typ>, <Msg-Action>
+  Beschreibung: Damit wird der Typ der Meldungen festgelegt, welche bei
+  Gegenständen über send_message ausgegeben werden. Dabei können die
+  Konstanten aus message.h verwendet werden.
+
+
+o Pause
+
+  Syntax: Pause: <Zeit>
+  Beschreibung: Legt eine Pause von Heart-Beats entsprechend dem Ergebnis
+  von <Zeit> ein.
+
+
+o Return
+
+  Syntax: Return
+  Beschreibung: Springt an die zuletzt von einem GoSub-Befehl "gemerkte"
+  Position.
+
+
+o Stop
+
+  Syntax: Stop
+  Beschreibung: Beendet eine Rolle
+
+
+o Stop_Time_Out
+
+  Syntax: Stop_Time_Out
+  Beschreibung: Beendet einen "Time-Out"
+
+
+o Time_Out
+
+  Syntax: Time_Out <Zeit>, <Label>
+  Beschreibung: <Label> wird nach <Zeit> Heart-Beats angesprungen. Die 
+  Befehle hinter Time-Out werden jedoch normal weiterbearbeitet.
+  Abbruch eines Time-Outs mit "Stop_Time_Out"
+
+
+o Wait
+
+  Syntax: Wait <Term>
+  Beschreibung: Hält die Rolle solange an, bis <Term> einen Wert
+  ungleich Null ergibt.
+
+
+o Wechsel_Rolle
+
+  Syntax: Welchsel_Rolle: <Rollenname> [, <Label>]
+  Beschreibung: Beendet die aktuelle Rolle, und startet <Rollenname>
+  Der Rollenname kann dabei relativ zum Pfad der aktuellen Rolle angegeben
+  werden.
+  
+  
+
+4. LFuns
+--------
+
+o breche_rolle_ab
+  
+  DEKLARATION: int breche_rolle_ab()
+  BESCHREIBUNG: Mit breche_rolle_ab kann man eine Rolle komplett abbrechen.
+  Wenn dabei kein Fehler auftritt, wird 1 zuruckgeliefert, sonst 0.
+
+
+o debug_rolle
+
+  DEKLARATION: mixed debug_rolle(string str)
+  Beschreibung: Schickt die Meldung den den mit set_rollen_debugger angebenen
+  Debugger eine Meldung. Liefert Entweder den Dateinamen oder das Objekt
+  zurück.
+
+
+o in_rolle
+  
+  DEKLARATION: string in_rolle()
+  BESCHREIBUNG: Liefert den Namen der Rolle, der das Objekt folgt zurück,
+  egal ob das Objekt passiv oder aktiv teilnimmt zurück, oder 0, wenn das
+  Objekt an keiner Rolle teilnimmt.
+
+
+o query_macht_bei_rollen_mit
+
+  DEKLARATION: int query_macht_bei_rollen_mit()
+  BESCHREIBUNG: Liefert zurück, ob ein Objekt bei Rollen mitspielen will.
+  (Findet nur Anwendung, wenn "/i/tools/rollen" inheritet wurde.)
+
+
+o query_rollen_debugger
+
+  DEKLARATION: mixed query_rollen_debugger()
+  BESCHREIBUNG: Liefert, wenn vorhanden, das Objekt zuruck, das mit
+  set_rollen_debugger gesetzt wurde, oder falls es eine Datei ist, den
+  Dateinamen.
+
+
+o query_rollen_dirs
+
+  DEKLARATION: string *query_rollen_dirs()
+  BESCHREIBUNG: Liefert die mit set_rollen_dirs gesetzten Verzeichnisse
+  zurück.
+
+
+o query_rollen_partner
+
+  DEKLARATION: object query_rollen_partner(int nr)
+  BESCHREIBUNG: Liefert den Partner mit der jeweiligen Nummer.
+  (0 entspricht dem this_player_in_rolle). Falls kein Rollenpartner mit der
+  Nummer existiert, oder keine Rolle aktiv ist, wird 0 geliefert.
+
+
+o query_standard_msg_params
+
+  DEKLARATION: int *query_standard_msg_params()
+  BESCHREIBUNG: Liefert die mit set_standard_msg_params gesetzten
+  Standardmeldungstypen in einem Array ({msg_type, msg_action}).
+
+
+o query_this_player_in_rolle
+
+  DEKLARATION: object query_this_player_in_rolle()
+  BESCHREIBUNG: Liefert das Objekt, das als 'this_player' in der Rolle gilt.
+  (Gewoehnlich, das Objekt, das beim Start der Rolle this_player() war.)
+  
+
+o restart_rolle
+
+  DEKLARATION: void restart_rolle()
+  BESCHREIBUNG: Mit restart_rolle kann man eine Rolle fortsetzen, die mit
+  stop_rolle angehalten wurde. Das klappt auch dann, wenn das Monster nur
+  passiver Teilnehmer ist.
+
+
+o set_macht_bei_rollen_mit
+
+  DEKLARATION: void set_macht_bei_rollen_mit(int flag)
+  BESCHREIBUNG: Sagt einem Objekt, ob es bei Rollen mitmachen soll.
+  Bei Flag 0 macht es nicht mit, bei allem anderen macht es bei Rollen mit.
+  Defaultmäßig machen Objekte NICHT mit.
+
+
+o set_rollen_debugger
+
+  DEKLARATION: void set_rollen_debugger(mixed ob)
+  BESCHREIBUNG: Setzt das Objekt, welches die Infos von debug_rolle bekommt,
+  bzw. die Datei, in welcher diese Infos gespeichert werden sollen.
+
+
+o set_rollen_dirs
+
+  DEKLARATION: static void set_rollen_dirs(mixed dirs)
+  BESCHREIBUNG: Damit setzt man die Verzeichnisse, aus denen die Rollendateien
+  kommen dürfen. Man kann entweder ein einzelnes Verzeichnis oder ein Array
+  aus Verzeichnissen angeben. Mit 0 deaktiviert man Rollen. Diese Bedingung
+  gilt nur für starte_rolle, nicht für die bei Wechsel_Rolle angegebenen
+  Rollen. Standardmäßig ist "/" gesetzt.
+
+
+o set_standard_msg_params
+
+  DEKLARATION: void set_standard_msg_params(int msg_type, int msg_action)
+  BESCHREIBUNG: Setzt die Standardmeldungstypen der Rollen-Meldungen
+  bei Objekten für send_message.
+
+
+o set_this_player_in_rolle
+
+  DEKLARATION: void set_this_player_in_rolle( object tp)
+  BESCHREIBUNG: Mit dieser Funktion kann das Objekt, das als 'this_player'
+  in der Rolle gilt, verändert werden. Zu Beginn einer Rolle wird es
+  automatisch auf this_player() gesetzt, so dass man diese Funktion nur in
+  Spezialfällen benötigen dürfte.
+
+
+o spiele_mit_nummer_mit
+
+  DEKLARATION: int spiele_mit_nummer_mit(mapping rolle, int nr)
+  BESCHREIBUNG: Diese Funktion wird aufgerufen, um anzufragen, ob dieses
+  Objekt an der im 1. Parameter übergebenen Rolle mit der im 2. Parameter
+  übergeben Nummer teilnehmen möchte. Es ist nun Aufgabe dieses Objektes,
+  die für diesen Teilnehmer in der Rolle angegeben Kriterien zu prüfen.
+  Außerdem wird geprüft, ob dieses Objekt bereits an einer Rolle teilnimmt
+  oder gerade eine Kampagne spielt. Die Funktion sollte -1 liefern, wenn das
+  Objekt nicht teilnehmen kann, ansonsten 1. Falls es 0 liefert, werden vom
+  Souffleur nur die in der Rolle angegebenen Kriterien geprüft und falls ja,
+  dieses Objekt zum mitspielen gezwungen.
+
+
+o spiele_rolle_mit
+
+  DEKLARATION: int spiele_rolle_mit(mapping rolle)
+  BESCHREIBUNG: Diese Funktion wird aufgerufen, um anzufragen, ob dieses
+  Objekt an der im 1. Parameter übergebenen Rolle teilnehmen möchte. Es
+  ist nun Aufgabe dieses Objektes die Teilnehmernummer zu suchen, dessen
+  Kriterien auf dieses Objekt passen. Außerdem wird geprüft, ob dieses
+  Objekt bereits an einer Rolle teilnimmt oder gerade eine Kampagne spielt.
+  Die Funktion sollte 0 liefern, wenn das Objekt nicht teilnehmen kann,
+  ansonsten 1. Dabei sollte es sich gleich in der Rolle eintragen.
+
+
+o starte_rolle
+
+  DEKLARATION: varargs int starte_rolle(string rollenname, string label,
+               varargs mixed *params)
+  BESCHREIBUNG: Damit versucht ein Objekt eine Rolle abzuspielen.
+  Der Dateiname der Rolle muss in rollenname angegeben werden. Möchte
+  man erreichen, dass die Rolle ab einer bestimmten Sprungmarke gestartet
+  wird, so kann man dieses in 'label' übergeben. Man kann nach dem
+  2. Parameter noch weitere Parameter für die Rollen angeben.
+
+
+o stop_rolle
+
+  DEKLARATION: int stop_rolle()
+  BESCHREIBUNG: Damit kann man eine Rolle anhalten, in der sich ein
+  Objekt befindet, auch wenn das Objekt nur passiver Teilnehmer ist.
+  Wenn das Objekt an keiner Rolle teilnimmt, oder die Rolle schon gestoppt
+  ist, wird 0 zuruckgeliefert, bei Erfolg 1.

@@ -1,0 +1,27 @@
+
+SQLite3
+=======
+
+Das MUD bietet Unterstützung für SQLite3-Datenbanken. Bei SQLite3 wird
+eine ganze Datenbank mit mehreren Tabellen in einer einzigen Datei
+gespeichert, worauf dann mit SQL-Befehlen zugegriffen werden kann.
+Ein Objekt kann dann diese Datei mit der Funktion sl_open() öffnen,
+mehrere Befehle via sl_exec() ausführen und sollte die Datenbank
+am Ende mit sl_close() schließen.
+
+Beispiel:
+    sl_open("/save/database.db");
+    sl_exec("begin");
+    sl_exec("create table tbl1 (a integer, b text)");
+    sl_exec("insert into tbl1 (a,b) values (?,?)", 1, "Hallo");
+    sl_exec("commit");
+    sl_close();
+
+Der Dateiname der Datenbank kann prinzipiell jede Datei sein,
+auf die das Objekt Schreibrechte hat. Es wird aber zur besseren
+Übersicht empfohlen, solchen Dateien die Endung ".db" zu geben.
+Ein Objekt kann immer nur eine Datenbank auf einmal geöffnet
+haben. Diese Datenbank wird automatisch geschlossen, wenn
+das Objekt zerstört wird. Es ist erlaubt, dass mehrere Objekte
+auf die gleiche Datenbank zum gleichen Zeitpunkt zugreifen.
+

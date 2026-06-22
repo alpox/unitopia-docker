@@ -1,0 +1,20 @@
+------------------------------------------------------------------------------
+beobachte <spieler>            Man erhält sämtliche Ein- und Ausgaben, die
+beobachte                      der angegebene Spieler eintippt bzw auf seinen
+beobachte +<spieler>           Bildschirm bekommt.
+beobachte +                    Ihnen wird ein % vorangestellt.
+
+                               beobachte ohne Argument schaltet diese Funktion
+                               wieder ab.
+
+                               Man kann dies nur bei Spielern oder bei
+                               Göttern machen, Die es einem mit
+			       'beobachte +<spieler>' erlaubt haben.
+
+                               Ein Spieler kann nicht von mehreren gleich-
+                               zeitig beobachtet werden, das heißt der neue
+                               beobachte-Aufruf überlagert den älteren.
+
+			       Mit 'beobachte +' kann man nachschauen, wem man
+			       gerade erlaubt, einen zu beobachten.
+------------------------------------------------------------------------------

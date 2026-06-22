@@ -1,0 +1,9 @@
+FUNKTION: ihn
+DEKLARATION: varargs string ihn(object|mapping|int who)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Anders als bei der fehlt der Parameter adjektiv, Personalpronomina
+haben keine Adjektive.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

@@ -1,0 +1,9 @@
+FUNKTION: HAS_ID
+DEKLARATION: int HAS_ID(object ob|mapping vitem, string id)
+BESCHREIBUNG:
+Liefert 1 zurueck, wenn das Objekt ob bzw. das V-Item vitem auf die ID id
+reagieren, ansonsten 0. Die als Objekt uebergebene Variable muss vom Typ
+mixed sein, ansonsten gibt es einen Compile-Fehler.
+VERWEISE: id, QUERY, QUERY_PARS, query_v_item, parse_com
+GRUPPEN: virtuell
+SOURCE: /secure/simul_efun/util.inc

@@ -1,0 +1,21 @@
+
+    VACUUM
+    
+    Befehl ::= VACUUM [Index- oder Tabellenname]
+
+    Der Index- oder Tabellenname wird derzeit ignoriert.
+    
+    Wenn ein Objekt (Tabelle, Index, Trigger) aus einer Datenbank entfernt
+    wird, so hinterlässt es freien Speicherplatz. Dadurch ist die
+    Datei größer, als sie sein müsste, aber dadurch werden INSERT-
+    Anweisungen schneller. Einfügungen und Löschungen können
+    jedoch die Datenbankstruktur fragmentiert hinterlassen, welches
+    wiederum den Zugriff auf den Datenbankinhalt verlangsamt. Der
+    VACUUM-Befehl räumt die Datenbank dadurch auf, indem es seinen
+    Inhalt in eine temporäre Datenbank kopiert und dann von der Kopie
+    neu lädt. Dadurch wird freier Speicher eliminiert, die Daten sind
+    hintereinander angeordnet und auch sonst ist die Datenbankdatei
+    aufgeräumt.
+
+    Dieser Befehl schlägt fehl, wenn es eine aktive Transaktion gibt.
+

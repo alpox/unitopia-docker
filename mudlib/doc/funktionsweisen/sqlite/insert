@@ -1,0 +1,31 @@
+
+    INSERT
+    
+    Befehl ::= INSERT [OR Konfliktstrategie] INTO [Datenbank .] Tabelle
+	       [( Spaltenliste )] VALUES ( Werte )
+	   ::= INSERT [OR Konfliktstrategie] INTO [Datenbank .] Tabelle
+	       [( Spaltenliste )] Select-Befehl
+
+    Die INSERT-Anweisung hat zwei grundlegende Formen. Die erste (mit
+    dem VALUES-Schluesselwort) fügt eine einzelne Zeile in eine
+    existierende Tabelle ein. Falls keine Spaltenliste angegeben wurde,
+    so muss die Anzahl der angegebenen Werte mit den Spalten in der
+    Tabelle übereinstimmen, ansonsten mit der Anzahl der angegebenen
+    Spalten. Spalten der Tabelle, welche nicht in der Spaltenliste
+    auftauchen, erhalten beim Einfügen den Default-Wert oder NULL,
+    wenn kein Default-Wert angegeben wurde.
+
+    Die zweite Form der INSERT-Anweisung erhält die Daten aus einer
+    SELECT-Anweisung. Die Anzahl der Spalten im SELECT-Ergebnis
+    muss mit der Anzahl an Spalten in der Tabelle bzw. in
+    der Spaltenliste, sofern eine angegeben wurde, übereinstimmen.
+    Für jede Zeile im Ergebnis der SELECT-Anweisung wird eine
+    neue Zeile in die Tabelle eingefügt. Die SELECT-Anweisung
+    kann einfach oder zusammengesetzt sein. Falls sie eine 'ORDER BY'-
+    Klausel hat, so wird sie ignoriert.    
+
+    Optional kann eine Konfliktstrategie für Konflikte während des
+    Einfügens angegeben werden. Siehe bei 'ON CONFLICT' für weitere
+    Informationen. 'REPLACE' ist eine Abkürzung für
+    'INSERT OR REPLACE'.
+

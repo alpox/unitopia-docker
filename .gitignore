@@ -1,0 +1,6 @@
+# Runtime / generated mudlib state — not source, should not be versioned.
+# (player saves, spool, logs, savefile DB, per-host driver debug logs)
+/mudlib/var/
+/mudlib/log/
+/mudlib/save/
+/mudlib/*.debug.log

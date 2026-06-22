@@ -1,0 +1,26 @@
+-------------------------------------------------------------------------------
+Anzeige von Informationen über andere Spieler:
+
+#finger <wer>           Informationen zu <wer> werden angezeigt
+#finger -f              Damit kannst Du ein und wieder ausschalten, ob Du
+                        die selbstgeschriebenen, teilweise sehr langen
+                        Fingertexte von Engeln und Göttern standardmäßig
+                        angezeigt bekommen willst.
+#finger -f <wer>        Informationen über <wer> anzeigen, dabei wird die
+                        Fingertext-Anzeige für dieses eine mal umgeschaltet.
+#finger <wer>@<Mud>     Informationen über Spieler anderer Muds anzeigen.
+
+-------------------------------------------------------------------------------
+Einstellungen, was andere Spieler über Dich per finger erfahren können:
+
+#finger <Optionen>      Hiermit kannst Du Einstellungen zu den vornehmen,
+                        was andere Spieler über Dich sehen können sollen.
+#finger                 Anzeige aller eingestellten Optionen
+
+Mögliche Optionen:
+      -o                Ort, aus welchem Du kommst
+      -d                Datum, wann Du das letzte mal in UNItopia warst
+      -z                Uhrzeit, wann Du das letzte mal in UNItopia warst
+      -g                Dein Geburtsdatum (in UNItopia)
+
+-------------------------------------------------------------------------------

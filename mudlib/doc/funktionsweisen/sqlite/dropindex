@@ -1,0 +1,15 @@
+
+    DROP INDEX
+    
+    Befehl ::= DROP INDEX [Datenbank .] Indexname
+
+    Der 'DROP INDEX'-Befehl entfernt den angegebenen (mit 'CREATE INDEX'
+    erstellen) Index. Der Index wird komplett gelöscht, der einzige
+    Weg, ihn wiederherzustellen, ist, dessen 'CREATE INDEX'-Befehl
+    erneut einzugeben.
+
+    Der 'DROP INDEX'-Befehl reduziert nicht die Größe der Datenbank-
+    datei. Frei gewordener Speicher wird für spätere INSERT-Anweisungen
+    aufgehoben. Um diesen freien Speicher abzubauen, kann man den
+    VACUUM-Befehl nutzen.
+

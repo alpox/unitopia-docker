@@ -1,0 +1,132 @@
+INFO-FUNKTIONEN DES TELEPORTRAUMS
+=================================
+
+tele [my]
+---------
+
+Dieser Befehl zeigt einfach alle existierenden Ziele an, die auch
+mittels zteleport angezeigt werden. Diese Ziele können von allen 
+Göttern und einige Ziele davon auch von Engeln erreicht werden.
+Wird bei diesem Befehl 'my' angegeben, dann werden nur die Ziele
+aus Deinen Domains angezeigt (falls Du Domainlord bist).
+(Nur auf diese hast Du als Domainlord 'Schreibzugriff'.)
+
+hlp [my]
+--------
+
+Dieser Befehl zeigt die Untermenge von 'tele' an, die von Engeln
+erreichbar ist, (also alle Engelteleportziele).
+Wird bei diesem Befehl 'my' angegeben, dann werden nur die Ziele
+aus Deinen Domains angezeigt (falls Du Domainlord bist).
+(Nur auf diese hast Du als Domainlord 'Schreibzugriff'.)
+
+chktele
+-------
+
+Zeigt alle eingetragenen Teleportziele an, die gar kein zugehöriges
+File (mehr) haben.
+
+
+HLP-TELEPORT -  Wie funktioniert das?
+=====================================
+
+Die Fliegerei der Engel ist deshalb etwas komplizierter, weil für jeden
+Engel gespeichert wird, an welchen Anflugstellen er schon einmal gewesen ist,
+nachdem er die Gabe 'pf' -- Pfadfinder -- bekommen hat. Nur zu diesen Stellen
+kann er dann wieder hinfliegen.  Diese Information wird im hlptool --
+also in der Kristallkugel -- gespeichert.
+
+
+ANLEGEN VON ENGELANFLUGORTEN
+----------------------------
+
+Eine Anflugstelle zeichnet sich zum einen dadurch aus, dass sie als
+Teleportziel in der Teleliste eingetragen werden muss. Die Teleliste steht
+unter /var/tele_liste und hat im Prinzip NICHTS direkt mit dem Teleportieren
+der Engel zu tun. In ihr stehen alle Ziele drin, die man als Gott via 'zgehzu
+<kuerzel>' anfliegen kann. Mit 'zteleport' bekommt man alle vorhanden Ziele
+aufgelistet. (Im Spiel wird diese Teleliste von /apps/tele_master verwendet.)
+Also: In diese Teleliste MUSS das neue Teleportziel für Engel eingetragen
+sein.
+
+Diese Eintragung kannst Du für Anflugziele in Deiner Domain als Domainlord
+im Raum /room/rathaus/teleport selbst vornehmen.
+Dazu wählst Du einen Namen für Deinen Raum, der in etwa dem bisherigen
+Schema entspricht. Also zum Beispiel "kirche uhlshausen" oder
+"zentrum dengelsdorf".  Jetzt trägst Du ihn mit dem Befehl 
+
+   'addtele zentrum dengelsdorf /d/MyDomain/dengelsdorf/zentrum' ein.
+
+Jetzt taucht er in der zteleport-Liste auf. Und kann (nur) von Göttern mit
+zgehzu angeflogen werden.
+
+Für einen ENGELanflugort muss im Anflugraumfile einfach zusätzlich
+"/i/hlp/lander" inheritet werden. (Derzeit muss es stets nach dem
+Rauminheritet inheritet werden.)
+
+
+LÖSCHEN VON ENGELANFLUGORTEN
+----------------------------
+
+Das Löschen erfolgt folgendermaßen:
+
+1. Zuerst entfernt man die Inheritance "/i/hlp/room" aus dem room file und
+   ersetzt sie wieder durch "/i/room".
+
+2. Dann erneuert man diesen Raum (oder zerstört ihn zumindest).
+
+3. Man hat jetzt zwei Alternativen:
+
+   - Entweder soll das Ziel für Götter UND Engel nicht mehr 
+     erreichbar sein, dann benutzt man den folgenden Befehl 
+     im Teleporterraum.
+
+	'deltele <filename|zielname>' 
+
+     Bsp: deltele kirche tadmor 
+	  deltele /room/church
+
+     (Gibt man einen Filenamen an werden alle Ziele mit diesem 
+      Filenamen gelöscht.)
+
+   - Sollen nur die Engel nicht mehr dort hinfliegenkoennen so benutzt 
+     man den Befehl delhlp im Teleporterraum.
+
+	'delhlp <file_name|zielname>'
+
+     Bsp: deltele kirche tadmor 
+	  deltele /room/church
+
+     (Bei dieser Variante wird sogar überprüft, ob Du die Schritte
+      1. und 2. auch eingehalten hast, damit der nächste Engel, der den
+      Raum betritt, ihn nicht wieder einträgt...)
+
+
+ÄNDERN VON ENGELANFLUGORTEN (Aendern des Filenamens)
+----------------------------------------------------
+
+Falls sich der Filename des Raums ändern sollte muss man das
+dem Teleportraum mitteilen.
+
+Man sollte:
+- den alten Raum zerstören und dafür sorgen
+  das er nicht mehr geladen wird (oder eben nur das inheritfile rausnehmen)
+
+Man muss:
+- den neuen Raum fertig machen mit inheritfile "/i/hlp/room".
+- Im Teleporterraum (/room/rathaus/teleport) den Filenamen ändern
+  mit dem Befehl
+
+     chgtele <old_filename> <new_filename>
+
+  Bsp: chgtele /room/church /room/kirche
+
+Man sollte:
+- den neuen Raum betreten und hoffen das alles geklappt hat.
+
+
+POSTSCRIPTUM
+------------
+Uebertreibt's nicht damit!!!
+
+[source : /doc/funktionsweisen/hlp_teleport]  

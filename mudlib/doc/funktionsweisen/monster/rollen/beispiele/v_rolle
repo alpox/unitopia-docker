@@ -1,0 +1,128 @@
+#
+# Beispielrolle für einen Verkäufer
+#
+Anzahl_Teilnehmer: 1
+Version: 2
+Text:
+
+#
+# Hauptschleife
+#
+   if( !kunde )
+   {
+      kunde=neuer_kunde
+      ware=neue_ware
+      geld_uebergeben=0
+      gosub "will_"+ware
+      time_out 10, dann_eben_nicht
+      wait geld_uebergeben
+      stop_time_out
+      gosub "gib_"+ware
+   }
+   else
+   {
+      1: sage Einen Moment bitte, ich bediene gerade $den(kunde).
+   }
+   stop
+
+#
+# Kunde hat innerhalb einer vorgegebenen Zeit kein Geld übergeben (Time-Out)
+#
+[dann_eben_nicht]
+
+   1: sage Na, dann eben nicht!
+   Pause: 1
+   if(present(ware_ob,this_object()))
+   {
+     gosub ware+"_zurueck"
+     ware_ob->remove()
+   }
+   else
+     1: denke Huch! Ich hatte es doch eben bei mir!
+   stop
+
+#
+# Labels, angesprungen aus der Hauptschleife
+#
+[will_fackel]
+
+   1: echo Der Verkäufer nimmt eine Fackel aus dem Korb.
+   (ware_ob=clone_object("/obj/fackel"))->move(this_object())
+   Pause: 1
+   1: sage Das macht dann $to_string(preise["fackel"]) $capitalize(valuta)$, wenn ich \
+           bitten darf.
+   return
+
+[will_schaufel]
+
+   1: echo Der Verkäufer geht zu den Regalen.
+   Pause: 1
+   1: echo Der Verkäufer nimmt eine Schaufel.
+   (ware_ob=clone_object("/obj/schaufel"))->move(this_object())
+   Pause: 1
+   1: sage Ich bekommt von Dir $to_string(preise["schaufel"]) $capitalize(valuta)$, \
+           wenn ich bitten darf.
+   return
+
+[will_rucksack]
+
+   1: echo Der Verkäufer greift unter den Ladentisch, und holt einen \
+           neuen Rucksack hervor.
+   (ware_ob=clone_object("/obj/rucksack"))->move(this_object())
+   Pause: 1
+   1: sage Dieser fabelhafte Rucksack kostet Dich nur \
+           $to_string(preise["rucksack"]) $capitalize(valuta)$.
+   return
+
+#
+# Labels, angesprungen aus [dann_eben_nicht]
+#
+[fackel_zurueck]
+   1: echo Der Verkäufer legt die Fackel in den Korb zurück.
+   return
+
+[schaufel_zurueck]
+   1: echo Der Verkäufer stellt die Schaufel neben einem Regal ab.
+   return
+
+[rucksack_zurueck]
+   1: echo Der Verkäufer legt den Rucksack wieder unter den Ladentisch.
+   return
+
+#
+# Labels, angesprungen aus der Hauptschleife
+#
+[gib_fackel]
+   1: sage Bitte sehr, hier hast Du eine Fackel!
+   Pause: 1
+   if(present(ware_ob,this_object()))
+     give_object(ware_ob,kunde)
+   else
+     1: sage Huch! Wo ist denn meine Fackel hin?
+   return
+
+[gib_schaufel]
+   1: sage Bitteschön, hier hast Du eine Schaufel!
+   Pause: 1
+   if(present(ware_ob,this_object()))
+     give_object(ware_ob,kunde)
+   else
+   {
+     1: echo $Der() grübelt.
+     Pause: 2
+     1: sage Ich hatte die Schaufel doch eben in meiner Hand!
+   }
+   return
+
+[gib_rucksack]
+   1: sage Ein Rucksack, bittesehr!
+   Pause: 1
+   if(present(ware_ob,this_object()))
+     give_object(ware_ob,kunde)
+   else
+   {
+     1: echo $Der() lächelt verlegen.
+     Pause: 1
+     1: frage Du hast nicht zufällig den Rucksack gesehen?
+   }
+   return

@@ -1,0 +1,26 @@
+-------------------------------------------------------------------------------
+
+Die Gabe 'Pfadfinder' ermöglicht es Dir, die magischen Landeplaetze der
+Engelschar zu erkennen und sie Dir auf Dauer zu merken.
+
+Du wirst es bemerken, wenn Du auf solch eine markante Stelle gestoßen bist,
+meist sind es wichtige Plätze, Häfen, Kneipen oder andere Stellen von
+öffentlichem Interesse.
+
+Mit Hilfe des Befehls 'ziele' (oder 'flugziele') kannst Du einsehen, an
+welchen Landeplätzen Du bereits warst, seit Du die Gabe des Pfadfindens
+besitzt. Die Ansicht der Ziele kannst Du durch Angabe des ersten Wortes
+beschränken.
+
+Als Beschränkung können sowohl Worte, welche die Art des Zieles
+beschreiben, wie beispielsweise "bank", "laden", "zentrum" verwendet werden
+als auch Namen von ganzen Inseln / Welten (Campus, Dörrland, Ebenen,
+Gallien, Kokosinsel, Märchenland, Midgard, Nordische Inseln und Vaniorh).
+
+Syntax:
+    ziele
+    flugziele
+    ziele bank
+    ziele Vaniorh
+
+-------------------------------------------------------------------------------

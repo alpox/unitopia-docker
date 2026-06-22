@@ -1,0 +1,23 @@
+initialize() benutzt den Monster-Master
+---------------------------------------
+
+Die erste Funktion, die man beim Erstellen eines Monsters aufruft,
+ist 'initialize()'. Dieser übergibt man die Rasse des Lebewesens und eine
+Prozentzahl, die besagt, wie gut das Lebewesen innerhalb der Rasse ist.
+Das Monster holt sich dann von /apps/monster_master die Werte der Rasse
+und passt diese dem Prozentwert an.
+
+Neben den Stats konfiguriert der Monster-Master noch folgende Eigenschaften:
+- AP, ZP
+- Anzahl der Hände
+- Waffenstärke der Hände
+- natürliche Ruestungsstaerke
+- die 'natural-Weapons', d.h. die Beschreibung der 'Haende'
+
+Falls der NPC mit 'find_living()' gefunden werden muss, muss der
+Living-Name noch mit 'set_npc_name("name")' gesetzt werden.
+Implizit setzt initialize den Living-Namen nur bei Menschen.
+
+Mit 'set_name("name")' wird dann noch der Name des Monsters gesetzt.
+
+

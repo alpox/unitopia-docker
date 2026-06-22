@@ -1,0 +1,20 @@
+Diese Konfiguration gilt für einen Gott/Programmierer. 
+Wenn keine angezeigt, kann man mit n eine erstellen. Weitere Befehle:
+
+  t    Tägliche Sendezeit konfigurieren, im Format HH:MI z.B. 23:59
+  w    Wöchentliche Sendezeit festlegen, im Format WO HH:MI z.B. Fr 17:00
+  m    "nicht häufiger als" Globales Minimum für die Sendehäufigkeit
+       0: Nie 1: Zeitnah, 2: Täglich, 4: Wöchentlich, 8: Monatlich
+       Wird hier z.B. 0 eingetragen, so wird generell keine Mail geschickt.
+       Bei einer 0 hier und z.B. beim Abonnenment Pantheonstreffen eine 1,
+       so wird täglich geschickt, sofern Ereignisse vorhanden sind.
+  b    Online-Benachrichtung: Wenn eine Benachrichtung rausgeschickt werden
+       soll und dieses Flag ist auf 'ja', dann wird an den Gott eine Nachricht
+       per send_message_to geschickt.
+  p    Online-Post: Wenn der Gott online ist, kann mit 'nein' die Post 
+       unterdrückt und per 'ja' freigeschaltet werden.
+  a    verzweigt zu der Liste der (uebrigen) Abonnements, deren Anzahl
+       in diesem Menü angezeigt wird.
+  l    verzweigt zu der Liste der FDB-Benachrichtigungslisten.
+  e    verzweigt in die Liste der eigenen Ereignisse.
+  q    das Menü verlassen.

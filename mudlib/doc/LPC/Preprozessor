@@ -1,0 +1,38 @@
+Der LPC-Preprocessor versteht folgende Anweisungen:
+
+#if <expression>
+    eine Expression kann z.B. sein: #if DEF == "abc"
+    oder : #if 3*8 == 15
+    oder : #if !defined(COMPAT_FLAG) && !defined(NO_NATIVE_MODE)
+
+#else
+#endif
+
+#ifdef <define>
+
+#define MAKRONAME Makro
+
+#include <file>
+    Wenn das File in '<...>' steht, wird der Systempfad durchsucht (/sys/...)
+    Wenn das File in '"..."' steht, wird das lokale Verzeichnis durchsucht
+
+#pragma <pragma>
+    siehe 'pragma'
+
+
+Folgende Defines sind immer definiert:
+  __HOST_NAME__      (Der Name des Rechners, auf dem das Mud laeuft)
+  __DOMAIN_NAME__    (die Domain des Rechners)
+  __MAX_RECURSION__  (Die maximale Rekursionstiefe eines Programmes)
+  __MASTER_OBJECT__  (Der Filename des Master-Objektes)
+  __VERSION__	     (Ein String mit der Versionsnummer des Drivers)
+  __LINE__	     (Die Zeilennummer, in der dieses Define steht)
+  __FILE__	     (Der Filenamedes Files, in dem das Define steht)
+  LPC3               (Dies ist definiert, wenn es sich um einen 3.x-Driver
+		      handelt, der den neuen LPC-Syntax versteht)
+  COMPAT_FLAG	     (Dies ist definiert, wenn der Driver im alten
+		      Modus laeuft)
+  NO_NATIVE_MODE     (Dies ist definiert, wenn der Driver nicht die
+		      Funktionalität des Native-Mode hat)
+
+  UNItopia	     (Dies ist nur in UNItopia definiert)

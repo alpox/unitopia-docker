@@ -1,0 +1,8 @@
+FUNKTION: arr_delete
+DEKLARATION: mixed *arr_delete(mixed *array, int index)
+BESCHREIBUNG:
+Loescht aus dem Array <array> das Feld mit dem Index <index> und
+returned das neue Array.
+VERWEISE: m_delete
+GRUPPEN: simul_efun, array
+SOURCE: /secure/simul_efun/util.inc

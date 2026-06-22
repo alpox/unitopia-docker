@@ -1,0 +1,9 @@
+FUNKTION: convert_umlaute
+DEKLARATION: string convert_umlaute(string str)
+BESCHREIBUNG:
+Konvertiert alle (einbuchstabigen) Umlaute in die zweibuchstabige
+Darstellung ("o -> oe) und loescht alle Zeichen aus dem String, die
+nicht darstellbar sind (ASCII < 32 und ASCII > 126 (ausser \t und \n))
+GRUPPEN: simul_efun, string
+VERWEISE:
+SOURCE: /secure/simul_efun/string.inc

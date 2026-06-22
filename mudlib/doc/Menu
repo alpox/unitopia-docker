@@ -1,0 +1,25 @@
+main		Hilfe 		Die Enzyclopedia UNItopia
++line 0
+#-----------------
+funktionsweisen Funktionsweisen... Erklärung einiger Grundprinzipien in UNItopia
+richtlinien	Richtlinien...     Richtlinien zur Programmierung von Objekten
++line 0
+#-----------------
+tools		Tools...           Werkzeuge zum Programmieren. (FTP/WWW/ED)
++line 0
+#-----------------
+LPC		LPC...             Alles zur Mud Programmiersprache selbst
+lfun		Lfuns...           lokale  Funktionen der Objekte
+efun		Efuns...           externe Funktionen des Drivers
+structs		Structs...         Vom Driver definerte Structs
+/sys		Includes...        Globale Includefiles der Mudlib
++line 0
+#-----------------
++wiki HomePage
++line 0
+#-----------------
+lpc-kurs	LPC-Kurs...        Ein LPC-Kurs von George Reese (englisch)
+concepts	Konzepte...        Technische Betrachtungen zum LPMud
+master		Masterobjekt...    Funktionen des Masterobjektes
+driver		Driver...          Informationen zum Driver
+#-----------------

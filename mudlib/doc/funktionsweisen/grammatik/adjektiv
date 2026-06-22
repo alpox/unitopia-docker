@@ -1,0 +1,38 @@
+-------------------------------------------------------------------
+                              ADJEKTIVE
+-------------------------------------------------------------------
+
+
+Adjektive, (Eigenschaftswoerter)
+--------------------------------
+
+Adjektive beschreiben Substantive genauer, beschreiben ihre
+Eigenschaften.
+
+Beispiel: "grün", "wertvoll", "traurig"
+
+
+Jedem Objekt können ein oder mehrer Adjektive zugeordnet werden.
+Dies geschieht mit der Objektfunktion set_adjektiv, analog zu
+set_id. Nur das hier auch Ausnahmen möglich sind.
+
+siehe Doku zur Funktion set_adjektiv
+
+Diese Adjektive werden z.B. von den Deklinationsfunktionen benutzt,
+um damit brauchbare Satzteile zu machen ("der grüne Baum",...)
+
+siehe /secure/deklin.c
+
+
+Analog zu den Ids existieren die Funktionen:
+query_adjektiv, adjektiv, add_adjektiv, delete_adjektiv
+siehe auch Doku zu diesen Funktionen.
+
+Zusätzlich:
+
+string *       query_adjektiv_grundform();
+string *       query_adjektiv_stamm();
+varargs string query_deklin_adjektiv(mixed adj, int fall);
+
+siehe Doku zu diesen Funktionen bzw. /i/item/adjektiv.c 
+         oder  lfuns zur Grammatik im Hilfetool

@@ -1,0 +1,10 @@
+------------------------------------------------------------------------------
+stoppe kampf|kämpfe           Stoppen aller laufenden Kämpfe
+stoppe rache [an <spieler>]   Verzichtet auf die Rachemoeglichkeit
+stoppe essen                  Beendet das Essen
+stoppe tue                    Stoppt einen laufenden tue-Befehl
+
+halt                          Bricht andere Tätigkeiten ab.
+
+siehe auch: attackiere, flucht, #einstellungen (Menue "Spieler und Charakter")
+------------------------------------------------------------------------------

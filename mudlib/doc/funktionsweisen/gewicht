@@ -1,0 +1,72 @@
+Die Gewichtsberechnung
+======================
+
+Die Containerbelastung ("encumbrance")
+--------------------------------------
+Gegenstände haben in UNItopia ein Gewicht. Jeder Raum und Container führt
+im Laufe seines Lebens Buch darüber, wie hoch das Gewicht seines Inhalts
+ist. Diese Zahl ("encumbrance" für Last) wird bei Bewegungen in/aus dem
+Raum/Container aktualisiert. Daher dürfen Gegenstände nicht ohne weiteres
+ihr Gewicht verändern, ohne den umgebenden Container/Raum zu informieren.
+
+Die aktuelle Belastung liefert query_internal_encumbrance(),
+die maximal zulässige Belastung für einen Container liefert
+query_max_internal_encumbrance(), 0 bedeutet unbegrenzt.
+
+Typische maximale Belastungen:
+  Lebewesen:     zwischen 5 und 25 (je nach Stärke)
+  /obj/rucksack: 12
+  /obj/tisch:    30
+  /i/room:        0
+
+Gewichtsbestimmung von Gegenständen
+-----------------------------------
+Die Regeln wieviel Platz ein Gegenstand in einem anderen Container belegt
+sind nicht trivial. Bei einfachen Gegenständen ist dies das Ergebnis von
+query_weight(). Dieser Wert sollte konstant sein.
+
+Deutlich komplizierter wird es, wenn es um Container geht. Hier unterscheiden
+wir mehrere Fälle:
+
+1. Der Container befindet sich direkt in einem Lebewesen.
+
+   Hier zählt das Ergebnis von query_weight() als Gewicht. Ein Container
+   hat also in einem Lebewesen immer das gleiche konstante Gewicht,
+   unabhängig von seinem Inhalt.
+
+2. Der Container ist selbst ein Lebewesen.
+
+   Wie zuvor zählt nur query_weight(). Ein Lebewesen wiegt also überall
+   das gleiche, egal wieviel es trägt.
+
+3. Der Container hat keine Maximallast
+   (query_max_internal_encumbrance() ist 0).
+
+   Es zählt der kleinere Wert aus:
+     query_min_weight() + Inhalt
+     query_max_weight()
+
+   Es wird also das Eigengewicht (query_min_weight()) und Gewicht des
+   Inhalts weitergereicht, höchstens jedoch query_max_weight().
+
+4. Ansonsten:
+
+   Es wird zwischen query_min_weight() und query_max_weight() interpoliert,
+   je nach Summe des Inhalts zwischen 0 und query_max_internal_encumbrance().
+
+Man kann die Werte für query_min_weight() und query_max_weight() explizit
+(mit set_min/max_weight()) setzen, sie besitzen jedoch folgende Standardwerte:
+
+a) Bei set_collapsible(0) (Standard)
+   query_min_weight(): query_max_internal_encumbrance()
+   query_max_weight(): query_max_internal_encumbrance()
+
+   Der Container wiegt also in den Fällen 3 & 4 soviel, wie sein maximaler
+   Inhalt.
+
+b) Bei set_collapsible(1)
+   query_min_weight(): 0
+   query_max_weight(): query_max_internal_encumbrance()
+
+   Der Container wiegt also in den Fällen 3 & 4 soviel, wie sein aktueller
+   Inhalt.

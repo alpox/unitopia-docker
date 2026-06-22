@@ -1,0 +1,31 @@
+Welche Werte wird mein generiertes Monster haben?
+-------------------------------------------------
+
+Die Stat-Werte werden vom Monster-Master nach folgender Formel generiert:
+
+    stat_wert = min + ((max - min) * level / 100);
+
+initialize("ork", 30); würde somit einen Ork mit folgenden Werten erzeugen:
+
+    STR: 50 + ((85 - 50) * 30 / 100) = 60.5 = 61
+    INT: 20 + ((40 - 20) * 30 / 100)        = 26
+    CON: 60 + ((80 - 60) * 30 / 100)        = 66
+    DEX: 30 + ((65 - 30) * 30 / 100) = 40.5 = 41
+
+Seine Ausdauer- und Zauberpunkte kann man durch folgende Formel ermitteln:
+
+    if (stat < 30)
+        punkte = stat * 5 / 3 + 4;
+    else if (stat < 81)
+        punkte = stat * 25 / 8 - 40;
+    else
+        punkte = stat * 2 + 50;
+
+Das ergäbe in diesem Fall:
+Ausdauerpunkte: 66 * 25 / 8 - 40 = 166
+Zauberpunkte:   26 * 5 / 3 + 4   = 47
+
+Dieser Ork hätte durch seine Intelligenz von 26 die Fähigkeit,
+Waffen zu führen, könnte jedoch nicht sprechen.
+
+ 

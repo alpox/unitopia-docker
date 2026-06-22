@@ -1,0 +1,94 @@
+Über die Rechte an MUD-Dateien:
+
+Wenn Du Code für den Betrieb in UNItopia schreibst, so unterliegt dieser
+Code, auch wenn er als Deine Schöpfung Dein geistiges Eigentum bleibt,
+folgenden Rechten:
+
+Im Folgenden werden Teilnehmer an UNItopia, die sich das Recht zu
+Programmieren erworben haben, mit 'Goetter' bezeichnet, die anderen
+heißen 'Spieler'.
+Die Betreiber von UNItopia werden mit 'Administratoren' bezeichnet.
+Die Leiter der direkten Unterverzeichnisse unter /d und /z und die Leiter
+des Verzeichnisses /p werden als 'Lords' bezeichnet.
+
+1. Alle Dateien unter /w unterliegen nicht automatisch Rechten der
+   Administatoren. Der Verzeichnisinhaber hat also das Recht, mit diesen
+   Dateien zu tun, was er (sie/es) will und diese Dateien dürfen somit
+   auch auszugsweise nur mit Zustimmung des Eigentümers kopiert werden.
+
+   Eine Ausnahme bilden dabei Programme/Objekte, deren Verwendung einen
+   Kodexverstoss möglich machen (Teleporttools/ MUD-Abschusstools usw.)
+   Hier haben die Administratoren das Recht, diese Programme umzubenennen
+   oder zu löschen.
+
+2. Für alle Dateien unter /d, /z und /p wird den Administratoren vom
+   programmierenden Gott oder der programmierenden Götter ein einfaches,
+   zeitlich unbeschränktes und unentgeltliches Nutzungsrecht für alle
+   Nutzungsarten insbesondere auch das Recht auf Änderung und weitere
+   Übertragung der Nutzungsrechte ohne Zustimmung des Urhebers eingeräumt.
+   Die Urheber sollten in einem Header kenntlich gemacht werden, sonst
+   zählen alle Götter mit Schreibzugriffsrecht als Programmierer.
+   Die Administratoren räumen den Lords dieses Verzeichnisses ein
+   einfaches, zeitlich auf die Dauer des Lord-Posten beschränktes
+   unentgeltliches Nutzungsrecht zur Änderung und weiteren Übertragung
+   dieser Nutzungsrechte auf andere Götter ein.
+
+   Dateien aus dem /d und /z darf man nicht ohne Erlaubnis der Rechteinhaber
+   kopieren oder verändern. Dateien aus dem /p darf ein Gott sich zur privaten
+   Nutzung kopieren, jedoch nur mit Zustimmung der Rechteinhaber verändern
+   oder weitergeben.
+	
+   Sollten Bezüge von anderen Programmen im MUD existieren, (das wären zum
+   Beispiel Raumausgaenge oder andere Objekte, die dieses Programm laden,
+   clonen, inheriten usw., siehe Dokumentation zu LPC und zu UNItopia für
+   diese Begriffe) dürfen diese Dateien ohne Zustimmung der Domainlords
+   und Domainhelfer nicht mehr verschoben und/oder umbenannt oder gelöscht
+   werden. Im Zweifelsfalle sollte zumindest eine kurze Notiz in einem
+   geeigneten News-Brett erscheinen. Für Dateien unter /p kann man stets
+   davon ausgehen, dass solche Bezüge existieren.
+
+3. Alle anderen Dateien gehören zur MudLib und werden als solche nur von
+   den Administratoren (oder in deren Auftrag) verändert.
+
+   Für den Einbau der Dateien eines Gottes in die MudLib wird dessen
+   Zustimmung benötigt. Er räumt mit dieser Zustimmung den
+   Administratoren ein einfaches, zeitlich unbeschränktes und
+   unentgeltliches Nutzungsrecht für alle Nutzungsarten, insbesondere
+   auch das Recht auf Änderung und weitere Übertragung der Nutzungsrechte
+   ohne Zustimmung des Urhebes ein und stimmt gleichzeitig zu, diese
+   Dateien zusätzlich unter das Copyright, welches in der der MudLib
+   beiliegenden Datei /COPYRIGHT beschrieben ist, zu stellen.
+
+   Die gesamten Sourcen der MudLib müssen, sofern sie in einem anderen MUD
+   Verwendung finden, eindeutig als UNItopia Sourcen gekennzeichnet werden,
+   entweder mit dem ursprünglichen Header, oder mit dem Zusatz
+   'This file was originally part of UNItopia MudLib.'
+   Auf jeden Fall müssen die ursprünglichen Programmierer im Header weiter
+   erwähnt werden.
+   Genaueres zur Verwendung in anderen MUDs regelt die Datei /COPYRIGHT,
+   welche der MudLib beiliegt.
+
+4. Mit Ausscheiden des Gottes aus dem MUD behalten die Administratoren
+   alle Nutzungsrechte für die Dateien unter /p, /d und /z.
+   Alle Dateien unter /w werden in diesem Fall gelöscht, nachdem sie
+   gepackt und dem ausscheidenden Gott zugänglich gemacht wurden.
+
+Allgemein gilt:
+Die Dateien bleiben Eigentum des Gottes, der sie programmiert hat. Der
+Eigentümer behält also das Recht, seine Sourcen zu jedem beliebigen Zweck
+außerhalb von UNItopia einzusetzen beispielsweise auch in anderen MUDs.
+
+Kopien oder kopierte Programmteile sind mit dem Namen des Programmierers zu
+vermerken, bei einem Einsatz außerhalb UNItopias ist zusätzlich ein
+Verweis auf UNItopia anzubringen.
+
+Dieses Copyright gilt für alle Dateien UNItopias und kann nicht durch
+ein besonderes Copyright aufgehoben werden. Das Recht, in UNItopia zu
+programmieren, ist an die Zustimmung zu diesem Copyright gebunden.
+Dies bedeutet, dass, falls ein Gott mit diesem Copyright nicht einverstanden
+ist, er damit das Recht, in UNItopia zu programmieren, verliert, es sei
+denn, der Gott ist nur mit solchen Teilen nicht einverstanden, welche
+ungültig sind.
+
+Sollte ein Teil dieses Copyrights ungültig sein, so bleiben die restlichen
+Teile davon unberührt.

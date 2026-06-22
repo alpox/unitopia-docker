@@ -1,0 +1,10 @@
+FUNKTION: query_dativ
+DEKLARATION: string query_dativ()
+BESCHREIBUNG:
+Ist diese Funktion in einem Objekt implementiert, so rufen die Grammatik-
+Funktionen bei Dativ-Generierung diese Funktion auf statt den Dativ
+generieren zu lassen.
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht.
+VERWEISE: query_dekliniert, query_genitiv, query_akkusativ, query_deklin_name
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c

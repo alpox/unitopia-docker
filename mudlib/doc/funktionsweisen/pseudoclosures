@@ -1,0 +1,265 @@
+Pseudoclosures
+--------------
+
+Was sind Pseudoclosures?
+
+Pseudoclosures sind Strings, welche einen ganz normalen Text darstellen, welcher
+aber Aufrufe von Grammatikfunktionen nutzt. Dieser Aufruf wird mit einem
+Dollarzeichen markiert.
+
+Beispiel:
+
+    "$Der() macht irgendwas."
+    
+     Das "$Der()" bedeutet, dass hier die Grammatikfunktion Der() aufgerufen
+     und dessen Ergebnis an dieser Stelle eingefügt werden soll.
+
+     
+Warum sollte ich Pseudoclosures nutzen?
+
+Dies und eine kleine Einführung zu Pseudoclosures befindet sich
+in /doc/funktionsweisen/messages.
+
+
+Wann kann ich Pseudoclosures einsetzen?
+
+Genau dann, wenn es in der Dokumentation einer Funktion steht, dass man sie
+dort einsetzen darf. Bei V-Items kann man sie zum Beispiel bei einigen
+Eigenschaften (z.B. "look_msg", "smell_msg") einsetzen (dies ist z.B.
+in /doc/funktionsweisen/virtuell/closures beschrieben), oder bei Nahrungen
+kann man sie als Essensmeldung angeben (siehe Doku zu set_chew_message
+und verwandte Funktionen). Die einzige Ausnahme zu dieser Regelung sind
+die Bewegungsmeldung, denn sie sind die älteste Form der Pseudoclosures
+und es gilt daher als bekannt, dass man sie da nutzen kann...
+
+Zu der Frage, wie man Pseudoclosures verarbeitet, kommen wir später, nachdem
+die Pseudoclosures im Detail beschrieben wurden.
+
+
+Wie sehen Pseudoclosures genau aus?
+
+Das Format der Funktionsaufrufe, welche man in den normalen Text einfügen
+kann ist: "$<Funktionsname>(<Parameter>,<Parameter>,...)".
+
+Erstmal wichtig: Leerzeichen werden nicht ignoriert, d.h. wenn zum Beispiel
+nach dem Funktionsname ein Leerzeichen kommt, dann wird nach einem
+Funktionsnamen mit Leerzeichen gesucht (was in der Regel schief geht), oder
+befindet sich nach einem Parameter ein Leerzeichen, so wird die Behandlung
+weiterer Parameter abgebrochen.
+
+Als Funktionsnamen sind alle Grammatik-simul-efuns zulässig. Dies sind alle
+öffentlichen Funktionen in /secure/simul_efun/deklin.c. (Falls Du Dir nicht
+sicher bist, schau in der Enzy-Dokumentation zu dieser Funktion nach. Dort
+muss /secure/simul_efun/deklin.c als SOURCE ganz unten stehen.)
+Für Bewegungsmeldungen ist zusätzlich $dir und $Dir zulässig, welche
+die Richtung beschreiben. Diese werden in das Symbol 'richtung und
+in capitalize('richtung) ersetzt. Mehr zu Symbolen später.
+Außerdem kann man für einzelne Anwendungen zusätzliche Funktionen
+für die Pseudoclosures definieren. Dies sollte in der zugehörigen
+Doku stehen. Wie man solche zusätzlichen Funktionen definiert, wird weiter
+unten erklärt, wenn es um die Verarbeitung von Pseudoclosures geht.
+
+Wir haben also die Funktion angegeben und müssen nun nur noch die
+Parameter angeben. Dazu ist folgendes möglich:
+ - OBJ_TO: Das aktuelle Objekt (this_object())
+           Dies ist das Objekt, welches die Pseudoclosure in eine richtige
+	   Closure umwandeln lassen hat, und nicht notwendigerweise das
+	   Objekt, an welchem die Closure gebunden ist oder welches diese
+	   Closure ausführt
+ - OBJ_PO: previous_object() - derjenige, welcher das Ergebnis dieser
+           Closure haben will
+ - OBJ_TP: this_player()
+ - OBJ_OW: Das umgebende Lebewesen von previous_object()
+ - OBJ_TI: this_interactive()
+ 
+ Die obigen Parameter bis auf OBJ_TO werden durch die entsprechenden Konstanten
+ aus deklin.h ersetzt. (D.h. das sind im Endeffekt Zahlen, welche von den
+ Grammatikfunktionen wie angegeben interpretiert.)
+ 
+ - Ein Array: "({<Wert>,<Wert>,...})"
+   Die gleichen Regeln wie bei den Parameter - keine unnötigen Leerzeichen.
+ - Ein Mapping: "([<Schluessel>:<Wert>,<Schluessel>:<Wert>])"
+   Hier sind ebenfalls keine unnötigen Leerzeichen erlaubt. Mappings
+   mit mehreren Werten pro Schlüssel werden (noch?) nicht unterstützt.
+   Als Schlüssel und Wert ist aber wiederrum alles möglich, was man
+   auch als Parameter angeben kann.
+ - Etwas in Klammern: "(<Wert>)"
+   Einfach, um eine Klammerung zu ermöglichen.
+ - Ein String in Anführungszeichen: "\"Text...\""
+   Achtung, die Anführungszeichen müssen mittels Backslash gequotet werden.
+ - Zahlen: "12345567890"
+ - Funktionsaufrufe: "#'funktionsname"
+   Diese Funktionsaufrufe sind sehr primitiv!
+   Es wird einfach in dem Objekt, welches die Pseudoclosure in eine richtige
+   Closure umwandelt funktionsname() aufgerufen und dessen Ergebnis genutzt.
+   (Dieser Aufruf findet dann aber erst statt, wenn die Closure ausgewertet wird.)
+   Welche dieser Funktionen zur Verfügung stehen, sollte in der jeweiligen
+   Doku stehen.
+ - Symbole: "'name"
+   Ähnlich wie bei Lambdas stehen diese Symbole für Parameter, welche zum
+   Zeitpunkt der Auswertung der Closure übergeben werden.
+   Welche Symbole genau zur Verfügung stehen, sollte in der Dokumentation
+   zu der jeweiligen Anwendung stehen. Steht nichts davon, so kann man davon
+   ausgehen, dass es keine Symbole gibt.
+   Nutzt man Symbole, welche nicht zur Verfügung stehen, so gibt es einen
+   Fehler (Symbol '<name>' not bound)
+ - Alles andere wird als String ohne Anführungszeichen betrachtet
+ 
+Ich denke, jetzt sind wohl einige Beispiele notwendig:
+
+   "$Der(OBJ_TP) kichert."
+   
+	Es wird Der() mit this_player() als Parameter aufgerufen; der Name
+	desjenigen Spielers, welche Schuld für die Auswertung dieser
+	Closure	ist, dürfte dort erscheinen.
+	
+   "$Der(OBJ_TP,lustig) kichert."
+   
+        Bei Der() kann man ein oder mehrere Adjektive als 2. Parameter
+	angeben. Hier wird "lustig", welches als String ohne Anführungszeichen
+	erkannt wurde, als solches übergeben.
+
+   "$Der(OBJ_TP,\"lustig\") kichert."
+   
+        Wie oben, nur das wir den String in Anführungszeichen gesetzt haben.
+	Ist etwas sicherer gegen Fehler.
+	
+   "$Ihr(([name:gesicht,gender:saechlich]),0,OBJ_TP) sieht fröhlich aus."
+   
+        Hier wird ein V-Item generiert und der Grammatikfunktion Ihr()
+	übergeben, wobei wir sagen, dass OBJ_TP der Besitzer ist, so
+	dass als Ergebnis "Das Gesicht des <OBJ_TP>" erscheint.
+	Aber mal alles im einzelnen:
+	"([name:gesicht,gender:saechlich])" ist ein Mapping, dessen
+	einzelne Elemente alles Strings ohne Anführungszeichen sind.
+	0 wird als Zahl erkannt und sagt der Funktion, dass wir das Adjektiv
+	dieses V-Items nicht ändern wollen.
+	OBJ_TP wird als 3. Parameter übergeben und gibt den Besitzer an.
+	
+   "Hallo, $choose_by_gender(OBJ_TP,({Meisterliches,Meister,Meisterin}))!"
+   
+       choose_by_gender ist eine Grammatikfunktion, welche anhand des
+       Geschlechts des ersten Parameters einen Wert aus dem 2. Parameter
+       auswählt. Als 1. Parameter geben wir wieder OBJ_TP an.
+       Das zweite ist aber ein Array, dessen Elemente wieder Strings sind,
+       welche wir wieder ohne Anführungszeichen angegeben haben.
+
+   "$Der(OBJ_TP,#'current_adjektiv) kichert."
+   
+       Hier hat das Objekt, welcher wir die Pseudoclosure geben eine Funktion
+       current_adjektiv() definiert, welche jedesmal abgefragt wird und
+       dem Der() als 2. Parameter übergeben wird.
+       
+   "$Der(OBJ_TP) grüßt $den('gegner)."
+   
+       Das Objekt, welches diese Pseudoclosure verarbeitet, hat ein
+       Symbol 'gegner definiert und bei der Auswertung der Closure
+       wird daher jedesmal ein Parameter angegeben, welcher dann in der
+       Closure den Platz von 'gegner einnimmt.
+
+
+Wie verarbeite ich Pseudoclosures?
+
+Pseudoclosures sollten gleich bei Erhalt in richtige Closures umgewandelt werden,
+welche dann immer dann, wenn sie benötigt werden, ausgewertet werden können.
+Dazu gibt es Funktionen: string_parser und mixed_to_closure.
+mixed_to_closure ist eine Erweiterung des string_parsers, weshalb ich erstmal
+auf den string_parser eingehe.
+
+    varargs mixed string_parser(string str, int tp_flag, int use_tp,
+				mapping functions)
+
+erhält als ersten Parameter die Pseudoclosure. Alle anderen Optionen sind
+optional und können daher weggelassen werden. Es liefert einen Lambda-Ausdruck
+zurück, also noch keine Lambda-Closure, sondern das, was man als 2. Parameter
+der Lambda-Funktion übergeben kann. Will man keine zusätzlichen Symbole
+definieren, so kann man einfach:
+
+    lambda(0,string_parser(pseudoclosure))
+    
+aufrufen und man erhält seine fertige Closure. Will man aber Symbole für
+die Pseudoclosures nutzen (also Parameter, welche man erst zum Zeitpunkt
+der Auswertung kennt) so muss man diese der Funktion lambda in einem
+Array als 1. Parameter mitteilen. Das Array gibt an, welcher Parameter
+an welcher Position welchem Symbol zugeordnet wird.
+
+    closure cl = lambda(({'gegner,'waffe}), string_parser(pseudoclosure))
+    
+ermöglicht es also, die Symbole 'gegner und 'waffe in der Pseudoclosure
+zu nutzen. Wertet man die Closure cl dann aus, so muss man den Gegner
+als 1. Parameter (da 'gegner das erste Element im Array ist) und 'waffe
+als zweites angeben, also z.B. funcall(cl,gegner_ob,waffe_ob) liefert
+dann den fertigen Text.
+
+Zu den einzelnen Parametern von string_parser:
+
+ - int tp_flag
+   Dieses Flag regelt, was geschieht, wenn kein Parameter angegeben wurde.
+   Ist es 0 (oder fehlt es), so wird so getan, als ob OBJ_TO angegeben wurde.
+   Ansonsten wird so getan, als ob OBJ_TP angegeben wurde.
+ - int use_tp
+   Falls es ungleich 0 ist, werden Vorkommen von OBJ_TP nicht durch das
+   entsprechende Define aus deklin.h ersetzt, sondern durch das Symbol 'tp.
+   Man muss dieses dann also bei lambda() explizit als Symbol angeben.
+ - mapping functions
+   Dies ermöglicht, selber Funktionen zur Verwendung in Lambdas anzugeben.
+   Das Mapping enthält die neu definierten Funktionen als Schlüssel
+   und die dafür aufzurufende Closure als Wert.
+   Wenn ich also zum Beispiel eine Funktion habe:
+   
+       string ganztollefun(mixed ob) // Rueckgabetyp string ist wichtig
+       {
+	   ...
+       }    
+   
+   Und dann Pseudoclosures mittels:
+   
+       closure cl = lambda(0,string_parser(str,0,0,
+           ([ "tollefun": #'ganztollefun ]) ));
+       
+   umwandle, kann ich dann in Pseudoclosures sowas nutzen wie:
+   
+       "Die Funktion sagt: $tollefun(OBJ_TP)"
+
+Die Funktion:
+
+    varargs closure mixed_to_closure(mixed mix, mixed *symbols, int tp_flag,
+                                     int use_tp, mapping functions)
+
+baut auf string_parser auf. Es verhält sich je nach Typ von mix unterschiedlich:
+
+ - Ist mix bereits eine Closure, so wird diese einfach zurückgeliefert.
+ - Ist mix ein Array, so wird angenommen, dass seine Elemente entweder
+   Strings (welche dann als Pseudoclosures behandelt werden) oder
+   Lambda-Ausdrücke (also die Sachen, die man lambda als 2. Parameter gibt)
+   sind. Die Ergebnisclosure addiert dann im Endeffekt die Ergebnisse der
+   einzelnen Array-Elemente zusammen und liefert den Gesamttext zurück.
+ - Ist mix ein String, so wird dieser als Pseudoclosure behandelt und von
+   string_parser in einen Lambda-Ausdruck umgewandelt.
+
+Die Parameter tp_flag, use_tp und functions werden direkt an string_parser
+weitergegeben. Nachdem diese Funktion das Array oder den String mix in
+einen Lambda-Ausdruck umgewandelt hat, so wird dies in eine Closure umgewandelt.
+Dazu wird unbound_lambda mit symbols als 1. Parameter und dem ermittelten
+Lambda-Ausdruck als 2. Parameter aufgerufen. D.h. das Array symbols enthält
+alle für die Pseudoclosure definierten Symbole in ihrer Reihenfolge, wie man
+die Parameter später bei der Auswertung übergibt.
+Außerdem kann man diese von mixed_to_closure zurückgelieferte Closure nicht
+sofort verwenden, sondern muss sie an ein Objekt binden. Dazu kann man
+bind_lambda oder closure_to_string nutzen; letzteres führt die Closure auch
+gleich aus.
+
+
+Wie werte ich eine Pseudoclosure aus?
+
+Nachdem die Pseudoclosure wie oben beschrieben in eine richtige Closure
+umgewandelt wurde, brauchen wir uns um die Pseudoclosure nicht mehr zu
+kümmern, sondern nur um die richtige Closure, und die kann wie jede
+andere Closure ausgewertet werden.
+
+Man kann dazu entweder funcall oder apply nutzen, denen man die Closure und
+eventuelle Parameter (falls man den Symbole definiert hat) übergibt oder
+die Lfun closure_to_string aus /i/item/messages nutzen, welche eventuelle
+Parameter für die Closure in einem Array als 2. Parameter erhält.
+closure_to_string verarbeitet auch ungebundene Closures, so dass man direkt
+das Ergebnis von mixed_to_closure nutzen kann.

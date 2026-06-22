@@ -1,0 +1,63 @@
+Von direkten und indirekten Sprüngen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Mit Hilfe des "GoTo" und "GoSub"-Befehls ist es möglich, die Position
+des 'Instruction-Pointers' zu ändern, also die aktuelle Zeile zu wechseln.
+Der Unterschied zwischen den beiden Befehlen liegt darin, dass "GoSub"
+im Gegensatz zu "GoTo" die aktuelle Position des IPs auf einen Stack
+legt, und diese dann mit einem "Return" später wieder angesprungen
+werden kann. Somit ist es mit "GoSub" möglich, Untersequenzen zu
+schreiben. Diese Untersequenzen können problemlos weitere Stellen per
+"GoSub" anspringen, der Stack kann maximal bis zu 3000 IPs speichern.
+
+Die Syntax der beiden Befehle ist:
+
+   GoTo <Label>			GoSub <Label>
+
+bzw.
+
+   GoTo <Term>			GoSub <Term>
+
+
+Steht hinter "GoTo"/"GoSub" ein Term, so wird dieser berechnet und zu dem
+Label gesprungen, das dabei als Ergebnis ermittelt wurde.
+Es handelt sich dabei also um eine "indirekte Adressierung".
+
+Labels befinden sich i.d.R. am Anfang einer Zeile. Sie werden in eckige
+Klammern gesetzt: [labelname].
+
+
+Beispiel:
+
+   Auto_Pause: 2
+   1: sage Bin ich nervös heute...
+   GoSub daeumchen_drehen
+   1: echo Das Monster seufzt.
+   GoSub daeumchen_drehen
+   GoSub daeumchen_drehen
+   Stop
+
+   [daeumchen_drehen] 1: echo Das Monster dreht Däumchen.
+                      1: echo Das Monster schnieft. 
+                      return
+
+
+Beispiel für die indirekte Adressierung:
+
+   GoSuB "Gruß"+random(3)
+   Stop
+   
+   [Gruss0]
+     1: sage Hallo, $wer($0,ART_KEINS)!
+     Return
+   
+   [Gruss1]
+     1: sage Guten Tag, \
+        $(["maennlich":"mein Herr",\
+           "weiblich":"gnädige Frau",\
+           "saechlich":"verehrtes Wesen"])[$0->query_gender()]$!
+     Return
+
+   [Gruss2]
+     1: begrüße $$0
+     Return

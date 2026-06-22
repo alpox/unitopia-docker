@@ -1,0 +1,5 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität übernimmt:
+            object_info(ob, OI_SHADOW_PREV)
+

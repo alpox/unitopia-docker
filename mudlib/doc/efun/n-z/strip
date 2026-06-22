@@ -1,0 +1,11 @@
+FUNKTION: strip
+DEKLARATION: string strip(string text)
+BESCHREIBUNG:
+Entfernt vorangestellte und nachfolgende Spaces und Tabs aus text.
+
+Beispiele:
+        strip("   abc   ")              -->     "abc"
+
+GRUPPEN: simul_efun, string
+VERWEISE: trim, sprintf, copies, center, left, right, wrap
+SOURCE: /secure/simul_efun/string.inc

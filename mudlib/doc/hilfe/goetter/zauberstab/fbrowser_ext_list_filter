@@ -1,0 +1,17 @@
+-------------------------------------------------------------------------------
+Hier werden alle Filter für eine Workflow-Liste angezeigt.
+Mögliche Befehle:
+
+    <nr>        Filter für den Bereich Nummer <nr> anzeigen.
+    n <nr> <gruppe>  Neuen Filter anlegen.
+                <nr>=1: Whitelist ACL-Gruppe(mit %) oder Gottname
+                <nr>=2: Blacklist ACL-Gruppe(mit %) oder Gottname
+                <nr>=3: Reader ACL-Gruppe(mit %) oder Gottname
+                <nr>=4: Writer ACL-Gruppe(mit %),Gottname oder List-ID
+                <nr>=5: Target-List List-ID beim Forward.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u / d       Eine Seite hoch- /runterblaettern.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

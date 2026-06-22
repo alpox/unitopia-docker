@@ -1,0 +1,26 @@
+-------------------------------------------------------------------------------
+Hier wird eine Aktion einer Workflow-Liste angezeigt.
+Mögliche Befehle:
+
+    t           Wahl des Aktionstyps Automatik oder Manuell
+  Trigger für diese Aktion
+    N           Neuer Fehler
+    D           Debuggeraenderung
+    A           Allgemeine Änderung am Fehler.
+    L           Löschen des Fehlers.
+    G           Gelesen
+    M           Meins-Gelesen(nur wenn wizname bei @wizname liest)
+    R           Wurde in der Archivanzeige gelesen.
+  Reaktionen für diese Aktion:
+    n           Fehler in Liste neuanlegen
+    f           Fehler an Ziele weiterleiten (forward)
+    a           Fehler an Ziele außer @wizname weiterleiten (forward-andere)
+    m           An Notifier (zpost) weiterleiten, um eine Mail zu erzeugen
+    l           Aus Liste löschen.
+  Sonstige:
+    P           Aktionsparameter (z.Zt. nicht genutzt.)
+    o           Aktion gesamt löschen.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

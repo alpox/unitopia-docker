@@ -1,0 +1,342 @@
+Bisher verwendete Typen:
+
+Die Defines für die Typen erhält man durch #include <room_types.h>.
+Für alle Typen ist der Default 0, sofern nichts anderes angegeben ist.
+
+
+Raumtypen, die bestimmte Spieleraktionen verbieten. 
+    Diese können entweder ein String sein, der als Meldung an den Spieler 
+    ausgegeben werden soll oder 1, wodurch eine Standardmeldung erzeugt wird.
+
+  RT_KAEMPFEN_VERBOTEN (int|string)
+          Wird von /i/living/hands benutzt, um festzustellen, ob in diesem 
+          Raum gekämpft werden darf. Dies gilt sowohl für Spieler als auch
+          für Monster.
+
+  RT_STEHLEN_VERBOTEN (int|string)
+          Wird vom Diebesgilden-Rucksack benutzt, um das Stehlen in diesen 
+          Räumen zu verbieten.
+
+  RT_GRABEN_VERBOTEN (int|string)
+          Wird von /obj/schaufel verwendet, um zu entscheiden, ob hier eine 
+          Truhe vergraben werden darf.
+
+  RT_MAGIE_VERBOTEN (int|string)
+          Setzt ein Raum diesen Typ auf einen Wert ungleich null, dann darf in
+          diesem Raum keine Magie, insbesondere Gildenmagie mehr 
+          funktionieren. Die Defaultmeldungen werden hierbei von den Gilden
+          erzeugt.
+          ALLE GILDENTOOLS MÜSSEN SICH DARAN HALTEN!
+
+  RT_HANDWERK_VERBOTEN (int|string)
+          Funktioniert wie der Raumtyp RT_MAGIE_VERBOTEN, nur gilt er für
+          alle nicht magischen Fertigkeiten einer Gilde.
+          ALLE GILDENFAEHIGKEITEN müssen durch eine dieser beiden Typen 
+          "ausgeschaltet" werden können!!!
+          (NUR Kommunikationsfaehigkeiten können ausgenommen werden.)
+
+    Die beiden letztgenannten Typen sollten nur in Räumen verwendet werden,
+    bei denen dies auch für den Spieler "verständlich" ist. Sprich, es muss
+    eine spielerverstaendliche Ursache für das Magie-/Handwerksverbot da 
+    sein!
+
+  RT_TELEPORT_REIN_VERBOTEN (int|string)
+  RT_TELEPORT_RAUS_VERBOTEN (int|string)
+  RT_VERSAND_REIN_VERBOTEN (int|string)
+  RT_VERSAND_RAUS_VERBOTEN (int|string)
+          Wenn gesetzt, sind entsprechende Teleports verboten. Alle Tools und 
+          Zaubersprüche zum Teleportieren müssen diese Typen beachten. 
+          Zur genaueren Verwendung siehe /doc/richtlinien/teleport.
+
+
+Raumtypen, die bestimmte Funktionalitäten (der Lib) deaktivieren.
+    Mit dem Wert 1 wird der jeweilige Raumtyp scharf geschaltet.
+
+  RT_KEIN_CLEANUP (int)
+          Dies verhindert, dass der Raum automatisch entladen wird, wenn er 
+          lange Zeit nicht betreten wurde.
+
+  RT_KEIN_TOTENGRAEBER (int)
+          Verhindert, dass ein Totengräber kommt und Leichen wegschleppt.
+
+  RT_KEIN_KOMPASS (int)
+          Die Nadel eines Kompasses dreht sich wie verrückt und erlaubt keine
+          Positionsbestimmung.
+
+  RT_KEIN_VERBRAUCH (int)
+          Wird von /i/player/player verwendet. Spieler in diesem Raum werden
+          keine Wasser- oder Nahrungspunkte abgezogen. 
+          Dies ist für den Bereich der Universität gedacht. Überall sonst
+          ist dieser Raumtyp durch die Admins GENEHMIGUNGSPFLICHTIG!
+          
+  RT_KEIN_STARTRAUM (int)
+          Der Spieler landet nach einem 'ende'-Befehl beim nächsten Einloggen
+          dort, wo er mit 'ende stadt' gelandet wäre. Weiterhin verhindert
+          der Raumtyp, dass sich Spieler in diesem Raum einloggen.          
+
+  RT_KEIN_KURIER (int)
+          Damit kann man einen Raum in eine Art "Ruheraum" verwandeln. Die 
+          Kurier-Meldungen erreichen dann den Spieler nicht.
+
+          Beispiele: Eimer in Tadmorer Post, Ohnmacht eines Spielers, der Sarg
+                     in der Vamp-Gilde, ...
+
+          Nach dem Verlassen des Raumes kann dem Spieler mit
+                     spieler->flush_puffer(); 
+          der Pufferinhalt explizit angezeigt werden. Wenn man das nicht 
+          macht, wird dieser bei der nächsten Meldung automatisch angezeigt.
+
+  RT_KEIN_UEBERFALL_KANAL (int)
+          Ist dieser Raumtyp gesetzt, so können sich hier Spieler angreifen,
+          ohne dass es eine Meldung auf dem Überfallkanal gibt.
+          Dieser Raumtyp ist durch die Admins GENEHMIGUNGSPFLICHTIG!
+
+
+Raumtypen, die das Befahren von Räumen durch bestimmte Vehikel erlauben.
+    Die Erlaubnis wird durch Setzen des Raumtyps auf 1 erteilt.
+
+  RT_BALLON_ERLAUBT (int)
+  RT_S_BAHN_ERLAUBT (int)
+  RT_SCHIFF_ERLAUBT (int)
+          Diese drei Typen werden von let_not_in() in /i/room verwendet um zu
+          entscheiden, ob ein Fahrzeug der jeweiligen Art in diesen Raum 
+          herein darf.
+
+
+Raumtypen, die die Flugfaehigkeiten von Engeln betreffen.
+
+  RT_FLUG_FLUGPLATZ (int)
+          Ein Engel darf in einen Raum, der nicht im Freien liegt, 
+          normalerweise weder starten noch landen. Ist jedoch dieser Raumtyp
+          auf 1 gesetzt, so darf er dies. Beispiel hierfür wäre eine Scheune
+          mit großem Scheunentor oder ein Tempel. Schließt man das 
+          Scheunentor, so sollte ein add_type(RT_FLUG_FLUGPLATZ, 0) nicht 
+          vergessen werden! In der Regel wird man die beiden folgenden 
+          Raumtypen in so einem Fall ebenfalls einsetzen.
+
+  RT_FLUG_START_MELDUNG (string)
+          Die Meldung, die ein Engel bekommen soll, wenn er losfliegt. 
+          Beispiel: Zum Starten trittst Du aus dem Schatten der Bäume hervor.
+
+  RT_FLUG_LANDE_MELDUNG (string)
+          Die Meldung, die ein Engel bei der Landung bekommen soll. 
+          Beispiel: Bei der Landung auf dem Eis rutschst Du ganz schön durch
+                    die Gegend und fliegst beinahe auf die Nase. (Arktis)
+
+  RT_FLUG_LANDEPLATZ (string)
+          Ein Engel kann in einem Raum nicht landen, wenn
+            - der Raum RT_TELEPORT_REIN_VERBOTEN definiert hat,
+            - let_not_in dies verbietet,
+            - ein Controller (z.B.per forbidden_move_in) dies verbietet,
+            - der Raum nicht im Freien ist, es sei denn, der Raum hat den Typ
+              RT_FLUG_FLUGPLATZ definiert.
+          Ein Raum kann aber für Engel ein alternatives Landeziel angeben, 
+          falls ein Engel da nicht landen kann. Das geht ganz einfach mit
+                    add_type(RT_FLUG_LANDEPLATZ, "dateiname");
+          Der Dateiname kann dabei sowohl absolut sein, beispielsweise bei 
+          Franz:
+                    add_type(RT_FLUG_LANDEPLATZ, 
+                             "/d/Vaniorh/uluji/market_place");
+          Er kann aber auch relativ sein, wie beispielsweise bei Connor, der 
+          sich in /d/Vaniorh/uluji/ausr befindet. Dort ist ein Verweis auf
+          /d/Vaniorh/uluji/harbour_street4, was dann so aussieht:
+                    add_type(RT_FLUG_LANDEPLATZ, "harbour_street4");
+
+
+Sonstige Raumtypen, die in keine der obigen Kategorien fallen.
+
+  RT_SPERRGEBIET (int)
+          Soll 1 sein, wenn der Raum nicht von allen Spielern erreichbar ist.
+
+  RT_REPRAESENTANT (object|mapping)
+          Gegenstand, welcher diesen Raum logisch enthält. Kann ein Objekt
+          oder V-Item sein.
+          Beispiel: Bootsraum -> Boot
+
+  RT_UMGEBUNG (object)
+          Raum, welcher diesen Raum logisch enthält. Wenn RT_REPRAESENTANT
+          ein Objekt ist, dann ist diese Angabe freiwillig.
+
+  RT_KOMPASS (string)
+          String, der an einen Spieler ausgegeben wird, der in diesem Raum
+          einen Kompass benutzt. Kommen in den Strings %g oder %sm vor, so 
+          werden diese durch Grad bzw. Seemeilen des Raumes ersetzt.
+          In dem String können Pseudoclosures verwendet werden, wobei das
+          Symbol 'kompass für den Kompass zur Verfügung steht.
+          Beispiel: "Die Nadel von $deinem('kompass) pendelt sich ganz "
+                    "langsam bei %g Grad ein."
+
+  RT_HAFEN (string)
+          Enthält den Namen des Hafens. Wird von den Kapitänen der Schiffe 
+          benutzt um festzustellen, in welchem Hafen sie sich befinden.
+
+  RT_KUNSTLICHT (int)
+          Liefert ein Raum darauf 1 zurück, so wird kein Tageslicht angezeigt
+          oder gesetzt, d.h. man kann das Licht selbst setzen.
+
+  RT_TAG_NACHT_WECHSEL (int)
+          Wenn man in einem Raum RT_KUNSTLICHT gesetzt hat, kann man durch 
+          Setzen von RT_TAG_NACHT_WECHSEL trotzdem Dunkelheit und Helligkeit
+          erzeugen lassen. Es wird aber nicht der Sonnenstand in der 
+          Langbeschreibung ausgegeben.
+
+  RT_MIT_TAG_NACHT_MELDUNG
+          Wenn man in einem Raum RT_KUNSTLICHT gesetzt hat so wird
+          normalerweise keine Sonnenstandsmeldung (es ist Tag, es ist Nacht)
+          angezeigt, es sei denn, man setzt diesen Raumtyp.
+
+  RT_X_KOORDINATE (int)
+  RT_Y_KOORDINATE (int)
+          Damit kann man Nicht-Map-Räumen ein Koordinatenpaar der Map 
+          zuordnen. /i/compass_logic benutzt diese Koordinaten zur 
+          Standortbestimmung.
+
+          Sind keine Koordinaten gesetzt, so sucht die Kompass-Logik auf dem 
+          Pfad des Raumes nach Dateien namens KOORDINATEN. Wird eine solche 
+          Datei gefunden werden die dort eingetragenen Koordinaten verwendet. 
+          Anm.: Nach Anlegen einer solchen Datei ist ein 
+                'zern /apps/koordinaten' notwendig.
+
+          Wird auch keine solche Datei gefunden, so benutzt die Kompass-Logik
+          die Mittelpunkts-Koordinaten der Domain, in der der Raum liegt, was 
+          bei großen Domains unter Umständen zu unerwünschten Kompass-
+          Missweisungen führen kann. 
+
+          Beispiel: /d/Kokosinsel/Knossos/Hafen/hafen1.c
+
+  RT_TEMPERATUR (int)
+          Wird in /i/player/player verwendet. Liefert die Raumtemperatur in
+          Grad Celsius zurück. Standard ist 20 Grad. Mit sinkender 
+          Raumtemperatur steigt der Nahrungsverbrauch, mit wachsender 
+          Temperatur der Wasserverbrauch der Spieler, es sei denn, sie 
+          benutzen angepasste Kleidung.
+
+  RT_WASSERVERBRAUCH (float)
+  RT_NAHRUNGSVERBRAUCH (float)
+          Wird in /i/player/player verwendet. Liefert den Faktor des Wasser-
+          oder Nahrungsverbrauchs der Spieler zurück. 1.0 heißt also 
+          normaler Verbrauch, 2.0 doppelter Verbrauch usw. Werte kleiner 
+          gleich 0.0 werden als 1.0 interpretiert. Dieser Wert ist z.B. für
+          unwegsames Gelände gedacht...
+
+  RT_STARTRAUM (mixed)
+          Setzt den Startraum eines Spielers, wenn er sich hier ausloggt. 
+          Sollte dieser nicht verfügbar sein, wird der Domainstartraum als
+          letzte Möglichkeit automatisch genutzt.
+
+          String "/pfad/zum/raum" oder object_name(ob):
+              Login in diesem Raum. Der Raum wird ggf. geladen. Pfade müssen 
+              absolut sein.
+
+          String "notouch#/pfad/zum/raum":
+              Wie oben, Login aber nur, wenn Raum gerade geladen ist.
+
+          Objekt
+              Login nur, wenn das Objekt noch existiert, nicht aber, wenn 
+              das Objekt zerstört oder erneuert wurde.
+
+          Array
+              Man kann mehrere Startraeume angeben. Das Array wird der Reihe 
+              nach durchprobiert. Bei "notouch" oder Objekt-Raum ist es 
+              sinnvoll, mindestens einen festen Startraum als Alternative 
+              anzugeben, ansonsten ist die Chance hoch, dass der Spieler im 
+              Domainstartraum endet.
+
+          Bei Räumen mit Repraesentant/Umgebung (z.B. Schiffe) werden die 
+          Startraeume der Umgebung hinzuaddiert. Existiert der Innenraum (das
+          Schiff) beim Login nicht mehr, landet man so in der Umgebung bzw. in
+          dem von der Umgebung gesetzten Startraum.
+
+  RT_KIRCHE (string)
+          Der Raum, in welchem ein Spieler wiederaufersteht, falls er hier
+          stirbt.
+
+  RT_TEMPEL (int)
+          Ist ein Raum mit dem Typ RT_TEMPEL versehen, dann kann man sich dort
+          als Engel heilen.
+
+  RT_RAUMHOEHE (int)
+          Die maximale Körpergröße, mit welcher man den Raum betreten kann.
+
+  RT_FLUCHTAUSGAENGE (*string)
+          Eine Liste von Ausgängen, die zur Flucht benutzt werden sollen.
+          Dieser Typ hat Vorrang vor der Abfrage der Raumausgaenge bei der
+          Flucht.
+          
+  RT_ARCHITEKTEN (string*)
+          Eine Liste von Spieler-Realnamen, welche die Architekten für
+          den Raum bzw. für die darin aufzubauenden Möbel sind.
+          Wird nur bei persönlichen Schiffen und Moebelhaeusern verwendet.
+
+  RT_LANDSCHAFT (int)
+          Beschreibt die Landschaft des Raumes. Diese Landschaft ergibt sich 
+          durch eine Ver-Oder-ung der ebenfalls in room_types.h definierten
+          Konstanten.
+
+          Zunächst ein paar Beispiele:
+              #include <room_types.h>
+
+              add_type(RT_LANDSCHAFT, L_WASSER | L_STEG);
+              für den Tadmorer Hafen.
+
+              add_type(RT_LANDSCHAFT, L_WASSER | L_FLIESSEND)
+              für einen Fluss.
+
+              add_type(RT_LANDSCHAFT, L_DRINNEN | L_SIEDLUNG | L_HAUS)
+              für ein Haus in einer Siedlung.
+
+          Es sind folgende Konstanten definiert:
+              L_DRINNEN      Drinnen bedeutet halt "drinnen", also zum 
+                             Beispiel Höhle, Haus, Zelt, Miene, usw.
+              L_WASSER       Wasser, das ist alles, was nass ist, vom Rinnsal
+                             bis zum Tümpel, See, Strom, Ozean.
+              L_FLIESSEND    Flüsse, Bäche im Gegensatz zu Seen, Pfützen.
+              L_FLACH        Flacher Bach, flacher See oder Meeresufer.
+              L_UNTERWASSER  Unterwasserstadt, in einem Brunnen unter der
+                             Brunnenoberflaeche.
+              L_MEERESGRUND  Am Meeresgrund.
+              L_STEG         Brücken (zwischen Kreta und Ephesos),
+                             Steg am Hafen oder Ähnliches.
+              L_STRAND       Begegnungsstaette zwischen Wasser und Boden.
+              L_WIESE        Gras, Blumen, vereinzelte Büsche oder Bäume.
+              L_WALD         Viele Bäume.
+              L_WUESTE       Wüst, öd und heiß.
+              L_STEPPE       Spärlich bewachsene Landschaft.
+              L_HUEGEL       Hügel
+              L_BERG         Berg
+              L_SUMPF        Morastige Gegend, die viele kleine und große
+                             Wasserflächen hat, die teilweise freiliegen.
+                             Oft treten Sumpfgase und Ähnliches auf, was den
+                             Pflanzenbewuchs schmälert.
+              L_MOOR         Ein Moor ist eine mehr oder weniger trockene
+                             Landschaft, die keine oder sehr wenige
+                             Wasserflächen beinhaltet. Ein Moor ist meist
+                             mit winzigen Hügeln durchzogen und matschig.
+                             Vereinzelt ist es von 1 - 2 Meter hohen Hügeln
+                             durchzogen, auf denen Linden oder ähnliche 
+                             kleine Bäume wachsen. Farne, Gras und Schilf 
+                             sind nicht selten anzutreffen.  Alles in allem 
+                             ist ein Moor eine Gegend, in der man sich 
+                             entspannen kann, in Gegensatz zu einem Sumpf, wo 
+                             man sich gruselt, wo die Stimmung gedrückt ist,
+                             wo Finsternis und Düsterkeit vorherrschen.
+              L_EIS          Eis-Schnee-Landschaft, Arktis.
+              L_DSCHUNGEL    Viele verschiedene Pflanzen, viele verschiedene
+                             Tiere, in der Regel heiß, feucht, unwegsam.
+              L_WEG          Pfad, Weg, Straße; egal, ob künstlich angelegt
+                             oder natürlich (Trampelpfad, Felsenpfad).
+              L_SIEDLUNG     Häuser, die zusammenstehen, Dorf, Stadt.
+              L_HAUS         Behausung, unnatürlich, Haus, Zelt, Gebäude.
+                             Fast immer dürfte L_HAUS mit L_DRINNEN
+                             verknüpft sein.
+	      L_KANALISATION Kanalisation halt; auch hier dürfte fast immer
+	          	     L_DRINNEN dabei sein. L_SIEDLUNG nicht.
+              L_LUFT         Flug-, Fall-, Schwebe-, Wolkenraeume etc.,
+                             wo man keinen festen Boden unter den Füßen hat.
+              L_ACKER        Acker
+              L_LAVA         Lava-Raum, fließende oder brodelnde Lava.
+
+              Außerdem gibt es in /i/tools/room_types.c noch Funktionen die
+              schwierige Kombinationen von Raumtypen testen:
+                  query_innenraum(raum)
+                  query_im_wasser(raum)

@@ -1,0 +1,9 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität übernimmt:
+            configure_interactive(this_interactive(),
+                                  IC_COMBINE_CHARSET_AS_STRING, val)
+        bzw.
+            configure_interactive(this_interactive(),
+                                  IC_COMBINE_CHARSET_AS_ARRAY, val)
+

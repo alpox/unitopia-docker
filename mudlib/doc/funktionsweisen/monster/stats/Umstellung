@@ -1,0 +1,10 @@
+Wie stelle ich meine alten Monster auf das neue System um?
+----------------------------------------------------------
+
+Im alten System bedeutete:
+    init_monster("name", x) = initialize("name", 5*x)
+
+Ein solches Monster hatte
+    50 + (2* (5*x)) HP bzw. SP
+
+Bedenke bitte, dass die alten Werte in vielen Fällen unsinnig waren.

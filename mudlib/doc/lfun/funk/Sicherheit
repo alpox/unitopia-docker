@@ -1,0 +1,4 @@
+add_security_condition
+check_security
+init_security_for_actions
+init_security_trust_mudlib

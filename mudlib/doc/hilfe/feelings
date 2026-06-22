@@ -1,0 +1,92 @@
+------------------------------------------------------------------------------
+<dein_name> <text>		Es wird der eigene Name vor den <text>
+<Dein_name> <text>		gesetzt und der entsprechende Text an alle
+				Spieler im selben Raum geschickt. Ist der
+				Text länger als eine Zeile, so wird er auto-
+				matisch umbrochen.
+<dein_name>s <text>             Es wird der Genitiv des eigenen Namens vor
+<Dein_name>s <text>             den <text> gesetzt. Namen, welche mit s enden,
+                                sollten statt dem s ein Apostroph (') angeben.
+
+Beispiel:
+	Francis gibt ein:	francis setzt sich hin.
+	Alle im Raum erhalten:	Francis setzt sich hin.
+
+Bemerkungen:
+	Will man ein $ ausgeben, so muss man dafür $$ eingeben:
+	Francis gibt ein:	francis hat 10$$.
+	Alle im Raum erhalten:	Francis hat 10$.
+
+	Aus historischen Gründen gibt es auch noch 'ich <text>' und
+	'mache <text>'. Sie machen dasselbe wie '<dein_name> <text>'.
+--------------- Grammatikfunktionen im <dein_name>-Befehl --------------------
+'Schoenheitsproblem':
+	Neben Francis sind auch noch Pulami und Monty im selben Raum.
+	Francis gibt nun ein:	francis hüpft um Pulami rum.
+	Pulami erhält nun:	Francis hüpft um Pulami rum.
+	Eigentlich sollte Pulami aber erhalten:
+				Francis hüpft um dich rum.
+
+Abhilfe-Beispiel:
+	Was tun? Ganz einfach: Die eingebauten Grammatikfunktionen verwenden.
+	Francis muss eingeben:	francis hüpft um $den(pulami) rum.
+	Francis und Monty erhalten:
+				Francis hüpft um Pulami rum.
+	Pulami erhält:		Francis hüpft um dich rum.
+
+Grammatikfunktionen:
+	$der, $des, $dem, $den: Artikel und Pronomen werden kleingeschrieben.
+	$Der, $Des, $Dem, $Den: "       "   "        "      groß-"
+	$deR, $deS, $deM, $deN: Artikel werden klein-, Pronomen groß-
+								 geschrieben.
+	Artikel werden dann verwendet, wenn die entsprechende Person
+							Adjektive besitzt.
+
+	Die Namen der Grammatikfunktionen sind die Artikel für männliche
+	Hauptwoerter, da nur bei diesen die Fälle eindeutig unterschieden
+	werden können. Also: '$dem(frau)' führt zu 'der großen Frau',
+	falls Frau eine Spielerin im Raum ist und das Adjektiv 'gross'
+	besitzt.
+
+	Der Grammatikbefehl darf mitten in einem Wort auftauchen:
+	'abc$den(pulami)def' führt zu 'abcPulamidef' bzw. 'abcdichdef'.
+
+	Damit man das ganze mit den Kürzeln zusammen verwenden kann,
+	kann man auch '&<funktion>' verwenden. (das & bekommt man mit && :)
+
+Weiteres Beispiel:
+	Francis gibt ein:
+			francis hüpft um $den(pulami) und $den(monty) rum.
+	Pulami erhält:		Francis hüpft um dich und Monty rum.
+	Monty erhält:		Francis hüpft um Pulami und dich rum.
+	Francis erhält:		Francis hüpft um Pulami und Monty rum.
+--------------- Verbenfunktion im <dein_name>-Befehl -------------------------
+'Schoenheitsproblem' Nr. 2:
+	Francis gibt ein:	francis ist da. $Der(pulami) ist auch da.
+	Francis erhält:		Francis ist da. Pulami ist auch da.
+	Pulami erhält:		Francis ist da. Du ist auch da.
+	Schöner wäre aber:	Francis ist da. Du bist auch da.
+
+Abhilfe-Beispiel:
+	Was macht man jetzt? Fast so einfach wie oben: Die eingebaute
+	Verbenfunktion verwenden.
+	Francis gibt ein:    francis ist da. $Der(pulami) $(ist,bist) auch da.
+	Francis erhält:      Francis ist da. Pulami ist auch da.
+	Pulami erhält:       Francis ist da. Du bist auch da.
+
+Verbenfunktion:
+	$(<Verb für alle>,<Verb für das zuvor gewählte Subjekt>)
+	Das Subjekt wird durch $der, $Der und $deR gesetzt.
+
+Weiteres Beispiel:
+	Der Perfektion halber geht das ganze auch mit demjenigen, der eingibt:
+	Francis gibt ein:	$Der(francis) $(jongliert,jonglierst) mit 
+				$dem(pulami) und $dem(monty) in der Luft. 
+				$Der(monty) $(faellt,faellst) dabei herunter.
+	Francis erhält:		Du jonglierst mit Pulami und Monty in der 
+				Luft. Monty fällt dabei herunter.
+	Pulami erhält:		Francis jongliert mit dir und Monty in der 
+				Luft. Monty fällt dabei herunter.
+	Monty erhält:		Francis jongliert mit Pulami und dir in der 
+				Luft. Du fällst dabei herunter.
+------------------------------------------------------------------------------

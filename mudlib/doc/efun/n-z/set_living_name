@@ -1,0 +1,19 @@
+FUNKTION: set_living_name
+DEKLARATION: void set_living_name(string name)
+BESCHREIBUNG:
+Mit dieser Funktion kann man den Namen eines Lebewesens setzen,
+so dass das Lebewesen spaeter mit find_living(name) gefunden werden
+kann. Der Name wird in einen Hash-Table eingetragen.
+Die Funktion kann nur auf Lebewesen angewandt werden, die mit
+enable_commands() als solche gekennzeichnet wurden.
+In /i/monster/monster und /obj/monster wird dies bei NPCs automatisch gemacht.
+
+Jedes Lebewesen kann nur einen Namen bekommen, der im Hash-Table
+eingetragen wird.
+Der Name sollte klein geschrieben sein, da es sonst zu Fehlern kommen kann.
+
+ACHTUNG: Nicht verwenden, sondern stattdessen set_npc_name() verwenden.
+
+VERWEISE: lfun::set_npc_name, find_living, enable_commands, find_player, query_living_name
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc

@@ -1,0 +1,85 @@
+Wie kann ich in einer Rolle Variablen benutzen?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ja, auch so etwas funktioniert.
+Und zwar ist es möglich, auf die globalen Variablen im Programm des NPC
+zuzugreifen. Dazu muss im NPC die Datei <lpc_parser.h> 'includet' werden
+und folgende Zeile stehen:
+
+  LPC_PARSER_VARS
+
+(Ohne Semikolons oder irgendwelche anderen Zeichen!)
+Falls ein inheritetes Objekt bereits den Zugriff gestattete, muss
+LPC_PARSER_IVARS stattdessen genutzt werden. Diese Deklaration muss
+vor den Variablendeklarationen erfolgen.
+
+
+Außerdem kann die Rolle Parameter beim Start erhalten. Auf diese wird
+mit #1, #2 usw. zugegriffen. Mit #0 erhält man alle Parameter in einem
+Array. Damit kann man auch die Anzahl an Parameter erhöhen:
+#0+=({0}) fügt einen weiteren Parameter hinzu, welcher dann als
+Variable genutzt werden kann.
+
+
+Innerhalb einer Rolle kann man sich auch selber globale Variablen zulegen.
+Dazu muss am Anfang der Rolle der Befehl:
+
+#pragma globalvars
+
+stehen. Wenn in der Rolle nun ein unbekannter Bezeichner auftritt, so wird
+dafür eine globale Rollen-Variable angelegt. Mit
+
+#pragma localvars
+
+beschränkt man diese Variablen auf einzelne LPC-Ausdrücke und mit
+
+#pragma novars
+
+wird dieses Verhalten wieder abgeschaltet. (Dies ist die Standardeinstellung.)
+
+
+Was mache ich, wenn ich noch alte Rollen habe?
+----------------------------------------------
+
+Die oben aufgeführten Varianten gehen nur bei Rollen ab Version 2.
+Für alte Rollen geht aber folgender kleiner Trick. Man muss dazu in
+das Objektfile des Monsters zwei Funktionen implementieren: 
+
+    void set_[variable](string val)
+und        
+    string query_[variable]()
+
+Die Funktion set_xxx() kann man nun in der Rolle aufrufen, man übergibt 
+ihr den Wert der Variable. Mit query_xxx() erhält man den Wert auf Wunsch 
+wieder zurück.
+
+Das Ganze kann sehr nützlich sein, wenn man sich einen Wert für eine 
+spätere If()-Anweisung merken muss, oder sich Namen merken möchte...
+
+zB:
+
+    if( check_present("schatz") )
+    {
+       1: sage Ah! Ein Schatz!
+       1: freue
+       1: nimm schatz
+       $1->set_var_item("schatz")
+    }
+    if( check_present("obsidian") )
+    {
+       1: sage Wer lässt denn einfach Geld hier liegen?
+       1: nimm obsidian
+       $1->set_var_item("obsidian")
+    }
+
+    # ..... weiter unten ....
+
+    if( query_var_item() )
+    {
+       1: sage Schau mal, ich habe was gefunden!
+       1: zeige $$1->query_var_item()
+    }
+
+
+Die Funktionen check_present(), query_var_item() und set_var_item() müssen 
+selbstverständlich im File des NPCs implementiert sein.

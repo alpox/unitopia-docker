@@ -1,0 +1,30 @@
+------------------------------------------------------------------------------
+An Häfen, die von Linienschiffen angelaufen werden, kannst du auf Schiffe 
+warten, oder du kannst zu einem Zielhafen reisen.
+
+Wenn du 'warte auf schiff' eintippst, wird dir angezeigt, welche Schiffe den 
+Hafen, an dem du stehst, anlaufen.
+
+Wenn du 'reise nach hafen' oder 'reise zu hafen' eintippst, wird dir angezeigt,
+welche Ziele du von diesem Hafen aus direkt erreichen kannst.
+
+Wenn du 'warte auf argo' eingibst, und wenn die Argo diesen Hafen anläuft, 
+werden dich die Matrosen der Argo auf das Schiff holen, wenn es das nächste 
+Mal vorbeikommt.
+
+Wenn du 'reise nach knossos' eingibst, und eines der Schiffe, die diesen Hafen 
+anlaufen, nach Knossos fährt, dann holen dich die Matrosen ebenfalls an Bord.
+
+Achte bitte darauf, welcher Schiffsname dir angezeigt wird, wenn du reisen 
+möchtest. Es wird nicht immer die Fähre ausgewählt, die als nächstes kommt.
+Man kann die Benutzung einer anderen Linie erzwingen:
+
+> reise nach knossos
+OK. Du wählst Knossos als Reiseziel und wartest auf die Fähre Wirbelwind.
+> reise mit samos
+OK. Du reist jetzt nicht mehr mit der Fähre Wirbelwind sondern mit der
+Fähre Samos, um weiterhin nach Knossos zu gelangen.
+
+Der Befehl 'reise nach ...' funktioniert auch, wenn du bereits an Bord bist.
+Mit 'reise nicht' sagst du das automatische Ein- und Aussteigen wieder ab.
+------------------------------------------------------------------------------

@@ -1,0 +1,85 @@
+FUNKTION: der
+DEKLARATION: varargs string der(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert im Nominativ deklinierte Form eines Objektnamens mit bestimmten Artikel
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat
+(query_personal()==1).
+
+  who   Das Objekt dessen deklinierte Form im Nominativ gewuenscht ist.
+
+	ODER eine virtuelles Objekt in der Form:
+	   ([ "name" : "...", "gender" : "..." ])
+	oder bei Plural
+	   ([ "name" : "...", "gender" : "...", "plural": 1 ])
+
+  adjektiv
+     string  ->  Grundform eines Adjektivs
+                 "" bedeutet kein Adjektiv
+     string* ->  ({ unregelm.Grundform, Deklinationsstamm }) eines Adjektivs
+                 ({ adjektiv1, adjektiv2, ...}) mehrere Adjektive
+     int i   ->  i == 0   Alle Adjektive des Objekts who.
+                 i >  0   Die ersten i Adjektive des Objekts who.
+                 i <  0   Das -i. te Adjektiv des Objekts who.
+     int*    ->  ({ a, b }) Die a bis b. Adjektive des Objekts who.
+
+Mit Hilfe von adjektiv koennen alle oder bestimmte Adjektive des Objekts
+oder ein fremdes Adjektiv in den Ergebnisstring zwischen Artikel und
+Substantiv gestellt werden.
+(Adjektive eines Objekts setzt man mit set_adjektiv, siehe dort.)
+
+Alle Parameter sind optional.
+Defaultwerte sind dann
+   who:      this_object()
+   adjektiv: 0  (alle Adjektive des Objekts who)
+
+BEISPIEL:
+   fuer  der, dem, den, einen, einem, einen, dein, deinem, deinen,
+         sein, seinem, seinen, dieser, diesem, diesen, er, ihm, ihn
+
+   object Spieler, Ork, Gegenstand;
+   Spieler    sei eine Person NAMENS Laura  (also mit personal_name)
+   Ork        sei ein Ork ohne Namen mit Adjektiv boese (ohne personal_name)
+   Gegenstand sei eine Jacke, die Laura bei sich traegt.
+
+   Der(Spieler)+" zieht "+einem(Ork)+" "+seinen(Gegenstand)+" an."
+      liefert:
+   "Laura zieht einem boesen Ork ihre Jacke an."
+
+   Dieser(Ork,"frech")+" laesst sich das von "+dem(Spieler)+" nicht gefallen."
+      liefert:
+   "Dieser freche Ork laesst sich das von Laura nicht gefallen."
+
+   Er(Ork)+" haette "+ihn(Spieler)+" am liebsten davongejagt."
+      liefert:
+   "Er haette sie am liebsten davongejagt."
+
+   Ein(Ork)+" schaut sich neugierig "+
+   seinen((["name":"ausruestung",
+	    "gender":"weiblich"]),"gut",Spieler)+" an."
+      liefert:
+   "Ein Ork schaut sich neugierig ihre gute Ausruestung an."
+
+HINWEIS:
+   Saemtliche Funktionen existieren nur in MAENNLICHER Form im
+   Singular.
+   Die Funktionen erzeugen daraus abhaengig vom Geschlecht und
+   Zahl des Objekts die RICHTIGE Form.
+   Die Funktionen existieren jeweils in Gross- und Kleinschrift.
+   ( der und Der, den und Den,... )
+ANMERKUNG:
+   Keine Diskriminierung beabsichtigt. Die maennlichen Deklinations-
+   formen sind die einzigen die sich im Nominativ und Akkusativ
+   voneinander unterscheiden, und nur darauf kommt's hier an. :-)
+
+Saemtliche aufgefuehrte Funktionen sind Spezialfaelle von
+   wer, wen, wem, Wer, Wen, Wem.
+
+
+VERWEISE: der, dem, den, einen, einem, einen, dein, deinem, deinen,
+          sein, seinem, seinen, dieser, diesem, diesen, er, ihn, ihm,
+          Der, Dem, Den, Einen, Einem, Einen, Dein, Deinem, Deinen,
+          Sein, Seinem, Seinen, Dieser, Diesem, Diesen, Er, Ihn, Ihm,
+          wer, wen, wem, Wer, Wen, Wem, ihr, ihren, ihrem, Ihr, Ihren,
+	  Ihrem, set_adjektiv
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

@@ -1,0 +1,31 @@
+Der banish Mechanismus bietet die Möglichkeit, Spieler(namen)
+für unterschiedliche Level zu sperren (==zu bannen).
+
+Level
+-----
+0	Der Name ist reserviert für Monster.
+	(wirkt nur der CharakterERSCHAFFUNG entgegen)
+1	Der Spieler ist aus dem Mud verbannt, er kann sich nicht mehr
+	einloggen!
+10	Der Spieler kann nicht mehr Engel WERDEN.
+20 	Der Spieler kann nicht mehr Gott WERDEN.
+21                                  Geselle 
+25                                  Vogt
+
+Das verwaltende Object ist /apps/banishd mit dem savefile /var/banishd.o
+
+Die Einträge in dieses Objekt können nur von /room/rathaus/reserv 
+geändert werden.
+
+Dieser Raum bietet den 'reserviere <name>' Befehl, der von Vögten und
+größer verwendet werden darf. Er ist funktional identisch
+mit 'banne <name> 0'.
+
+Zusätzlich gibt es die Befehle 'banne <name> <level>', wobei Level
+ein Zahl aus den oben angegeben Leveln sein sollte. Das Gegenstück zum 
+Löschen eines Bannes heißt    'loese <name> <level>'.
+Diese beiden Befehle dürfen nur von MudAdmins verwendet werden.
+
+Zur Auflistung der Banne existiert der Befehl 'liste [<level>]'
+
+Zum Test, ob ein Spieler gebannt ist, existiert der Befehl 'teste <name>'

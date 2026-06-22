@@ -1,0 +1,11 @@
+------------------------------------------------------------------------------
+wed <file>                     Die angegebene Datei wird im WebMUD editiert.
+wed -o <objekt>                Damit kann ein Objekt editiert werden.
+wed <file> -w                  Bei Option -w wird beim Oeffnen ignoriert,
+wed -o <objekt> -w             wenn man keine Schreibrechte hat. Die Datei
+                               kann dann nicht gespeichert werden!
+wed -                          Die zuletzt geöffnete Datei wird wieder im
+                               WebMUD editiert.
+
+Siehe auch: ed, xed, zed
+------------------------------------------------------------------------------

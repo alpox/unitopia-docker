@@ -1,0 +1,7 @@
+
+        DIESE FUNKTION IST VERALTET UND SOLLTE NICHT MEHR GENUTZT WERDEN.
+	Stattdessen gibt es die LFun send_message_to, welche mit
+	this_player() als ersten Parameter dieselbe Funktionalität bietet.
+	Es sollte in dem Objekt aufgerufen werden, welches der Ursprung
+	der Meldung ist.
+

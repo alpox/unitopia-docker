@@ -1,0 +1,234 @@
+Grundbefehle einer Rolle
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Eine Rolle ist eine ganz normale Textdatei, welche aus 2 Teilen besteht.
+Der erste Teil ist der Header, welcher Informationen über die eigentliche
+Rolle beinhaltet, z.B. Startbedingungen, Rollenpartner, der zweite Teil
+ist die eigentliche Rolle.
+
+
+1. Der Header
+-------------
+
+ o  Am Anfang sollte im Header die Zeile
+
+            Version: 2
+
+    stehen. Damit werden die erweiterten Rollenbefehle genutzt,
+    welche in dieser Dokumentation beschrieben werden.
+
+
+ o  Außerdem muss in jeder Rolle die Anzahl an Teilnehmern angegeben werden:
+
+            Anzahl_Teilnehmer: (int)
+
+    Jedes Objekt, das an der Rolle teilnimmt, bekommt eine "id" 
+    zugeordnet, eine fortlaufende Nummer beginnend mit 1.
+
+
+ o Welche Voraussetzungen muss ein Monster haben, damit es in der 
+   Rolle mitmachen kann?
+
+   Für jeden Teilnehmer kann (nicht muss) man folgende Zeile(n) 
+   im Header schreiben:
+
+            Teilnehmer_(id)_(Bedingung): (string)
+
+   Als erstes muss man dabei auswählen, ob es ein Objekt oder Lebewesen ist.
+   Dies geschieht mit:
+
+            Teilnehmer_(id)_Objekt: (Moeglichkeiten)
+
+   oder
+
+            Teilnehmer_(id)_Lebewesen: (Moeglichkeiten)
+
+   Hinter dem Doppelpunkt gibt man an, welche Objekte/Lebewesen in Frage
+   kommen. Man kann dort entweder einen LPC-Ausdruck angeben, welche
+   alle möglichen Objekte zurueckliefert:
+
+            Teilnehmer_2_Lebewesen: $all_inventory(environment())
+
+   oder eine Art Pfad zu den Objekten. Dieser kann mit den Wörtern
+   HIER (fuer den Raum), ICH (fuer this_object()), TP (fuer this_player())
+   oder einem Filenamen eines Objektes beginnen und besteht aus durch
+   Doppelpunkt getrennten Folgen von Ids, Ausgängen, * (fuer alle Objekte
+   im aktuellen Objekt) und ^ (fuer die Umgebung des aktuellen Objektes.)
+
+   Beispiele:
+
+            Teilnehmer_2_Objekt: HIER:westen:besonderer # affe
+            Teilnehmer_3_Lebewesen: ICH:^:*
+            Teilnehmer_4_Lebewesen: HIER:*:kuscheli
+
+   Falls für einen Teilnehmer keine solchen Angaben existieren, werden
+   die Lebewesen aus der Umgebung genommen oder, falls keine Umgebung
+   existiert, Lebewesen aus dem aktuellen Objekt.
+
+   Weitere Bedingungen kann man noch mit
+
+            Teilnehmer_(id)_(funktion): (string)
+
+   angeben. Das bedeutet, dass Teilnehmer->funktion()==(string) ergeben muss.
+
+   z.B.: 
+            Teilnehmer_2_query_gender: männlich
+
+   Teilnehmer mit der Id 1 ist übrigens immer this_object(). Man kann jedoch
+   trotzdem Bedingungen dafür spezifieren. Diese werden dann jedoch nur für
+   das rollenstartende Objekt geprüft und können demnach dazu führen, daß die
+   Rolle dann in bestimmten Situationen eben nicht ausgeführt werden kann.
+
+
+ o Vom Ort abhängige Rollen
+
+   Ist eine Rolle vom Start-Raum abhängig, z.B. eine in der Monster
+   herumlaufen, dann kann man folgende Zeile eintragen:
+
+            Start_Ort: (string)
+
+   z.B.:
+            Start_Ort: /room/church
+
+   Die Rolle lässt sich dann nur in diesem Raum starten.
+
+
+ o Die Rolle soll abbrechbar sein.
+
+            Rolle_abbrechbar: ja
+
+   Abbrechen kann man eine Rolle mit dem Funktions-Aufruf "breche_rolle_ab()".
+   Gibt man diese Option nicht an, kann die Rolle höchstens unterbrochen
+   werden, nie aber ganz abgebrochen werden. Die Rolle muss dann immer
+   zu Ende gespielt werden. (Es sei denn ein Rollenpartner suizidet sich...)
+
+
+ o Den genauen Ablauf einer Rolle festhalten.
+ 
+            Rollen_Debugger: <name>
+      oder
+            Rollen_Debugger: <filename>
+ 
+   Bewirkt das gleiche wie die Funktion "set_rollen_debugger()".
+   Damit wird der Verlauf der Rolle an denjenigen Gott ausgegeben bzw.
+   in die angegebene Datei geschrieben. Ein durch "set_rollen_debugger()"
+   angebener Debugger hat aber Vorrang.
+
+
+In allen Headerbefehlen ist die Angabe von LPC-Ausdrücken möglich, indem
+ein $ vorangestellt wird:
+
+z.B.:
+
+    Start_Ort: $MEIN_STARTORT_DEFINE
+    Teilnehmer_2_funktion: $was_soll_t2_haben()
+
+
+2. Der Rollentext
+-----------------
+
+Mit der Zeile
+
+    Text:
+
+wird der Text der eigentlichen Rolle eingeleitet.
+Jede Zeile stellt einen Rollenbefehl dar.
+Möchte man einen Befehl der Übersichtlichkeit wegen trotzdem umbrechen,
+muss man allen Zeilen bis auf die letzte einen Backslash anhängen.
+Kommentare werden mit einem # am Anfang der Zeile begonnen.
+
+Der wichtigste Rollenbefehl hat die Form:
+
+   (id): (string)
+
+bzw.
+
+   (id): (string)\
+         (string)
+
+Wenn der Mitspieler mit der Id (id) ein Lebewesen ist, bedeutet das, dass
+(string) als Befehl ausgeführt wird. Ist (id) ein Gegenstand, so wird
+(string) als Meldung mittels send_message ausgegeben.
+
+Beispiele:
+
+    2: sage Hallo wie gehts?
+
+    3: sage Mir gehts gut, allerdings hab ich schreck\
+            liche Sachen von Dir gehört !
+
+    2: seufze
+
+    4: Der Wind säuselt leise.
+
+    5: Irgendwo knarrt ein Ast.
+
+
+Innerhalb von Befehlen lassen sich folgendermaßen Berechnungen oder
+Funktionsaufrufe realisieren:
+
+    1: sage Du siehst gut aus, $wer($0,ART_BLANK)$!
+    
+    2: sage $"/d/Meingebiet/ich/master"->was_soll_ich_sagen()
+    
+    1: echo $Der($1) wirft etwas in die Luft.
+ 
+
+Solche Berechnungen oder Funktionsaufrufe werden mit einen $ eingeleitet.
+Optional können sie auch mit einem $ abgeschlossen werden.
+Dabei steht $0 für den Spieler, der die Rolle verursacht hat
+(also derjenige, der beim Start der Rolle this_player() war) und
+$1, $2 usw. für die jeweiligen Rollenteilnehmer.
+this_object() ist dabei immer der 1. Rollenteilnehmer.
+Das Ergebnis solcher Berechnungen können Strings und Objekte sein.
+Objekte werden dabei direkt an exec_command weitergeleitet:
+
+Beispiele:
+
+    1: sage zu $$0 Hähh?
+    
+    1: knuddle $$2 $({"ganz fest","ein wenig", "kurz"})[random(3)]
+    
+    2: ich gratuliert &dem($$0). &Der($$0) &(findet,findest) das prima.
+
+
+Zeitliche Abstände zwischen den einzelnen Kommandos erzeugt man durch:
+
+    Pause: (int)
+
+z.B.:
+
+    Pause: 3
+    Pause: 1+random(3)
+
+0 = 1 heart_beat
+1 = 2 heart_beat
+    .
+    .
+    .
+
+Soll nach jedem Kommando eine Pause ausgeführt werden, kann der Befehl
+'Auto_Pause' hilfreich sein. Seine Syntax ist:
+
+    Auto_Pause: <zahl>
+
+Ist <zahl> größer als 0, wird hinter jedem Lebewesenkommando bzw.
+Objektmeldung (also nur bei Rollenbefehlen mit '(id):' am Anfang)
+"Pause: <zahl>" ausgeführt. Mit 'Auto_Pause: 0' schaltet man diesen
+Mechanismus wieder aus. Es ist egal ob "Auto_Pause" im Header oder im Text
+der Rolle steht, man kann auch ohne weiteres den Wert für 'Auto_Pause' in
+der Rolle selbst ändern, bzw. die Funktion mit 'Auto_Pause: 0' ausschalten.
+
+
+Weitere Rollenbefehle sind:
+
+   if/else
+   stop
+   wechsel_rolle
+   goto
+   gosub/return
+   wait
+   time_out/stop_time_out
+   message_type
+
+Diese werden später ausführlich erklärt.

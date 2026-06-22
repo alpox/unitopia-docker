@@ -1,0 +1,10 @@
+apply
+bind_lambda
+funcall
+lambda
+quote
+symbol_function
+symbol_variable
+to_object
+unbound_lambda
+unquote

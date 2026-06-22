@@ -1,0 +1,51 @@
+Pragmas in UNItopia
+
+Die folgenden Pragmas sind in UNItopia von Relevanz:
+
+no_clone:
+    Dieses Objekt kann nicht geclont werden.
+    (siehe auch Efun clone_object)
+
+no_inherit:
+    Dieses Objekt darf nicht mehr inheritet werden.
+    (Objekte außerhalb von /i/ kann man generell nicht inheriten,
+    daher braucht man das Pragma dort nicht extra anzugeben.)
+
+no_shadow:
+    Diesem Objekt darf kein Shadow übergeworfen werden.
+    Dies ist für Gegenstände und Räume nicht erlaubt.
+    (Siehe /doc/richtlinien/programmierung/shadows.)
+
+weak_types:
+    Schaltet einen strengeren Typcheck aus. (Dies ist nicht empfohlen,
+    da es Programmierfehler verschleiert.)
+
+strong_types:
+    Bei allen Funktionen muss der vollständige Typ für Parameter
+    und Rückgabewert angegeben werden. (Dies ist Standard bei uns.)
+
+strict_types:
+    Wie strong_types. Zusätzlich müssen Rückgabewerte von call_other()
+    gecasted werden. (z.B. ({string})ob->query_real_name())
+
+save_types:
+    Die Typinformationen werden sich über die Compilephase hinaus gemerkt,
+    um bei späterer Vererbung bessere Typchecks durchführen zu können.
+    (Dies ist Standard bei uns.)
+
+pedantic:
+    Einige Warnungen sind dann Fehler.
+    (Dies ist Standard bei uns.)
+
+sloppy:
+    Schaltet das pedantic aus.
+
+warn_unused_variables:
+    Warnt vor Variablen, welche entweder nur gelesen oder nur geschrieben
+    oder gar nicht verwendet werden. (Dies ist Standard bei uns.)
+
+no_warn_unused_variables:
+    Schaltet die Warnung vor nicht verwendeten Variablen ab. Dies gilt
+    nur für nachfolgenden Code. Da globale Variablen erst am Ende geprüft
+    werden, kann man das Pragma ans Dateiende setzen, um nur globale
+    Variablen aus dem Check herauszunehmen.

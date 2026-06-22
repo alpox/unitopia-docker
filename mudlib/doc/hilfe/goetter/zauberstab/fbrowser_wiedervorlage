@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Hier werden die Wiedervorlagen und die neuen Fehler für einen Gott angezeigt.
+Mögliche Befehle:
+
+    <nr>        Wiedervorlage für den Bereich Nummer <nr> anzeigen.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u / d       Eine Seite hoch- /runterblaettern.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

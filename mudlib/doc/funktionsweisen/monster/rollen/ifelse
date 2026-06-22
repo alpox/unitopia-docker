@@ -1,0 +1,42 @@
+Wie kann ich den Ablauf einer R. von bestimmten Gegebenheiten abhängig machen?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hat man mit Rollen schon ein wenig herumexperimentiert, kommt schnell der 
+Wunsch auf, den Ablauf einer Rolle dynamisch zu gestalten. Dies ist mit
+Hilfe der if/else-Anweisungen auch möglich.
+
+Die Syntax entspricht dabei der eines LPC-Programms. Ergibt der
+Term innerhalb der Klammern einen Wert ungleich 0, so werden
+die folgenden Kommandos abgehandelt, ansonsten, falls angegeben,
+die Kommandos hinter der else-Anweisung, oder eben gar keine Kommandos.
+
+Die komplette Syntax einer If-Anweisung ist:
+
+   if( <Bedingung> )
+   {
+      <Anweisungen>...
+   }
+ [ else
+   {
+      <Anweisungen>...
+   } ]
+
+z.B.:
+
+   if( present("schatz",environment()) )
+   {
+      1: sage Oh, ein Schatz!
+      1: nimm schatz
+      2: staune
+   }
+   else
+   {
+      1: sage Moensch, nix los hier!
+      2: nicke
+   }
+
+Die geschweiften Klammern können bei einzelnen Befehlen weggelassen werden:
+
+   if(vclock()>220000)
+     1: gähn
+

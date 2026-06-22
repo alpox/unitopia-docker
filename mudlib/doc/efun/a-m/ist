@@ -1,0 +1,19 @@
+FUNKTION: ist
+DEKLARATION: varargs string ist(object|mapping|int ob, int spaces)
+BESCHREIBUNG:
+Liefert "sind", wenn ob im Plural ist, sonst "ist".
+ob kann hierbei ein v-item oder ein Objekt sein.
+Wenn ob nicht angegeben wird, wird this_object() angenommen.
+Diese Funktion ist ein Spezialfall der Funktion 'plural'
+Wenn spaces == IST_SPACE_BEFORE ist, wird ein Leerzeichen vorangestellt,
+bei spaces == IST_SPACE_AFTER angehaengt, und bei
+spaces == IST_SPACE_BEFORE|IST_SPACE_AFTER beides.
+Diese Konstanten sind in simul_efuns.h definiert.
+
+BEISPIEL:
+
+    Der(ob) + ist(ob, IST_SPACE_BEFORE) + " nicht zu gebrauchen."
+
+VERWEISE: plural
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

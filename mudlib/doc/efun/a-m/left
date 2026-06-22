@@ -1,0 +1,15 @@
+FUNKTION: left
+DEKLARATION: string left(string text, int len [,string pattern] )
+BESCHREIBUNG:
+Gibt einen String der Breite len zurueck, in dem text linksbuendig
+enthalten ist. Wenn noetig wird mit dem Zeichen pad aufgefuellt.
+Voreinstellung fuer pad ist das Leerzeichen.
+
+Beispiele:
+        left("abc d",8)         -->     "abc d   "
+        left("abc d",8,".")     -->     "abc d..."
+        left("abc  def",7)      -->     "abc  de"
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, center, right, wrap
+SOURCE: /secure/simul_efun/string.inc

@@ -1,0 +1,20 @@
+FUNKTION: vtimearray
+DEKLARATION: int* vtimearray(int clock)
+BESCHREIBUNG:
+Gibt das Datum und die Uhrzeit in einem Array zurueck, welche der in clock
+dargestellten Spielzeit entspricht. (clock wird durch vtime() geliefert.)
+Das Array enthaelt folgende Elemente:
+
+    vtimearray(clock)[TM_SEC]:   Sekunden (0-59)
+    vtimearray(clock)[TM_MIN]:   Minuten (0-59)
+    vtimearray(clock)[TM_HOUR]:  Stunden (0-23)
+    vtimearray(clock)[TM_MDAY]:  Tag des Monats (1-31)
+    vtimearray(clock)[TM_MON]:   Monat (1-12)
+    vtimearray(clock)[TM_YEAR]:  Jahr
+    vtimearray(clock)[TM_WDAY]:  Tag in der Woche (Sonntag:0, Montag: 1,...)
+    vtimearray(clock)[TM_YDAY]:  Tag im Jahr (0-365)
+
+Diese Defines gibt es in time.h.
+GRUPPEN: simul_efun, zeit
+VERWEISE: vtime, vtimestr, strfvtime, array_to_vtime, timearray
+SOURCE: /secure/simul_efun/time.inc

@@ -1,0 +1,24 @@
+FUNKTION: player_present
+DEKLARATION: varargs object player_present(object room, int flags)
+BESCHREIBUNG:
+Mit dieser Funktion kann man abfragen, ob ein (interaktiver) Spieler sich
+in einem Raum befindet.
+Wenn kein Argument uebergeben wird, wird this_object() genommen.
+Die Funktion liefert den 1. Spieler, der gefunden wird (ansonsten 0)
+Mit dem Parameter flags kann man die Menge der betroffenen Spieler
+eingrenzen oder erweitern. Es kann eine Kombination (Veroderung) aus den
+folgenden in simul_efuns.h definierten Konstanten sein:
+  PPRESENT_NO_WIZARDS   Goetter nicht beachten
+  PPRESENT_ONLY_LISTED	Spieler mit V_NOLIST-Unsichtbarkeit nicht beachten.
+  PPRESENT_NO_HIDDEN	Spieler mit V_HIDDEN-Unsichtbarkeit nicht beachten.
+  PPRESENT_NO_SHIMMER   Spieler mit V_SHIMMER-Unsichtbarkeit (z.B. Engel)
+                        nicht beachten
+  PPRESENT_NO_INVIS     Spieler mit V_INVIS-Unsichtbarkeit (meist Goetter)
+                        nicht beachten
+  PPRESENT_STATUES      Auch Statuen beachten.
+Standardmaessig werden alle interaktiven Spieler (keine Statuen) unabhaengig
+von ihrem Level und Sichtbarkeit beachtet.
+Das #include <simul_efuns.h> nicht vergessen.
+VERWEISE:
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/util.inc

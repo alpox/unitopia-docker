@@ -1,0 +1,62 @@
+Nach der Deklaration hat ein String den Inhalt 0 (nicht initialisierter String).
+
+string text;
+
+Als Leerstring bezeichnet man in der Regel:   text = "";  
+
+
+Um Fehler zu vermeiden überprüft man an Besten beides:
+
+    if (!str || str == "") {         /* !str entspricht str == 0 */
+	/* Fehlermeldung*/
+	return;
+	}
+
+
+Länge eines Strings bestimmen:
+
+   laenge = sizeof(text);
+
+
+Ansprechen eines einzelnen Zeichens eines Strings:
+
++----------------------------------------------------------------------+
+|    Ein einzelnes Zeichen wird mit ' abgetrennt, ein String mit " !   |
+|    Beispiele:                                                        |
+|                                                                      |
+|        '1'   ein einzelnes Zeichen                                   |
+|        '123'         Fehler !                                        |
+|        "1"   ein String der Länge 1                                  |
+|        "123" ein String der Länge 3                                  |
++----------------------------------------------------------------------+
+
+   (Die Indizierung geht nur, wenn:   (strlen(feld) > 0)  , ansonsten Fehler! )
+
+    text[0]              = '1';   /* IMMER das erste Zeichen */
+    text[strlen(text)-1] = '1';   /* IMMER das letzte Zeichen */
+
+Man kann die Zeichen auch von "hinten" indizieren:
+
+    text[<1]  = '1';    /* IMMER das letzte Zeichen */
+    text[<2]  = '1';   /* IMMER das vorletzte Zeichen */
+
+Herausholen eines Sub-Strings:
+
+    subtext = text[6..8];
+    subtext = text[6..];   entspricht text[6..<1]
+    subtext = text[6..<2]
+    subtext = text[<2..<1]
+    text[5..10] = "
+
+Achtung:
+
+            text[0]    = '1';     Zulässig
+
+            text[0..0] = "1";     Zulässig
+
+            text[0]    = "1";       Fehler
+
+            text[0..0] = '1';       Fehler
+
+Solche Fehler vermeidet man am besten, indem man die Syntax
+mit ' einfach NIE benutzt :-)

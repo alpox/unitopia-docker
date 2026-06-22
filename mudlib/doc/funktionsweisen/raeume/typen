@@ -1,0 +1,43 @@
+Typen sind eine Art von flexible Variablen, die in Räumen nach Belieben
+gesetzt und abgefragt werden kann.
+
+Man kann eine Variable setzen oder ändern, in dem man
+
+    add_type(string Variablen-Name, mixed Wert)
+
+aufruft. Der Name muss ein String, der Wert kann ein Integer, ein String
+oder ein Objekt sein. Will man eine Variable zurücksetzen, so gibt man
+im Wert 0 an.
+
+Mit
+
+   mixed query_type(string Variablen-Name)
+
+kann man den Inhalt abfragen. Ist die Variable vorher noch nicht definiert
+worden, so wird einfach 0 zurückgegeben.
+
+Beispiel:
+
+     Der Kompass /obj/kompass fragt in seiner Umgebung nach, ob dieser
+     Raum zu einem Schiff gehört:
+
+           query_type("mein_schiff");
+
+     Ein Schiffs-Raum muss also folgendes setzen:
+
+           add_type("mein_schiff",schiffs_objekt)
+
+     wobei schiffs_objekt ein Pointer auf das Schiff darstellt, zu dem
+     der Raum gehört. Bekommt der Kompass einen Pointer zurück,
+     so führt er seine Peilung anhand der Position des Schiffes durch,
+     und nicht anhand der Position des Raumes.
+
+
+Eine Liste aller verwendeten Typen findet man in 
+/doc/funktionsweisen/raeume/typenliste
+
+
+Außerdem gibt's in  /i/tools/room_types.c  noch Funktionen die schwierige
+Kombinationen von Raumtypen testen:
+  query_innenraum( raum)
+  query_im_wasser( raum)

@@ -1,0 +1,6 @@
+
+        Als "static" deklarierte Funktionen sollten nicht mehr für
+	Actions verwendet werden, da ihre Benutzung in Kürzeln oder
+	bei getrennter Eingabezeile einen Fehler erzeugt.
+	Für eine Alternative siehe init_security_for_actions().
+

@@ -1,0 +1,2001 @@
+notify_midnight            void notify_midnight() #$# Zeit
+notify_highnoon            void notify_highnoon() #$# Zeit
+notify_begin_daylight      void notify_begin_daylight() #$# Zeit
+notify_begin_darkness      void notify_begin_darkness() #$# Zeit
+notify_mudcrash            void notify_mudcrash(int signal) #$# grundlegendes
+add_job                    varargs int add_job(string func, int zeit, mixed param) #$# Zeit
+delete_job                 varargs int delete_job(string func, int zeit) #$# Zeit
+konjugiere                 string *konjugiere(string verb) #$# grammatik
+query_domains              string *query_domains() #$# domain map
+domain_member              int domain_member(string domain, string name) #$# domain map
+domain_lord                int domain_lord(string domain, string name) #$# domain map
+domain_helfer              int domain_helfer(string domain, string name) #$# domain map
+query_domain_lords         string *query_domain_lords(string domain) #$# domain map
+query_domain_helfer        string *query_domain_helfer(string domain) #$# domain map
+query_domain_members       string *query_domain_members(string domain) #$# domain map
+query_domains_of           string *query_domains_of(string lord) #$# domain map
+query_memberships_of       string *query_memberships_of(string wiz) #$# domain map
+query_domainhelfer_of      string *query_domainhelfer_of(string wiz) #$# domain map
+query_error_header         mixed* query_error_header(int nr) #$# fehlerdatenbank
+query_error_data           mapping query_error_data(int nr) #$# fehlerdatenbank
+query_error                DEPRECATED mixed *query_error(int nr) #$# fehlerdatenbank
+valid_debugger             string valid_debugger(string deb) #$# fehlerdatenbank
+_delete_error              private void _delete_error(mixed * err, mapping edata, int number) #$# fehlerdatenbank
+query_wiz_errors           deprecated varargs int *query_wiz_errors(string wiz, string file_pattern, string verursacher_pattern, int error_type) #$# fehlerdatenbank
+query_wiz_projects         DEPRECATED string *query_wiz_projects(string wiz, int only_non_empty, string file_pattern, string verursacher_pattern, int error_type) #$# fehlerdatenbank
+precheck_responsible       varargs int * precheck_responsible(int * errnums, int flag_deleted) #$# fehlerdatenbank
+precheck_add_debugger      int * precheck_add_debugger(int * errnums, string * deb) #$# fehlerdatenbank
+exec_change_error_type     string exec_change_error_type(int errnum, string neuer_typ) #$# fehlerdatenbank
+exec_add_debugger          int * exec_add_debugger(int * errnums, string * deb) #$# fehlerdatenbank
+exec_hide_debugger         int * exec_hide_debugger(int * errnums, string zreg, string nzreg) #$# fehlerdatenbank
+exec_reassign_file         int * exec_reassign_file(int * errnums, string filename) #$# fehlerdatenbank
+exec_delete_error          int * exec_delete_error(int * errnums) #$# fehlerdatenbank
+query_group_list           mixed query_group_list(string wiz, mapping options) #$# fehlerdatenbank
+query_main_groups          mapping query_main_groups(string wiz, mapping options) #$# fehlerdatenbank
+query_wiedervorlage        mapping query_wiedervorlage(string wiz, mapping options) #$# fehlerdatenbank
+query_error_list           mixed query_error_list(string wiz, mapping options) #$# fehlerdatenbank
+add_group_member           string add_group_member(string sub, string groupname) #$# acl
+delete_group_member        int delete_group_member(string sub, string groupname) #$# acl
+add_group                  int add_group(string groupname) #$# acl
+rename_group               int rename_group(string full_groupname, string new_grouprest) #$# acl
+delete_group               int delete_group(string groupname) #$# acl
+add_group_admin            int add_group_admin(string sub, string groupname) #$# acl
+delete_group_admin         string delete_group_admin(string wiz, string group_str) #$# acl
+is_group_member            varargs int is_group_member(string wiz, string groupname) #$# acl
+query_group_info           string query_group_info(string groupname) #$# acl
+query_subgroups            string *query_subgroups(string groupname) #$# acl
+query_full_group_info      string query_full_group_info(string groupname) #$# acl
+query_wiz_infos            string query_wiz_infos(string wiz) #$# acl
+query_fdb_groups           string *query_fdb_groups(string wiz) #$# acl
+query_all_wiz_group_members_of string *query_all_wiz_group_members_of(string groupname) #$# acl
+adjust_group_case          string adjust_group_case(string groupname) #$# acl
+query_maingroups           string *query_maingroups() #$# acl
+expand_groups              string *expand_groups(string *groups, int flags) #$# acl
+read_dir                   private mixed *read_dir(string str, int flag) #$# Root:Enzy
+read_file_unlimited        private string read_file_unlimited(string file) #$# Root:Enzy
+query_efuns                string *query_efuns(string regexp) #$# Root:Enzy
+query_efun_hilfetext       varargs string query_efun_hilfetext(string funk, int original) #$# Root:Enzy
+query_driver_hilfetext     varargs string query_driver_hilfetext(string name, int original) #$# Root:Enzy
+query_efun_deklaration     string query_efun_deklaration(string funk) #$# Root:Enzy
+query_efun_gruppen         string *query_efun_gruppen() #$# Root:Enzy
+query_efun_gruppen_funktionen varargs string *query_efun_gruppen_funktionen(string grp, string regexp) #$# Root:Enzy
+query_lfun_deklarationen   varargs mapping query_lfun_deklarationen(string *gruppen, string regexp, string dateiname) #$# Root:Enzy
+query_beispiele            string *query_beispiele(string pad) #$# Root:Enzy
+query_bsp_texte            string query_bsp_texte(string* gruppen, string name) #$# Root:Enzy
+query_lfun_texte           string query_lfun_texte(string* gruppen, string name) #$# Root:Enzy
+get_cartesian_coordinates  varargs int *get_cartesian_coordinates(object ob, int supress_error) #$# kompass raum map
+get_polar_coordinates      varargs int *get_polar_coordinates(object ob, int supress_error) #$# kompass raum map
+query_schatzkisten         mapping *query_schatzkisten(object room) #$# raum
+add_schatzkiste            void add_schatzkiste(object room, mapping kiste) #$# raum
+get_schatzkiste            mapping get_schatzkiste(object room) #$# raum
+has_schatzkiste            int has_schatzkiste(object room) #$# raum
+query_money_info           varargs mixed *query_money_info([string valuta]) #$# handel
+query_money_description    string query_money_description(string valuta) #$# handel
+check_conservation         public depreceated varargs <int|string> check_conservation(object ob,mapping check_attributes) #$# armageddon
+all_check_conservation     public depreceated varargs <int|string> all_check_conservation(object ob,mapping check_attributes) #$# armageddon
+get_owner_stored_file_count public int get_owner_stored_file_count(string owner, string file) #$# handel
+get_conservation_item_rent public varargs float get_conservation_item_rent(object ob,int standard_flag) #$# armageddon
+create                     void create() #$# applied grundlegendes
+reset                      void reset() #$# applied grundlegendes
+init                       void init() #$# applied grundlegendes
+virtual_compiler           object virtual_compiler(string name, string path) #$# grundlegendes virtual_compiler
+heart_beat                 void heart_beat #$# grundlegendes monster
+setup_renamed_object       void setup_renamed_object(object vc, string old_name) #$# grundlegendes virtual_compiler
+setup_renamed_object       void setup_renamed_object(object ob, string old_name) #$# grundlegendes virtual_compiler
+real_filename              string real_filename(string name, string path) #$# grundlegendes virtual_compiler
+query_armour               int query_armour() #$# ruestung
+notify_armour_fail         void notify_armour_fail(object armour, string how) #$# ruestung
+set_life                   void set_life(int life) #$# ruestung kampf
+add_life                   int add_life(int life) #$# ruestung kampf
+query_life                 int query_life() #$# ruestung kampf
+query_max_life             int query_max_life() #$# waffen kampf
+set_armour_class           void set_armour_class(string armour_class) #$# ruestung
+query_armour_class         string query_armour_class() #$# ruestung
+armour_class               int armour_class(string str) #$# ruestung
+set_armour_protection      void set_armour_protection(int protection) #$# ruestung
+query_armour_protection    int query_armour_protection() #$# ruestung
+query_extra_armour_protection int query_extra_armour_protection(int ahps, mapping info) #$# ruestung
+query_min_value            int query_min_value() #$# ruestung
+query_max_value            int query_max_value() #$# ruestung
+init_armour_data           void init_armour_data(int protection, string class, int life, string broken) #$# ruestung
+init_armour                varargs void init_armour(string kategorie[, int schutz_in_prozent[, int leben_in_prozent[, int gewicht_in_prozent]]]) #$# ruestung
+set_first_msg              void set_first_msg(string str) #$# ruestung
+query_first_msg            string query_first_msg() #$# ruestung
+set_magic_protection_time  void set_magic_protection_time(int time) #$# ruestung
+query_magic_protection_time int query_magic_protection_time() #$# ruestung
+query_remaining_magic_protection_time int query_remaining_magic_protection_time() #$# ruestung
+set_no_door                void set_no_door(int no_door) #$# taschen
+query_no_door              int query_no_door() #$# taschen
+set_no_lock                void set_no_lock(int no_lock) #$# taschen
+query_no_lock              int query_no_lock() #$# taschen
+set_locked                 void set_locked(int locked) #$# taschen
+query_locked               int query_locked() #$# taschen
+notify_open                void notify_open(object container, object who) #$# taschen
+notify_close               void notify_close(object container, object who) #$# taschen
+forbidden_open             int forbidden_open(object container, object who) #$# taschen
+forbidden_close            int forbidden_close(object container, object who) #$# taschen
+lock_con                   void lock_con(int lock, object who, object key) #$# taschen
+notify_lock                void notify_lock(object container, object who, object key) #$# taschen
+notify_unlock              void notify_unlock(object container, object who, object key) #$# taschen
+forbidden_lock             int forbidden_lock(object container, object who, object key) #$# taschen
+forbidden_unlock           int forbidden_unlock(object container, object who, object key) #$# taschen
+notify_lock_key            void notify_lock_key(object container, object who, object key) #$# taschen
+notify_unlock_key          void notify_unlock_key(object container, object who, object key) #$# taschen
+forbidden_lock_key         int forbidden_lock_key(object container, object who, object key) #$# taschen
+forbidden_unlock_key       int forbidden_unlock_key(object container, object who, object key) #$# taschen
+set_keys                   void set_keys(string *keys) #$# taschen
+query_keys                 string *query_keys() #$# taschen
+set_crack                  void set_crack(int chance) #$# taschen
+query_crack                int query_crack() #$# taschen
+query_collapsible          int query_collapsible() #$# taschen
+set_collapsible            void set_collapsible(int flag) #$# taschen
+notify_crack               void notify_crack(object container, object who, mixed dietrich) #$# taschen
+forbidden_crack            int forbidden_crack(object container, object who, mixed dietrich) #$# taschen
+crack                      varargs int crack(object who [, mixed dietrich]) #$# taschen
+query_tasche               int query_tasche() #$# taschen
+T_LISTE                    Liste der Container-T-Defines #$# taschen
+set_worn_adjektiv          void set_worn_adjektiv(mixed worn_adjektiv) #$# kleidung
+query_worn_adjektiv        mixed query_worn_adjektiv() #$# kleidung
+do_wear                    void do_wear() #$# kleidung
+do_remove                  void do_remove() #$# kleidung
+already_worn               varargs mixed already_worn(int all) #$# kleidung
+set_wear_msg               void set_wear_msg(mixed wear_msg) #$# kleidung
+query_wear_msg             string query_wear_msg() #$# kleidung
+set_wear_msg_other         void set_wear_msg_other(mixed wear_msg_other) #$# kleidung
+query_wear_msg_other       string query_wear_msg_other() #$# kleidung
+set_remove_msg             void set_remove_msg(mixed remove_msg) #$# kleidung
+query_remove_msg           string query_remove_msg() #$# kleidung
+set_remove_msg_other       void set_remove_msg_other(mixed remove_msg_other) #$# kleidung
+query_remove_msg_other     string query_remove_msg_other() #$# kleidung
+query_worn                 int query_worn() #$# kleidung
+set_schutz                 void set_schutz(int schutz) #$# kleidung
+set_typ                    void set_typ(string typ) #$# kleidung
+query_schutz               int query_schutz() #$# kleidung
+query_typ                  string query_typ() #$# kleidung
+query_cloth                int query_cloth() #$# kleidung
+T_LISTE                    Liste der T-Defines fuer Kleidungen #$# kleidung
+set_long_owner_when_worn   deprecated void set_long_owner_when_worn(string long) #$# kleidung
+query_long_owner_when_worn deprecated string query_long_owner_when_worn(object viewer) #$# kleidung
+set_long_other_when_worn   deprecated void set_long_other_when_worn(string long) #$# kleidung
+set_look_msg_when_worn     void set_look_msg_when_worn(mixed look) #$# kleidung
+forbidden_wear             int forbidden_wear(object clothes, object who) #$# kleidung
+forbidden_wear_me          int forbidden_wear_me(object who, object clothes) #$# kleidung
+forbidden_wear_here        int forbidden_wear_here(object who, object clothes) #$# kleidung
+notify_wear                void notify_wear(object clothes, object who) #$# spieler monster haende waffen
+notify_wear_me             void notify_wear_me(object who, object clothes) #$# spieler monster haende waffen
+notify_wear_here           void notify_wear_here(object who, object clothes) #$# spieler monster haende waffen
+forbidden_undress          int forbidden_undress(object clothes, object who) #$# kleidung
+forbidden_undress_me       int forbidden_undress_me(object who, object clothes) #$# kleidung
+forbidden_undress_here     int forbidden_undress_here(object who, object clothes) #$# kleidung
+notify_undress             void notify_undress(object clothes, object who) #$# spieler monster haende waffen
+notify_undress_me          void notify_undress_me(object who, object clothes) #$# spieler monster haende waffen
+notify_undress_here        void notify_undress_here(object who, object clothes) #$# spieler monster haende waffen
+query_content_visible_when_worn int query_content_visible_when_worn() #$# kleidung
+set_content_visible_when_worn void set_content_visible_when_worn(int visible) #$# kleidung
+set_min_weight             void set_min_weight(int min_weight) #$# taschen
+query_min_weight           int query_min_weight() #$# taschen
+set_max_weight             void set_max_weight(int max_weight) #$# taschen
+query_max_weight           int query_max_weight() #$# taschen
+set_max_internal_encumbrance void set_max_internal_encumbrance(int max) #$# taschen
+query_max_internal_encumbrance int query_max_internal_encumbrance() #$# taschen
+query_internal_encumbrance int query_internal_encumbrance() #$# taschen
+query_container            int query_container() #$# taschen
+query_con_close            int query_con_close() #$# taschen
+open_con                   void open_con() #$# taschen
+close_con                  void close_con() #$# taschen
+add_encumbrance            int add_encumbrance(object ob, int enc_type, int enc_diff) #$# taschen
+test_add_encumbrance       varargs int test_add_encumbrance(object ob, int enc_type, int enc_diff) #$# taschen
+set_transparent            void set_transparent(int flag) #$# taschen
+query_transparent          int query_transparent() #$# taschen
+set_content_message        void set_content_message(string str) #$# taschen
+query_content_message      string query_content_message() #$# taschen
+allow_only                 varargs void allow_only(string *ids [, string message ] ) #$# taschen
+query_allow_only           mixed *query_allow_only() #$# taschen
+let_not_in                 <int|string> let_not_in(mapping mv_infos) #$# move
+let_not_out                <int|string> let_not_out(mapping mv_infos) #$# move
+moved_in                   void moved_in(mapping mv_infos) #$# move
+moved_out                  void moved_out(mapping mv_infos) #$# move
+set_take_prepos            void set_take_prepos(string s) #$# taschen
+query_take_prepos          string query_take_prepos() #$# taschen
+set_put_prepos             void set_put_prepos(string s) #$# taschen
+query_put_prepos           string query_put_prepos() #$# taschen
+set_put_verb               void set_put_verb(string s|string *s) #$# taschen
+query_put_verb             mixed query_put_verb() #$# taschen
+set_put_verb_case          void set_put_verb_case(int c) #$# taschen
+query_put_verb_case        int query_put_verb_case() #$# taschen
+set_message_filter         void set_message_filter(int filter) #$# message
+query_message_filter       int query_message_filter() #$# message
+propagate_message_to_env   void propagate_message_to_env(int msg_type, int msg_action, object ob, string msg, string msg_whom, mixed whom) #$# message
+setup_room                 int setup_room(object room, int x, int y) #$# map domain
+query_room_file            string query_room_file(int x, int y) #$# map domain
+query_member               int query_member(int x, int y) #$# map domain
+add_karte                  void add_karte(string file [, int x, int y ]) #$# map domain
+query_karten               mixed *query_karten() #$# map domain
+query_room_icon            string query_room_icon(int x, int y) #$# map domain
+query_member_info          mixed *query_member_info(int zaehler) #$# map domain
+query_member_map           string query_member_map(int zaehler) #$# map domain
+setup_room                 int setup_room(object room, int x, int y, int domain_x, int domain_y) #$# map domain
+map_create                 void map_create() #$# map raum
+set_adjektiv               void set_adjektiv(mixed new_adj) #$# grammatik
+add_adjektiv               varargs void add_adjektiv(mixed add_adj, int front) #$# grammatik
+query_adjektiv             mixed * query_adjektiv() #$# grammatik
+query_adjektiv_grundform   string * query_adjektiv_grundform() #$# grammatik
+query_adjektiv_stamm       string * query_adjektiv_stamm() #$# grammatik
+adjektiv                   int adjektiv(string str) #$# grammatik
+delete_adjektiv            void delete_adjektiv(mixed del_adj) #$# grammatik
+add_setter_conservation    varargs void add_setter_conservation(string setter,mixed * args,string sequence) #$# armageddon
+delete_seq_conservation    void delete_seq_conservation(string sequence) #$# armageddon
+set_conservation_constraint void set_conservation_constraint(string setter, mixed args) #$# armageddon
+clear_initial_conservation_data void clear_initial_conservation_data() #$# armageddon
+query_conservation_data    mixed* query_conservation_data() #$# armageddon
+query_conservation_constraint mixed query_conservation_constraint(string key) #$# armageddon
+query_conservation_constraints mixed query_conservation_constraints() #$# armageddon
+is_controller              int is_controller(string func [, object ob | string filename | closure cl]) #$# controller
+add_controller             varargs int add_controller(mixed func [, object ob | string filename | closure cl]) #$# controller
+delete_controller          int delete_controller(mixed func [, object ob | string filename | closure cl]) #$# controller
+query_controller           mixed query_controller([string func]) #$# controller
+forbidden                  mixed forbidden(string message, varargs mixed * data) #$# controller
+allowed                    int allowed(string message, varargs mixed * data) #$# controller
+notify                     void notify(string message, varargs mixed * data) #$# controller
+modify                     void modify(string message, mixed &parameter, varargs mixed * data) #$# controller
+concerned                  mixed concerned([int &prio,] string message, varargs mixed * data) #$# controller
+do_notifies                void do_notifies(int flags, string message, mixed *postfixes, mixed *obs, varargs mixed *params) #$# controller
+do_forbiddens              mixed do_forbiddens(int flags, string message, mixed *postfixes, mixed *obs, varargs mixed *params) #$# controller
+set_short                  void set_short(string short) #$# grundlegendes
+query_short                string query_short(object betrachter) #$# grundlegendes
+set_long                   void set_long(mixed long) #$# grundlegendes
+add_long                   void add_long(mixed long) #$# grundlegendes
+query_long                 string query_long(object betrachter) #$# grundlegendes
+query_long_exec            protected string query_long_exec(mapping info) #$# beschreibung
+query_long_postprocess     protected string query_long_postprocess(string msg, mapping info) #$# beschreibung
+query_long_shadow          string query_long_shadow(string msg, mapping info) #$# beschreibung
+query_long_tags            mapping query_long_tags() #$# beschreibung
+query_long_has_tag         int query_long_has_tag(string tag) #$# beschreibung
+query_long_tag_val         mixed query_long_tag_val(string tag) #$# beschreibung
+add_long_tag               void add_long_tag(string tag [, mixed val]) #$# beschreibung
+delete_long_tag            void delete_long_tag(string tag) #$# beschreibung
+set_long_night             deprecated void set_long_night(string long) #$# grundlegendes
+query_long_night           deprecated string query_long_night(object betrachter) #$# grundlegendes
+query_short_string         string query_short_string() #$# grundlegendes
+query_long_string          string query_long_string() #$# grundlegendes
+query_long_night_string    deprecated string query_long_night_string() #$# grundlegendes
+query_debug_info           mapping query_debug_info() #$# master
+set_feel                   void set_feel(mixed gefuehl) #$# grundlegendes
+query_feel                 string query_feel() #$# grundlegendes
+set_gender                 void set_gender(string gender) #$# grundlegendes
+query_gender               string query_gender() #$# grundlegendes
+query_real_gender          nomask string query_real_gender() #$# grundlegendes
+set_plural                 void set_plural(int p) #$# grundlegendes
+query_plural               int query_plural() #$# grundlegendes
+set_plural_id              void set_plural_id(string plural_id | string *plural_ids) #$# grundlegendes
+query_plural_id            string *query_plural_id() #$# grundlegendes
+add_plural_id              void add_plural_id(string plural_id | string *plural_ids) #$# grundlegendes
+delete_plural_id           void delete_plural_id(string plural_id | string *plural_ids) #$# grundlegendes
+plural_id                  int plural_id(string id) #$# grundlegendes
+set_id                     void set_id(string id | string *ids) #$# grundlegendes
+add_id                     void add_id(string id | string *ids) #$# grundlegendes
+query_id                   string *query_id() #$# grundlegendes
+delete_id                  void delete_id(string id | string *ids) #$# grundlegendes
+id                         int id(string id) #$# grundlegendes
+id                         int ids(string *ids) #$# grundlegendes
+set_class_id               void set_class_id(string class_id | string *class_ids) #$# grundlegendes
+query_class_id             string *query_class_id() #$# grundlegendes
+me                         string me(string command) #$# grundlegendes
+query_own_light            int query_own_light() #$# licht
+set_own_light              void set_own_light(int value) #$# licht
+add_own_light              void add_own_light(int amount) #$# licht
+query_light                int query_light() #$# licht
+query_inner_light          int query_inner_light() #$# licht
+query_outer_light          int query_outer_light() #$# licht
+set_material               void set_material(<string|string*> materialien) #$# grundlegendes
+add_material               void add_material(<string|string*> materialien) #$# grundlegendes
+query_material             string *query_material() #$# grundlegendes
+material                   int material(string m) #$# grundlegendes
+delete_material            void delete_material(<string|string*> materialien) #$# grundlegendes
+MT_LISTE                   Liste der Message Typen. #$# message
+MA_LISTE                   Liste der Message Aktionen. #$# message
+MSG_ATTRIBUTES             Liste der Message Attribute. #$# message
+send_message_to            void send_message_to(object whom | object *whom, int msg_type, int msg_action, string msg, mapping attributes) #$# message
+send_message               varargs void send_message(int msg_type, int msg_action, string msg, [string msg_whom, object whom | object *whom, mapping attributes]) #$# message
+send_message_in            varargs void send_message_in(object room, int msg_type, int msg_action, string msg, [string msg_whom, object whom | object *whom, mapping attributes]) #$# message
+receive_message            void receive_message(int msg_type, int msg_action, object who, string msg, mapping attributes) #$# message
+closure_to_string          varargs string closure_to_string(closure c, mixed *args) #$# grundlegendes
+set_invis                  void set_invis(int wert) #$# grundlegendes
+notify_invis_self          void notify_invis_self(object who, int alt, int neu) #$# grundlegendes
+query_invis                int query_invis() #$# grundlegendes
+set_name                   void set_name(string name) #$# grundlegendes
+query_name                 string query_name() #$# grundlegendes
+query_cap_name             string query_cap_name() #$# grundlegendes
+set_cap_name               void set_cap_name(string cap_name) #$# grundlegendes
+set_personal               void set_personal(int logical) #$# grundlegendes grammatik
+query_personal             int query_personal() #$# grundlegendes grammatik
+set_personal_title         string set_personal_title(string personal_title) #$# grundlegendes grammatik
+query_personal_title       string query_personal_title() #$# grundlegendes grammatik
+set_eigen                  void set_eigen(int logical) #$# grundlegendes grammatik
+query_eigen                int query_eigen() #$# grundlegendes grammatik
+set_menge                  void set_menge(mapping | string | <string|int>* | <string|int>**) #$# grundlegendes grammatik
+query_menge                mapping | string | <string|int>* | <string|int>** query_menge() #$# grundlegendes grammatik
+notify_invis               void notify_invis(object who, int alt, int neu) #$# grundlegendes
+set_noise                  void set_noise(mixed geraeusch) #$# grundlegendes
+query_noise                string query_noise() #$# grundlegendes
+query                      nomask mixed query(string name [, mixed info]) #$# properties
+set                        nomask mixed set(string name, mixed value) #$# properties
+add                        nomask mixed add(string name [, mixed key], value) #$# properties
+delete                     nomask mixed delete(string name, mixed key|value) #$# properties
+query_property_info        mapping query_property_info(string name) #$# properties
+query_property_names       string* query_property_names() #$# properties
+query_property_infos       mapping query_property_infos() #$# properties
+save_properties            protected void save_properties() #$# properties
+restore_properties         protected void restore_properties() #$# properties
+set_read                   void set_read(mixed str) #$# grundlegendes
+query_read                 varargs string query_read(string parse_rest, string str,object leser) #$# grundlegendes
+set_smell                  void set_smell(mixed geruch) #$# grundlegendes
+query_smell                string query_smell() #$# grundlegendes
+activate_sound_profile     int activate_sound_profile(string profile_name) #$# grundlegendes
+add_v_item                 void add_v_item(mapping item [, <string|mapping>*|mapping pfad ] ) #$# virtuell
+query_all_v_items          mapping *query_all_v_items() #$# virtuell
+delete_v_item              void delete_v_item(<string|mapping>*|mapping pfad) #$# virtuell
+query_v_item               varargs mapping query_v_item(<string|mapping>*|mapping pfad, int flag) #$# virtuell
+query_full_v_items         mapping *query_full_v_items(int flag) #$# virtuell
+change_v_item              void change_v_item(mapping new_item, <string|mapping>*|mapping pfad) #$# virtuell
+query_v_item_property      mixed query_v_item_property(<string|mapping>*|mapping path, string name [, mixed info]) #$# properties
+set_v_item_property        mixed set_v_item_property(<string|mapping>*|mapping path, string name, mixed value) #$# properties
+add_v_item_property        mixed add_v_item_property(<string|mapping>*|mapping path, string name [, mixed key], value) #$# properties
+delete_v_item_property     mixed delete_v_item_property(<string|mapping>*|mapping path, string name, mixed key|value) #$# properties
+here                       string here(string str [, string name [, mapping &retob ]] ) #$# virtuell
+set_v_item_master          void set_v_item_master(string file_name | string *file_names) #$# virtuell
+query_v_item_master        string *query_v_item_master() #$# virtuell
+add_v_item_master          void add_v_item_master(mixed file) #$# virtuell
+delete_v_item_master       void delete_v_item_master(mixed file) #$# virtuell
+set_share_v_items          void set_share_v_items(int flag) #$# virtuell
+query_share_v_items        int query_share_v_items() #$# virtuell
+modify_set_v_item_property void modify_set_v_item_property(mixed neuer_wert, string property_name, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+forbidden_set_v_item_property int forbidden_set_v_item_property(string property_name, mixed neuer_wert, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+notify_set_v_item_property void notify_set_v_item_property(string property_name, mixed neuer_wert, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+modify_query_v_item_property void modify_query_v_item_property(mixed wert, string property_name, mixed info, object aufrufer, object item, mapping vitem) #$# properties
+modify_add_v_item_property void modify_add_v_item_property(mixed add_wert, string property_name, mixed key, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+forbidden_add_v_item_property int forbidden_add_v_item_property(string property_name, mixed key, mixed add_wert, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+notify_add_v_item_property void notify_add_v_item_property(string property_name, mixed key, mixed add_wert, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+forbidden_delete_v_item_property int forbidden_delete_v_item_property(string property_name, mixed key, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+notify_delete_v_item_property void notify_delete_v_item_property(string property_name, mixed key, mixed alter_wert, object aufrufer, object item, mapping vitem) #$# properties
+set_koerperform            void set_koerperform(string form) #$# monster
+query_koerperform          string query_koerperform() #$# monster
+set_koerpergroesse         void set_koerpergroesse(int groesse) #$# monster
+query_koerpergroesse       int query_koerpergroesse() #$# monster
+set_abilities              void set_abilities(int flag) #$# monster
+query_abilities            int query_abilities() #$# monster
+set_race                   void set_race(string rasse) #$# monster
+query_race                 string query_race() #$# monster
+exec_command               int exec_command(string befehl, [mixed argument, ...]) #$# monster
+notify_killed              void notify_killed(object wer, object moerder, object leiche, mapping infos) #$# spieler monster
+notify_died                void notify_died(object wer, object leiche, mapping infos) #$# spieler monster
+query_corpse               object query_corpse(object living, mapping infos) #$# spieler monster
+die                        static varargs void die(mapping infos) #$# spieler monster
+set_no_resurrection        void set_no_resurrection(string warum) #$# spieler monster
+query_no_resurrection      string query_no_resurrection() #$# spieler monster
+query_hear_msg             string query_hear_msg() #$# grundlegendes
+P_SOUND_ACTIONS            Liste der P_SOUND_ACTIONS fuer das Lauschen #$# grundlegendes
+forbidden_hear             int forbidden_hear(mixed what, object who) #$# spieler monster nase
+forbidden_hear_me          int forbidden_hear_me(object who, mixed what) #$# spieler monster nase
+forbidden_hear_here        int forbidden_hear_here(object who, mixed what) #$# spieler monster nase
+notify_hear                void notify_hear(mixed what, object who) #$# spieler monster nase
+notify_hear_me             void notify_hear_me(object who, mixed what) #$# spieler monster nase
+notify_hear_here           void notify_hear_here(object who, mixed what) #$# spieler monster nase
+query_eye_level            int query_eye_level() #$# licht monster spieler augen
+set_eye_level              void set_eye_level(int level) #$# licht monster spieler augen
+query_visible_in_the_dark  int query_visible_in_the_dark() #$# licht monster spieler augen
+can_see                    int can_see(object ob) #$# licht monster spieler augen
+cannot_see                 string cannot_see(object ob) #$# licht monster spieler augen
+query_room_description     varargs string query_room_description(object room, int flag, mapping attributes) #$# licht monster spieler augen
+query_additional_room_description string query_additional_room_description(object room, int flag) #$# spieler monster augen
+describe_room              varargs string describe_room(object room, int flag, mapping attributes) #$# licht spieler monster augen
+describe_current_room      varargs void describe_current_room(int flag) #$# licht spieler monster augen
+query_contents             string query_contents(int flags, object viewer) #$# spieler monster augen
+query_object_description   string query_object_description(mixed ob, int flags) #$# spieler monster augen
+examine_object             varargs int examine_object(string str, int flags, closure message) #$# spieler monster augen
+query_read_msg             string query_read_msg() #$# grundlegendes
+query_look_msg             string query_look_msg() #$# grundlegendes
+query_look_msg_night       string query_look_msg_night() #$# grundlegendes
+query_obvious              int query_obvious() #$# monster spieler augen
+notify_look                void notify_look(mixed what, object who) #$# spieler monster augen
+notify_look_me             void notify_look_me(object who, mixed what) #$# spieler monster augen
+notify_look_here           void notify_look_here(object who, mixed what) #$# spieler monster augen
+notify_read                void notify_read(mixed what, object who) #$# spieler monster augen
+notify_read_me             void notify_read_me(object who, mixed what) #$# spieler monster augen
+notify_read_here           void notify_read_here(object who, mixed what) #$# spieler monster augen
+forbidden_look             int forbidden_look(mixed what, object who) #$# spieler monster augen
+forbidden_look_me          int forbidden_look_me(object who, mixed what) #$# spieler monster augen
+forbidden_look_here        int forbidden_look_here(object who, mixed what) #$# spieler monster augen
+forbidden_read             int forbidden_read(mixed what, object who) #$# spieler monster augen
+forbidden_read_me          int forbidden_read_me(object who, mixed what) #$# spieler monster augen
+forbidden_read_here        int forbidden_read_here(object who, mixed what) #$# spieler monster augen
+query_hp_string            string query_hp_string() #$# spieler monster
+T_LISTE                    Liste der T-Defines in Lebewesen #$# spieler monster
+extra_look                 string extra_look() #$# spieler monster augen
+query_extra_look           string query_extra_look() #$# spieler monster augen
+query_align_title          string query_align_title() #$# spieler
+set_align_title            void set_align_title(string align_title) #$# spieler
+query_show_align_title     int query_show_align_title() #$# spieler
+set_show_align_title       void set_show_align_title(int flag) #$# spieler
+query_align                int query_align() #$# spieler monster
+query_real_align           int query_real_align() #$# spieler monster
+add_align                  void add_align(int i) #$# spieler monster
+set_align                  void set_align(int i) #$# spieler monster
+notify_alignment_change    void notify_alignment_change(object who, int new, int old) #$# spieler monster
+set_title                  void set_title(string str) #$# spieler monster
+query_title                string query_title() #$# spieler monster
+query_magic_disguise       mapping query_magic_disguise() #$# spieler monster
+query_max_hp               int query_max_hp() #$# spieler monster kampf
+query_hp                   int query_hp() #$# spieler monster kampf
+set_hp_view                void set_hp_view(int hp_view) #$# spieler haende kampf
+query_hp_view              int query_hp_view() #$# spieler haende kampf
+set_extended_hp_view       void set_extended_hp_view(int extended_hp_view) #$# spieler haende kampf
+query_extended_hp_view     int query_extended_hp_view() #$# spieler haende kampf
+query_num_hands            int query_num_hands() #$# spieler monster kampf
+set_num_hands              void set_num_hands(int num_hands) #$# spieler monster kampf
+set_min_damage             void set_min_damage(int min_damage) #$# spieler monster kampf haende
+set_max_damage             void set_max_damage(int max_damage) #$# spieler monster kampf haende
+query_min_damage           int query_min_damage() #$# spieler monster kampf haende
+query_max_damage           int query_max_damage() #$# spieler monster kampf haende
+set_whimpy                 void set_whimpy(int whimpy) #$# spieler monster kampf
+set_reattack               void set_reattack(int reattack) #$# spieler monster kampf
+query_whimpy               int query_whimpy() #$# spieler monster kampf
+query_reattack             int query_reattack() #$# spieler monster kampf
+set_wants_to_get_attacked_by_monsters void set_wants_to_get_attacked_by_monsters(int i) #$# spieler monster kampf
+query_wants_to_get_attacked_by_monsters int query_wants_to_get_attacked_by_monsters() #$# spieler monster kampf
+query_damage_percentages   mapping query_damage_percentages() #$# monster kampf
+add_damage_percentages     void add_damage_percentages(mapping damage_percentages) #$# monster kampf
+set_damage_percentages     void set_damage_percentages(mapping damage_percentages) #$# monster kampf
+set_fight_options          nomask void set_fight_options(mapping fo) #$# monster kampf
+add_fight_option           nomask void add_fight_option(string key, mixed value) #$# monster kampf
+query_fight_option         nomask mixed query_fight_option(string key) #$# monster kampf
+query_fight_options        nomask mapping query_fight_options() #$# monster kampf
+free_hand                  int free_hand() #$# spieler monster haende
+free_fight                 int free_fight() #$# spieler monster kampf haende
+query_hand_objects         object *query_hand_objects() #$# spieler monster haende
+query_num_free_hands       int query_num_free_hands() #$# spieler monster haende
+query_hand_enemies         object *query_hand_enemies() #$# spieler monster kampf
+query_hand_hits            object *query_hand_hits() #$# spieler monster kampf
+delete_enemy               void delete_enemy(object enemy) #$# spieler monster kampf
+add_gone_ob                void add_gone_ob(object ob) #$# spieler monster kampf
+delete_gone_ob             void delete_gone_ob(object ob) #$# spieler monster kampf
+query_gone_ob              object *query_gone_ob() #$# spieler monster kampf
+query_in_fight             varargs int query_in_fight(object who) #$# spieler monster kampf
+query_wielded_object       int query_wielded_object(object ob) #$# spieler monster haende kampf
+no_take                    int no_take (object who, object where) #$# spieler monster haende
+take                       varargs int take(mixed ob, object con, int flag) #$# monster spieler haende
+query_take_messages        string *query_take_messages(object wer, object was) #$# monster spieler haende
+forbidden_take             int forbidden_take(object ob, object where, object who) #$# spieler monster haende
+forbidden_take_me          int forbidden_take_me(object who, object where, object ob) #$# spieler monster haende
+forbidden_take_from        int forbidden_take_from(object who, object ob, object where) #$# spieler monster haende
+notify_take                void notify_take(object ob, object where, object who) #$# spieler monster haende
+notify_take_me             void notify_take_me(object who, object where, object ob) #$# spieler monster haende
+notify_take_from           void notify_take_from(object who, object ob, object where) #$# spieler monster haende
+concerned_take             int concerned_take(object ob, object where, object who) #$# spieler monster haende
+concerned_take_me          int concerned_take_me(object who, object where, object ob) #$# spieler monster haende
+concerned_take_from        int concerned_take_from(object who, object ob, object where) #$# spieler monster haende
+do_take_from               int do_take_from(object who, object ob, object where) #$# spieler monster haende
+do_take_me                 int do_take_me(object who, object where, object ob) #$# spieler monster haende
+do_take                    int do_take(object ob, object where, object who) #$# spieler monster haende
+display_messages_take      int display_messages_take(object ob, object where, object who) #$# spieler monster haende
+display_messages_take_me   int display_messages_me(object who, object where, object ob) #$# spieler monster haende
+display_messages_take_from int display_messages_from(object who, object ob, object where) #$# spieler monster haende
+take_all                   int take_all(mixed *ob_list, object con) #$# spieler monster haende
+no_put                     int no_put (object who, object where) #$# spieler monster haende
+query_put_messages         string *query_put_messages(object wer, object was) #$# monster spieler haende
+allowed_put_living         int allowed_put_living(object was, object wohin) #$# monster haende
+put                        varargs int put(mixed was, object wohin, int flag, string verb) #$# spieler monster haende
+forbidden_put              int forbidden_put(object ob, object where, object who) #$# spieler monster haende
+forbidden_put_me           int forbidden_put_me(object who, object where, object ob) #$# spieler monster haende
+forbidden_put_into         int forbidden_put_into(object who, object ob, object where) #$# spieler monster haende
+notify_put                 void notify_put(object ob, object where, object who) #$# spieler monster haende
+notify_put_me              void notify_put_me(object who, object where, object ob) #$# spieler monster haende
+notify_put_into            void notify_put_into(object who, object ob, object where) #$# spieler monster haende
+put_all                    int put_all(mixed *ob_list, object con) #$# spieler monster haende
+allowed_empty_living       int allowed_empty_living(object woraus,object room) #$# monster haende
+forbidden_empty_container  int forbidden_empty_container(object con, object room, object who) #$# spieler monster haende
+forbidden_empty_container_me int forbidden_empty_container_me(object who, object room, object con) #$# spieler monster haende
+forbidden_empty_container_into int forbidden_empty_container_into(object who, object con, object room) #$# spieler monster haende
+notify_empty_container     void notify_empty_container(object con, object room, object who) #$# spieler monster haende
+notify_empty_container_me  void notify_empty_container_me(object who, object room, object con) #$# spieler monster haende
+notify_empty_container_into void notify_empty_container_into(object who, object con, object room) #$# spieler monster haende
+notify_shown               void notify_shown(mixed what, object who) #$# monster
+show_command               int show_command(string str) #$# spieler monster haende
+forbidden_show             int forbidden_show(mixed what, mixed whom, object who) #$# spieler monster haende
+forbidden_show_me          int forbidden_show_me(object who, mixed whom, object what) #$# spieler monster haende
+forbidden_show_whom        int forbidden_show_whom(object who, mixed what, object whom) #$# spieler monster haende
+forbidden_show_here        int forbidden_show_here(object who, mixed what, mixed whom) #$# spieler monster haende
+notify_show                void notify_show(mixed what, mixed whom, object who) #$# spieler monster haende
+notify_show_me             void notify_show_me(object who, mixed whom, mixed what) #$# spieler monster haende
+notify_show_whom           void notify_show_whom(object who, mixed what, object whom) #$# spieler monster haende
+notify_show_here           int forbidden_show_here(object who, mixed what, mixed whom) #$# spieler monster haende
+concerned_show             int concerned_show(object ob, object whom, object who) #$# spieler monster haende
+concerned_show_me          int concerned_show_me(object who, object whom, object ob) #$# spieler monster haende
+concerned_show_whom        int concerned_show_whom(object who, object ob, object whom) #$# spieler monster haende
+do_show_whom               int do_show_whom(object who, object ob, object whom) #$# spieler monster haende
+do_show_me                 int do_show_me(object who, object whom, object ob) #$# spieler monster haende
+do_show                    int do_show(object ob, object whom, object who) #$# spieler monster haende
+no_push                    int no_push(object who, object where) #$# spieler monster haende
+forbidden_push             int forbidden_push(object ob, object where, string dir, object who) #$# spieler monster haende
+forbidden_push_me          int forbidden_push_me(object who, object where, string dir, object ob) #$# spieler monster haende
+forbidden_push_here        int forbidden_push_here(object who, object ob, object where, string dir) #$# spieler monster haende
+notify_push                void notify_push(object ob, object where, string dir) #$# spieler monster haende
+notify_push_me             void notify_push_me(object who, object where, string dir, object ob) #$# spieler monster haende
+notify_push_here           void notify_push_here(object who, object ob, object where, string dir) #$# spieler monster haende
+query_feel_msg             string query_feel_msg() #$# grundlegendes
+forbidden_feel             int forbidden_feel(mixed what, object who) #$# spieler monster haende
+forbidden_feel_me          int forbidden_feel_me(object who, mixed what) #$# spieler monster haende
+forbidden_feel_here        int forbidden_feel_here(object who, mixed what) #$# spieler monster haende
+notify_feel                void notify_feel(mixed what, object who) #$# spieler monster haende
+notify_feel_me             void notify_feel_me(object who, mixed what) #$# spieler monster haende
+notify_feel_here           void notify_feel_here(object who, mixed what) #$# spieler monster haende
+attack                     int attack(object enemy, mixed weapon, int hand) #$# spieler monster kampf
+no_attack                  int no_attack(object attacker, object weapon) #$# spieler monster haende kampf
+is_attack_forbidden        int is_attack_forbidden(object victim, object weapon) #$# spieler monster haende kampf
+query_extra_damage         int query_extra_damage(object feind, object monster) #$# monster kampf haende
+modify_hit                 void modify_hit(mapping info, object attacker) #$# monster spieler kampf
+modify_hit_weapon          void modify_hit_weapon(mapping info, object attacker) #$# monster spieler kampf
+modify_hit_me              void modify_hit_me(mapping info, object attacker) #$# monster spieler kampf
+notify_before_hit          void notify_before_hit(object attacker, object victim, int damage, int critical, int hand, object weapon) #$# spieler monster kampf
+notify_before_hit_weapon   void notify_before_hit_weapon(object attacker, object victim, int damage, int critical, int hand, object weapon) #$# spieler monster kampf
+notify_before_hit_me       void notify_before_hit_me(object attacker, object victim, int damage, int critical, int hand, object weapon) #$# spieler monster kampf
+notify_after_hit           void notify_after_hit(object attacker, object victim, int damage, int critical, int hand, object weapon) #$# spieler monster kampf
+notify_after_hit_weapon    void notify_after_hit_weapon(object attacker, object victim, int damage, int critical, int hand, object weapon) #$# spieler monster kampf
+notify_after_hit_me        void notify_after_hit_me(object attacker, object victim, int damage, int critical, int hand, object weapon) #$# spieler monster kampf
+stop_all_fights            void stop_all_fights() #$# spieler monster kampf
+no_wield                   int no_wield(object lebewesen) #$# spieler monster kampf haende
+wield                      varargs int wield(object waffe, int hand, int flags) #$# spieler monster kampf haende
+forbidden_wield            int forbidden_wield(object weapon, int hand, object who) #$# spieler monster haende waffen
+forbidden_wield_me         int forbidden_wield_me(object who, int hand, object weapon) #$# spieler monster haende waffen
+notify_wield               void notify_wield(object weapon, int hand, object who) #$# spieler monster haende waffen
+notify_wield_me            void notify_wield_me(object who, int hand, object weapon) #$# spieler monster haende waffen
+unwield                    varargs int unwield(object ob, int hand, int flags) #$# spieler monster kampf haende
+forbidden_unwield          int forbidden_unwield(object weapon, int hand, object who) #$# spieler monster haende waffen
+forbidden_unwield_me       int forbidden_unwield_me(object who, int hand, object weapon) #$# spieler monster haende waffen
+notify_unwield             void notify_unwield(object weapon, int hand, object who) #$# spieler monster haende waffen
+notify_unwield_me          void notify_unwield_me(object who, int hand, object weapon) #$# spieler monster haende waffen
+set_max_hp                 void set_max_hp(int max_hp) #$# spieler monster kampf
+set_hp                     void set_hp(int hp) #$# monster spieler kampf
+get_combat_message         string* get_combat_message(object victim, int hps, mapping infos) #$# kampf
+add_hp                     varargs int add_hp(int hps, mapping infos) #$# monster spieler kampf
+modify_damage              void modify_damage(mapping infos, object opfer) #$# monster spieler kampf
+modify_healing             void modify_healing(mapping infos, object lebewesen) #$# monster spieler kampf
+notify_damage              void notify_damage(mapping infos, object opfer) #$# monster spieler kampf
+notify_healing             void notify_healing(mapping infos, object lebewesen) #$# monster spieler kampf
+query_protectee            object query_protectee() #$# monster spieler kampf
+forbidden_protect          string forbidden_protect(object protector, object protectee, string* ids) #$# monster spieler kampf
+forbidden_protect_me       string forbidden_protect_me(object protector, object protectee, string* ids) #$# monster spieler kampf
+forbidden_protect_here     string forbidden_protect_here(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_protect             void notify_protect(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_protect_me          void notify_protect_me(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_protect_here        void notify_protect_here(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_unprotect           void notify_unprotect(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_unprotect_me        void notify_unprotect_me(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_unprotect_here      void notify_unprotect_here(object protector, object protectee, string* ids) #$# monster spieler kampf
+notify_schutzengel         void notify_schutzengel(mapping infos, object lebewesen) #$# spieler monster
+notify_death               void notify_death(mapping infos, object lebewesen) #$# spieler monster
+set_probability_for_guardian_angel nomask void set_probability_for_guardian_angel(int sterblich, int unsterblich) #$# spieler kampf
+query_probability_for_guardian_angel nomask int *query_probability_for_guardian_angel() #$# spieler kampf
+forbidden_attack           int forbidden_attack(object attacker, object weapon, object enemy) #$# spieler monster haende kampf
+notify_attack              void notify_attack(object attacker, object weapon, object enemy) #$# spieler monster haende kampf
+forbidden_attack_here      int forbidden_attack_here(object attacker, object enemy, object weapon) #$# spieler monster haende kampf
+notify_attack_here         void notify_attack_here(object attacker, object enemy, object weapon) #$# spieler monster haende kampf
+forbidden_my_attack        int forbidden_my_attack(object enemy, object weapon, object attacker) #$# spieler monster haende kampf
+notify_my_attack           void notify_my_attack(object enemy, object weapon, object attacker) #$# spieler monster haende kampf
+forbidden_use              int forbidden_use(object attacker, object enemy, object weapon) #$# kampf waffen
+notify_use                 void notify_use(object attacker, object enemy, object weapon) #$# kampf waffen
+query_schwimmhilfe         int query_schwimmhilfe() #$# spieler
+allowed_ghost_pass         int allowed_ghost_pass(object player, string dir, string room, mapping info) #$# spieler
+random_move                varargs string random_move(int return_time, string verlassen, string ankommen) #$# spieler monster
+runaway                    int runaway() #$# spieler monster
+forbidden_enter            int forbidden_enter(object wer, mixed was, object woher, object wohin) #$# spieler monster
+forbidden_enter_me         int forbidden_enter_me(object wer, mixed was, object woher, object wohin) #$# spieler monster
+forbidden_enter_here       int forbidden_enter_here(object wer, mixed was, object woher, object wohin) #$# spieler monster
+notify_enter               int notify_enter(object wer, mixed was, object woher, object wohin) #$# spieler monster
+notify_enter_me            int notify_enter_me(object wer, mixed was, object woher, object wohin) #$# spieler monster
+notify_enter_here          int notify_enter_here(object wer, mixed was, object woher, object wohin) #$# spieler monster
+forbidden_smell            int forbidden_smell(mixed what, object who) #$# spieler monster nase
+forbidden_smell_me         int forbidden_smell_me(object who, mixed what) #$# spieler monster nase
+forbidden_smell_here       int forbidden_smell_here(object who, mixed what) #$# spieler monster nase
+notify_smell               void notify_smell(mixed what, object who) #$# spieler monster nase
+notify_smell_me            void notify_smell_me(object who, mixed what) #$# spieler monster nase
+notify_smell_here          void notify_smell_here(object who, mixed what) #$# spieler monster nase
+query_smell_msg            string query_smell_msg() #$# grundlegendes nase
+set_sp_name                void set_sp_name(string name) #$# spieler monster zaubern
+query_sp_name              string query_sp_name() #$# spieler monster zaubern
+query_sp_short_name        string query_sp_short_name() #$# spieler monster zaubern
+set_sp_short_name          void set_sp_short_name(string name) #$# spieler monster zaubern
+set_max_sp                 void set_max_sp(int max_sp) #$# spieler monster zaubern
+query_max_sp               int query_max_sp() #$# spieler monster zaubern
+query_sp                   int query_sp() #$# spieler monster zaubern
+set_sp                     void set_sp(int new_sp) #$# spieler monster zaubern
+add_sp                     void add_sp(int sp) #$# spieler monster zaubern
+query_sum_sp               int query_sum_sp() #$# spieler monster zaubern skill
+add_sum_sp                 void add_sum_sp(int sum_sp) #$# spieler monster zaubern skill
+update_stat_dependencies   void update_stat_dependencies(int flag) #$# spieler monster skill
+set_one_stat               void set_one_stat(int stat, int level) #$# spieler monster skill
+query_stat                 varargs mixed query_stat(int stat, int flag) #$# spieler monster skill
+query_real_stat            nomask varargs mixed query_real_stat(int stat, int flag) #$# spieler monster skill
+query_real_stats           nomask varargs mixed * query_real_stats(int flag) #$# spieler monster skill
+query_is_in_team           int query_is_in_team() #$# spieler kampf gruppen team
+query_is_team_leader       int query_is_team_leader() #$# spieler kampf gruppen team
+query_team_autofollow      int query_team_autofollow() #$# spieler kampf gruppen team
+query_team_name            string query_team_name() #$# spieler kampf gruppen team
+forbidden_team_follow      int forbidden_team_follow(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+forbidden_team_follow_out  int forbidden_team_follow_out(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+forbidden_team_follow_in   int forbidden_team_follow_in(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+notify_team_before_follow  void notify_team_before_follow(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+notify_team_before_follow_out void notify_team_before_follow_out(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+notify_team_after_follow   void notify_team_after_follow(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+notify_team_after_follow_in void notify_team_after_follow_in(object follower, object leader, mapping move_info) #$# spieler kampf gruppen team
+query_team_members         object* query_team_members() #$# spieler kampf gruppen team
+notify_join_team_me        int notify_join_team_me(object member, object leader) #$# spieler kampf gruppen team
+notify_join_team_here      int notify_join_team_here(object member, object leader) #$# spieler kampf gruppen team
+notify_join_team           int notify_join_team(object member, object leader) #$# spieler kampf gruppen team
+forbidden_team_order       int forbidden_team_order(string command, object member, object leader) #$# spieler kampf gruppen team
+modify_comm                void modify_comm(mapping data, string aktion, mixed opfer, object verursacher) #$# seele spieler monster
+do_change_comm             public nomask string do_change_comm(string to_modify,int flags) #$# seele spieler monster
+set_away                   void set_away(string str) #$# spieler monster
+query_away                 string query_away() #$# spieler monster
+wrap_string                string wrap_string(string st1, string st2) #$# spieler monster
+notify_tell_me             void notify_tell_me(object wer, object wen, object *wen_noch, string was) #$# Spieler Monster
+message                    void message(string message [,string mess_whom, object whom] ) #$# message spieler monster
+set_kosten                 void set_kosten() #$# bank handel
+set_sorten                 int set_sorten([string *sorten [, int *kurse]]) #$# bank handel
+bewegung                   int bewegung(int betrag, object player) #$# handel bank
+query_kontostand           int query_kontostand(object player) #$# handel bank
+set_valuta                 void set_valuta(string waehrungsname_singular) #$# handel bank
+set_valutas                void set_valutas(string waehrungsname_plural) #$# handel bank
+set_zins_zeitraum          void set_zins_zeitraum(int zeitraum) #$# handel bank
+set_zins                   void set_zins(int prozent) #$# handel bank
+set_kredit_zins            void set_kredit_zins(int prozent) #$# handel bank
+set_kosten_einzahlung      void set_kosten_einzahlung(int kosten) #$# handel bank
+set_kosten_auszahlung      void set_kosten_auszahlung(int kosten) #$# handel bank
+set_kosten_kontostand      void set_kosten_kontostand(int kosten) #$# handel bank
+set_kosten_fuehrung        void set_kosten_fuehrung(int kosten) #$# handel bank
+convert                    int convert(int value, string ovaluta, string nvaluta) #$# handel
+convert_rounded            int convert_rounded(int value, string ovaluta, string nvaluta) #$# handel
+query_valuta_tafel         string *query_valuta_tafel() #$# handel
+query_valutas_tafel        string *query_valutas_tafel() #$# handel
+query_kurs_tafel           int *query_kurs_tafel() #$# handel
+set_valuta_tafel           void set_valuta_tafel(string *str) #$# handel
+set_valutas_tafel          void set_valutas_tafel(string *str) #$# handel
+set_kurs_tafel             void set_kurs_tafel(string *str) #$# handel
+query_accepted_valutas     string query_accepted_valutas(string str) #$# handel
+query_accepted_valuta      string query_accepted_valuta(string str) #$# handel
+set_max_value              void set_max_value(int a) #$# handel
+query_max_value            int query_max_value() #$# handel
+set_max_factor             void set_max_factor(int a) #$# handel
+query_max_factor           int query_max_factor() #$# handel
+notify_ankauf              void notify_ankauf(object ware, object wer, object laden) #$# handel
+forbidden_ankauf           int forbidden_ankauf(object ware, object wer, object laden) #$# handel
+notify_wert                void notify_wert(object ware, object wer, object laden) #$# handel
+forbidden_wert             int forbidden_wert(object ware, object wer, object laden) #$# handel
+forbidden_verkauf          int forbidden_verkauf(object was, object wer, object laden) #$# handel
+notify_verkauf             void notify_verkauf(object was, object wer, object laden) #$# handel
+query_lager                int query_lager() #$# handel
+set_extra_long             void set_extra_long(string str) #$# handel
+query_extra_long           string query_extra_long() #$# handel
+set_valutas                void set_valutas(string str) #$# handel
+set_valuta                 void set_valuta(string str) #$# handel
+query_valuta               string query_valuta() #$# handel
+query_valutas              string query_valutas() #$# handel
+set_money                  void set_money(int m) #$# handel
+add_money                  void add_money(int m) #$# handel
+query_money                int query_money() #$# handel
+set_money_flags            void set_money_flags(int flag) #$# handel bank
+query_money_flags          int query_money_flags() #$# handel bank
+query_transaction_value    int query_transaction_value() #$# handel
+init_money                 void init_money(int wert, string valuta) #$# handel
+get_schliessfach_max_faecher public int get_schliessfach_max_faecher(object player) #$# armageddon
+get_schliessfach_miete     public float get_schliessfach_miete(object player, object ob, int current_safe_count) #$# armageddon
+init_schliessfaecher       protected varargs int init_schliessfaecher(string my_bankid,string my_valuta,closure my_calc_rent,closure my_calc_max) #$# armageddon
+set_designs                public nomask void set_designs(mapping plural_design,mapping single_design) #$# armageddon
+object2storagemapping      public varargs <mapping|string> object2storagemapping(object ob,mapping check_attributes) #$# armageddon
+storagemapping2object      public <object|string> storagemapping2object(mapping vi) #$# armageddon
+set_valuta                 void set_valuta (string s) #$# verkaeufer handel
+query_valuta               string query_valuta () #$# verkaeufer handel
+query_valutas              string query_valutas () #$# verkaeufer handel monster
+set_lagerraum              void set_lagerraum (string dateiname) #$# verkaeufer handel monster
+query_lagerraum            string query_lagerraum () #$# verkaeufer handel monster
+set_dont_serve_murderers   void set_dont_serve_murderers (mixed msg) #$# verkaeufer handel monster
+query_dont_serve_murderers mixed query_dont_serve_murderers () #$# verkaeufer handel monster
+set_roman                  void set_roman (int r) #$# verkaeufer handel monster
+query_roman                int query_roman() #$# verkaeufer handel monster
+set_accept_tip             void set_accept_tip (mixed t) #$# verkaeufer handel monster
+set_standard_conversation  void set_standard_conversation(mapping m) #$# verkaeufer handel monster
+query_standard_conversation mapping query_standard_conversation() #$# verkaeufer handel monster
+change_standard_conversation void change_standard_conversation(mapping changes) #$# verkaeufer handel monster
+query_kunde                object query_kunde() #$# verkaeufer handel monster
+want                       mapping want (string s, object who) #$# verkaeufer handel monster
+want_while_serving         int want_while_serving(string was, object wer) #$# verkaeufer handel monster
+deliver                    int deliver (object ob, object whom, int reason) #$# verkaeufer handel monster
+given                      varargs mapping given (object what, object who, string wanted) #$# verkaeufer handel monster
+query_current_working_data mapping query_current_working_data() #$# verkaeufer handel monster
+add_to_filter              void add_to_filter(mixed s) #$# verkaeufer handel monster
+delete_from_filter         void delete_from_filter(mixed s) #$# verkaeufer handel monster
+query_filter               string* query_filter() #$# verkaeufer handel monster
+set_filter                 void set_filter(string* s) #$# verkaeufer handel monster
+add_react_on               void add_react_on(mixed s) #$# verkaeufer handel monster
+delete_react_on            void delete_react_on(mixed s) #$# verkaeufer handel monster
+query_react_on             string* query_react_on() #$# verkaeufer handel monster
+set_react_on               void set_react_on(string* s) #$# verkaeufer handel monster
+notify_sold                void notify_sold(object seller,object what, object whom, object where) #$# verkaeufer handel
+notify_sold_here           void notify_sold_here(object seller,object what, object whom, object where) #$# verkaeufer handel
+notify_sold_me             void notify_sold_me(object what, object whom, object where,object seller) #$# verkaeufer handel
+notify_sold_what           void notify_sold_what(object seller, object whom, object where,object what) #$# verkaeufer handel
+notify_sold_whom           void notify_sold_whom(object seller,object what, object where, object whom) #$# verkaeufer handel
+set_accept_objects         void set_accept_objects(mixed *) #$# monster
+give_object                void give_object(object ob, object player) #$# monster
+accept                     int accept(object was, object woher) #$# monster
+accept_from_void           int accept_from_void(object was, object woher) #$# monster
+accept_invis               int accept_invis(object was, object woher) #$# monster
+refuse                     int refuse(object was, object woher, object acceptor) #$# monster
+set_start_parse_conversation int set_start_parse_conversation(int i) #$# monster
+query_start_parse_conversation int query_start_parse_conversation(int i) #$# monster
+set_parse_conversation     void set_parse_conversation(object ob, mixed *regeln) #$# monster
+add_parse_conversation     void add_parse_conversation(object ob, string *regeln) #$# monster
+set_only_parse_players     void set_only_parse_players(int i) #$# monster
+query_only_parse_players   int query_only_parse_players() #$# monster
+query_rules                mixed *query_rules() #$# monster
+query_kampagne             mixed *query_kampagne() #$# monster
+in_kampagne                string in_kampagne() #$# monster
+stop_kampagne              int stop_kampagne(int dauer) #$# monster
+kampagne_waits             string kampagne_waits(string name) #$# monster
+resume_kampagne            int resume_kampagne() #$# monster
+starte_kampagne            int starte_kampagne(string name) #$# monster
+breche_kampagne_ab         void breche_kampagne_ab() #$# monster
+set_npc_name               void set_npc_name(string name) #$# monster
+query_npc_name             string query_npc_name() #$# monster
+init_monster               deprecated varargs void init_monster(string name, int level, int num_hands, int hp, int sp, int weapon_level, int arm_level) #$# monster
+initialize                 varargs void initialize(string rasse [, int level ] ) #$# monster
+give_hp                    void give_hp(int hp) #$# monster kampf
+give_sp                    void give_sp(int sp) #$# monster zaubern
+give_hands                 void give_hands(int hands) #$# monster kampf
+give_weapon_level          void give_weapon_level(int level) #$# monster kampf
+give_armour_level          void give_armour_level(int level) #$# monster kampf
+query_natural_weapon       mapping query_natural_weapon(int hand) #$# spieler monster haende kampf
+do_command                 int do_command(string befehl) #$# monster
+set_turn_heart_beat_off    void set_turn_heart_beat_off(int a) #$# monster kampf
+query_turn_heart_beat_off  int query_turn_heart_beat_off() #$# monster kampf
+set_notify_soul_ob         deprecated void set_notify_soul_ob(object ob) #$# monster
+query_notify_soul_ob_file  deprecated string query_notify_soul_ob_file() #$# monster
+monster_died               void monster_died(object monster, object moerder) #$# monster kampf
+set_dead_ob                void set_dead_ob(mixed ob) #$# monster kampf
+design_corpse              void design_corpse(object corpse) #$# monster kampf
+compute_kill_skill         nomask int compute_kill_skill() #$# monster kampf spieler
+query_dead_ob_file         string query_dead_ob_file() #$# monster kampf
+test_aggression            int test_aggression(object player) #$# monster kampf
+test_all_aggressions       int test_all_aggressions(void) #$# monster kampf
+set_aggressive             void set_aggressive(int flag) #$# monster kampf
+query_aggressive           int query_aggressive() #$# monster kampf
+set_attack_delay           void set_attack_delay(int aggressive, int attack_list) #$# monster kampf
+query_attack_delay         int *query_attack_delay() #$# monster kampf
+set_erf_tod_message        void set_erf_tod_message(mixed erf_tod_message) #$# monster kampf
+set_init_ob                deprecated void set_init_ob(object ob) #$# monster
+set_random_pick            varargs void set_random_pick(int percent, int flag) #$# monster
+query_random_pick          int query_random_pick() #$# monster
+query_random_pick_modus    int query_random_pick_modus() #$# monster
+set_attack_list            void set_attack_list(string *names) #$# monster kampf
+query_attack_list          string *query_attack_list() #$# monster kampf
+add_attack_list            void add_attack_list(string name) #$# monster kampf
+delete_attack_list         void delete_attack_list(string name) #$# monster kampf
+set_no_attack_list         void set_no_attack_list(string *names) #$# monster kampf
+query_armour_level         int query_armour_level() #$# monster kampf
+new_inv                    object *new_inv() #$# monster
+set_eatable_corpse         void set_eatable_corpse(int|mapping bratbar) #$# monster nahrung
+query_eatable_corpse       mapping query_eatable_corpse() #$# monster nahrung
+query_commander            string query_commander() #$# monster
+query_random_activities    mapping query_random_activities() #$# monster
+add_random_activities      void add_random_activities(mapping aktionen) #$# monster
+query_current_vtime        int query_current_vtime() #$# monster
+set_random_activities      void set_random_activities(mapping aktionen) #$# monster
+query_activity             int query_activity(void) #$# monster
+set_activity               void set_activity(int laberrate) #$# monster
+set_start_random           void set_start_random(int flag) #$# monster
+query_start_random         int query_start_random(void) #$# monster
+set_random_modus           void set_random_modus(string mode) #$# monster
+query_random_modus         string query_random_modus(void) #$# monster
+set_activity_delay         void set_activity_delay(int delay) #$# monster
+query_activity_delay       int query_activity_delay() #$# monster
+set_weight                 int set_weight(int weight) #$# move grundlegendes
+query_weight               nomask int query_weight() #$# move grundlegendes
+query_weight_description   string query_weight_description() #$# augen
+move                       varargs nomask int move(mixed ziel, mapping mv_infos) #$# move grundlegendes
+move_or_remove             nomask int move_or_remove(<string|object> dest) #$# move grundlegendes
+allowed_take_living        int allowed_take_living(object was, object wohin) #$# monster haende
+remove                     int remove() #$# move grundlegendes
+query_first_room           nomask string query_first_room() #$# move grundlegendes
+query_real_first_room      nomask string query_real_first_room() #$# move grundlegendes
+query_first_player         nomask string query_first_player() #$# move grundlegendes
+query_real_first_player    nomask string query_real_first_player() #$# move grundlegendes
+query_last_player          nomask string query_last_player() #$# move grundlegendes
+query_creator              nomask string query_creator() #$# move grundlegendes
+query_real_creator         nomask string query_real_creator() #$# move grundlegendes
+query_enable_cleanup       int query_enable_cleanup() #$# raum
+query_prevent_cleanup      int query_prevent_cleanup() #$# raum
+set_prevent_cleanup        void set_prevent_cleanup() #$# raum
+set_enable_cleanup         void set_enable_cleanup() #$# raum
+set_hidden_until_next_move void set_hidden_until_next_move([int invis_level]) #$# move grundlegendes
+query_hidden_until_next_move int query_hidden_until_next_move() #$# move grundlegendes
+set_no_move                void set_no_move(int no_move) #$# bewegen
+query_no_move              int query_no_move() #$# bewegen
+set_no_move_reason         void set_no_move_reason(string no_move_reason) #$# bewegen
+query_no_move_reason       string query_no_move_reason() #$# bewegen
+set_not_moved_reason       void set_not_moved_reason(string not_moved_reason) #$# bewegen
+query_not_moved_reason     string query_not_moved_reason() #$# bewegen
+just_moved                 void just_moved() #$# move
+move_return                varargs int move_return(mixed ziel, int delay, closure call_back, mixed events, int how, string verlassen, string ankommen, int how_back, string verlassen_back, string ankommen_back, string move_type) #$# move
+return_to                  varargs int return_to(string event) #$# move
+notify_moved               void notify_moved(mapping mv_infos) #$# move
+modify_move                void modify_move(mapping mv_infos) #$# move
+modify_move_out            void modify_move_out(mapping mv_infos) #$# move
+modify_move_in             void modify_move_in(mapping mv_infos) #$# move
+forbidden_move             <int|string> forbidden_move(mapping mv_infos) #$# move
+forbidden_move_out         <int|string> forbidden_move_out(mapping mv_infos) #$# move
+forbidden_move_in          <int|string> forbidden_move_in(mapping mv_infos) #$# move
+notify_move_out            void notify_move_out(mapping mv_infos) #$# move
+notify_move                void notify_move(mapping mv_infos) #$# move
+notify_move_in             void notify_move_in(mapping mv_infos) #$# move
+notify_moved_out           void notify_moved_out(mapping mv_infos) #$# move
+notify_moved_in            void notify_moved_in(mapping mv_infos) #$# move
+notify_move_failed         void notify_move_failed(mapping mv_infos, int ret) #$# move
+notify_remove              void notify_remove(object ob) #$# grundlegendes
+buch                       zum Buch siehe /doc/funktionsweisen/buch #$# buch
+query_max_page             int query_max_page() #$# buch
+set_max_page               int set_max_page(int max_page) #$# buch
+query_current_page         int query_current_page() #$# buch
+query_verzeichnis          string|int query_verzeichnis(int no_ascii_art_flag = 0) #$# buch
+query_page_names           string *query_page_names(int no_ascii_art_flag = 0) #$# buch
+set_wizard_book            int set_wizard_book (int wiz) #$# buch
+set_hlp_book               int set_hlp_book(int hlp) #$# buch
+query_wizard_book          int query_wizard_book() #$# buch
+query_hlp_book             int query_hlp_book() #$# buch
+set_open_close             int set_open_close(int cl) #$# buch
+query_open_close           int query_open_close() #$# buch
+set_searchable             int set_searchable(int searchable) #$# buch
+query_searchable           int query_searchable() #$# buch
+set_status_line            void set_status_line(string inhaltsverzeichnis, string seite) #$# buch
+query_status_line          string *query_status_line() #$# buch
+set_seiten_desc            void set_seiten_desc(mapping m) #$# buch
+query_seiten_desc          mapping query_seiten_desc() #$# buch
+set_page_mode              void set_page_mode(string str) #$# buch
+query_page_mode            string query_page_mode() #$# buch
+set_current_page           int set_current_page(int page) #$# buch
+set_verzeichnis            void set_verzeichnis(string|int verzeichnis, string verzeichnis_no_ascii_art = 0) #$# buch
+set_page_names             void set_page_names(string* files, string* files_no_ascii_art = 0) #$# buch
+query_verzeichnis_inhalt   string|string* query_verzeichnis_inhalt(object leser) #$# buch
+query_page_inhalt          string|string* query_page_inhalt(int nr, object leser) #$# buch
+book_action                mixed book_action(string str, int page, int more_line, int max_line) #$# buch
+book_help                  string* book_help(int page, int more_line, int max_line) #$# buch
+continue_read              varargs void continue_read(int page, int line, int quiet) #$# buch
+forbidden_read             mixed forbidden_read(mixed buch, object wer) #$# buch
+forbidden_read_me          mixed forbidden_read_me(object wer, mixed buch) #$# buch
+query_book                 int query_book() #$# buch
+set_plural_name            void set_plural_name(string str) #$# countob
+query_plural_name          string query_plural_name() #$# countob
+set_singular_name          void set_singular_name(string str) #$# countob
+query_singular_name        string query_singular_name() #$# countob
+set_count_type             void set_count_type(string str) #$# countob
+query_count_type           string query_count_type() #$# countob
+query_count_weight         int query_count_weight(int count) #$# countob
+set_count                  void set_count(int m) #$# countob
+add_count                  void add_count(int m) #$# countob
+query_count                int query_count() #$# countob
+query_transaction_count    int query_transaction_count() #$# countob
+query_ancestor             object query_ancestor() #$# countob
+forbidden_join_countob     int forbidden_join_countob(object alt, object neu) #$# countob
+notify_joined_countob      void notify_joined_countob(object alt, object neu) #$# countob
+notify_incorporated_countob void notify_incorporated_countob(object alt, object neu) #$# countob
+split_object               object split_object(int i) #$# countob
+notify_countob_split_from  void notify_countob_split_from(object alt, object neu) #$# countob
+notify_countob_split_into  void notify_countob_split_into(object alt, object neu) #$# countob
+set_units                  void set_units(mapping hin, mapping back) #$# countob
+query_abbrennzeit          int query_abbrennzeit() #$# feuer
+query_fire_shadow          object query_fire_shadow() #$# feuer
+query_burn_time            int query_burn_time() #$# feuer
+set_success_message        void set_success_message(mixed success_message) #$# nahrung getraenke
+set_other_success_message  void set_other_success_message(mixed other_success_message) #$# nahrung getraenke
+set_failure_message        int set_failure_message(mixed failure_message) #$# nahrung getraenke
+set_other_failure_message  void set_other_failure_message(mixed other_failure_message) #$# nahrung getraenke
+set_healing                void set_healing(int healing) #$# nahrung getraenke
+set_strength               void set_strength(int strength) #$# getraenke
+set_amount                 void set_amount(int amount) #$# nahrung getraenke
+query_healing              int query_healing() #$# nahrung getraenke
+query_strength             int query_strength() #$# nahrung getraenke
+query_amount               int query_amount() #$# nahrung getraenke
+set_failure_remove         void set_failure_remove(int flag) #$# nahrung getraenke
+query_failure_remove       int query_failure_remove() #$# nahrung getraenke
+drink_is_me                int drink_is_me(string str) #$# getraenke
+set_stay_in_pub            void set_stay_in_pub(int flag) #$# getraenke
+query_stay_in_pub          int query_stay_in_pub() #$# getraenke
+query_getraenk             int query_getraenk() #$# getraenke
+query_getraenk_messages    closure *query_getraenk_messages() #$# getraenke
+forbidden_drink            int forbidden_drink(object ob, object who) #$# getraenke
+forbidden_drink_me         int forbidden_drink_me(object who, object on) #$# getraenke
+notify_drink               void notify_drink(object ob, object who) #$# getraenke
+notify_drink_me            void notify_drink_me(object who, object ob) #$# getraenke
+notify_drink_failure       void notify_drink_failure(object getraenk, object who) #$# getraenke
+notify_drink_failure_self  void notify_drink_failure_self(object who, object getraenk) #$# getraenke
+query_entry                protected mapping query_entry() #$# spieler gilde
+player_died                protected void player_died(object player, mapping infos) #$# spieler gilde
+player_murdered            protected void player_murdered(object player, mixed opfer) #$# spieler gilde
+leave_gilde                protected void leave_gilde(object player) #$# spieler gilde
+enter_gilde                protected void enter_gilde(object player) #$# spieler gilde
+player_new_rang            protected void player_new_rang(object player, int old_rang, int new_rang) #$# spieler gilde
+player_suicid              protected void player_suicid(string name) #$# spieler gilde
+notify_login               protected void notify_login(object player, int flag, int mode) #$# spieler gilde
+notify_quit                protected void notify_quit(object player, int flag, int mode) #$# spieler gilde
+notify_net_dead            void notify_net_dead(object who, int flag, int mode) #$# spieler
+query_erf_gilde_available  int query_erf_gilde_available() #$# spieler gilde
+query_erf_gilde            string *query_erf_gilde(object who, string rest) #$# spieler gilde
+query_erf_gilde_options    string query_erf_gilde_options() #$# spieler gilde
+query_key                  int query_key() #$# taschen
+set_time_of_death          void set_time_of_death() #$# spieler monster
+query_murderer             mapping query_murderer() #$# spieler monster
+set_murderer               void set_murderer(mapping murderer) #$# spieler monster
+query_resurrection_info    mixed *query_resurrection_info() #$# spieler monster
+query_not_extinguishable   mixed query_not_extinguishable() #$# leuchte
+set_not_extinguishable     void set_not_extinguishable(mixed why) #$# leuchte
+query_destruct_at_out_of_fuel int query_destruct_at_out_of_fuel() #$# leuchte
+set_destruct_at_out_of_fuel void set_destruct_at_out_of_fuel(int a) #$# leuchte
+set_fuel                   void set_fuel(int brenndauer) #$# leuchte
+add_fuel                   void add_fuel(int brenndauer) #$# leuchte
+query_max_fuel             int query_max_fuel() #$# leuchte
+set_power                  void set_power(int power) #$# leuchte
+query_power                int query_power() #$# leuchte
+set_light_adjektiv         void set_light_adjektiv(mixed str) #$# leuchte
+query_light_adjektiv       mixed query_light_adjektiv() #$# leuchte
+set_light_verb             void set_light_verb(string singular, string plural) #$# leuchte
+query_light_verb           string *query_light_verb() #$# leuchte
+set_extinguish_verb        void set_extinguish_verb(string singular, string plural) #$# leuchte
+query_extinguish_verb      string *query_extinguish_verb() #$# leuchte
+set_burn_under_water       void set_burn_under_water(int buw) #$# leuchte
+query_burn_under_water     int query_burn_under_water() #$# leuchte
+query_is_lighted           int query_is_lighted() #$# leuchte
+forbidden_burn             int forbidden_burn(object leuchte) #$# leuchte
+allowed_burn               int allowed_burn(object leuchte) #$# leuchte
+an                         void an() #$# leuchte
+notify_light               void notify_light(object leuchte) #$# leuchte licht
+light_on                   void light_on() #$# leuchte
+aus                        void aus() #$# leuchte
+notify_extinguish          void notify_extinguish(object leuchte) #$# leuchte licht
+light_off                  void light_off() #$# leuchte
+notify_burn                void notify_burn(object leuchte) #$# leuchte
+notify_burned_out          void notify_burned_out(object leuchte) #$# leuchte licht
+query_fuel                 int query_fuel() #$# leuchte
+set_value                  varargs void set_value(int max, int min) #$# leuchte
+query_lamp                 int query_lamp() #$# leuchte
+T_LISTE                    Liste der T-Defines fuer Leuchten #$# leuchte
+set_solved_msg             varargs static string set_solved_msg(mixed str_other, mixed str_me) #$# 
+set_singular_value         void set_singular_value(int i) #$# countob handel
+query_singular_value       int query_singular_value() #$# countob handel
+T_LISTE                    Liste der T-Defines fuer Nahrung #$# nahrung
+query_nahrung_messages     closure *query_nahrung_messages() #$# nahrung
+set_angeknabbert_adjektiv  void set_angeknabbert_adjektiv(string str) #$# nahrung
+query_angeknabbert_adjektiv string query_angeknabbert_adjektiv() #$# nahrung
+query_success_message      closure query_success_message() #$# nahrung
+query_other_success_message closure query_other_success_message() #$# nahrung
+query_failure_message      closure query_failure_message(mixed failure_message) #$# nahrung
+query_other_failure_message closure query_other_failure_message() #$# nahrung
+set_start_chew_message     void set_start_chew_message(mixed chew_message) #$# nahrung
+query_start_chew_message   closure query_start_chew_message() #$# nahrung
+set_other_start_chew_message void set_other_start_chew_message(mixed other_chew_message) #$# nahrung
+query_other_start_chew_message closure query_other_start_chew_message() #$# nahrung
+set_chew_message           void set_chew_message(mixed chew_message) #$# nahrung
+query_chew_message         closure query_chew_message() #$# nahrung
+set_other_chew_message     void set_other_chew_message(mixed other_chew_message) #$# nahrung
+query_other_chew_message   closure query_other_chew_message() #$# nahrung
+set_dauer                  void set_dauer(int dauer) #$# nahrung
+query_dauer                int query_dauer() #$# nahrung
+query_vamp_nahrung         int query_vamp_nahrung() #$# nahrung
+set_vamp_nahrung           void set_vamp_nahrung(int) #$# nahrung
+query_eating               int query_eating() #$# nahrung
+stop_eating                int stop_eating() #$# nahrung
+query_nahrung              int query_nahrung() #$# nahrung
+notify_eaten               void notify_eaten(object nahrung, object who) #$# nahrung
+notify_eaten_self          void notify_eaten_self(object who, object nahrung) #$# nahrung
+notify_eat_failure         void notify_eat_failure(object nahrung, object who) #$# nahrung
+notify_eat_failure_self    void notify_eat_failure_self(object who, object nahrung) #$# nahrung
+notify_eat                 void notify_eat(object nahrung, object who) #$# nahrung
+notify_eat_self            void notify_eat_self(object who, object nahrung) #$# nahrung
+notify_bite                void notify_bite(object nahrung, int amount, object who) #$# nahrung
+notify_bite_self           void notify_bite_self(object who, int amount, object nahrung) #$# nahrung
+forbidden_eat              int forbidden_eat(object nahrung, object who) #$# nahrung
+forbidden_eat_self         int forbidden_eat_self(object who, object nahrung) #$# nahrung
+set_life                   void set_life(int life) #$# waffen
+add_life                   deprecated int add_life(int i) #$# waffen
+query_life                 int query_life() #$# waffen
+check_life                 void check_life() #$# waffen
+query_damage_type          string* query_damage_type() #$# waffen kampf
+set_damage_type            void set_damage_type(string* damage_type) #$# waffen kampf
+init_geschoss              void init_geschoss(string kategorie) #$# waffen geschoss
+query_extra_damage         int query_extra_damage(object feind, object besitzer, object waffe) #$# waffen
+real_lost_hp               void real_lost_hp(object feind, object besitzer, int verlorene_hp) #$# waffen
+query_geschoss             int query_geschoss() #$# waffen
+set_portal_name            void set_portal_name(string name) #$# Portal
+set_tied_to_ob             void set_tied_to_ob(mixed woran) #$# seil
+query_tied_to_ob           mixed query_tied_to_ob() #$# seil
+query_seil                 int query_seil() #$# seil
+set_seil                   void set_seil(int laenge) #$# seil
+concerned_tie_rope         int concerned_tie_rope(object seil, mixed woran) #$# seil
+concerned_untie_rope       int concerned_untie_rope(object seil, mixed wovon) #$# seil
+notify_tied_rope           void notify_tied_rope(object seil, mixed woran) #$# seil
+notify_tied_rope_to        void notify_tied_rope_to(object seil, mixed woran) #$# seil
+notify_untied_rope         void notify_untied_rope(object seil, mixed wovon) #$# seil
+notify_untied_rope_from    void notify_untied_rope_from(object seil, mixed wovon) #$# seil
+forbidden_dig              string forbidden_dig(object wer, object womit, object|string was) #$# graben grundlegendes
+concerned_dig              int concerned_dig(object wer, object womit, object|string was) #$# graben grundlegendes
+do_dig                     int do_dig(object wer, object womit, object|string was) #$# graben grundlegendes
+notify_dig                 void notify_dig(object wer, object womit, object|string was) #$# graben grundlegendes
+query_skelett_no_remove    int query_skelett_no_remove() #$# Monster Player
+set_skelett_no_remove      void set_skelett_no_remove(int i) #$# Monster Player
+is_skelett                 int is_skelett() #$# Monster Player
+set_door_open_message      void set_door_open_message(mixed str) #$# tuer
+set_door_close_message     void set_door_close_message(mixed str) #$# tuer
+set_door_locked_message    void set_door_locked_message(mixed str) #$# tuer
+set_door_unlocked_message  void set_door_unlocked_message(mixed str) #$# tuer
+set_door_opens_message     void set_door_opens_message(mixed for_me, mixed for_you) #$# tuer
+set_door_closes_message    void set_door_closes_message(mixed for_me, mixed for_you) #$# tuer
+set_door_lock_messages     void set_door_lock_messages(mixed for_me, mixed for_you) #$# tuer
+set_door_unlock_messages   void set_door_unlock_messages(mixed for_me, mixed for_you) #$# tuer
+set_knock_messages         void set_knock_messages(mixed for_me, mixed for_you, mixed knocking) #$# tuer
+set_key_does_not_fit_message void set_key_does_not_fit_message(mixed for_me, mixed for_you_open, mixed for_you_closed) #$# tuer
+set_open_cmd               void set_open_cmd(string command) #$# tuer
+set_close_cmd              void set_close_cmd(string command) #$# tuer
+set_unlock_cmd             void set_unlock_cmd(string command) #$# tuer
+set_lock_cmd               void set_lock_cmd(string command) #$# tuer
+set_knock_cmd              void set_knock_cmd(string command) #$# tuer
+set_open_words             void set_open_words(string *words) #$# tuer
+set_close_words            void set_close_words(string *words) #$# tuer
+set_unlock_words           void set_unlock_words(string *words) #$# tuer
+set_lock_words             void set_lock_words(string *words) #$# tuer
+set_knock_words            void set_knock_words(string *words) #$# tuer
+set_door_height            void set_door_height(int koerpergroesse) #$# tuer monster body
+set_door_is_too_small_msg  void set_door_is_too_small_msg(mixed me,mixed other) #$# tuer monster body move
+set_door_is_closed_msgs    varargs void set_door_is_closed_msgs(string msg [, string msg_other]) #$# tuer
+set_no_exit_msg            void set_no_exit_msg(int keine_meldung) #$# tuer raum
+set_door_exit              void set_door_exit(string filename) #$# tuer
+set_door_exit_category     void set_door_exit_category(string category) #$# tuer
+set_pass_cmd               void set_pass_cmd(string direction) #$# tuer
+set_keys                   void set_keys(string*|string keys) #$# tuer
+set_door_is_open           void set_door_is_open(int open) #$# tuer
+set_door_is_locked         void set_door_is_locked(int locked) #$# tuer
+set_crack                  void set_crack(int chance) #$# tuer
+set_no_lock                void set_no_lock(int no_lock) #$# tuer
+set_no_lock_messages       void set_no_lock_messages(mixed for_crack, mixed for_unlock, mixed for_lock) #$# tuer
+query_no_lock              int query_no_lock() #$# tuer
+query_door_height          int query_door_height(void) #$# tuer monster body
+query_door_messages        closure *query_door_messages() #$# tuer
+query_door_exit            string query_door_exit() #$# tuer
+query_pass_cmd             string query_pass_cmd() #$# tuer
+query_crack                int query_crack() #$# tuer
+query_keys                 string *query_keys() #$# tuer
+query_door_is_open         int query_door_is_open() #$# tuer
+query_door_is_locked       int query_door_is_locked() #$# tuer
+door_kicked                int door_kicked(object wer, string wie, string adverb) #$# tuer
+other_door                 object other_door(void) #$# tuer
+present_other_door         object present_other_door(void) #$# tuer
+init_door                  void init_door(string door_exit, string pass_cmd, [int open]) #$# tuer
+add_directions             void add_directions(string dir, string back_dir) #$# tuer
+open_door                  varargs void open_door([int second [,<int|string> message]]) #$# tuer
+close_door                 varargs void close_door([int second [,<int|string> message]]) #$# tuer
+unlock_door                varargs void unlock_door([int second [, object key]) #$# tuer
+lock_door                  varargs void lock_door([int second [, object key]) #$# tuer
+crack_door                 varargs void crack_door(object who [, int second [, mixed dietrich]]) #$# tuer
+forbidden_crack_door       int forbidden_crack_door(object wer,object tuer,object raum,mixed dietrich,int second) #$# tuer
+notify_crack_door          void notify_crack_door(object wer,object tuer,object raum, mixed dietrich, int second) #$# tuer
+crack                      varargs int crack(object who [, mixed dietrich]) #$# tuer
+forbidden_open_door        int forbidden_open_door(object wer,object tuer,object raum,int second) #$# tuer
+notify_open_door           void notify_open_door(object wer,object tuer,object raum,int second) #$# tuer
+forbidden_close_door       int forbidden_close_door(object wer,object tuer,object raum,int second) #$# tuer
+notify_close_door          void notify_close_door(object wer,object tuer,object raum,int second) #$# tuer
+forbidden_pass_door        int forbidden_pass_door(object wer,object tuer,object room,int second) #$# tuer
+notify_pass_door           void notify_pass_door(object wer,object tuer,object raum,int second) #$# tuer
+forbidden_lock_door        int forbidden_lock_door(object wer,object tuer,object raum,object key,int second) #$# tuer
+notify_lock_door           void notify_lock_door(object wer,object tuer,object raum,object key,int second) #$# tuer
+forbidden_unlock_door      int forbidden_unlock_door(object wer,object tuer,object raum,object key,int second) #$# tuer
+notify_unlock_door         void notify_unlock_door(object wer,object tuer,object raum,object key,int second) #$# tuer
+forbidden_knock_door       int forbidden_knock_door(object wer,object tuer,object raum,int second) #$# tuer
+notify_knock_door          void notify_knock_door(object wer,object tuer,object raum,int second) #$# tuer
+T_LISTE                    Liste der T-Defines fuer Tueren #$# tuer
+P_SOUND_ACTIONS            Liste der P_SOUND_ACTIONS fuer Tueren #$# tuer
+activate_sound_profile     int activate_sound_profile(string profile_name) #$# tuer
+query_door                 int query_door(void) #$# tuer
+query_vehikel              string query_vehikel() #$# vehikel
+set_vehikel                void set_vehikel(string typ) #$# vehikel
+query_enter_room           varargs mixed query_enter_room(object betreter) #$# vehikel
+set_enter_room             void set_enter_room(mixed room) #$# vehikel
+query_enter_messages       varargs string * query_enter_messages(object betreter) #$# vehikel
+set_enter_messages         varargs void set_enter_messages(string aussen, string innen, string self) #$# vehikel
+query_vehikel_sloppy       int query_vehikel_sloppy() #$# vehikel
+set_vehikel_sloppy         void set_vehikel_sloppy(int flag) #$# vehikel
+fahre                      int fahre(string richtung) #$# vehikel
+do_delayed_action          int do_delayed_action(mixed action_handler, mixed *actions [, closure callback [, int flag]]) #$# spieler
+stop_delayed_action        int stop_delayed_action() #$# spieler
+query_delayed_action_time  int query_delayed_action_time() #$# spieler
+in_delayed_action          int in_delayed_action() #$# spieler
+edit                       int edit([string *puffer[, mixed retfun[, mixed retob, [int no_write [, mapping error_msgs]]]]]) #$# Dateien
+in_edit                    int in_edit() #$# Dateien
+query_echomode             int query_echomode() #$# spieler
+add_to_rede_puffer         void add_to_rede_puffer(string redetext) #$# spieler
+set_keine_gummigoettchen   void set_keine_gummigoettchen(int flag) #$# spieler
+query_keine_gummigoettchen int query_keine_gummigoettchen() #$# spieler
+compose_path               nomask string *compose_path(string path, int flag) #$# spieler
+query_path_aliases         mapping query_path_aliases() #$# spieler
+uses_gmcp_edit             public int uses_gmcp_edit() #$# editor
+gmcp_start_edit            varargs mapping gmcp_start_edit(closure retfun,string title,string tempfile,string* text) #$# editor
+set_eye_option             void set_eye_option(string option, mixed value) #$# spieler augen
+query_eye_option           varargs mixed query_eye_option(string option) #$# spieler augen
+query_inventory_category   string query_inventory_category() #$# spieler augen
+query_inventory_flags      int query_inventory_flags() #$# spieler augen
+query_gilden_info          nomask mixed query_gilden_info(string was) #$# spieler
+query_gilde                nomask string query_gilde() #$# spieler
+query_rang                 nomask int query_rang() #$# spieler
+query_gilden_data          nomask mixed query_gilden_data() #$# spieler
+set_gilden_data            nomask int set_gilden_data(mixed data) #$# spieler
+query_letzte_gilden        nomask mixed query_letzte_gilden() #$# spieler
+query_hlp_data             nomask mixed query_hlp_data() #$# spieler
+set_hlp_data               nomask void set_hlp_data(mixed data) #$# spieler
+query_real_name            nomask string query_real_name() #$# spieler
+query_real_cap_name        nomask string query_real_cap_name() #$# grundlegendes
+query_current_wiz_owner    nomask string query_current_wiz_owner() #$# spieler
+query_auto_load_parameter  mixed query_auto_load_parameter(string dateiname) #$# spieler
+query_auto_load            mixed query_auto_load() #$# spieler
+init_arg                   void init_arg(mixed auto_load) #$# spieler
+query_auto_load_shadow     mixed query_auto_load_shadow(object shadow) #$# spieler
+init_arg_shadow            void init_arg_shadow(object spieler, mixed auto_load) #$# spieler
+get_object_state           mixed get_object_state() #$# spieler
+init_object_state          void init_object_state(mixed state) #$# spieler
+notify_net_dead            void notify_net_dead(object who, int flag, int mode) #$# spieler
+notify_login               void notify_login(object who, int flag, int mode) #$# spieler
+query_statue_time          int query_statue_time #$# spieler
+set_kein_verbrauch         void set_kein_verbrauch(int Flag) #$# spieler nahrung
+query_kein_verbrauch       int query_kein_verbrauch() #$# spieler nahrung
+query_headache             int query_headache() #$# spieler nahrung
+add_headache               void add_headache(int Schmerzfaktor) #$# spieler nahrung
+query_alc                  int query_alc() #$# spieler nahrung
+query_max_alc              int query_max_alc() #$# spieler nahrung
+has_enough_alc             int has_enough_alc(int alc) #$# spieler nahrung
+add_alc                    int add_alc(int alc) #$# spieler nahrung
+query_fp                   int query_fp() #$# spieler nahrung
+query_wp                   int query_wp() #$# spieler nahrung
+has_enough_wp              int has_enough_wp(int wp) #$# spieler nahrung
+add_wp                     int add_wp(int wp) #$# spieler nahrung
+has_enough_fp              int has_enough_fp(int fp) #$# spieler nahrung
+add_fp                     int add_fp(int fp) #$# spieler nahrung
+add_temperatur_schutz      void add_temperatur_schutz(int a) #$# spieler kleidung
+query_temperatur_schutz    int query_temperatur_schutz() #$# spieler kleidung
+set_fp                     void set_fp(int fp) #$# spieler nahrung
+set_wp                     void set_wp(int wp) #$# spieler nahrung
+set_alc                    void set_alc(int alc) #$# spieler nahrung
+set_headache               void set_headache(int Schmerzfaktor) #$# spieler nahrung
+more                       string more({string file | string *text} [, mixed status [, int begin_line [, int status_byte [, mixed more_id]]]] ) #$# Dateien
+query_more_chunk           int query_more_chunk() #$# Dateien
+set_more_chunk             void set_more_chunk(int chunk) #$# Dateien
+query_in_more              int query_in_more() #$# Dateien
+add_options_menue          nomask varargs void add_options_menue(string name, closure menuefun | object ob[, string menuefun]) #$# spieler
+delete_options_menue       nomask void delete_options_menue(string name) #$# spieler
+add_options_action         nomask varargs void add_options_action(string name, string cmd, int flag, closure fun | object ob[, string fun]) #$# spieler
+delete_options_action      nomask void delete_options_action(string cmd) #$# spieler
+print_options_help         nomask void print_options_help(int quiet, string filename, string command, closure callback, mixed parameter) #$# spieler
+start_options_menue        nomask varargs void start_options_menue(int quiet) #$# spieler
+print_color_options        nomask void print_color_options(int quiet, string name, int color, closure setfunction, closure parentmenue, mixed parameter) #$# spieler
+query_age                  nomask int query_age() #$# spieler
+notify_birth               void notify_birth(object player) #$# spieler
+filter_message             int filter_message(int msg_type, int msg_action) #$# message spieler monster
+query_client_width         int query_client_width() #$# spieler
+query_client_height        int query_client_height(int full) #$# spieler
+query_messages_filter      int query_messages_filter() #$# message spieler
+query_no_retain            string query_no_retain() #$# spieler
+notify_quit                void notify_quit(object who, int flag, int mode) #$# spieler
+query_start_room           nomask mixed query_start_room() #$# spieler
+set_start_room             void set_start_room(mixed start) #$# spieler
+query_additional_condition_string string query_additional_condition_string() #$# spieler
+query_scar_description     string query_scar_description() #$# spieler
+query_scar                 int query_scar() #$# spieler
+make_scar                  void make_scar() #$# spieler
+delete_scar                void delete_scar(int Nummer) #$# spieler
+become_aggression_victim   nomask varargs void become_aggression_victim(mixed aggressor, int flags) #$# spieler kampf
+ist_notwehr                private int ist_notwehr(mixed gegner) #$# Root:Player:Tod
+query_erf_tod_message      varargs mixed query_erf_tod_message(object victim, mapping infos) #$# spieler kampf
+query_ghost                int query_ghost() #$# spieler
+query_kirche               string query_kirche() #$# spieler
+add_ghost                  void add_ghost(int i) #$# spieler
+set_ghost                  void set_ghost(int i) #$# spieler
+query_konto                int query_konto() #$# spieler handel
+set_konto                  void set_konto(int a) #$# spieler handel
+add_konto                  void add_konto(int a) #$# spieler handel
+query_konto_age            int query_konto_age() #$# spieler handel
+set_konto_age              void set_konto_age(int alter) #$# spieler handel
+query_opfer                nomask string *query_opfer() #$# spieler kampf
+query_one_opfer            nomask int query_one_opfer(string name) #$# spieler kampf
+query_moerder              nomask int query_moerder() #$# spieler kampf
+set_home_msg               void set_home_msg(string home_msg) #$# spieler
+query_home_msg             string query_home_msg() #$# spieler
+set_clone_msg              void set_clone_msg(string clone_msg) #$# spieler
+query_clone_msg            string query_clone_msg() #$# spieler
+set_destruct_msg           void set_destruct_msg(string destruct_msg) #$# spieler
+query_destruct_msg         string query_destruct_msg() #$# spieler
+query_no_wer               int query_no_wer() #$# spieler
+set_no_wer                 int set_no_wer(int no_wer) #$# spieler
+query_description          string query_description() #$# spieler
+query_one_description      string query_one_description(int merkmalsnummer) #$# spieler
+set_one_description_source nomask void set_one_description_source(int merkmalsnummer, int wert) #$# spieler
+set_no_airport             int set_no_airport(int i) #$# spieler
+query_no_airport           int query_no_airport() #$# spieler
+add_init_ob                void add_init_ob(object ob) #$# spieler monster
+delete_init_ob             void delete_init_ob(object ob) #$# spieler monster
+player_init                void player_init(object ob, object annaeherung) #$# spieler
+monster_init               void monster_init(object ob, object annaeherung) #$# monster
+add_temporal_adjektiv      nomask varargs void add_temporal_adjektiv(mixed adj, int duration, int front) #$# spieler grammatik
+query_no_ascii_art         nomask int query_no_ascii_art() #$# spieler
+set_no_ascii_art           nomask int set_no_ascii_art(int no_ascii_art) #$# spieler
+query_quest_count          int query_quest_count () #$# spieler
+query_game_count           int query_game_count () #$# spieler
+add_skill_points           void add_skill_points(string *path, int points) #$# spieler skill
+query_skill_structure      mixed *query_skill_structure() #$# spieler skill
+get_one_skill              int get_one_skill(string *path) #$# spieler skill
+query_sum_skill            int query_sum_skill() #$# spieler skill
+query_experience_promille  int query_experience_promille () #$# spieler skill
+set_other_skill            void set_other_skill(string keyword, string text, mixed data) #$# spieler skill
+query_other_skill_data     mixed query_other_skill_data(string keyword) #$# spieler skill
+query_other_skill_text     string query_other_skill_text(string keyword) #$# spieler skill
+set_gesehen                nomask void set_gesehen() #$# spieler
+set_handeln                nomask void set_handeln() #$# spieler
+add_sum_comm               void add_sum_comm(int comm) #$# spieler skill
+add_sum_feel               void add_sum_feel(int feel) #$# spieler skill
+add_sum_move               void add_sum_move(int move) #$# spieler skill
+add_sum_weight             void add_sum_weight(int weight) #$# spieler skill
+query_sum_comm             int query_sum_comm() #$# spieler skill
+query_sum_feel             int query_sum_feel() #$# spieler skill
+query_sum_move             int query_sum_move() #$# spieler skill
+query_sum_weight           int query_sum_weight() #$# spieler skill
+query_kills_by_name        mapping query_kills_by_name() #$# Kampf Skill
+query_kills_by_race        mapping query_kills_by_race() #$# Kampf Skill
+query_kills_of_name        int query_kills_of_name(string name) #$# Kampf Skill
+query_kills_of_race        int query_kills_of_race(string race) #$# Kampf Skill
+notify_sicht               void notify_sicht(object wer, string richtung, object zielraum) #$# zaubern
+set_callback               protected void set_callback(int opt, mixed r_a_cb, mixed l_a_cb, closure change_cb, closure sb_cb) #$# telnet
+set_telnet                 nomask static int set_telnet(int command, int option) #$# telnet
+has_unicode                int has_unicode() #$# spieler
+has_only_ascii             int has_only_ascii() #$# spieler
+query_doing                int query_doing() #$# spieler
+query_aliases              mapping query_aliases() #$# spieler
+set_prompt_string          void set_prompt_string(string prompt_string) #$# spieler
+query_prompt_string        string query_prompt_string() #$# spieler
+in_mini_ed                 int in_mini_ed() #$# Dateien
+is_editing                 int is_editing() #$# Dateien
+mini_ed                    varargs int mini_ed(closure retfun, int which_ed, string tempfile, mapping msgs, mapping flags, string* text) #$# Dateien
+query_mark                 nomask mixed query_mark(int nr, int flag) #$# grundlegendes
+query_marks                nomask mixed *query_marks(int flag) #$# grundlegendes
+set_mark                   nomask void set_mark(int nr, object ob) #$# grundlegendes
+query_command_list         varargs string *query_command_list(int mode) #$# raum
+query_exit_list            varargs string *query_exit_list(int mode) #$# raum
+query_flag_list            int *query_flag_list(int mode) #$# raum
+query_category_list        varargs string *query_category_list(int mode) #$# raum
+query_exit_category        string query_exit_category(string command) #$# raum
+set_exit_category          void set_exit_category(string command, string category) #$# raum
+query_one_exit             varargs string query_one_exit(string command, int flag) #$# raum
+query_exit_command         varargs string query_exit_command(object|string raum, int flag) #$# raum
+delete_exit                void delete_exit(string command) #$# raum
+delete_exits               void delete_exits(string *commands) #$# raum
+add_exit                   varargs void add_exit(string exit, string cmd [, int mode [, string category]]) #$# raum
+add_exits                  varargs void add_exits(string *exits, string *cmds [, int *modes [, string *categories]]) #$# raum
+set_exit                   varargs void set_exit(string exit, string command [, int mode [, string category]]) #$# raum
+set_exits                  varargs void set_exits(string *exits, string *commands [, int* modes [, string *categories]]) #$# raum
+filter_xxx                 <string|int> filter_xxx(object who) #$# raum move
+add_exit_flag              void add_exit_flag(mixed command, int flag) #$# raum
+query_exit_flag            int query_exit_flag(string command, [ int flag ]) #$# raum
+show_exit                  varargs void show_exit(mixed cmd) #$# raum
+nolist_exit                varargs void nolist_exit(mixed cmd) #$# raum
+hide_exit                  varargs void hide_exit(mixed cmd) #$# raum
+query_lock_reason          varargs string query_lock_reason(string exit, object fuer_wen) #$# raum
+query_lock_reason_other    varargs string query_lock_reason_other(string exit, object wer) #$# raum
+lock_exit                  varargs void lock_exit(string*|string cmd, closure|string reason, closure|string reason_other) #$# raum
+unlock_exit                varargs void unlock_exit(string*|string cmd) #$# raum
+set_msg                    varargs void set_msg(mixed raus, mixed rein, mixed selbst) #$# raum
+set_dir_prep_in            void set_dir_prep_in(string str) #$# raum
+set_dir_prep_out           void set_dir_prep_out(string str) #$# raum
+set_dir_prep               void set_dir_prep(string praus, string prein) #$# raum
+query_dir_prep_in          string query_dir_prep_in() #$# raum
+query_dir_prep_out         string query_dir_prep_out() #$# raum
+set_exit_msg               varargs void set_exit_msg(string dir, mixed raus, mixed rein, mixed selbst) #$# raum
+set_dir_msg                void set_dir_msg(string dir, string raus, string rein) #$# raum
+add_type                   void add_type(mixed key, mixed data) #$# raum
+query_type                 mixed query_type(string type) #$# raum
+query_types                mapping query_types() #$# raum
+query_room                 int query_room() #$# raum
+query_room_environment     varargs mixed * query_room_environment(int deep) #$# raum
+query_room_domain          string query_room_domain() #$# raum
+set_room_domain            void set_room_domain(string room_domain) #$# raum
+query_daylight             int query_daylight() #$# raum licht
+query_visitors             mixed *query_visitors() #$# raum
+query_traces               mapping query_traces() #$# raum
+query_schwimmfaehig        int query_schwimmfaehig() #$# move
+clean_up                   int clean_up(int arg) #$# raum
+query_map_pos              int *query_map_pos() #$# raum domain
+query_long_dark            string query_long_dark(object betrachter) #$# raum
+concerned_drift            int concerned_drift(object was, object wo) #$# raum
+concerned_sink             int concerned_sink(object was, object wo) #$# raum
+query_no_idle_logout       int query_no_idle_logout(object wer) #$# raum spieler
+set_random_clone_mode      void set_random_clone_mode(integer mode) #$# contents
+query_random_clone_mode    int query_random_clone_mode() #$# contents
+add_object                 void add_object(mixed obj) #$# contents
+delete_object              void delete_object(string name) #$# contents
+query_object               mapping query_object(string name) #$# contents
+query_all_objects          mixed *query_all_objects() #$# contents
+query_present_objects      mapping query_present_objects() #$# contents
+query_later_objects        mapping query_later_objects() #$# contents
+set_max_objects            void set_max_objects(int max) #$# contents
+set_min_objects            void set_min_objects(int max) #$# contents
+do_clone_now               void do_clone_now(string name) #$# contents
+set_kirche                 static void set_kirche(string kirche) #$# spieler
+query_kirche               string query_kirche(object player) #$# spieler
+query_shadow_creator       nomask string query_shadow_creator(object shadow) #$# shadow
+destruct_shadow            static void destruct_shadow() #$# shadow
+query_prevent_shadow       int query_prevent_shadow(object shadow) #$# shadow
+init_shadow                varargs int init_shadow(object victim, int flag) #$# shadow
+remove_shadow              int remove_shadow( { object sh | string sh } ) #$# shadow
+query_shadow               object query_shadow(string str) #$# shadow
+query_shadow_owner         object query_shadow_owner() #$# shadow
+query_shadow_object        object query_shadow_object() #$# shadow
+unshadow_shadow            int unshadow_shadow(object ob) #$# shadow
+forbidden_shadow           int forbidden_shadow(object shadow, object victim) #$# shadow
+notify_shadow              void notify_shadow(object shadow, object victim) #$# shadow
+notify_unshadow            void notify_unshadow(object shadow, object owner) #$# shadow
+shadow_create_action       void shadow_create_action(object shadow) #$# shadow
+shadow_remove_action       void shadow_remove_action(object shadow) #$# shadow
+search_adjektiv            int search_adjektiv(mixed *adjektiv, string str) #$# grammatik
+browse                     int browse(mixed str) #$# browser
+get_initial_more_info      static mixed get_initial_more_info(mixed str) #$# browser
+get_back_more_info         static mixed get_back_more_info(mixed m) #$# browser
+get_next_more_info         static mixed get_next_more_info(mixed m) #$# browser
+get_prev_more_info         static mixed get_prev_more_info(mixed m) #$# browser
+get_menue_more_info        static mixed get_menue_more_info(mixed m, int nr) #$# browser
+browse_action              static mixed browse_action(string str, mixed *mo) #$# browser
+browse_end                 static void browse_end(mixed m) #$# browser
+get_continued_more_info    static mixed get_continued_more_info(mixed m, mixed str) #$# browser
+continue_browse            varargs static void continue_browse(mixed str) #$# browser
+build_table                varargs string* build_table(mixed s, string *trenn, string *ausr) #$# tool text
+add_chats                  void add_chats(mixed msgs) #$# monster
+add_a_chats                void add_a_chats(mixed msgs) #$# monster
+load_chat                  void load_chat(int chance, mixed chat) #$# monster
+load_a_chat                void load_a_chat(int chance, mixed chat) #$# monster
+set_chance                 void set_chance(int chance) #$# monster
+set_a_chance               void set_a_chance(int chance) #$# monster
+set_chat_delay             void set_chat_delay(int delay) #$# monster
+set_a_chat_delay           void set_a_chat_delay(int delay) #$# monster
+set_start_chat             int set_start_chat(int i) #$# monster
+query_start_chat           int query_start_chat() #$# monster
+pause_chat                 void pause_chat(int seconds) #$# monster
+query_chat_paused          int query_chat_paused() #$# monster
+pause_a_chat               void pause_a_chat(int seconds) #$# monster
+query_a_chat_paused        int query_a_chat_paused() #$# monster
+check_save                 int check_save(mixed arr) #$# grundlegendes
+query_chest                int query_chest() #$# graben
+bury_chest                 mapping bury_chest() #$# graben
+init_chest                 void init_chest(mapping data) #$# graben
+colour_to_ansi             varargs string colour_to_ansi(int colour, int ecol) #$# farben
+colours_to_ansi_colours    varargs mapping colours_to_ansi_colours(mapping cols) #$# farben
+colour_to_string           varargs string colour_to_string(int col, int ecol) #$# farben
+string_to_colour           varargs mixed string_to_colour(string str, int ecol) #$# farben
+read_config                varargs mapping read_config(string configfile[, mapping filters]) #$# Parser
+sleep                      async void sleep(int sec) #$# coroutinen
+get_input                  async string get_input(string prompt) #$# coroutinen
+ensure_eval                async void ensure_eval(int reserve=100000) #$# coroutinen
+range                      async void range(int start, int stop, int step = 1) #$# coroutinen
+enumerate                  async void enumerate(coroutine|mixed* values, int start = 0) #$# coroutinen
+reversed                   async void reversed(mixed* values) #$# coroutinen
+latch                      async mixed* latch(coroutine* crs, int num) #$# coroutinen
+for_any                    coroutine for_any(varargs coroutine *crs) #$# coroutinen
+for_all                    coroutine for_all(varargs coroutine *crs) #$# coroutinen
+read_bytes_async           async protected void read_bytes_async(string file, int start = 0, int block_size = 100000) #$# coroutinen
+read_lines                 async protected void read_lines(string file, string encoding = "UTF-8") #$# coroutinen
+query_database_description public string query_database_description() #$# database
+init_database              protected varargs int init_database(string databasefile,int disable_foreign_keys) #$# database
+query_db_error             public string query_db_error() #$# database
+db_close                   protected int db_close() #$# database
+db_open                    protected int db_open() #$# database
+db_query                   protected mixed *db_query(string query, varargs mixed *args) #$# database
+db_rollback                protected int db_rollback() #$# database
+db_commit                  protected int db_commit() #$# database
+db_begin                   protected int db_begin() #$# database
+db_query_err               protected mixed *db_query_err(string query, varargs mixed *args) #$# database
+db_escape_string           protected string db_escape_string(string s) #$# database
+convert_array_to_sql_list  protected string convert_array_to_sql_list(mixed list) #$# database
+convert_array_to_insert_list protected string convert_array_to_insert_list(mixed list) #$# database
+get_one_int                protected int get_one_int(mixed * result) #$# database
+get_one_string             protected string get_one_string(mixed * result) #$# database
+check_sl_rc                protected int check_sl_rc(mixed result) #$# database
+select_value               protected varargs mixed select_value(mixed arr, int row, int col) #$# database
+select_row                 protected varargs mixed *select_row(mixed arr, int row) #$# database
+select_column              protected varargs mixed *select_column(mixed arr, int col) #$# database
+db_check_table             protected int db_check_table(string tablename) #$# database
+db_debug                   protected varargs void db_debug(string msg, int severity, int flags, string user) #$# database
+query_all_dbg_messages     protected varargs string * query_all_dbg_messages(int flags) #$# database
+query_dbg_messages         public varargs string * query_dbg_messages(mapping options) #$# database
+setup_counter              protected int setup_counter(string idstr, int initial_value)) #$# database
+increment_counter          protected int increment_counter(string idstr) #$# database
+get_db_info                protected string get_db_info(string key) #$# database
+set_db_info                protected int set_db_info(string key, string value) #$# database
+get_db_version             protected int get_db_version() #$# database
+set_db_version             protected void set_db_version(int ver) #$# database
+check_debuggers            protected int check_debuggers(int acls) #$# database
+send_to_debuggers          protected void send_to_debuggers(string msg, int acls) #$# database
+validate_debugger          protected int validate_debugger(string rname) #$# database
+get_debuggers              public string* get_debuggers() #$# database
+update_debugger            public int update_debugger(string rname,int acls) #$# database
+flush_explain_plans        public void flush_explain_plans() #$# database
+init_debuglog              protected varargs int init_debuglog(string file, int retention_period, int disable_foreign_keys) #$# database
+debuglog                   varargs int debuglog(string msg, int severity, string user, string category) #$# database
+get_debuglog_menue         public mapping get_debuglog_menue() #$# database
+start_debuglog_menue       protected varargs int start_debuglog_menue(mixed * menues) #$# database
+debuglog_get_kategorien    protected string * debuglog_get_kategorien(mapping filter) #$# database
+debuglog_get_filtered_messages protected mixed debuglog_get_filtered_messages(mapping filter, int countflag) #$# database
+tell_emote                 void tell_emote(string *ausgabe, <object|mapping>* an_wen_separat, object wer, string befehl, int msg_action, int msg_type) #$# monster spieler seele
+parse_emote                mixed parse_emote(string eingabe, int flagge, object wer, string befehl) #$# monster spieler seele
+query_emote_case           int query_emote_case(string str, object obj, string rest_string) #$# monster spieler seele
+verb                       deklin_message verb(string singular_3pers, object|mapping|int who = OBJ_TO, int art = ART_DER) #$# grammatik
+TI_LISTE                   Liste der Beschreibungs-TI-Defines #$# beschreibung
+query_light_description    string query_light_description(int time) #$# raum licht
+desc_add                   protected mixed desc_add(mixed s1, mixed s2) #$# beschreibung
+desc_call_other_func       protected mixed desc_call_other_func(object obj, string func, mixed info, mixed* par) #$# beschreibung
+desc_call_func             protected mixed desc_call_func(string func, mixed info, mixed* par) #$# beschreibung
+desc_call_cl               protected mixed desc_call_cl(closure cl, mixed info, varargs mixed* par) #$# beschreibung
+desc_condition             protected mixed desc_condition(string name, mixed info, mixed* par) #$# beschreibung
+desc_filter                protected mixed desc_filter(string name, mixed info, mixed orig, mixed* par) #$# beschreibung
+desc_text                  protected mixed desc_text(string name, mixed info, mixed* par) #$# beschreibung
+desc_number                protected mixed desc_number(string name, mixed info, mixed* par) #$# beschreibung
+desc_compile               protected int desc_compile(string name, mixed res, mixed* par) #$# beschreibung
+compile_desc               protected mixed compile_desc(mixed desc, mapping tags) #$# beschreibung
+compile_cond               protected mixed compile_cond(mixed cond, mapping tags) #$# beschreibung
+dynamic_browse             int dynamic_browse(mapping menue|mapping* menues) #$# dynamic_browse
+browse_write_line          public int browse_write_line(string str) #$# dynamic_browse
+push_menue                 protected mapping* push_menue(mapping* menues,mappping newmenue) #$# dynamic_browse
+pop_menue                  protected mapping* pop_menue(mapping* menues,int cnt = 1) #$# dynamic_browse
+update_menue               protected int update_menue(<mapping|mapping*> menues,mapping to_add) #$# dynamic_browse
+query_menue_path           protected mapping* query_menue_path() #$# dynamic_browse
+restore_menue_path         public mapping* restore_menue_path(mapping *menupath) #$# dynamic_browse
+notify_dyn_browse_data     protected void notify_dyn_browse_data(mapping menue,mapping *mpath) #$# dynamic_browse
+dynamicmore                ([B_TYPE : "dynamicmore",B_FILE:"<pfad>"]) #$# dynamic_browse
+dynamicmore                ([B_TYPE : "staticmore",B_DATA:<string* displaydata>]) #$# dynamic_browse
+staticmore_display         string * staticmore_display(mapping menue) #$# dynamic_browse
+getopt                     mapping getopt(string command, mapping options [, int flag]) #$# tool
+query_is_brennbar          int query_is_brennbar(object ob) #$# feuer
+query_clothes_info         struct clothes_type query_clothes_info(string type) #$# kleidung
+query_armour_info          struct clothes_type query_armour_info(string armour_class) #$# kleidung
+determine_obvious_clothes  object* determine_obvious_clothes(object *obs) #$# kleidung
+add_parser                 varargs void add_parser(mixed what, mixed ob) #$# Parser
+delete_parser              varargs void delete_parser(mixed what, mixed ob) #$# Parser
+query_parser               mixed query_parser() #$# Parser
+add_makro                  varargs void add_makro(string name, closure unbound_cl, string *file) #$# Parser
+delete_makro               varargs void delete_makro(string name, string *file) #$# Parser
+query_makro                varargs closure query_makro(string name, int bound, string *file) #$# Parser
+is_makro                   varargs int is_makro(string name, string *file) #$# Parser
+query_makros               varargs mapping query_makros(string *file) #$# Parser
+clear_makros               void clear_makros() #$# Parser
+add_konstante              varargs void add_konstante(string name, mixed cl, string *file) #$# Parser
+delete_konstante           varargs void delete_konstante(string name, string *file) #$# Parser
+query_konstante            varargs mixed query_konstante(string name, string *file) #$# Parser
+is_konstante               varargs int is_konstante(string name, string *file) #$# Parser
+query_konstanten           varargs mapping query_konstanten(string *file) #$# Parser
+clear_konstanten           void clear_konstanten() #$# Parser
+add_define                 varargs void add_define(string name, string *file) #$# Parser
+delete_define              varargs void delete_define(string name, string *file) #$# Parser
+is_define                  varargs int is_define(string name, string *file) #$# Parser
+query_defines              varargs mapping query_defines(string *file) #$# Parser
+clear_defines              void clear_defines() #$# Parser
+parser_defined             varargs int parser_defined(string was, string *file) #$# Parser
+parser_efun_defined        int parser_efun_defined(string was) #$# Parser
+allowed_char               int allowed_char(int c) #$# Parser
+parse_value                varargs mixed parse_value(string params, int pos, mixed error, string *symbols, string *file) #$# Parser
+parse_expr                 varargs mixed parse_expr(string params, int pos, mixed error, int max, string *symbols, string *file) #$# Parser
+get_lines_from_file        string *get_lines_from_file(string file) #$# Parser
+delete_comments            string *delete_comments(string *lines) #$# Parser
+preprocess_include_lines   protected varargs string *preprocess_include_lines(string *lines, string filename) #$# Parser
+process_pragma             protected varargs mixed process_pragma(string text, string *file, int zeile, mixed *lines) #$# Parser
+handle_preprocessor_symbols protected varargs mixed handle_preprocessor_symbols(mixed *parr, mixed l, string *symbols, mixed *line, mixed error, int mkcl) #$# Parser
+process_one_include_line   varargs mixed process_one_include_line(mixed *lines) #$# Parser
+process_include_lines      varargs void process_include_lines(mixed *lines, closure callback, mixed *callback_params) #$# Parser
+read_include               varargs void read_include(string file|string *files, closure callback, varargs mixed *callback_params) #$# Parser
+mapil_forbidden            varargs int mapil_forbidden(string base_type, int magic_type, int flag, string name, object caster, mixed victim, int chance, mapping extra) #$# grundlegendes mapil
+mapil_notify               varargs void mapil_notify(string base_type, int magic_type, int flag, string name, object caster, mixed victim, int chance, mapping extra) #$# grundlegendes mapil
+notify_magie               void notify_magie(int magic_type, int flag, string name, object caster, mixed victim, int chance, mapping extra) #$# grundlegendes mapil
+forbidden_magie            int forbidden_magie(int magic_type, int flag, string name, object caster, mixed victim, int chance, mapping extra) #$# grundlegendes mapil
+notify_handwerk            void notify_handwerk(int magic_type, int flag, string name, object caster, mixed victim, int chance, mapping extra) #$# grundlegendes mapil
+forbidden_handwerk         int forbidden_handwerk(int magic_type, int flag, string name, object caster, mixed victim, int chance, mapping extra) #$# grundlegendes mapil
+set_msg_in                 void set_msg_in(string msg_in) #$# spieler monster move
+set_msg_out                void set_msg_out(string msg_out) #$# spieler monster move
+set_mmsg_in                void set_mmsg_in(string mmsg_in) #$# spieler monster move
+set_mmsg_out               void set_mmsg_out(string str) #$# spieler monster move
+set_msg_invis              void set_msg_invis(string msg_invis) #$# spieler monster move
+set_msg_vis                void set_msg_vis(string msg_vis) #$# spieler monster move
+query_msg_in               string query_msg_in() #$# spieler monster move
+query_msg_out              string query_msg_out() #$# spieler monster move
+query_mmsg_in              string query_mmsg_in() #$# spieler monster move
+query_mmsg_out             string query_mmsg_out() #$# spieler monster move
+query_msg_invis            string query_msg_invis() #$# spieler monster move
+query_msg_vis              string query_msg_vis() #$# spieler monster move
+query_plugin_commands      nomask mixed *query_plugin_commands() #$# plugin
+add_plugin_command         nomask protected varargs int add_plugin_command(string verb, int flag, int level, int no_pipe) #$# plugin
+Msg                        varargs protected void Msg(int type, int action, string msg, string msg_whom, <object|object*> whom) #$# plugin
+Msg_To                     protected void Msg_To(<object|object*> who, int type, int action, string msg) #$# plugin
+W                          protected void W(string str) #$# plugin
+WLN                        protected void WLN(string str) #$# plugin
+query_plugin_commander     nomask protected object query_plugin_commander() #$# plugin
+query_plugin_vars          nomask protected mixed query_plugin_vars() #$# plugin
+set_plugin_vars            nomask protected void set_plugin_vars(mixed vars) #$# plugin
+query_plugin_info          string query_plugin_info() #$# plugin
+query_plugin_help          string query_plugin_help(string verb) #$# plugin
+plugin_initialize          protected void plugin_initialize(object who) #$# plugin
+plugin_remove              protected void plugin_remove(object who) #$# plugin
+print_plugin_options       static void print_plugin_options(int quiet, closure callback) #$# plugin
+create_plugin_callback     protected closure create_plugin_callback(closure fun|string fun) #$# plugin
+modify_set                 void modify_set(mixed neuer_wert, string property_name, mixed alter_wert, object aufrufer, object item) #$# properties
+forbidden_set              int forbidden_set(string property_name, mixed neuer_wert, mixed alter_wert, object aufrufer, object item) #$# properties
+notify_set                 void notify_set(string property_name, mixed neuer_wert, mixed alter_wert, object aufrufer, object item) #$# properties
+modify_query               void modify_query(mixed wert, string property_name, mixed info, object aufrufer, object item) #$# properties
+modify_add                 void modify_add(mixed add_wert, string property_name, mixed key, mixed alter_wert, object aufrufer, object item) #$# properties
+forbidden_add              int forbidden_add(string property_name, mixed key, mixed add_wert, mixed alter_wert, object aufrufer, object item) #$# properties
+notify_add                 void notify_add(string property_name, mixed key, mixed add_wert, mixed alter_wert, object aufrufer, object item) #$# properties
+forbidden_delete           int forbidden_delete(string property_name, mixed key, mixed alter_wert, object aufrufer, object item) #$# properties
+notify_delete              void notify_delete(string property_name, mixed key, mixed alter_wert, object aufrufer, object item) #$# properties
+add_property_master        protected void add_property_master(string prefix, string file|string* files) #$# properties
+delete_property_master     protected void delete_property_master(string prefix, string file|string* files) #$# properties
+is_property_master         int is_property_master(string prefix, string file) #$# properties
+query_property_master      string* query_property_master(string prefix) #$# properties
+query_property_prefixes    string* query_property_prefixes() #$# properties
+set_property_info          void set_property_info(string name, mapping info) #$# properties
+set_pseudoclosure          mixed set_pseudoclosure(mapping property, mixed value, object caller, object item) #$# properties
+get_pseudoclosure          mixed get_pseudoclosure(mapping property, mixed info, object caller, object item) #$# properties
+set_description            mixed set_description(mapping property, mixed value, object caller, object item) #$# properties
+get_description            mixed get_description(mapping property, mixed value, object caller, object item) #$# properties
+set_vitem_pseudoclosure    mixed set_vitem_pseudoclosure(mapping property, mixed value, object caller, object item, mapping vitem) #$# properties
+get_vitem_pseudoclosure    mixed get_vitem_pseudoclosure(mapping property, mixed info, object caller, object item, mapping vitem) #$# properties
+set_vitem_description      mixed set_vitem_description(mapping property, mixed value, object caller, object item, mapping vitem) #$# properties
+get_vitem_description      mixed get_vitem_description(mapping property, mixed value, object caller, object item, mapping vitem) #$# properties
+invalid_set                mixed invalid_set(mapping property, mixed value, object caller, object item) #$# properties
+invalid_get                mixed invalid_get(mapping property, mixed info, object caller, object item) #$# properties
+invalid_add                mixed invalid_add(mapping property, mixed key, mixed value, object caller, object item) #$# properties
+invalid_del                mixed invalid_del(mapping property, mixed key, object caller, object item) #$# properties
+set_rollen_debugger        void set_rollen_debugger(object|string ob) #$# Rollen
+query_rollen_debugger      object|string query_rollen_debugger() #$# Rollen
+debug_rolle                void debug_rolle(string str) #$# Rollen
+set_macht_bei_rollen_mit   void set_macht_bei_rollen_mit(int flag) #$# Rollen
+query_macht_bei_rollen_mit int query_macht_bei_rollen_mit() #$# Rollen
+query_rolle                struct rolle query_rolle() #$# Rollen
+query_rollen_status        struct rollen_status query_rollen_status() #$# Rollen
+in_rolle                   string in_rolle() #$# Rollen
+stop_rolle                 int stop_rolle(int partner) #$# Rollen
+forbidden_rollenstop       int forbidden_rollenstop(object wer, mixed souffleur, string rolle) #$# Rollen
+notify_rollenstop          void notify_rollenstop(object wer, mixed souffleur, string rolle) #$# Rollen
+restart_rolle              int restart_rolle(int partner) #$# Rollen
+forbidden_rollenrestart    int forbidden_rollenrestart(object wer, mixed souffleur, string rolle) #$# Rollen
+notify_rollenrestart       void notify_rollenrestart(object wer, mixed souffleur, string rolle) #$# Rollen
+notify_rollenende          void notify_rollenende(object wer, mixed souffleur, string rolle) #$# Rollen
+rolle_beendet              void rolle_beendet(string name) #$# Rollen
+debug_rolle2               varargs void debug_rolle2(string str,string file, int line, mixed extended) #$# Rollen
+set_standard_msg_params    void set_standard_msg_params(int msg_type, int msg_action) #$# Rollen
+query_standard_msg_params  int *query_standard_msg_params() #$# Rollen
+prepare_exec               mixed *prepare_exec(mixed *pars,mixed command) #$# Rollen
+beginne_rolle              varargs int beginne_rolle(struct rolle r, struct rollen_status rs, string label) #$# Rollen
+forbidden_rollenstart      int forbidden_rollenstart(object wer, object souffleur, string rolle, string label) #$# Rollen
+notify_rollenstart         void notify_rollenstart(object wer, object souffleur, string rolle, string label) #$# Rollen
+spiele_rolle_mit           int spiele_rolle_mit(struct rolle rolle, int *offene_positionen) #$# Rollen
+starte_rolle               varargs int starte_rolle(string rollenname, string label, varargs mixed *params) #$# Rollen
+breche_rolle_ab            int breche_rolle_ab() #$# Rollen
+set_this_player_in_rolle   void set_this_player_in_rolle( object tp) #$# Rollen
+query_this_player_in_rolle object query_this_player_in_rolle() #$# Rollen
+query_rollen_partner       object query_rollen_partner(int nr) #$# Rollen
+set_rollen_dirs            static void set_rollen_dirs(mixed dirs) #$# Rollen
+query_rollen_dirs          string *query_rollen_dirs() #$# Rollen
+query_innenraum            varargs int query_innenraum(object raum) #$# raum
+query_im_wasser            varargs int query_im_wasser(object raum) #$# raum
+query_hat_boden            varargs int query_hat_boden(object raum) #$# raum
+get_environment            object get_environment(object ob) #$# raum
+get_displayed_domain       string get_displayed_domain(object ob) #$# raum
+add_security_condition     protected void add_security_condition(closure condition|object ob|lwobject lwo|string obj_name|string euid) #$# Sicherheit
+check_security             varargs int check_security(int flags) #$# Sicherheit
+init_security_for_actions  protected void init_security_for_actions() #$# Sicherheit
+init_security_trust_mudlib protected void init_security_trust_mudlib() #$# Sicherheit
+notify_seele               void notify_seele(object wer, mixed wen, string what, string adverb, int align, int flags, int msg_typ_wer, int msg_typ_wen, int msg_typ_andere) #$# seele
+allowed_seele              int allowed_seele() #$# seele
+forbidden_seele            int forbidden_seele(object wer, mixed wen, string what, string adverb, int align, int flags, int msg_typ_wer, int msg_typ_wen, int msg_typ_andere) #$# seele
+notify_comm                void notify_comm(object wer, mixed wen, string what, string adverb, int flags, int msg_typ_wer, int msg_typ_wen, int msg_typ_andere) #$# seele
+forbidden_comm             int forbidden_comm(object wer, mixed wen, string what, string adverb, int flags, int msg_typ_wer, int msg_typ_wen, int msg_typ_andere) #$# seele
+seele_AKTION               string seele_[a-z]+(_msg|_msg_me|_msg_other) #$# seele
+forbidden_msg_soul_action_partner_notify varargs int forbidden_msg_soul_action_partner_notify(mixed partner, string aktion, string adverb, int align, int flags, string str_owner, string str_partner, string str_other, int msg_action, int msg_type_owner, int msg_type_partner, int msg_type_other) #$# seele
+forbidden_msg_soul_action_notify varargs int forbidden_msg_soul_action_notify(string aktion, string adverb, int align, int flags, string str_owner, string str_other, int msg_action, int msg_type_owner, int msg_type_other) #$# seele
+conv_akt                   string conv_akt(string aktion, int flag) #$# seele
+plus_adv                   deprecated int plus_adv(string adv, string aktion [, mixed fill,string fail ,string default_adv, int reflexiv]) #$# seele
+soul_plus_adv              int soul_plus_adv(string adv, string aktion, int align, int flags, int msg_action, int msg_type_owner, [ int msg_type_other, mixed fill, string fail ,string default_adv, int reflexiv]) #$# seele
+soul_parser                mixed *soul_parser(string str, [int flags, string preposition]) #$# seele
+parse_text                 varargs mixed *parse_text(string str, mixed where, int flag, string error_msg) #$# seele
+adv_part                   deprecated int adv_part(mixed res, string aktion, mixed fill1, string fill, int fall [, string fail, string default_adv, string dot ]]) #$# seele
+soul_adv_part              int soul_adv_part(mixed res, mixed aktion, int align, int flags, int msg_action, int msg_type_owner, int msg_type_partner, int msg_type_other, mixed fill1, string fill, int fall [, string fail, string default_adv, string dot ]]) #$# seele
+notify_soul                deprecated void notify_soul(object who, string what, string adverb) #$# seele
+soul_command               deprecated int soul_command(object who, string what, string adverb) #$# seele
+get_top_info               struct top_uid_info* get_top_info() #$# Statistik
+update_actions             void update_actions(object ob) #$# shadow
+set_value                  void set_value(int val) #$# handel
+query_value                int query_value() #$# handel
+set_no_store               void set_no_store(int flag) #$# handel
+query_no_store             int query_no_store() #$# handel
+just_sold                  void just_sold() #$# handel
+query_sellable             int query_sellable() #$# handel
+set_success_message        void set_success_message(mixed s) #$# wasser
+set_other_success_message  void set_other_success_message(mixed s) #$# wasser
+set_failure_message        void set_failure_message(mixed s) #$# wasser
+set_other_failure_message  void set_other_failure_message(mixed s) #$# wasser
+set_fill_message           void set_fill_message(mixed s) #$# wasser
+set_other_fill_message     void set_other_fill_message(mixed s) #$# wasser
+query_success_message      string query_success_message() #$# wasser
+query_other_success_message string query_other_success_message() #$# wasser
+query_failure_message      string query_failure_message() #$# wasser
+query_other_failure_message string query_other_failure_message() #$# wasser
+query_fill_message         string query_fill_message(object bottle, object water) #$# wasser
+query_other_fill_message   string query_other_fill_message(object bottle, object water) #$# wasser
+message                    void message(string player, string others) #$# wasser
+set_water_file             void set_water_file(string file_name) #$# wasser
+set_design_function        varargs void set_design_function(string func[, mixed obj]) #$# wasser
+clone_water                object clone_water() #$# wasser
+query_water                object query_water() #$# wasser
+water_me                   string water_me(string s) #$# wasser
+get_water                  int get_water(object water, int amount, int max_amount) #$# wasser
+drink_action               int drink_action() #$# wasser
+drink_command              int drink_command(string s) #$# wasser
+setup_well                 void setup_well() #$# wasser
+is_well                    int is_well() #$# wasser
+set_content                void set_content(int n) #$# wasser
+query_content              int query_content() #$# wasser
+set_max_content            void set_max_content(int n) #$# wasser
+query_max_content          int query_max_content() #$# wasser
+set_water                  int set_water(object new_water) #$# wasser
+query_water                object query_water() #$# wasser
+transfer_content           int transfer_content(object new_bottle) #$# wasser
+water_me                   string water_me(string s) #$# wasser
+set_success_message        void set_success_message(mixed s) #$# wasser
+set_other_success_message  void set_other_success_message(mixed s) #$# wasser
+set_failure_message        void set_failure_message(mixed s) #$# wasser
+set_other_failure_message  void set_other_failure_message(mixed s) #$# wasser
+set_empty_message          void set_empty_message(mixed s) #$# wasser
+set_other_empty_message    void set_other_empty_message(mixed s) #$# wasser
+query_success_message      string query_success_message() #$# wasser
+query_other_success_message string query_other_success_message() #$# wasser
+query_failure_message      string query_failure_message() #$# wasser
+query_other_failure_message string query_other_failure_message() #$# wasser
+query_fill_message         string query_fill_message(mixed well, mixed water) #$# wasser
+query_other_fill_message   string query_other_fill_message(mixed well, mixed water) #$# wasser
+query_no_fill_reason       string query_no_fill_reason(mapping well, mapping water) #$# wasser
+query_empty_message        void query_empty_message() #$# wasser
+query_other_empty_message  void query_other_empty_message() #$# wasser
+message                    void message(string player, string others) #$# wasser
+parse_error                varargs int parse_error(mixed *parsed, string error[, mixed only_one]) #$# wasser
+drink_action               int drink_action() #$# wasser
+notify_bottle_empty        void notify_bottle_empty(object bottle, int how) #$# wasser
+drink_command              int drink_command(string s) #$# wasser
+fill_from_object           int fill_from_object(object well) #$# wasser
+fill_from_vitem            int fill_from_vitem(mapping well_mapping, mapping water_mapping) #$# wasser
+notify_bottle_full         void notify_bottle_full(object bottle, mixed well[, mapping water]) #$# wasser
+forbidden_fill_water       string* forbidden_fill_water(object flasche, mixed brunnen, mixed wasser, object wer) #$# wasser
+forbidden_fill_water_well  string* forbidden_fill_water_well(object flasche, mixed brunnen, mixed wasser, object wer) #$# wasser
+forbidden_fill_water_self  string* forbidden_fill_water_self(object flasche, mixed brunnen, mixed wasser, object wer) #$# wasser
+forbidden_fill_water_bottle string* forbidden_fill_water_bottle(object flasche, mixed brunnen, mixed wasser, object wer) #$# wasser
+fill_command               int fill_command(string s) #$# wasser
+empty_action               int empty_action() #$# wasser
+empty_command              int empty_command(string s) #$# wasser
+vacate_command             int vacate_command(string s) #$# wasser
+pour_command               int pour_command(string s) #$# wasser
+is_bottle                  int is_bottle() #$# wasser
+query_success_message      string query_success_message(mapping well, mapping water, int infected) #$# wasser
+query_other_success_message string query_other_success_message(mapping well, mapping water, int infected) #$# wasser
+query_failure_message      string query_failure_message(mapping well, mapping water) #$# wasser
+query_other_failure_message string query_other_failure_message(mapping well, mapping water) #$# wasser
+query_no_drink_reason      string query_no_drink_reason(mapping well, mapping water) #$# wasser
+heal_player                void heal_player(int amount) #$# wasser
+drink_action               void drink_action(mapping well, mapping water) #$# wasser
+drink_command              int drink_command(string s) #$# wasser
+set_virus_infection_chance void set_virus_infection_chance(int chance) #$# wasser
+query_virus_infection_chance int query_virus_infection_chance() #$# wasser
+set_virus_infection_message void set_virus_infection_message(mixed s) #$# wasser
+set_virus_other_infection_message void set_virus_other_infection_message(mixed s) #$# wasser
+query_virus_infection_message string query_virus_infection_message() #$# wasser
+query_virus_other_infection_message string query_virus_other_infection_message() #$# wasser
+set_healing                void set_healing(int n) #$# wasser
+set_strength               void set_strength(int n) #$# wasser
+set_amount                 void set_amount(int n) #$# wasser
+query_healing              int query_healing() #$# wasser
+query_strength             int query_strength() #$# wasser
+query_amount               int query_amount() #$# wasser
+set_success_message        void set_success_message(mixed s) #$# wasser
+set_other_success_message  void set_other_success_message(mixed s) #$# wasser
+set_failure_message        void set_failure_message(mixed s) #$# wasser
+set_other_failure_message  void set_other_failure_message(mixed s) #$# wasser
+query_success_message      string query_success_message() #$# wasser
+query_other_success_message string query_other_success_message() #$# wasser
+query_failure_message      string query_failure_message() #$# wasser
+query_other_failure_message string query_other_failure_message() #$# wasser
+heal_player                void heal_player(int amount) #$# wasser
+drink_action               int drink_action() #$# wasser
+is_water                   int is_water() #$# wasser
+notify_drink_water         void notify_drink_water(mixed water, mixed well, object who) #$# wasser
+notify_drink_water_well    void notify_drink_water_well(mixed water, mixed well, object who) #$# wasser
+notify_drink_water_self    void notify_drink_water_self(mixed water, mixed well, object who) #$# wasser
+forbidden_drink_water      string* forbidden_drink_water(mixed water, mixed well, object who) #$# wasser
+forbidden_drink_water_well string* forbidden_drink_water_well(mixed water, mixed well, object who) #$# wasser
+forbidden_drink_water_self string* forbidden_drink_water_self(mixed water, mixed well, object who) #$# wasser
+init_weapon                init_weapon(string kategorie, int max_schaden_in_prozent, int min_schaden_in_prozent, int leben_in_prozent) #$# waffen
+set_current_pfeil_id       void set_current_pfeil_id(string str) #$# waffen
+query_current_pfeil_id     string query_current_pfeil_id() #$# waffen
+set_reload_message         void set_reload_message(string str) #$# waffen
+query_reload_message       string query_reload_message() #$# waffen
+set_reload_time            void set_reload_time(int i) #$# waffen
+query_reload_time          int query_reload_time() #$# waffen
+query_koecher_id           string query_koecher_id() #$# waffen
+query_pfeil_id             string query_pfeil_id() #$# waffen
+query_schuss_messages      closure *query_schuss_messages() #$# waffen
+set_koecher_id             void set_koecher_id(string koecher_id) #$# waffen
+set_pfeil_id               void set_pfeil_id(string pfeil_id) #$# waffen
+set_no_arrow_message       void set_no_arrow_message(mixed no_arrow_message) #$# waffen
+set_owner_message          void set_owner_message(mixed owner_message) #$# waffen
+set_enemy_message          void set_enemy_message (mixed enemy_message) #$# waffen
+set_others_message         void set_others_message(mixed others_message) #$# waffen
+query_destroy_pfeil        int query_destroy_pfeil() #$# waffen
+set_destroy_pfeil          void set_destroy_pfeil(int flag) #$# waffen
+present_pfeil              varargs object present_pfeil(object lebewesen) #$# waffen kampf
+set_wield_msg              void set_wield_msg(mixed wield_msg) #$# waffen
+query_wield_msg            string query_wield_msg() #$# waffen
+set_wield_msg_other        void set_wield_msg_other(mixed wield_msg_other) #$# waffen
+query_wield_msg_other      string query_wield_msg_other() #$# waffen
+set_unwield_msg            void set_unwield_msg(mixed unwield_msg) #$# waffen
+query_unwield_msg          string query_unwield_msg() #$# waffen
+set_unwield_msg_other      void set_unwield_msg_other(mixed unwield_msg_other) #$# waffen
+query_unwield_msg_other    string query_unwield_msg_other() #$# waffen
+set_broken_adjektiv        void set_broken_adjektiv(string broken_adjektiv) #$# waffen ruestung kampf
+set_wield_adjektiv         void set_wield_adjektiv(string wield_adjektiv) #$# waffen kampf
+query_broken_adjektiv      string query_broken_adjektiv() #$# waffen ruestung kampf
+query_wield_adjektiv       mixed query_wield_adjektiv() #$# waffen kampf
+query_used_stats           int *query_used_stats() #$# waffen kampf
+set_weapon_class           void set_weapon_class(string str) #$# waffen kampf
+query_weapon_class         string query_weapon_class([string weapon_class]) #$# waffen kampf
+query_wield                int query_wield() #$# waffen kampf
+do_wield                   void do_wield() #$# waffen kampf
+do_remove                  void do_remove() #$# waffen kampf
+do_break                   void do_break() #$# waffen ruestung kampf
+notify_weapon_fail         void notify_weapon_fail(object weapon, string how) #$# waffen
+query_repairable           int query_repairable() #$# waffen ruestung kampf
+do_repair                  void do_repair(int percent) #$# waffen ruestung kampf
+query_repair_cost          int query_repair_cost(int percent) #$# waffen ruestung kampf
+set_damage                 void set_damage(int max_damage_beginner, int max_damage_expert) #$# waffen kampf
+set_learning_type          VERALTET void set_learning_type(int learning_type) #$# waffen kampf
+set_skill_path             void set_skill_path(string *skillpath) #$# waffen kampf
+set_used_stats             void set_used_stats(int *stats) #$# waffen kampf
+set_broken_message         void set_broken_message(string broken_message) #$# waffen ruestung kampf
+query_broken_message       string query_broken_message() #$# waffen ruestung kampf
+set_life                   void set_life(int life) #$# waffen kampf
+add_life                   int add_life(int life) #$# waffen kampf
+query_skill_path           string *query_skill_path() #$# waffen kampf
+query_max_damage           int query_max_damage() #$# waffen kampf
+query_min_damage           int query_min_damage() #$# waffen kampf
+query_life                 int query_life() #$# waffen kampf
+query_max_life             int query_max_life() #$# waffen kampf
+query_broken               int query_broken() #$# waffen ruestung kampf
+compute_damage             varargs int compute_damage(int critical, object wer) #$# spieler monster kampf
+T_LISTE                    Liste der T-Defines fuer Waffen und Ruestungen #$# waffen ruestung kampf
+set_value                  varargs void set_value(int min, int max) #$# waffen
+query_max_value            int query_max_value() #$# waffen
+query_min_value            int query_min_value() #$# waffen
+query_weapon               int query_weapon() #$# waffen
+query_extra_damage         int query_extra_damage(object feind, object besitzer) #$# waffen kampf
+query_damage_type          string* query_damage_type() #$# waffen kampf
+set_damage_type            void set_damage_type(string* damage_type) #$# waffen kampf
+query_num_free_hands_to_wield int query_num_free_hands_to_wield() #$# kampf haende waffen
+query_info                 string query_info() #$# grundlegendes
+prepare_renewal            void prepare_renewal() #$# grundlegendes
+abort_renewal              void abort_renewal() #$# grundlegendes
+finish_renewal             void finish_renewal(object neu) #$# grundlegendes
+query_file_name            string query_file_name() #$# grundlegendes virtual_compiler
+query_text                 mapping query_text() #$# 
+query_text_other           string query_text_other() #$# 
+add                        void add(lwobject "deklin_message" other) #$# 
+set_mt                     void set_mt(mapping mts) #$# 
+send_to_room               void send_to_room(object source, object room, int msg_type, int msg_action) #$# 
+query_domain               int query_domain(int x, int y) #$# map
+query_domain_info          mixed *query_domain_info( {int zaehler|string Domain} ) #$# map
+query_domain_coords        int *query_domain_coords(string domain) #$# map
+query_domain_center        int *query_domain_center(string domain) #$# map
+query_map_file_name        string query_map_file_name(int x, int y) #$# map
+get_map_file_name          string get_map_file_name(string file_name) #$# map
+concerned_hlpitem_falls    int concerned_hlpitem_falls(object item, object flugraum) #$# level
+do_hlpitem_falls           void do_hlpitem_falls(object item, object flugraum) #$# level
+forbidden_hlp_gabe         string forbidden_hlp_gabe(object player, string gabe, object kugel) #$# level
+forbidden_hlp_gabe_here    string forbidden_hlp_gabe_here(object player, string gabe, object kugel) #$# level
+forbidden_spy_here         mixed forbidden_spy_here(object wer, object raum) #$# level
+query_bretter              string *query_bretter() #$# news
+set_bretter                string *set_bretter(string *strs) #$# news
+set_brett_name             varargs void set_brett_name(string str, string grp, mixed fail) #$# news
+query_brett_name           string query_brett_name() #$# news
+query_gruppen_name         string query_gruppen_name() #$# news
+query_newsreader_active    int query_newsreader_active() #$# news
+is_reading                 object is_reading() #$# news
+zahl2str                   private string zahl2str(int i) #$# Root:Tools:Newsreader
+query_player_container     int query_player_container() #$# spieler
+query_streichholz          int query_streichholz() #$# feuer
+query_burning              int query_burning() #$# feuer
+query_burned_out           int query_burned_out() #$# feuer
+query_anzuender            int query_anzuender() #$# feuer
+allowed_strike             allowed_strike() #$# feuer
+prepare_strike             int prepare_strike() #$# feuer
+strike_done                int strike_done() #$# feuer
+do_notifying               void do_notifying(mixed what, object player, mixed test_ob) #$# feuer
+concerned_strike           int concerned_strike(object womit, mixed was) #$# feuer grundlegendes
+do_strike                  int do_strike(object womit, mixed was, mixed melder) #$# feuer grundlegendes
+notify_strike              void notify_strike(mixed what, object player, object with) #$# feuer grundlegendes
+set_add_hp_infos           void set_add_hp_infos(mapping infos) #$# virus
+query_add_hp_infos         mapping query_add_hp_infos() #$# virus
+set_virus_verursacher      void set_virus_verursacher(string|object who) #$# virus
+query_virus_verursacher    string query_virus_verursacher() #$# virus
+set_virus_shadow_path      void set_virus_shadow_path(string virus_shadow_path) #$# virus
+query_virus_shadow_path    string query_virus_shadow_path() #$# virus
+query_virus_shadow         object query_virus_shadow() #$# virus
+query_virus_look           string query_virus_look() #$# virus
+set_virus_look             void set_virus_look(string look) #$# virus
+set_immun_time             void set_immun_time(int immun_time) #$# virus
+query_immun_time           int query_immun_time() #$# virus
+set_virus_messages         void set_virus_messages(mixed *messages) #$# virus
+query_virus_messages       mixed *query_virus_messages() #$# virus
+query_virus                int query_virus() #$# virus
+query_virus_type           string query_virus_type() #$# virus
+set_virus_type             void set_virus_type(string type) #$# virus
+add_virus_str              void add_virus_str(int strength) #$# virus
+set_virus_str              void set_virus_str(int strength) #$# virus
+query_virus_str            int query_virus_str() #$# virus
+set_virus_dur              void set_virus_dur(int duration) #$# virus
+query_virus_dur            int query_virus_dur() #$# virus
+add_virus_dur              void add_virus_dur(int duration) #$# virus
+query_infected_since       int query_infected_since() #$# virus
+set_vanishing_virus        void set_vanishing_virus() #$# virus
+query_virus_name           string query_virus_name() #$# virus
+set_virus_name             void set_virus_name(string str) #$# virus
+query_virus_gender         string query_virus_gender() #$# virus
+set_virus_gender           void set_virus_gender(string str) #$# virus
+query_virus_min            int query_virus_min() #$# virus
+set_virus_min              void set_virus_min(int min) #$# virus
+set_virus_chance           void set_virus_chance(int chance) #$# virus
+query_virus_chance         int query_virus_chance() #$# virus
+set_virus_heal_msg         void set_virus_heal_msg(string heal_msg) #$# virus
+query_virus_heal_msg       string query_virus_heal_msg() #$# virus
+init_virus                 deprecated void init_virus(string name, int staerke, int bis_zu, int dauer, string aussehen, string art, string heal_msg, string gender) #$# virus
+query_virus_healed         int query_virus_healed() #$# virus
+do_virus_shadow_action     void do_virus_shadow_action(object shadow, object virus) #$# virus
+set_virus_additional_data  void set_virus_additional_data(mixed data) #$# virus
+query_virus_additional_data mixed query_virus_additional_data() #$# virus
+heal_virus                 void heal_virus() #$# virus
+forbidden_virus_infection  int forbidden_virus_infection(object virus) #$# virus
+notify_virus_infection     void notify_virus_infection(object virus) #$# virus
+notify_virus_cure          void notify_virus_cure(object virus) #$# virus
+query_conservation_arg     mixed query_conservation_arg() #$# armageddon
+init_conservation_arg      void init_conservation_arg(mixed m) #$# armageddon
+query_conservation_arg_sh  mixed query_conservation_arg_sh(object shadow) #$# armageddon
+init_conservation_shadow_arg void init_conservation_shadow_arg(mixed m) #$# armageddon
+precheck_conservation      string precheck_conservation(mapping check_attributes) #$# armageddon
+precheck_conservation      string precheck_conservation(object ob,mapping check_attributes) #$# armageddon
+get_conservation_data      mixed get_conservation_data(object ob) #$# armageddon
+get_conservation_object    varargs object get_conservation_object(string identifier,mixed data) #$# armageddon
+query_conservation_item_rent float query_conservation_item_rent() #$# armageddon
+query_conservation_item_rent float query_conservation_item_rent(object ob) #$# armageddon
+prepare_conservation       void prepare_conservation() #$# armageddon
+abort_conservation         void abort_conservation() #$# armageddon
+done_conservation          void done_conservation() #$# armageddon
+finish_conservation        void finish_conservation() #$# armageddon
+get_death_message          string get_death_message(object who) #$# spieler
+install_srw_plakat         void install_srw_plakat(object room) #$# move grundlegendes
+event                      varargs int event(mixed event_nr, mixed origin_ob, string inmess, mixed param) #$# grundlegendes
+add_acl_entry              string add_acl_entry(string datei, string grouporwiz, int aclmask) #$# master acl
+delete_acl_entry           string delete_acl_entry(string datei, string grouporwiz, int aclmask) #$# master acl
+delete_acl_dir             string delete_acl_dir(string datei) #$# master acl
+dump_acl_entries           string dump_acl_entries(string datei, int mode) #$# master acl
+query_access               int query_access(string *pfad, string wizorfile, int aclmask) #$# master acl
+query_acl_entry            int query_acl_entry(string pfad, string groupwizfile, int aclmask) #$# master acl
+query_debugger_acl         string *query_debugger_acl (string *pfad) #$# master acl
+notify_delete_player       void notify_delete_player(string real_name) #$# spieler
+query                      mixed query(string name, string var | mapping vars | string *vars) #$# spieler
+query_guests               object* query_guests() #$# Portal
+query_guest                object query_guest(string name) #$# Portal
+portal_exists              int portal_exists(string name) #$# Portal
+is_homemud                 string is_homemud(string name) #$# Portal
+query_portal_room          object query_portal_room(string name, object pl) #$# Portal
+enter_portal               void enter_portal(object player, mapping info) #$# Portal
+send_command               void send_command(object player, mapping info, string cmd) #$# Portal
+send_message               void send_message(mapping data) #$# Portal
+send_savedata              void send_savedata(mapping data) #$# Portal
+send_quit                  void send_quit() #$# Portal
+query_finger_info_text     string query_finger_info_text() #$# monster
+MAY_WRITE                  int MAY_WRITE(string filename, object wiz_or_master) #$# master acl
+AHD_LISTE                  Liste der Schadenstypen #$# monster spieler kampf
+DEBUG                      void DEBUG(string text) #$# debugging
+DEBUGX                     unknown DEBUGX(unknown expr) #$# debugging
+DEBUGTX                    unknown DEBUGTX(string text, unknown expr) #$# debugging
+T_LISTE                    Liste allgemeiner T-Defines #$# beschreibung
+T_ELSE                     T_ELSE #$# beschreibung
+T_AND                      T_AND(cond1, cond2) #$# beschreibung
+T_OR                       T_OR(cond1, cond2) #$# beschreibung
+T_GREATER                  T_GREATER(what, num) #$# beschreibung
+T_LESSER                   T_LESSER(what, num) #$# beschreibung
+T_EQUAL                    T_EQUAL(what, num) #$# beschreibung
+T_NOT_EQUAL                T_NOT_EQUAL(what, num) #$# beschreibung
+T_GREATER_EQUAL            T_GREATER_EQUAL(what, num) #$# beschreibung
+T_LESSER_EQUAL             T_LESSER_EQUAL(what, num) #$# beschreibung
+T_GT                       T_GT(what, num) #$# beschreibung
+T_LT                       T_LT(what, num) #$# beschreibung
+T_EQ                       T_EQ(what, num) #$# beschreibung
+T_NE                       T_NE(what, num) #$# beschreibung
+T_GE                       T_GE(what, num) #$# beschreibung
+T_LE                       T_LE(what, num) #$# beschreibung
+T_FUNC                     T_FUNC(func) #$# beschreibung
+T_FUNCV                    T_FUNCV(func, pars) #$# beschreibung
+T_CALL_OTHER               T_CALL_OTHER(obj, func) #$# beschreibung
+T_CALL_OTHERV              T_CALL_OTHERV(obj, func, pars) #$# beschreibung
+T_CL                       T_CL(cl) #$# beschreibung
+T_CLV                      T_CLV(cl, pars) #$# beschreibung
+T_FILTER_FUNC              T_FILTER_FUNC(func) #$# beschreibung
+T_FILTER_FUNCV             T_FILTER_FUNCV(func, pars) #$# beschreibung
+T_FILTER_CALL_OTHER        T_FILTER_CALL_OTHER(obj, func) #$# beschreibung
+T_FILTER_CALL_OTHERV       T_FILTER_CALL_OTHERV(obj, func, pars) #$# beschreibung
+T_FILTER_CL                T_FILTER_CL(cl) #$# beschreibung
+T_FILTER_CLV               T_FILTER_CLV(cl, pars) #$# beschreibung
+T_TEXT_FUNC                T_TEXT_FUNC(func) #$# beschreibung
+T_TEXT_FUNCV               T_TEXT_FUNCV(func, pars) #$# beschreibung
+T_TEXT_CALL_OTHER          T_TEXT_CALL_OTHER(obj, func) #$# beschreibung
+T_TEXT_CALL_OTHERV         T_TEXT_CALL_OTHERV(obj, func, pars) #$# beschreibung
+T_TEXT_CL                  T_TEXT_CL(cl) #$# beschreibung
+T_TEXT_CLV                 T_TEXT_CLV(cl, pars) #$# beschreibung
+T_TAG                      T_TAG(flag) #$# beschreibung
+T_TAGVAL                   T_TAG(flag, val) #$# beschreibung
+T_TAG_COND                 T_TAG_COND(flag, cond) #$# beschreibung
+T_TAGVAL_COND              T_TAGVAL_COND(flag, val, cond) #$# beschreibung
+T_LISTE                    Liste der T-Defines fuer Raeume und Gegenstaende #$# beschreibung raum
+do_error                   void do_error(string err_msg) #$# master
+do_my_error                void do_my_error(string msg) #$# master
+do_error2                  void do_error2(string err_msg, string file, string ob, int line) #$# master
+do_error3                  void do_error3(string err_msg, string file, string ob, int line, string *debugger) #$# master
+do_warning                 void do_warning(string err_msg) #$# master
+do_my_warning              void do_my_warning(string msg) #$# master
+do_warning2                void do_warning2(string err_msg, string file, string ob, int line) #$# master
+do_warning3                void do_warning3(string err_msg, string file, string ob, int line, string *debugger) #$# master
+do_idee                    void do_idee(string text, mixed wozu, object wer) #$# master
+do_fehler                  void do_fehler(string text, mixed wozu, object wer) #$# master
+FAIL_GHOST                 FAIL_GHOST(string text) #$# befehle
+FAIL_FREE_HANDS            FAIL_FREE_HANDS(int anzahl, string text) #$# befehle haende
+FAIL_NOT_ME                FAIL_NOT_ME(mixed mxd, string text) #$# befehle
+FAIL_NOT_IN_TP             FAIL_NOT_IN_TP(mixed mxd, string text) #$# befehle
+FAIL_CANNOT_SEE            FAIL_CANNOT_SEE(mixed mxd, string text) #$# befehle
+FAIL_FAR                   FAIL_FAR(mixed mxd, string text) #$# befehle
+GABE                       int GABE(object spieler, string gabe) #$# level
+GABE2                      int GABE2(object spieler, string gabe) #$# level
+newbiep                    int newbiep(object ob) #$# level
+hlpp                       int hlpp(object ob) #$# level
+wizp                       int wizp(object ob) #$# level
+wizplayerp                 int wizplayerp(string rname|object ob) #$# level
+guestp                     int guestp(object ob) #$# level
+learnerp                   int learnerp(object ob) #$# level
+gesellep                   int gesellep(object ob) #$# level
+vogtp                      int vogtp(object ob) #$# level
+lordp                      int lordp(object ob) #$# level
+adminp                     int adminp(object ob) #$# level
+testplayerp                string testplayerp(object ob|string name) #$# level
+spielerratp                int spielerratp(object ob|string name) #$# level
+ACTION_SOUND_ITEM          ACTION_SOUND_ITEM(<object|mapping|mixed> ob,string key,string defaultSound) #$# message
+ACTION_SOUND_OB            ACTION_SOUND_OB(object ob,string key,string defaultSound) #$# message
+ACTION_SOUND_TO            ACTION_SOUND_TO(string key,string defaultSound) #$# message
+MOVE_TYPE_LISTE            Liste der Move-Typen. #$# move
+EQUAL_SKILL_PATHS          int EQUAL_SKILL_PATHS(string *pfad1, string *pfad2) #$# skill
+SP_LISTE                   SP_LISTE #$# skill
+SR_WAHLRAUM                define SR_WAHLRAUM "/room/wahlen/srwraum" #$# wahl spielerrat
+SR_WAHLPLAKAT_HIER         SR_WAHLPLAKAT_HIER #$# 
+ROUND_STAT                 int ROUND_STAT(float) #$# spieler monster skill
+PRINT_STAT                 string PRINT_STAT(int|float) #$# spieler monster skill
+IS_NIGHT                   int IS_NIGHT #$# zeit
+IS_DAY                     int IS_DAY #$# zeit
+ueberfall                  void ueberfall(object angreifer, object opfer, string fill1, string fill2) #$# kampf

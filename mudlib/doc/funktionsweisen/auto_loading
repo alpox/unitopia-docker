@@ -1,0 +1,41 @@
+Objekte wie z.B der Zauberstab, die Druiden-Sichel oder das Feuerbuch
+werden beim Einloggen automatisch geclont und dem Spieler übergeben.
+
+Das Objekt muss lediglich folgende Routine definieren:
+
+
+    mixed query_auto_load()
+    {
+        return parameter;    
+    }                                   
+
+Die Variable parameter wird dann beim Beenden abgespeichert.
+Will man diesen Wert beim Neueinloggen und Erschaffen dieses Objekts
+wieder haben so definiert man sich noch folgende Routine:
+
+    void init_arg(mixed parameter)
+    {
+       /* Hier kannst du jetzt mit parameter machen was du willst */
+    }
+
+
+init_arg wird nach der Übergabe des Objektes an den Spieler im 
+Objekt aufgerufen und kann anhand des Parameters Voreinstellungen treffen.
+
+Weiterhin muss ein solches Objekt "/i/install" inheriten, da es sonst beim
+ausloggen liegenbleibt, und man beim reinkommen ein neues bekommt
+(also nicht inherit "/i/move"; sondern: inherit "/i/install"; )
+
+Ein Autoloader sollte auch ein Gewicht haben, damit sich die Spieler
+überlegen, ob es sinnvoll ist diesen oder jenen Autoloader zu haben.
+
+Einfachstes Beispiel:
+
+   int query_auto_load()
+   {
+      return 1;
+   }
+
+
+Autoloader für Spieler müssen zudem die Richtlinien
+(/doc/richtlinien/autoloader) beachten.

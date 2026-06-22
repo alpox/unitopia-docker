@@ -1,0 +1,25 @@
+Die Typen sind im Include-File config.h definiert und lauten:
+
+          LEARNING_1                     Einfache, häufig vorkommende Sachen
+                                         wie Kampf mit einer Nahkampfwaffe oder
+                                         Schilden.
+
+          LEARNING_2                     Für Nahkampfwaffen und Schilder mit
+                                         extrem kurzen Leben und die nur SEHR
+                                         schwer zu bekommen sind.
+
+          LEARNING_3                     Für Schusswaffen mit vielen Geschossen
+                                         und die leicht zu bekommen sind wie
+                                         Bogen, Wurfmesser etc.
+
+          LEARNING_4                     Für Wurfwaffen wie Speere, Tomahawks,
+                                         Bumerang, und für Schusswaffen mit
+                                         wenigen, schwer zu bekommende Geschosse
+                                         wie Speerschleuder, herausragende
+                                         Bögen, Katapulte etc.
+
+          LEARNING_5            |        Nicht für Waffen vorgesehen,
+                                |        höchstens in Verbindung mit einem
+          LEARNING_6            |        Rätsel und nur EINMALIG zu vergeben.
+
+

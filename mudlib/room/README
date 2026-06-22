@@ -1,0 +1,9 @@
+                           Standard-Räume
+                           ==============
+
+Hier findet man Beispiele für wichtige Räume wie Banken, Läden, Kneipen etc,
+aber auch wichtige "Monster" wie Salomo,Leo und Armageddon.
+
+Hier enthaltene Räume und Monster werden mit touch(..) geladen, sie sind
+damit nur einmal im Spiel vorhanden - im Gegensatz zu Objekten aus /obj,
+von denen man ja mehrere Kopien gleichzeitig im Spiel findet.

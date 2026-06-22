@@ -1,0 +1,20 @@
+In diesem Menü kann man farbliche Hervorhebungen bestimmter Textpassagen
+konfigurieren.
+
+   A: An
+      Damit werden diese Hervorhebungen an- oder abgeschaltet.
+      
+   H: Hinzufügen
+      Fügt einen weiteren speziell einzufaerbenden Textteil hinzu.
+      
+   L: Löschen
+      Entfernt einen der angegebenen Textteile aus der Liste.
+      
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

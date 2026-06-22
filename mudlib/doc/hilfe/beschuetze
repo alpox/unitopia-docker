@@ -1,0 +1,15 @@
+------------------------------------------------------------------------------
+beschütze <jemand>             Beschützt jemanden im Kampf.
+beschütze <jemand> vor <gegner>
+beschütze <jemand> nicht mehr
+beschütze nicht mehr
+
+Der Schutz gilt nur solange, solange der Schützling nicht selbst am
+Kampf teilnehmt. Der Beschützer steckt dafür alle Schläge ein,
+die gegen den Schützling gerichtet sind.
+
+ACHTUNG: Alle deswegen eingesteckten Schläge erhält man aus eigenem
+Verschulden. Deswegen eröffnen sie kein Notwehrrecht.
+
+siehe auch:   attackiere, #einstellungen (Menue "Spieler und Charakter")
+------------------------------------------------------------------------------

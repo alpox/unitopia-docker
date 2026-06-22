@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Zeigt den Quellcode eines Programmes an. Das '>' auf der linken Seite zeigt die
+aktuelle Position im Trace.
+
+Es stehen folgende Befehle zur Auswahl:
+    q: Beendet die Trace-Anzeige.
+    r: Zeigt die aktuelle Position erneut an.
+    n: Springt zur nächsten Zeile in der gleichen Funktion. Wenn das Ende der
+       Funktion erreicht wurde, wird zur aufrufenden Funktion gesprungen.
+    s: Springt zur nächsten Zeile, springt dabei ggf. in eine aufgerufene
+       Funktion.
+    f: Springt zur aufrufenden Funktion.
+    v: Zeigt alle lokalen Variablen an der aktuellen Position an.
+    v <Variablenname>: Zeigt eine bestimmte lokale Variable an.
+-------------------------------------------------------------------------------

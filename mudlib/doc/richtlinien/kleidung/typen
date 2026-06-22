@@ -1,0 +1,37 @@
+Typeneinteilung der Kleidung; der Spieler kann keine zwei Kleidungs-
+stücke mit demselben Typ anhaben. Zu setzen mit set_typ(..).
+
+armbinde
+armreif
+brille
+brosche
+fusskette
+gesicht
+guertel
+halskette
+handschuhe
+hemd
+hose
+jacke
+kleid
+mantel
+muetze
+ohrringe
+pullover
+ring
+rock
+rucksack
+schal
+schuerze
+schuhe
+schwimmring
+shirt
+socken
+umhaengetasche
+umhang
+unterwaesche
+waffengurt
+
+Fällt noch jemanden was ein?
+Dann redet mit einem Admin Eures Vertrauens :)
+(Und dieser sollte nicht vergessen /static/adm/KLEIDUNGEN upzudaten.)

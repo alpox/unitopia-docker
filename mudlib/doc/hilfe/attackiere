@@ -1,0 +1,10 @@
+------------------------------------------------------------------------------
+attackiere <jemand>            Beginn eines Kampfes mit <jemand>.
+attackiere <jemand> mit <waffe>
+töte <jemand>
+töte <jemand> mit <waffe>
+t <jemand>
+t <jemand> mit <waffe>
+
+siehe auch:   stoppe, flucht, #einstellungen (Menue "Spieler und Charakter")
+------------------------------------------------------------------------------

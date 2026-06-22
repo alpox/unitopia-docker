@@ -1,0 +1,128 @@
+Der ED, das Werkzeug eines wahren Programmierers.
+
+Der Prompt im Ed ist ein ':'. Immer, wenn Du im Ed bist, und er erwartet eine
+Eingabe, erscheint er.
+
+Der Ed hat zwei Modi (das ist die Mehrzal von Modus, es heißt nicht Muduesse):
+Der Kommando-Modus und der Einfüge-Modus. Wenn Du im Einfüge-Modus bist,
+erscheint als erstes Zeichen ein '*', der von Deinem ersten eingegebenen 
+Zeichen überschrieben wird. Du kannst den Einfüge-Modus verlassen, indem Du 
+einen einzelnen '.' als erstes Zeichen eingibst.
+
+Alle Kommandos (die man nur im Kommando-Modus eingeben kann, wie der Name ja 
+schon sagt) haben die folgende Form:
+
+	    <x>,<y>cmd
+oder
+	    <x>cmd.
+
+Beispiel:
+	    1,10p	Zeigt Zeile 1 bis 10 an.
+	    1,5d	Löscht Zeile 1 bis 5.
+	    8p		Zeigt Zeile 8 an.
+
+Für <x> und <y> kann man auch '.' oder '$' einsetzen, dabei bedeutet '.' die
+aktuelle Zeile, das heißt, die letzte Zeile, die angesprochen wurde. '$' 
+bedeutet die letzte Zeile des Files (zb 1,$ löscht den gesamten Inhalt des 
+Ed).
+
+Wenn Du auf UNIX arbeitest, kannst Du weitere Infos mit 'man ed' bekommen, der 
+UNIX-Ed und der MUD-Ed funktionieren etwa gleich. Sonst kannst Du auch den 
+Ed aufrufen und 'h' für Hilfe eingeben, das hilft auch weiter.
+
+Kommandos, die einen Zeilenbereich verwenden:
+(Wenn keine Zeile angegeben ist, wird die momentane Zeile verwendet)
+
+	p	(print)  gebe Zeile aus
+	d	(delete) entferne Zeile
+	l	(list)	 gebe Zeile mit Control-Zeichen aus
+	r file	(read)	 lese File nach der angegebenen Zeile ein
+	s	(subst)	 ersetze Muster (-> weiter unten)
+	z	()	 gib 20 zeilen aus
+	Z       ()       gib 40 zeilen aus
+	a	(append) hänge Zeilen nach der angegebenen an, Ende mit '.'
+	i	(insert) füge Zeilen vor der angegebenen ein, Ende mit '.'
+	c	(change) ändere angegebene Zeile
+	j	(join)   Verbinde den angegebenen Bereich zu einer Zeile, wenn
+			 nichts angegeben wurde, dann momentane Zeile mit der
+			 nachfolgenden
+	m<line> (move)	 Verschiebe angegebenen Bereich nach <line>, der 
+			 Bereich wird NACH der Zeile <line> eingefügt.
+	t<line> (transp) Kopiere angegebenen Bereich und füge ihn nach 
+			 <linie> ein.
+	
+
+Kommandos ohne Zeilenangabe:
+
+	q	(quit)   Ende. Funktioniert nicht, wenn das File im Ed 
+			 geändert wurde.
+	Q	(quit)	 Ende. Alle Änderungen nach dem letzten 'w' werden 
+			 verworfen.
+	w	(write)	 File speichern.
+	w <file>	 File als <file> speichern. Funktioniert nicht, wenn
+			 <file> bereits existiert.
+	W <file>	 File als <file> speichern. Funktioniert auch, wenn
+			 <file> bereits existiert.
+	e <file>	 ab jetzt File <file> editieren
+	E <file>	 ab jetzt File <file> editieren, auch wenn das momentane
+			 File noch nicht gespeichert ist
+	f		 gib Filenamen aus,
+	f <name>	 ändere Filenamen zu <name>
+
+	=		 gibt die momentane Zeile aus
+	!<command>	 Ein Kommando im MUD geben, zb
+			 !sag Wart, ich bin im Ed!
+
+Es gibt noch das Kommando 'set' mit dem man seinen Ed an die eigenen 
+Gewohnheiten anpassen kann:
+
+	set number	Ab jetzt werden Zeilennummern immer vor den Zeilen
+			eingefügt.
+	set list	ab jetzt werden alle Ausgeben von 'z' und 'p' wie bei
+			'l' mit Control-Zeichen ausgegeben
+	set print	nach allen Ersetzungen wird die Zeile nochmals aus-
+			gegeben
+	set autoindent	Automatische Einrückung, mit ^D oder ^K kommt man
+			wieder eine Einrücktiefe zurück.
+	set save	speichert alle Einstellungen ab, damit Dein Ed beim 
+			nächsten Start noch waeiss, wie Du es gern hättest.
+
+    Weitere Einstellungen erfährt man mit hset vom Ed selber.
+
+Der Befehl 's' für Fortgeschrittene:
+
+Erst mal ein einfaches Beispiel:
+
+s/apa/bepa/
+    Ersetzt in der momentanen Zeile das erste Vorkommen von 'apa' durch 'bepa'. 
+    Wenn man ein 'p' anhängt (also s/apa/bepa/p), dann kann man das Ergebnis
+    der Ersetzung unmittelbar sehen.
+1,$s/apa/bepa/
+    Ersetzt im gesamten Dokument das erste Vorkommen von 'apa' durch 'bepa'.
+
+Anstatt von "/" kann man jedes beliebige Zeichen verwenden (z.B. wenn man /w/
+durch /d/Kokosinsel/ im gesamten File ersetzen will, muss man 
+    1,$s-/w/-/d/Kokosinsel/-g 
+eingeben. Das 'g' bewirkt, dass JEDES vorkommen von /w/ ersetzt wird, nicht nur
+das erste.
+
+Das zu ersetzende Muster dasrf eine 'regular expression' sein, siehe dazu die
+Manpages für Ed unter UNIX.
+
+Suchen kann man mit '/' oder '?'.
+
+    /argl findet die Zeile mit dem ersten Vorkommen von 'argl' nach der 
+	  momentanen Zeile,
+    ?argl findet die letzte Zeile VOR der momentanern Zeile, in der 'argl'
+	  vorkommt.
+
+Regular Expressions:
+
+.	passt auf jedes beliebige Zeichen
+x*	passt auf jede beliebiege Anzahl von x
+[abc]	passt zu 'a', 'b' oder 'c',
+[a-f]	passt zu jedem Buchstaben zwischen 'a' und 'f'
+
+Beispiel:
+
+/ar.l	findet 'argl', 'arGl', 'arjl' usw...

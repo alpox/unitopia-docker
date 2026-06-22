@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+zr[ätsel] [-a|-p|-w] [<Objektstring>]
+        Zeigt die gelösten Rätsel des Spielers <Objektstring> an.
+        Wenn -a angegeben wurde zeigt es alle Rätsel an, d.h. auch die
+        nicht gelösten. Bei -p werden alle Pflichträtsel, bei -w alle
+        Wahlrätsel angezeigt.
+Siehe auch: zspiele
+-------------------------------------------------------------------------------

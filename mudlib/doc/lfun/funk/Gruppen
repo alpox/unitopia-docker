@@ -1,0 +1,16 @@
+query_is_in_team
+query_is_team_leader
+query_team_autofollow
+query_team_name
+forbidden_team_follow
+forbidden_team_follow_out
+forbidden_team_follow_in
+notify_team_before_follow
+notify_team_before_follow_out
+notify_team_after_follow
+notify_team_after_follow_in
+query_team_members
+notify_join_team_me
+notify_join_team_here
+notify_join_team
+forbidden_team_order

@@ -1,0 +1,12 @@
+FUNKTION: QUERY_PARS
+DEKLARATION: mixed QUERY_PARS(string what, object ob|mapping vitem, mixed *parameter)
+BESCHREIBUNG:
+Fragt die Eigenschaft what des Objektes ob oder V-Items vitem ab.
+Beim Objekt wird ob->query_<what>(parameter) aufgerufen, wobei die Elemente aus
+parameter als einzelne Parameter uebergeben werden. Beim V-Item wird
+vitem[what] ausgewertet. Falls letzteres eine Closure ist, so wird
+sie mit dem V-Item als 1. Parameter und den Elementen aus parameter als weitere
+Parameter ausgefuehrt und dessen Ergebnis geliefert.
+VERWEISE: QUERY, query_v_item, parse_com
+GRUPPEN: virtuell
+SOURCE: /secure/simul_efun/util.inc

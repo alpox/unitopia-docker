@@ -1,0 +1,17 @@
+# Dies ist das Menü für die Domain-Doku
+
+# Untermenü: <file-name> <Ueberschrift>
+# wenn <file-name> ein Directory ist, wird ein Untermenü gemacht
+# ansonsten wird einfach ein Menüpunkt erstellt
+
+/d/Arktis/INFO/Enzyclopedia			Arktis
+/d/Campus/INFO/Enzyclopedia			Campus
+/d/Doerrland/INFO/Enzyclopedia			Dörrland
+/d/Ebenen/INFO/Enzyclopedia			Ebenen
+/d/Gallien/INFO/Enzyclopedia			Gallien
+/d/Kokosinsel/INFO/Enzyclopedia			Kokosinsel
+/d/Maerchenland/INFO/Enzyclopedia		Märchenland
+/d/Midgard/INFO/Enzyclopedia			Midgard
+/d/Vaniorh/INFO/Enzyclopedia			Vaniorh
+/d/Levitanis/INFO/Enzyclopedia			Levitanis
+

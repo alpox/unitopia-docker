@@ -1,0 +1,20 @@
+FUNKTION: wrap_say
+DEKLARATION: string wrap_say(string str1, string str2 [, int len [, int left]])
+BESCHREIBUNG:
+wrap_say() erzeugt einen String, der etwa so aussieht:
+say(wrap_say("Monty sagt:","blablabla ....."));->
+
+Monty sagt: blablabla blablabla blablabla blablabla blablabla blablabla
+	blablabla blablabla blablabla blablabla blablabla blablabla
+	blablabla blablabla ...
+
+Der erste optionale Parameter bestimmt die Breite, auf die str2 umgebrochen
+werden soll.
+
+Der zweite optionale Parameter bestimmt, wie weit links eingerueckt werden
+soll. Standardwert ist 8 Zeichen. Aus Einheitlichkeitsgruenden sollte
+hier auch nur in Ausnahmefaellen was anderes angegeben werden.
+
+VERWEISE: sprintf, copies, left, right, center, wrap
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc

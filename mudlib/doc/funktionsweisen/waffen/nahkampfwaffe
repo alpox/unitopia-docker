@@ -1,0 +1,4 @@
+/obj/nahkampf_waffe.c
+
+Nahkampf-Waffen sind die einzigen Waffen, mit denen Spieler über den Heartbeat
+kämpfen können.

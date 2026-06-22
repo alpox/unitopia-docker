@@ -1,0 +1,49 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:	/obj/chest_con.c
+// Description: Container fuer Schatztruheninhalte
+// Author:	Gnomi (09.12.2011)
+
+void create()
+{
+}
+
+int query_container()
+{
+    return 1;
+}
+
+int query_player_container()
+{
+    return 1;
+}
+
+int add_encumbrance(object ob, int enc_type, int enc_diff)
+{
+    return 1;
+}
+
+int query_prevent_shadow(object shadow)
+{
+    return 1;
+}
+
+int remove()
+{
+    destruct(this_object());
+    return 1;
+}
+
+// Wenn der Container leer ist, kann er auch zerstoert werden.
+int clean_up(int ref)
+{
+    if (first_inventory())
+	return 1;
+
+    // Wenn es /obj/player_con.c ist, nicht zerstoeren
+    if (__FILE__ == (object_name() + ".c"))
+	return 0;
+
+    remove();
+    return 0;
+}

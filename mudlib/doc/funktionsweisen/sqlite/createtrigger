@@ -1,0 +1,105 @@
+
+    CREATE TRIGGER
+    
+      Befehl ::= CREATE [TEMP | TEMPORARY] TRIGGER Triggername
+                 [BEFORE | AFTER] Ereignis ON [Datenbank .] Tabelle
+	         Aktion
+	     ::= CREATE [TEMP | TEMPORARY] TRIGGER Triggername
+	         INSTEAD OF Ereignis ON [Datenbank .] View
+	         Aktion
+
+    Ereignis ::= DELETE
+             ::= INSERT
+	     ::= UPDATE
+	     ::= UPDATE OF Spaltenliste
+
+      Aktion ::= [FOR EACH ROW | FOR EACH STATEMENT] [WHEN Ausdruck]
+                 BEGIN
+		     Schritt ; [Schritt ;]*
+		 END
+		 
+     Schritt ::= Update-Befehl
+             ::= Insert-Befehl
+	     ::= Delete-Befehl
+	     ::= Select-Befehl
+             ::= RAISE ( ABORT , Fehlermeldung )
+	     ::= RAISE ( FAIL , Fehlermeldung )
+	     ::= RAISE ( ROLLBACK , Fehlermeldung )
+	     ::= RAISE ( IGNORE )
+     
+    Die 'CREATE TRIGGER'-Anweisung fügt Trigger zur Datenbank hinzu.
+    Trigger sind Aktionen, welche automatisch bei bestimmten Datenbank-
+    anweisungen ausgeführt werden.
+
+    Ein Trigger kann so gestaltet werden, dass er bei jeder Ausführung
+    einer DELETE-, INSERT oder UPDATE-Anweisung aktiviert wird, oder
+    wenn eine UPDATE-Anweisung bestimmte Spalten ändert.
+
+    Derzeit werden nur 'FOR EACH ROW'-Trigger und keine 'FOR EACH
+    STATEMENT'-Trigger unterstützt. Deswegen ist die Angabe von
+    'FOR EACH ROW' optional. 'FOR EACH ROW' bedeutet, dass die angegeben
+    Schritte für jede einzelne Zeile, die eingefügt, geändert oder
+    gelöscht wird, ausgeführt wird.
+
+    Sowohl die WHEN-Klausel, als auch die Schritte dürfen auf Elemente
+    der einzufügenden, zu löschenden oder zu ändernden Zeile
+    via 'NEW.Spaltenname' und 'OLD.Spaltenname' zugreifen, wobei
+    Spaltenname der Name einer Spalte in dieser Tabelle, zu dem der
+    Trigger gehört, ist. OLD und NEW dürfen nur bei solchen Ereignissen
+    genutzt werden, wo sie relevant sind:
+    
+	INSERT: Nur NEW ist erlaubt.
+	UPDATE: NEW und OLD sind erlaubt.
+	DELETE: Nur OLD ist erlaubt.
+
+    Wenn eine WHEN-Klausel angegeben wurde, so werden die angegebenen
+    Schritte nur solche Zeilen ausgeführt, wofür der SQL-Ausdruck
+    dieser Klausel wahr ist. Falls keine solche Klausel angegeben wurde,
+    so werden die Schritte für alle Zeilen ausgeführt.
+    
+    Der angegebene Zeitpunkt (BEFORE oder AFTER) sagt aus, wann
+    die Trigger-Schritte bezüglich der Einfügung, Änderung
+    oder Entfernung der jeweiligen Zeile ausgeführt wird (davor oder
+    danach).
+
+    Eine UPDATE- oder INSERT-Anweisung darf eine 'ON CONFLICT'-Klausel
+    haben. Wenn jedoch die Anweisung, welche den Trigger auslöst,
+    auch eine solche Klausel besitzt, so hat diese Vorrang.
+    
+    Trigger werden automatich gelöscht, wenn die zugehörige Tabelle
+    gelöscht wird.
+    
+    Trigger können auch auf Views wie auf normale Tabellen angewandt
+    werden, indem 'INSTEAD OF' im 'CREATE TRIGGER'-Befehl angegeben wird.
+    Falls ein oder mehrere 'ON INSERT'-, 'ON DELETE'- oder 'ON UPDATE'-
+    Trigger für eine View definiert wurden, dann ist es kein Fehler mehr,
+    wenn eine INSERT-, DELETE- bzw. eine UPDATE-Anweisung für eine View
+    ausgefuert werden. Solche Befehle lösen dann den Trigger aus
+    und verändern nicht die unterliegenden Tabellen (hoechstens
+    explizit durch die Anweisungen im Trigger).
+
+    Triggers können sich seltsam verhalten, wenn sie auf Tabellen mit
+    'INTEGER PRIMARY KEY'-Spalten angewandt werden. Falls die Anweisungen
+    eines BEFORE-Triggers das 'INTEGER PRIMARY KEY'-Feld derjenigen
+    Zeile, die geändert werden sollte, ändern, wird die Änderung
+    selbst nicht geschehen. Als Workaround kann man die Tabelle
+    mit einer 'PRIMARY KEY'- statt einer 'INTEGER PRIMARY KEY'-Spalte
+    definieren.
+
+    Eine spezielle SQL-Anweisung RAISE darf innerhalb eines Trigger-
+    Programms vorkommen. Falls ABORT, FAIL oder ROLLBACK angegeben
+    wurde, so wird die jeweilige Konfliktstrategie (siehe 'ON CONFLICT')
+    ausgeführt und die aktuelle SQL-Verarbeitung abgebrochen und
+    die Fehlermeldung ausgegeben.
+    
+    Wenn RAISE(IGNORE) aufgerufen wird, so werden die restlichen
+    Anweisungen des Triggers, die Anweisung, welche den Trigger
+    verursacht hat, und alle weitere Trigger, welche durch diese
+    Anweisungen verursacht worden wären, nicht mehr ausgeführt.
+    Es wird kein ROLLBACK ausgeführt. Falls die Anweisung, welche
+    diesen Trigger aktivierte, selbst Teil eines anderen Triggers
+    war, so wird dessen Ausführung mit der nächsten Anweisung
+    fortgesetzt.
+    
+    Triggers werden mit der 'DROP TRIGGER'-Anweisung entfernt.
+

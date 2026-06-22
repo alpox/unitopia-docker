@@ -1,0 +1,20 @@
+------------------------------------------------------------------------------
+Folgende Kommandos stehen dir in der seitenweisen Anzeige zur Verfügung:
+
+   q,e    Verlassen von more.
+   <      An den Anfang des Files springen.
+   >      An das Ende des Files springen.
+   u,b,-  Zurückblättern.
+   U,B    Halbe Seite zurückblättern.
+   d,D    Halbe Seite weiterblättern.
+   c      Restlichen Text durchscrollen.
+   /<p>   Sucht ab der momentanen Stelle nach <p>.
+   /      wiederholt die letzte Suche.
+   <nr>   Springt zur Zeile <nr>.
+   F      Ein Typo oder Fehler melden.
+
+Alles andere  wird als Kommando zum Weiter-Blättern interpretiert.
+
+Wieviel Zeilen Du auf auf einer Seite siehst, kannst Du im Einstellungsmenü
+(Befehl '#einst') im Punkt "Anzeigen" einstellen.
+------------------------------------------------------------------------------

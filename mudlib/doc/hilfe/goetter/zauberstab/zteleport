@@ -1,0 +1,23 @@
+-------------------------------------------------------------------------------
+zteleport
+   Zeigt die Liste aller bekannten Räume an, für die es Abkürzungen gibt
+
+zteleport <suchstr>
+   Zeigt die Liste gefiltert nach suchstr an.
+
+   Man kann eigene Abkürzungen machen mit dem Pfad-Kürzel-Kommando (pk)
+       pk salbe /d/Vaniorh/Tadmor/Strassen/room/new_bridge
+       nun kann man mit zgehzu salbe direkt dorthin kommen
+
+   Beispiele:
+     zteleport gilde
+     zgehzu kirche
+     zgehzu k
+
+   Man kann jedes Wort, soweit es eindeutig ist abkürzen: (doe == doerrstadt)
+   Folgendes sind reguläre Abkürzungen:
+   g == gilde            k == kirche           l == laden
+   s == schänke         p == post             b == bank
+
+Siehe auch: zgehzu, pfadkürzel
+-------------------------------------------------------------------------------

@@ -1,0 +1,18 @@
+Die Spieler-Konten bestehen im Kern aus einer Variablen im Spieler selbst.
+Mit folgenden Routinen im /obj/player lässt sich diese Variable setzen:
+
+
+    set_konto(int stand)       Setzt den Kontostand absolut auf <stand>.
+
+    add_konto(int wieviel)     Addiert <wieviel> zum Konto dazu.
+
+    int query_konto()          Abfrage des Kontostandes.
+
+Die Banken benötigen zusätzlich noch die Zeit der letzten Kontobewegung
+für ihre Zins-Berechnung. Sie schreiben hier jeweils den aktuellen Wert
+der  time() - Efun  hinein.
+
+    set_konto_age(int zeit)   Setzt die Zeit der letzten Konto-Bewegung.
+
+    query_konto_age()         Abfrage der letzten Konto-Bewegung.
+

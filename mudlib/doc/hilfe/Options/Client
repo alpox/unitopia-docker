@@ -1,0 +1,82 @@
+Hier kannst Du Einstellungen zum MUD-Client und zum Empfang
+externer E-Mails vornehmen:
+
+ Telnet/MUD-Client:
+
+   G: Getrennte VT-100-Eingabezeile
+      Diese Option aktiviert eine getrennte Eingabezeile, welche eine
+      etwas komfortablere Eingabe ermöglicht, als reines Telnet.
+      Eine VT100-kompatible Anzeige ist dafür Voraussetzung.
+
+   A: Bewegung mit Numpad-Tasten
+      Damit werden auf die Numpad-Tasten Bewegungsbefehle (norden, süden,
+      osten, westen usw.) gelegt. Dies funktioniert nicht mit jedem
+      Telnet-Client.
+   
+   P: Prompt anzeigen
+      Damit kann man einstellen, ob ein Prompt (dieses '> ' am Anfang der
+      Zeile, wenn Du einen Befehl eingeben darfst) angezeigt werden soll
+      oder nicht.
+
+   E: EOR-Prompt-Protokoll
+      Damit kann man das EOR-Prompt-Protokoll ausschalten. Dieses Protokoll
+      dient MUD-Clients mit getrennter Eingabezeile dazu, Prompts im Text
+      zu erkennen und in der Eingabezeile statt im Textfenster darzustellen.
+      Bei Clients, die das Protokoll nicht unterstützen, kommt es automatisch
+      nicht zur Anwendung, weshalb diese Option normalerweise eingeschaltet
+      ist und bleiben kann. Nur bei Problemen (z.B. wenn der MUD-Client
+      Text vom MUD immer nur dann ausgibt, nachdem man selbst eine Eingabe
+      taetigte) sollte man das Protokoll ausschalten.
+
+   I: Telnet-Ping
+      Sofern eingeschaltet, werden regelmäßig in dem angegebenen
+      Intervall Telnet-Pings gesendet. Diese sind bei regulären
+      Telnet-Clients für Dich unsichtbar, bewirken aber, dass die
+      Verbindung bei bestimmten Routern nicht abbricht, wenn keine
+      sonstigen Daten gesendet werden. Dafür werden aber auch temporäre
+      Netzwerkprobleme erkannt, so dass man auch dann zur Statue wird.
+
+   O: Zeilen bei more
+      Damit kannst Du einstellen, wieviel Zeilen bei seitenweisen Ausgaben
+      auf einmal dargestellt werden. Zulässige Werte liegen zwischen
+      5 und 50. Standard ist 23. Bei Angabe von 'automatisch' wird die
+      Fenstergröße des MUD-Clients abgefragt.
+
+   C: Zeichensatz
+      Damit kannst Du die Kodierung von Sonderzeichen vom Client einstellen.
+      Für weitere Hilfe wähle 'c' ohne Argument aus. Bei Angabe von
+      'automatisch' wird der Zeichensatz des MUD-Clients abgefragt
+      (nur wenige MUD-Clients unterstützen dies).
+
+ Externe E-Mails:
+
+   U: Externe E-Mails ungeprüft akzeptieren
+      Alle E-Mails von außen landen direkt im Postfach ohne
+      eine Kontrolle (dies gilt nicht für Mailinglisten,
+      wie sie der Spielerrat oder das Pantheon nutzen).
+   
+   S: Spam-Filter für externe Mails einschalten
+      Damit werden alle Mails vorher automatisch durch einen Spam-Filter
+      geschickt, welcher bei solchen ungewollten Werbe-Mails eine
+      Fehlermail zurückschickt.
+    
+   B: Alle externe E-Mails ablehnen
+      Alle eingehenden E-Mails werden mit einer Fehlermeldung,
+      dass dieses Konto keine E-Mails empfangen kann, abgelehnt.
+		
+ Usenet/InterMUD-Brett:
+ 
+   M: E-Mail-Adresse
+      Alle Usenet-Artikel werden mit einer E-Mail-Adresse des Absenders
+      versehen. Normalerweise wird dort eine zum Spieler zugehörige
+      E-Mail-Adresse mit befristeter Gültigkeit (spieler-code@unitopia.de)
+      verwendet. Mit dieser Option kannst Du eine andere Adresse auswählen.
+
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

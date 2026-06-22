@@ -1,0 +1,113 @@
+
+    SELECT
+    
+               Befehl ::= SELECT [ALL | DISTINCT] Ergebnis [FROM Tabellenliste]
+                          [WHERE Ausdruck]
+	                  [GROUP BY Ausdrucksliste]
+	                  [HAVING Ausdruck]
+	                  [Verbund Select-Anweisung]*
+	                  [ORDER BY Sortierausdruecke]
+	                  [LIMIT Zahl [( OFFSET | , ) Zahl]]
+
+             Ergebnis ::= Ergebnisspalte [, Ergebnisspalte]*
+    
+       Ergebnisspalte ::= *
+                      ::= Tabellenname . *
+	              ::= Ausdruck [ [AS] String ]
+    
+        Tabellenliste ::= Tabelle [Join-Operation Tabelle Join-Argumente]*
+     
+              Tabelle ::= Tabellenname [AS Alias]
+                      ::= ( Select-Anweisung ) [AS Alias]
+
+       Join-Operation ::= ,
+                      ::= [NATURAL] [LEFT | RIGHT | FULL]
+		          [OUTER | INNER | CROSS] JOIN
+
+       Join-Argumente ::= [ON Ausdruck] [USING ( Id-Liste )]
+    
+    Sortierausdruecke ::= Ausdruck [Sortierung] [, Ausdruck [Sortierung]]*
+
+           Sortierung ::= [COLLATE Sortiermethode] [ASC | DESC]
+	 
+	      Verbund ::= UNION
+	              ::= UNION ALL
+		      ::= INTERSECT
+		      ::= EXCEPT
+
+    Die SELECT-Anweisung dient der Abfrage der Datenbank. Das Ergebnis
+    einer SELECT-Anweisung sind null oder mehr Zeilen von Daten, wobei
+    jede Zeilen eine feste Anzahl an Spalten hat. Diese Anzahl ist
+    vorgeben durch die Anzahl an Ausdrücken zwischen dem SELECT-
+    und FROM-Schlüsselwort. Jeder beliebige Ausdruck kann als Ergebnis
+    angegeben werden. Falls '*' als Ergebnisausdruck angegeben wurde,
+    so werden alle Spalten aller angegebenen Tabellen dafür eingesetzt.
+    Falls ein Tabellenname gefolgt von '.*' als Ausdruck angegeben wurde,
+    so werden alle Spalten dieser Tabelle als Ergebnis geliefert.
+    
+    Die DISTINCT-Option bewirkt, dass nur Zeilen zurückgegeben werden,
+    die sich von den anderen zurückgelieferten unterscheiden. (NULL-Werte
+    unterscheiden sich nie voneinander.) Das Standardverhalten, welches
+    explizit mit 'ALL' angegeben werden kann, ist, dass alle Zeilen
+    als Ergebnis geliefert werden.
+
+    Diese Abfrage wird für eine oder mehreren in der FROM-Klausel
+    angegebenen Tabellen durchgeführt. Falls mehrere durch Komma
+    getrennte Tabellen angegeben wurden, so bezieht sich die Abfrage auf
+    ein 'CROSS JOIN' dieser Tabellen. Anstatt einer Tabelle kann auch eine
+    weitere Select-Abfrage angegeben werden. Die FROM-Klausel kann auch
+    gänzlich weggelassen werden, dann ist das SELECT-Ergebnis eine Zeile
+    mit den Ergebniswerten der einzelnen Ausdrücke.
+
+    Die WHERE-Klausel kann angegeben werden, um die Anzahl an Zeilen,
+    mit welcher die Abfrage arbeitet, einzuschränken.
+
+    Die 'GROUP BY'-Klausel führt dazu, dass mehrere Zeilen des Ergebnisses
+    zu einer einzigen zusammengefasst werden können. Dies ist besonders
+    dann sinnvoll, wenn die Ergebnisausdruecke Aggregatsfunktionen enthalten.
+    Die Ausdrücke in der 'GROUP BY'-Klausel müssen nicht unbedingt in den
+    Ergebnisausdruecken auftauchen.
+    
+    Die HAVING-Klausel ist der WHERE-Klausel ähnlich, nur dass diese
+    Bedingung nach der Gruppierung durch 'GROUP BY' angewandt wird.
+    Der HAVING-Ausdruck auf Werte und sogar Aggregatsfunktionen zugreifen,
+    die nicht im Ergebnis vorkommen.
+
+    Die 'ORDER BY'-Klausel bewirkt eine Sortierung der Ergebniszeilen.
+    'ORDER BY' wird gefolgt von einer Liste von Ausdrücken, die als
+    Sortierschluessel verwendet werden. Diese Ausdrücke müssen in einer
+    simplen Abfrage nicht Teil des Ergebnisses sein, in einem zusammen-
+    gesetzten SELECT-Befehl müssen sie jedoch genau mit den Ergebnis-
+    ausdrücken übereinstimmen. Jeder Sortierausdruck darf von einer
+    Sortiermethode für Texteintraege (BINARY oder NOCASE, siehe
+    'CREATE INDEX') und einer Sortierreihenfolge (ASC für aufsteigend,
+    DESC für absteigend) gefolgt werden.
+
+    Die LIMIT-Klausel kann die Anzahl an zurückgelieferten Zeilen
+    einschränken. Ein negatives Limit bedeutet keine solche Einschränkung.
+    Die optionale OFFSET-Angabe gibt an, wieviel Zeilen am Anfang des
+    Ergebnisses übersprungen werden sollen. In einer zusammengesetzten
+    SELECT-Anweisung darf die LIMIT-Klausel nur hinter der letzten
+    SELECT-Anweisung stehen und wird dann auf das Gesamtergebnis
+    angewandt. Beachte, dass, wenn OFFSET angegeben wurde, dann ist
+    die erste Zahl das Limit und die zweite Zahl das Offset. Wenn jedoch
+    ein Komma angegeben wurde, so bestimmt die erste Zahl den Offset
+    und die zweite Zahl das Limit.
+
+    Eine zusammengesetzte SELECT-Anweisung wird durch zwei oder mehr
+    einfachen SELECT-Anweisungen, welche durch eine der Operationen
+    UNION, 'UNION ALL', INTERSECT oder EXCEPT verbunden werden, gebildet.
+    In einer zusammengesetzten SELECT-Anweisung müssen die individuellen
+    SELECTs genau die gleiche Anzahl an Ergebnisspalten liefern.
+    Es darf nur eine einzige 'ORDER BY'-Klausel am Ende der zusammen-
+    gesetzten SELECT-Anweisung existieren. UNION und 'UNION ALL'
+    vereinen die Ergebnisse der Abfragen links und rechts des Operators
+    zu einer großen Tabelle. Dabei liefert UNION nur unterschiedliche
+    Zeilen zurück, 'UNION ALL' alle, also auch dadurch ergebende
+    doppelte Einträge. Der INTERSECT-Operator nimmt die Durchschnitts-
+    menge der Ergebnisse zu beiden Seiten des Operators. EXCEPT
+    zieht vom Ergebnis links des Operators die Ergebnisse ab,
+    die auch im Ergebnis rechts des Operators stehen. Wenn es mehrere
+    Zusammensetzungen gibt, so werden sie von links nach rechts
+    abgearbeitet.
+

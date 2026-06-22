@@ -1,0 +1,14 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:        /obj/brunnen.c
+// Description: Ein Brunnen zum Trinken und Auffuellen von Flaschen
+// Author:      Jafar & Yellow
+
+inherit "/i/wasser/brunnen";
+
+void create() 
+{
+   replace_program("/i/wasser/brunnen");
+   ::create();
+}
+

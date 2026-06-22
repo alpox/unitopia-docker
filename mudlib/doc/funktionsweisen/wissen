@@ -1,0 +1,224 @@
+
+
+
+1. Allgemein
+2. Vorgehen bei Einführung neuer Skills
+3. Die Programmierung
+4. Das Eintragen im Reisebüro
+5. Installation des Reisebüros
+
+
+1. Allgemein
+
+   Das Reisebüro verwaltet vier verschiedene Wissenskills, die allgemein den
+   Forscherdrang der Spieler belohnen sollen.
+
+   Die Skills im einzelnen -
+
+   Erforscht:
+     Dieser Skill soll für das Betreten der wirklich schwer zu
+     findenden, geheimen RÄUME vergeben werden.
+
+   Reise:
+     Dieser Skill soll die Reiselust des Spielers wiedergeben,
+     d.h. wieviel hat er von UNItopias Landschaften bereist.
+     Er wird auch für das Betreten von RÄUMEN vergeben.
+     Im Gegensatz zu Erfoscht sollen dies keine besonders geheimen Orte sein,
+     sondern vielmehr die wichtigsten Plaetze/Landschaften/Orte, die man
+     besucht haben sollte.
+
+   Gesehen:
+     Dieser Skill soll für das Betrachten wichtiger oder
+     interessanter Details vergeben werden. Also V-Items oder Objekte
+     aber keine Räume oder superversteckte Sachen sondern eher nette
+     kleine Details und Kuriositäten.
+
+     Ziel ist es NICHT das Unmögliche zu sehen, also z.B. das V-Item,
+     das nur über eine Kette von 3 weiteren V-Items zu finden ist,
+     oder unsichtbare Objekte, deren Existenz man nur erraten kann.
+
+     Vielmehr soll das Anschauen von Beschreibungen belohnt werden die
+     für einen Magyrianer wirklich interessant sind also NICHT irgendein
+     langweiliger Ast an irgendeinem Baum, nur weil der schwer zu
+     endecken ist, sondern etwas was auch Franz oder Groggy
+     interessieren würde.
+
+   Handeln:
+     Dieser Skill soll für die Durchführung von Aktionen vergeben
+     werden.
+     In erster Linie sollten das einfache Aktionen von Räumen oder
+     Objekten sein wie Minimini-Quests, Kuriositäten, Interessantes,
+     Besonderes, das der Atmosphäre oder dem Spaß der Spieler dient.
+
+
+
+   Allgemein gilt:
+   - Die Skills sollten gut "über die Landschaft verteilt" werden,
+     d.h. 2 Reiseraeume sollten nicht direkt nebeneinander liegen,
+     in einem Erfoscht Raum sollte nicht auch noch ein besonderes
+     Objekt "gesehen" werden müssen oder eine Aktion durchgeführt
+     werden.
+     Bitte auch zukünftige neue Gebiete berücksichtigen.
+   - ALLE Orte/Aktionen/Objekte sollten für ALLE Spieler zugänglich
+     sein! Also keine Newbie-, Engel-, Gilden- oder sonstwas
+     spezifischen Dinge!
+   - Bei den Reiseraeumen sollten keine Engelslandeplaetze gewählt
+     werden.
+   - Bitte auch sehr Sparsam sein, falls die Dinge zu Rätsel
+     gehören. Dort wird das Forschen schon mit dem Rätsel-Skill belohnt.
+   - Bitte keine Infos über die existierenden Skill-Orte weitergeben,
+     besonders nicht über Spiel-Zweities, da sonst bald der gesamte Aufwand
+     für Einführung dieser Skills hinfällig wird (man weiß ja wie schnell
+     hier die Informationen fliessen).
+
+
+
+2. Vorgehen bei Einführung neuer Skills
+
+   Was tun, wenn man denkt, dass das was man gerade programmiert hat einen
+   solchen Skill wert wäre.
+
+   1. DL fragen, ob die Skillvergabe ins Konzept der Domain passt und
+      ob die Skill-Bedingungen aus "Allgemeines" erfüllt sind.
+   2. Programmcode entsprechend anpassen. (Siehe "Die Programmierung")
+   3. DL das programmierte Objekt im Reisebüro eintragen lassen.
+
+
+
+3. Die Programmierung
+
+   Was ist im zu programmierenden Objekt zu tun, wenn ein solcher Skill
+   vergeben werden soll?
+
+   Bei
+
+   Erfoscht:  nix
+   Reise:     nix
+   Gesehen:   spieler->set_gesehen();
+              dort im Code einbauen, wo die Meldung generiert wird,
+              die der Spieler zu sehen bekommt und wo sicher ist, dass der
+              Spieler diese Meldung auch erfolgreich sehen wird.
+              'spieler' sollte dabei sicher derjenige sein, der die Meldung
+              auch zu sehen bekommt! Bei "Gesehen" ist das i.a.
+              previous_object().
+
+              Beispiel:
+                 in Objekt:
+
+                 string query_long()
+                 {
+                     previous_object()->set_gesehen() ;
+                     return wrap( "Ein schönes Objekt.");
+                 }
+
+                 bei einem V-Item:
+
+                 "long" : #'long_v_item
+
+                 string long_v_item()
+                 {
+                     previous_object()->set_gesehen() ;
+                     return wrap( "Ein schönes V-Item.");
+                 }
+
+                 Oder z.B. in einem Raum bei einer vom Raum generierten
+                 Meldung:
+
+                 send_message( MT_MOVE, MA_LOOK, wrap(
+                     "Ein kleiner Teufel flattert durch den Raum."));
+                 map_objects( all_inventory(), "set_gesehen");
+
+
+   Handeln:   spieler->set_handeln();
+              dort im Code einbauen, wo sicher ist, dass der Spieler die
+              Handlung erfolgreich ausgeführt hat.
+              'spieler' sollte dabei sicher derjenige sein, der die Handlung
+              durchführt. Bei 'Handeln' ist das i.a. this_player().
+
+              Beispiel:
+                 add_action( "bla", "blub") ;
+
+                 int bla( string str)
+                 {
+                     if ( !str )
+                         return notify_fail( wrap( "Das war wohl nix.")) ;
+                     else
+                     {
+                         write( wrap( "Juhu, das hat geklappt!")) ;
+                         this_player()->set_handeln() ;
+                         return 1;
+                     }
+                 }
+
+
+
+4. Das Eintragen im Reisebüro (fuer DLs und Admins)
+
+   * Allgemeines im Reisebüro:
+
+   slist:   Zeigt Liste der verfügbaren Skills
+            (erforscht, reise, gesehen, handeln)
+   blist:   Zeigt Bereiche (= Domains) in denen Skills vergeben werden können.
+            (Arktis, Ebenen, Gallien, ...)
+   klist:   Zeigt das Kontigent, das jeder Bereich für einen Skill hat.
+            Zusaetlich wie weit dieses Kontingent bereits ausgenutzt bzw.
+            getestet ist.
+
+   skillinfo:  Du wirst informiert, falls Du einen Skill erfolgreich
+               zugeteilt bekommst.
+
+   olist:   Anzeigen der Skill-Einträge.
+            Beispiele:  olist ha va, olist -d ha va, olist -a
+
+
+   * Das Eintragen eines neuen Skills im Reisebüro:
+
+   1. mit  olist  einen freien Platz für den einzutragenden Skill finden,
+      Beispiel:
+         olist ha va   (= olist handeln vaniorh)
+
+   2. mit der freien Nummer aus Schritt 1 einen Eintrag machen mit oset.
+      Beispiel:
+         oset ha va 15 /d/Vaniorh/Tadmor/monster/franz Franz verprügeln.
+
+      Alternativ beim Skill Handeln:
+         oset2
+        Damit werden 2 Einträge bei Handeln belegt was zu einer doppelten
+        EP-Vergabe führt.
+        Damit sollen Klein-Rätsel belohnt werden, also eine umfangreichere
+        Folge einzelner Aktionen.
+
+   3. ggf. mit osetbit das I-, T-, E- und G-Sicherheits-Bit ein- und
+      ausschalten (i.a. ist das nicht notwendig).
+      Hat man für sich 'skillinfo' eingeschaltet, so bekommt man hier
+      Fehlermeldungen, wenn eines der Bits die Skillvergabe blockiert.
+      Genauere Erklärung der Bits im Reisebüro selbst.
+
+   4. Bei Erforscht- und Reise-Skills jetzt den entsprechenden Raum erneuern.
+
+   5. 'skillinfo' einschalten und testen ob es klappt.
+
+
+   * Pflege des Reisebüros:
+
+   ocheck:   testet ob die eingetragenen Objekte noch verfügbar sind.
+   ochkomm:  ändert den Kommentar bei einem Skill-Eintrag
+   ochpfad:  ändert den Pfad eines Skill-Eintrags.
+             Gut wen ein Objekt umgezogen ist.
+             NIEMALS verwenden um Einträge umzusortieren! Umsortieren soll
+             generell nicht vorkommen!
+   ochdel:   Löscht den Pfad eines Skill-Eintrags.
+             Möglichst NIE verwenden, wenn Spieler schon den dort Skill
+             bekommen habeben.
+             NIEMALS verwenden um Einträge umzusortieren! Umsortieren soll
+             generell nicht vorkommen!
+
+
+
+5. Installation des Reisebüros
+
+   Nur einmal pro Mud notwendig.
+   1. Mit 'bneu' Bereiche (= Domains) anlegen.
+   2. Mit 'kset' die Kontigente (= Anzahl verfügbarer Eintraege) pro
+      Skill festlegen.
+   3. Mit 'kbset' die gesetzten Kontigente auf die Bereiche aufteilen.

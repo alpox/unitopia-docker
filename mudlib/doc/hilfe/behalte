@@ -1,0 +1,13 @@
+------------------------------------------------------------------------------
+behalte <gegenstand>       Der Gegenstand wird markiert, damit er nicht mehr
+                           verkauft werden kann. 
+                           (Ausnahme in verschlossenen Behaeltern)
+behalte <gegenstand> nicht Die Markierung wird wieder aufgehoben.
+behalte                    Zeigt alle markierten Gegenstände an.
+behalte alles nicht mehr   Für alle Gegenstände in unverschlossenen 
+                           Behältnissen werden die Markierungen aufgehoben.
+Besonderheit: Bei einem markierten, offenen Behältnis wird der nicht 
+markierte Inhalt verkauft, der Behälter selbst aber nicht.
+Hinweis: Zählbare Sachen wie Schleudersteine oder Pfeile können sich 
+unvorhergesehen verhalten.
+------------------------------------------------------------------------------

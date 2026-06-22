@@ -1,0 +1,61 @@
+Um einen Raum mit Schließfächern für eine Bank zu erstellen,
+sind einige Vorbereitungen notwendig:
+
+- Entscheidung, ob diese Bank Schließfächer anbieten soll
+  (Vogt, DL, Admins)
+- Erzeugung einer eindeutigen Bank-ID Beispiel: Vaniorh_Tadmor
+  (Admins)
+- Absprache über die Tariffe für Schließfächer 
+  (Admins in Absprache mit den DLs)
+Erstellung eines Raumes für die Schließfächer mit folgendem Gerüst
+(Beschreibungen können gerne spezfisch pro Bank ergänzt werden)
+Übrigens: die Schließfächer sind so gehalten, dass andere nicht zugescrollt
+werden, dass sollte beim Raumdesign berücksichtigt werden.
+Das Addon setzt auch Raumtpyen und ein Vitem.
+Optional kann mit set_designs das Aussehen der Schließfächer beeinflusst
+werden.
+
+//----------------------------------------------------------------------------
+inherit "/i/room"; // oder was je domäne angebracht ist...
+
+inherit "/i/money/schliessfachaddon";
+
+#include <invis.h>
+#include <misc.h>
+#include <move.h>
+#include <properties.h>
+#include <room_types.h>
+
+#include <money.h>
+
+void moved_in(object who, object woher, string dir, int way)
+{
+    "/i/room"::moved_in(who,woher,dir,way);
+    liefere_schliessfaecher(who);
+}
+
+void reset()
+{
+    "*"::reset();
+}
+
+void init()
+{
+    "*"::init();
+}
+
+void create()
+{
+    "*"::create(); // das "*" ist wichtig!
+    init_schliessfaecher(MY_BANK_ID,"taler");
+    // Hier können noch closures für die miete u.ae. angegeben werden!!!
+
+  set_own_light(1);
+  set_short("Nirgends");
+  set_long("Dies ein Raum mit Schließfächern.");
+  add_exit("start","hoch"); 
+  // naja irgendein sinnvollen Ausgang sollte es haben
+  reset();
+}
+
+//----------------------------------------------------------------------------

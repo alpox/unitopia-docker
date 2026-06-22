@@ -1,0 +1,179 @@
+
+
+Wann verwendet man abgegeaenderte Basisobjekte und wann 
+		   eigenständige Objekte mit eigenen Files?
+===========================================================
+
+Was sind Originale?
+-------------------
+
+Originale sind Objekte, die ein zugehöriges File haben, das den
+Programmtext enthält.
+Sie werden mit OBJ(<file_name>) oder einfach mit <file_name> bezeichnet.
+
+Zum einen sind alle Räume Originale, andererseits gibt es aber auch 
+zu anderen Gegenständen jeweils ein Original, das aber dann meist nicht 
+direkt im Spielgeschehen mitwirkt. Es dient dann nur als Vorlage für
+Clones. (siehe unten)
+
+Beispiel:
+
+   /w/garthan/workroom         ist die Bezeichnung für
+			       sowohl das Programmfile auf der Platte, als
+			       auch das Original im Speicher.
+   OBJ(/w/garthan/workroom)    bezeichnet das Original im Speicher.
+
+   /obj/fackel                 bezeichnet das Programmfile auf der Platte
+			       und das Original im Speicher, aus dem 
+			       alle weiteren Fackeln geclont werden (siehe
+			       unten). Dieses Objekt sollte nur als 
+			       Vorlage zum Clonen verwendet werden.
+
+Originale beinhalten den Programmcode und einen eigenen Satz
+globaler Variablen.
+
+Originale werden entweder durch die simul_efun 'touch' oder durch den 
+Zauberstabbefehl 'lade' *GELADEN*.
+
+Das heißt der Programmtext wird von der Platte gelesen, in internen
+Stackmachinecode übersetzt und im Hauptspeicher des Rechners gelagert.
+
+Wie bei allen Objekten werden dann globale Variablen alloziert und
+gegebenfalls vordefiniert.
+
+Befindet sich das Objekt schon im Speicher, liefert die Funktion 
+touch nur einen ObjektZeiger darauf zurück, und der Zauberstabbefehl
+macht gar nichts. Es wird kein neues Objekt erzeugt, Originale sind
+UNIKATE.
+
+
+Was sind Clones?
+----------------
+
+Clones sind Kopien eines Originalobjekts.
+Clones werden aus Originalen heraus *GEKLONT*.
+Dazu bedient man sich der efun 'clone_object', bzw. des 
+Zauberstabbefehls 'erschaffe'
+
+Beide Funktionen überprüfen zuerst, ob das Original schon geladen
+ist (siehe oben) und laden es bei Bedarf.
+Dann wird eine NEUES Objekt (der Clone) erschafft, in dem ein neuer 
+Variablensatz für dies Objekt bereitgestellt wird. Den Programmcode
+übernimmt der Clone aus dem Original. (Er teilt ihn sich mit dem Original)
+
+Clones brauchen deshalb viel weniger Speicher, als das zughoerige 
+Original, haben aber wegen des gleichen Codes, genau die gleiche
+Funktionalität des Originals.
+
+Clones haben eigene globale Variablen, diese teilen sie nicht mit
+dem Original.
+
+Clones unterscheiden sich in der Bezeichnung vom Orignal durch eine
+angehängte laufende Nummer.
+
+Beispiel:
+
+   OBJ(/obj/fackel#12456)   bezeichnet ein Clone des Orignals
+			    OBJ(/obj/fackel), dessen Programmtext
+			    in /obj/fackel.c gefunden werden kann.
+
+Von Räumen sollte es KEINE Clones geben, da dieses ja 
+eindeutig sein sollen.
+
+
+Was sind Inheritfiles?
+----------------------
+
+Inheritfiles sind Basisobjektprogrammtexte, die man in eigene 
+Objekte übernehmen kann.
+
+Man erbt dann sämtliche Eigenschaften (Funktionen) des Inheritfiles.
+Auf globale Variablen des Inheritfiles sollte man über 
+Funktionen des Inheritfiles zugreifen.
+
+Mit Hilfe der Anweisung  'inherit "......";' am Anfang des eigenen
+Files erbt man die Eigenschaften des angebenen Files.
+
+Prinzipiell kann das zu erbende File jedes beliebige Objekt sein,
+jedoch muss man darauf achten, dass das zu erbende File
+NICHT die Funktion replace_program verwendet, was viele der 
+Objekte aus /obj... tun.
+Stattdessen sollte man die für das Erben vorgesehenen Objekte aus
+/i.... verwenden.
+
+Die durch eigene Funktionen ueberlageten Funktion des geerbten Objektes
+können mit ::funktionsname() aufgerufen werden. Dieses Vorgehen
+ist bei machen Inheritfiles notwendig. 
+(z.B. bei /i/monster/monster die Funktinen create und init)
+
+
+
+
+Wann verwendet man abgegeaenderte Basisobjekte und wann
+		   eigenständige Objekte mit eigenen Files?
+-----------------------------------------------------------
+
+Zur Erzeugung von Objekten:
+
+Methode 1: 
+
+   Man clont in einem Raum mit Hilfe von clone_object() ein
+   Basisobjekt aus /obj... und ändert es mit Hilfe der
+   Objektfunktionen des Basisobjekts:
+
+      monster = clone_object("/obj/monster");
+      monster->initialize("werner", 50);
+      monster->set_gender("maennlich");
+      monster->set_personal(1);
+      ...
+      monster->move(this_object());
+
+   Mit dieser Methode kann man die meisten Standardobjekte 
+   erzeugen, ohne dafür ein eigenes File erzeugen zu müssen.
+
+Methode 2:
+
+   Wenn man in seinen Objekten eine besondere Funktionalität 
+   braucht, eben etwas, was kein anderes Objekt kann, dann 
+   braucht man eigene Funktionen, eigenen Programmcode für
+   das Objekt.
+
+   Da man jedoch auf die bisherigen Eigenschaften eines 
+   Objekts nicht verzichten möchte, erbt man das zugrunde
+   liegende inherit file, und damit dessen Funktionalität.
+
+   Beispiel: File /w/garthan/werner.c:
+
+      inherit "/i/monster/monster");
+
+      void create()
+      {
+	 monster::create();
+	 /* Kein clone_object!!! */
+	 initialize("werner", 50);
+	 set_gender("maennlich");
+	 set_personal(1);
+	 ...
+	 /* Kein move */
+      }
+
+      void init()
+      {
+	 monster::init();
+	 add_action("hampelmann", "hample");
+      }
+
+      int hampelmann(string str)
+      {
+         ...
+      }
+   
+   Der Werner kann jetzt von einem anderen Objekt aus mit
+   Hilfe eines:
+      werner = clone_object("/w/garthan/werner");
+      werner->move(...);
+   ins Spiel geschickt werden.
+
+Welche der beiden Methoden man wählt hängt eben davon ab, ob
+das neue Objekt zusätzliche Funktionalität besitzen soll, oder
+man mit der gegebenen des Basisobjektes auskommt.

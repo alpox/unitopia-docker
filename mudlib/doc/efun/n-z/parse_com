@@ -1,0 +1,156 @@
+FUNKTION: parse_com
+DEKLARATION: varargs mixed *parse_com(string command, mixed where, string *trenner, int flag)
+BESCHREIBUNG:
+parse_com sucht die in einem String angegebenen Gegenstaende in der
+Umgebung des aktuellen Spielers (this_player()) und in seinem Inventar.
+
+Beispiel:
+
+    #include <parse_com.h>
+    
+    int brutzle_fun(string str)
+    {
+        mixed parsed;
+	object ob;
+        
+        parsed = parse_com(str);
+        if(parse_com_error(parsed, "Was willst Du brutzeln?\n", 1))
+            return 0;
+	
+	ob = parsed[PARSE_OBS][0];
+	        
+        write(wrap("Du brutzelst "+den(ob)+"."));
+        
+        return 1;
+    }
+
+In den allermeisten Faellen braucht man parse_com nur den zu analysierenden
+String zu uebergeben und parse_com liefert das Ergebnis in einem mixed-Feld
+zurueck. parse_com beachtet dabei Artikel, Adjektive, Zahl-Angaben (1.)
+und Pronomen wie 'alle', 'meine', 'mich' etc.
+
+
+Bis auf den ersten Parameter sind alle weiteren optional. Folgende
+Parameter kann man uebergeben:
+
+    string command
+	Der zu analyisierende String, etwas wie "die gruene Tasche"
+
+    mixed where
+	Ein Container oder eine Liste von Containern, in denen
+	gesucht werden soll. Falls weggelassen (oder 0), so wird
+	in der Umgebung von this_player() und in this_player()
+	selbst gesucht.
+
+    string* trenner
+	Hier kann man Trennwoerter angeben, bis zu denen geparst
+	werden soll. Zum Beispiel beim Befehl 'brutzle A mit B'
+	kann ({"mit"}) als Trenner angegeben werden, so dass
+	parse_com zu "A mit B" spaetestens beim "mit" abbricht.
+	
+	Das gefundene Trennwort wird in parsed[PARSE_TRENNER]
+	gespeichert ("", wenn keines gefunden wurde), der
+	Text hinter dem Trennwort in parsed[PARSE_BEYOND_TRENNER].
+	Diesen Text kann man dann in einem zweiten parse_com-Aufruf
+	parsen.
+
+    int flag
+	Hier kann man Steuerflags angeben, die die Auswertung
+	von parse_com beeinflussen. Mehrere Flags werden durch Oder
+	(|-Operator) getrennt.
+	
+	PARSE_ALL_MATCHES
+		Ist im Kommando KEIN Zahlwort (1. oder 2.) angegeben,
+		werden statt nur dem ERSTEN Objekt ALLE darauf passenden
+		Objekte (welche sich im gleichen Container befinden)
+		zurueckgeliefert.
+
+        PARSE_NO_V_ITEMS
+                Verhindert, dass V_Items mitgeparsed werden, und somit
+                in parsed[PARSE_OBS] erscheinen.
+
+        PARSE_AFTER_TRENNER
+                Hiermit beginnt der Parser erst nach einem der gegebenen
+                Trenner zu parsen.
+
+        PARSE_NOT_WITHOUT_TRENNER
+                Das Parsing wird abgebrochen, falls keiner der angegeben
+                Trenner im String command zu finden ist.
+                Ist dies der Fall, wird PARSE_NOT_SEARCHED zurueckgegeben.
+
+	PARSE_DONT_SPLIT
+		Normalerweise zerteilt parse_com Count-Obs automatisch.
+		Dies kann mit diesem Flag unterbunden werden.
+    
+        PARSE_NOSHIMMER_INVIS
+		Beachtet auch invis-15-Dinge. (Nur fuer Goettertools!)
+
+
+parse_com liefert als Ergebnis ein Array mit folgenden Elementen zurueck:
+
+    parsed[PARSE_NUM_OBS]
+	Anzahl der gefundenen Objekte. Im Fehlerfalle ist dies 0.
+
+    parsed[PARSE_OBS]
+	Dies ist ein Array mit den gefundenen Objekten.
+
+    parsed[PARSE_REST]
+	Dies ist der Reststring, also der Text hinter den gefundenen
+	Gegenstaenden (z.B. "durch" bei "knuddle emma durch").
+
+    parsed[PARSE_RET_CODE]
+	Ein Code, der die Art eines Fehlers angibt. Folgende
+	Werte kann er annehmen:
+	    PARSE_OK		Alles klar (kein Fehler)
+	    PARSE_NO_ARG	Es wurde nichts uebergeben.
+	    PARSE_NO_OB		Objekt nicht gefunden.
+	    PARSE_NO_MY_OB	Objekt nicht gefunden, "mein" war angegeben.
+	    PARSE_NO_ALL_OB	Objekt nicht gefunden, "alle" war angegeben.
+	    PARSE_NO_ALL_MY_OB	Objekt nicht gefunden, "mein" und "alles"
+				war angegeben.
+	    PARSE_WRONG_ID	Syntaxfehler. Parse_com konnte nicht erkennen,
+				wo ein Gegenstand bezeichnet wurde.
+    	    PARSE_NOT_SEARCHED	Es sollte nach dem Trenner geparst werden,
+				dieser war allerdings nicht vorhanden.
+
+    parsed[PARSE_ID]
+	Die in dem Text gefundene ID (sowas wie "tasche", wenn nach
+	"eine gruene Tasche" gesucht wurde). Falls keine ID erkannt
+	wurde, so ist dies in leerer String.
+
+    parsed[PARSE_TRENNER]
+	Das Trennwort, welches gefunden wurde.
+
+    parsed[PARSE_BEYOND_TRENNER]
+	Alles, was nach dem gefundenen Trennwort im String steht.
+      
+
+Beispiel:
+parse_com("eine gruene Tasche umher") wuerde beispielsweise folgendes
+Ergebnis bringen:
+
+	parsed[PARSE_NUM_OBS]		1
+	parsed[PARSE_OBS]		({ OBJ(/obj/tasche#947270) })
+	parsed[PARSE_REST]		"umher"
+	parsed[PARSE_RET_CODE]		PARSE_OK
+	parsed[PARSE_ID]		"eine gruene tasche"
+	parsed[PARSE_TRENNER]           ""
+	parsed[PARSE_BEYOND_TRENNER]	""
+
+Die Auswertung von Fehlern kann die Routine parse_com_error() uebernehmen.
+(Siehe obiges Beispiel und die Dokumentation zu parse_com_error bzw.
+parse_com_error_string.)
+
+ACHTUNG: 
+  - Falls nicht mit PARSE_NO_V_ITEMS explizit angegeben, werden auch
+    virtuelle Objekte im Feld PARSE_OBS zurueckgegeben. Deshalb muss das
+    Programm in diesem Falle in der Lage sein, Mappings zu verarbeiten!
+  - Wird ein kurz vorher zerteiltes CountOb gefunden, so werden beide
+    Teile erstmal wiedervereinigt, bevor sie von parse_com genutzt
+    werden. Dies kann bei doppelten Aufrufen von parse_com ein ggf.
+    vorher gefundenes Objekt zerstoeren. Man entkommt dem, indem
+    das vorher gefundene Objekt wegbewegt wird.
+    
+VERWEISE: parse_com_error, present, deep_present
+GRUPPEN: simul_efun, string, player
+SOURCE: /secure/simul_efun/parse_com.c

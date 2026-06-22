@@ -1,0 +1,120 @@
+Wichtige Funktionen (LFuns) für Rollen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Rollen nutzen
+----------------
+
+Um Rollen überhaupt nutzen zu können, muss man "/i/tools/rollen" inheriten
+und im create() rollen::create(); aufrufen. NPCs inheriten die Rollen
+schon von Natur aus, so dass man dort dies nicht extra angeben braucht.
+
+
+2. Rollen starten
+-----------------
+
+Dazu gibt es die Funktion:
+
+    starte_rolle(string file [,<label> [, <Parameter> ...]])
+
+Hierbei ist file der Dateiname der Rolle.
+Als 2. Parameter kann man eine Sprungmarke angeben, ab welcher die
+Rolle beginnen soll. Dahinter kann man der Rolle Parameter mitgeben,
+auf welche in der Rolle mit #1, #2 usw. zugegriffen werden kann.
+
+NPC's bieten daneben die Möglichkeit, Rollen zufallsgesteuert zu starten.
+Näheres hierzu steht in /i/monster/random_start.c
+
+
+3. Wie erfahre ich, dass die Rolle beendet wurde?
+-------------------------------------------------
+
+Nach dem Ende der Rolle wird im Mitspieler Nr. 1 (also dem, der die
+Rolle gestartet hat) die Funktion:
+
+   void rolle_beendet(string rollename)
+
+aufgerufen (falls sie existiert).
+
+
+4. Ich möchte eine laufende Rolle vorzeitig abbrechen.
+------------------------------------------------------
+
+Dafür ist der Aufruf:
+
+    int breche_rolle_ab()
+
+vorgesehen. Dies funktioniert nur bei Rollen, in denen der Abbruch erlaubt 
+ist. Rückgabewert:
+
+    1    Rolle abgebrochen oder Bin in keiner Rolle.
+
+    0    Rolle ist nicht abbrechbar.
+
+
+5. Ich möchte eine Rolle kurzzeitig unterbrechen.
+-------------------------------------------------
+
+Dies klappt mit:
+
+    int stop_rolle()
+
+Returncodes:
+
+    1    Rolle gestoppt.
+    0    bin in keiner Rolle.
+
+Das Wiederanstarten geht mit:
+
+    void restart_rolle()
+
+
+6. Wie kann ich erfahren, ob ein Objekt gerade in einer Rolle ist?
+------------------------------------------------------------------
+
+Dies kann man mittels:
+
+    string in_rolle()
+
+Ist das Monster in einer Rolle, so wird der Rollenname zurückgegeben, 
+ansonsten 0.
+
+
+7. Welche Objekte machen überhaupt bei Rollen mit?
+--------------------------------------------------
+
+Ein Objekt, welches "/i/tools/rollen" inheritet, nimmt defaultmäßig
+NICHT an den Rollen als passives Mitglied teil.
+
+Erst, wenn man in ihm:
+
+    set_macht_bei_rollen_mit(1) 
+
+aufgerufen hat, reagiert es auf solche Anfragen.
+
+
+Objekte, welche nicht "/i/tools/rollen" inheriten, nehmen immer an
+Rollen teil, es sei denn im Objekt existiert eine Funktion
+
+    int spiele_mit_nummer_mit(mapping rolle, int nr)
+
+Letztere bekommt die zu spielende Rolle und die zukünftige Mitspieler-Id
+übergeben und sollte 1 als Zustimmung oder -1 als Ablehnung zurueckliefern.
+ 
+
+8. Wer sind die Rollenpartner?
+------------------------------
+
+Mit
+
+    object query_rollen_partner(int id)
+
+erhält man das Objekt mit der angebenenen Id.
+
+
+9. Wie erhalte ich mehr Informationen zum Debuggen?
+---------------------------------------------------
+
+Dazu dient die Funktion "set_rollen_debugger()". Aufrufen kann man sie
+z.B. mit Hilfe des Zauberstabbefehls "zc":
+
+   zc monster->set_rollen_debugger(OBJ(mich))

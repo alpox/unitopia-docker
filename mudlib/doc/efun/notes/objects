@@ -1,0 +1,9 @@
+
+        DIESE FUNKTION SOLLTE NUR ZU DEBUGGINGZWECKEN GENUTZT WERDEN.
+        Diese Funktion ist sehr aufwendig, daher sollte sie nur zum
+        Zwecke der Fehlerfindung eingesetzt werden.
+
+        In den somit abgefragten Objekten sollte man nicht unbedacht
+        Funktionen aufrufen, da somit der Cleanup-Mechanismus
+        unterbrochen wird.
+

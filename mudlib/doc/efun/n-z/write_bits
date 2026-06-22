@@ -1,0 +1,6 @@
+FUNKTION: write_bits
+DEKLARATION: string write_bits(string str, int start, int length, int number)
+BESCHREIBUNG:
+Schreibt die Zahl number in den Bitspring an Position start
+und liefert den neuen String zurueck.
+SOURCE: /secure/simul_efun/util.inc

@@ -1,0 +1,17 @@
+------------------------------------------------------------------------------
+erfahrung [-s] <kategorie>      Anzeigen deiner gesammelten Erfahrungen
+erf [-s] <kategorie>            in einer Kategorie.
+
+Folgende Kategorien gibt es:
+Rätsel, Zaubern, Spiele, Kampf, Getötet, Sonstiges, Tod.
+
+Du kannst die Kategorien bei der Eingabe abkürzen, so weit deine Abkürzung
+eindeutig ist. Wenn du die Option -s angibst, wird die Ausgabe sortiert
+nach Schlüsselwörtern.
+
+Beispiel:
+   erf k                       zeigt deine Kampferfahrung an.
+   erf -s r                    zeigt alle gelösten Rätsel sortiert an.
+
+siehe auch:  spielstand
+------------------------------------------------------------------------------

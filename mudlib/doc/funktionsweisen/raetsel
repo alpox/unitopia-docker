@@ -1,0 +1,220 @@
+Wie programmiere ich ein Rätsel?
+================================
+
+1. Man habe eine Idee. (klingt einfach, ist es aber nicht unbedingt,
+   nicht jede Idee ist gut umzusetzen in ein Rätsel.)
+
+2. ZUERST solltet Ihr in der Enzy unter 'Richtlinien/Richtlinien zur Rätsel-
+   programmierung' ALLE Punkte durcharbeiten, damit Ihr wisst, was beim
+   Programmieren eines Rätsels zu tun und zu beachten ist!
+
+3. Man suche sich einen Platz für sein Rätsel, also eine Domain.
+   Man werde gegebenenfalls Mitglied der Wunschdomain, in dem man 
+   zum Domainlord geht.
+
+4. Man programmiert sein Rätsel (das ist der langwierigste Schritt).
+
+5. Man teste alles in Ruhe. Lasst auch mal andere Spieler/Engel durch
+   Euer Rätsel laufen, denn die werden noch eine ganze Menge Fehler
+   und Ideen absetzen!
+   Um die Punktevergabe (siehe 6.) testen zu können, gibt es einen
+   Teststatus für Rätsel, den die Raetselgoetter vergeben können.
+
+6. Punkteverteilung.
+   Wenn man Punkte für das Rätsel verteilen will und das Rätsel
+   (im Rathaus) installieren will, dann braucht man ein sogenanntes 
+   Quest object. Das ist ein Objekt, das die ganzen wichtigen
+   Eigenschaften des Rätsels beschreibt:
+
+   Das Questobjekt
+   ---------------
+
+   Das Objekt inheritet "/i/object/quest_obj" und hat nur eine
+   Funktion create() mit folgenden Aufrufen.
+      
+      - Raetselname   (set_name)
+
+	    Beispiel:
+	       set_name("rumpelkiste");
+
+      - Die Aufschrift für die Tafel im Rathaus. (set_hint)
+
+	    Beispiel: 
+	       set_hint("Meister Garfrog sucht zwei mutige Helfer.\n"+
+			"Du findest ihn im nordöstlichen Teil Tadmors.\n");
+
+      - Einen Hinweis auf die Lösung (siehe Punkt 5.)
+	Dieser Text erscheint zusätzlich auf dem Schild im Rathaus,
+	wenn ein Gott das Schild betrachtet. (set_loesung)
+
+	    Beispiel:
+	       set_loesung("Lösung: siehe /d/Vaniorh/garthan/vlab/LOESUNG\n");
+
+      - Die Meldung für andere Spieler, wenn das Rätsel
+	gelöst wurde.
+
+	    Bespiel:
+	       set_solved_msg("$Der('ob) hat .... geholfen.");
+	    oder:
+	       set_solved_msg("Prof. Ungr. ist $dem('ob) zu Dank verpflichet.");
+
+
+      - Die Maximalpunktezahl, die der Spieler durch das Lösen des
+	vollständigen Rätsels bekommt. (set_skill)
+	Diese Punktezahl ist mit den 'Obergoettern' abzusprechen!! und
+	liegt bei Rätseln in der Regel zwischen 1000 und 4500 je 
+	nach Schwierigkeit. Diese Zahl sollte nach Installation auf
+	keinen Fall mehr geändert werden.
+
+	    Beispiel:
+	       set_skill(4500);
+
+      - Skilltexte für den Befehl 'erfahrung raetsel'  (set_skill_msgs)
+	Diese Texte erscheinen je nach erreichter Punktezahl des Spielers
+	beim Befehl 'erfahrung raetsel'
+	(Man kann die Punkte im Rätsel in beliebig vielen, auch
+	 unterschiedlichen Mengen an den Spieler verteilen, nur
+	 sollte der Spieler am Schluss, die mit set_skill() definierte
+	 Punktezahl haben, wenn er das Rätsel vollständig gelöst hat.
+
+	Es gibt zwei Möglichkeiten für Skilltexteinteilungen:
+
+	o Autoskalierte Meldungen:
+
+	   Die Maximalpunkzahl m aus set_skill wird durch 
+	   die Anzahl der Meldungen anz minus Eins geteilt.
+	   Das ergibt die Bereichsgroesse b für eine Meldung:
+	      b = max / (anz-1)
+	   Die erste Meldung wird dann bei skills von 
+	      0..b-1          ausgeben, die zweite Meldung bei
+	      b..2*b-1        und so fort 
+	       ...
+	      m               Die letzte Meldung wird nur ausgegeben 
+			      wenn der Spieler die Maximalpunktezahl m 
+			      erreicht hat
+	       Beispiel:
+		  set_skill_msgs( ({
+		     "Meister Garfrog steht vor einem Problem, hilf ihm.",
+		     "Du hast Meister Garfrog zusammen mit deinem Partner"+
+		     "sehr geholfen." }) );
+		  Hier ist b = 4500 / ( 2 Meldungen - 1 ) = 4500.
+		  Also wird die erste Meldung bei Punktzahlen zwischen
+		  0..4499 und die zweite Meldung bei exakt 4500 Punkten
+		  ausgegeben.
+	   (Hinweis: Das klingt alles viel schwieriger als es ist...)
+	
+	o Handskalierte Meldungen:
+        
+	   Will man ungleichgrosse Bereiche haben so kann man die
+	   Uebergangspunktezahlen auch selbst explizit angeben:
+
+	   Beispiel: (Shannara-Raetsel)
+
+	     set_skill_msgs(
+	     ({
+		"Du hast Amberle im Keller der Druidenburg gefunden.",
+		"Du hast den Samen des Ellcrys geholt.",
+		"Du warst mit Amberle beim Blutfeuer.",
+		"Du hast den Ellcrys erneuert."
+	     }),
+	     ({
+		 500,
+		1000, 
+		3000,
+		4500
+	      }) );
+
+           Ab 500 Punkten die erste Meldung, ab 1000 Punkten die zweite, usw.
+           Der letzen Meldung sollte der Wert aus set_skill zugeordnet sein.
+           
+       o Unterschiedliche Meldungen für saechlich/maennlich/weiblich
+
+            Beispiel:
+         
+	     set_skill_msgs( ({
+		({"Im Go-Spiel zählst Du noch als Anfänger.",    // sächlich
+		  "Im Go-Spiel zählst Du noch als Anfänger.",    // männlich
+		  "Im Go-Spiel zählst Du noch als Anfängerin."}), //weiblich
+		"Im Go machst Du so langsam Fortschritte.",
+		"Du bist in die Amateur-Klasse der Go-Liga eingezogen.",
+		({"So langsam mauserst Du Dich zum Go-Klasse-Spieler.",
+		  "So langsam mauserst Du Dich zum Go-Klasse-Spieler.",
+		  "So langsam mauserst Du Dich zur Go-Klasse-Spielerin."}),
+		"Du wirst nur noch wenige finden, die ..." }));
+
+
+   Der Aufruf im Rätsel
+   --------------------
+
+   So hat man nun ein Questobjekt gemacht, dann braucht man noch die
+   tatsächliche Punktevergabe zur rechten Zeit, während des Rätsels.
+
+   Man hat zwei Möglichkeiten:
+
+      o One shoot: 
+	 Man vergibt alle Punkte am Ende des Rätsels mit einem
+	 Aufruf:
+
+	 QUEST_ROOM->set_quest("quest_name", Q_SOLVED, this_player());
+
+	 Ist das Rätsel installiert (siehe unten),
+	 bekommt der Spieler alle Punkte für das Rätsels gutgeschrieben.
+	 "quest_name" ist der Raetselname von oben (set_name).
+
+	 this_player() ist derjenige der die Punkte bekommt.
+
+      o Many shoots:
+
+	 Man vergibt die Punkte in mehreren Etappen der Spieler hat dann 
+	 die Möglichkeit das Rätsel in mehreren Etappen zu spielen
+	 (siehe Shannara-Raetsel)
+
+	 QUEST_ROOM->set_quest("quest_name", punkte, this_player());
+
+	 Wobei punkte ein Teil der maximalen Punktzahl ist,
+	 am Schluss sollte der Spieler diese Maximalzahl erreichen, wenn 
+	 er das Rätsel vollständig gelöst hat.
+
+	 Die skill_msgs sollten auf diese 'Punktestufen' abgestimmt sein.
+	 (siehe oben)
+
+      Die defines sind in <quest.h> definiert, das man an entsprechender
+      Stelle includen muss mit:  
+	 #include <quest.h>
+
+7. Zugang zum Rätsel
+   Das Rätsel muss für die Spieler nach der Installation zugänglich sein.
+   Der Zusgang zum Rätsel sollte also gesichert sein...
+
+8. Installationsphase
+   Das Rätsel wird dabei von den Raetselgoettern auf Spielbarkeit getestet.
+   Eventuelle Fehler sollten dann korrigiert werden.
+
+   Das fertige (fehlerarme ;)) Rätsel wird dann von den Raetselgoettern
+   im Rätselraum eingetragen und ist für die Spieler freigegeben.
+
+9. Hat man alle Schritte 1. bis 8. erfolgreich absolviert, kann man einen
+   Rätsellord um einen Würdigungstext bitten, den man dann im Finger 
+   angezeigt bekommt.
+
+
+Ein fertiges Beispiel für ein Questobjekt:
+
+--- snip --- snap --- knabber ---
+#include <config.h>
+inherit "/i/object/quest_obj";
+
+void create()
+{
+   ::create();
+   set_name("rumpelkiste");
+   set_hint("Meister Garfrog sucht zwei mutige Helfer.\n"+
+            "Du findest ihn im nordöstlichen Teil Tadmors.\n");
+   set_loesung("Lösung: siehe /d/Vaniorh/garthan/vlab/LOESUNG\n");
+   set_skill(MAX_SKILL);
+   set_skill_msgs( ({
+      "Meister Garfrog steht vor einem Problem, hilf ihm.",
+      "Du hast Meister Garfrog zusammen mit deinem Partner sehr geholfen." }));
+   set_solved_msg("$Der('ob) hat Meister Garfrog einen Dienst erwiesen!");
+}
+--- snip --- snap --- knabber ---

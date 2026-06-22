@@ -1,0 +1,6 @@
+#Grammatik-Menü
+deklin          Deklination von Artikeln, Pronomen, Adjektiven und Substantiven
+adjektiv        Adjektive (Eigenschaftswoerter)
+deklin_message  Meldungen für mehrere Empfänger generieren
+@lfun_gruppe:grammatik  Alle Lfuns zur Grammatik ...
+@efun_gruppe:grammatik  Alle Efuns zur Grammatik ...

@@ -1,0 +1,25 @@
+------------------------------------------------------------------------------
+
+Die Gabe Fliegen mit Gepäck ermöglicht Dir mit Ausrüstung zu fliegen!
+
+Dazu notwendig ist die Gabe 'Flug zu Spieler' oder die Gabe 'Flug nach <Ort>'.
+
+Diese Gabe gibt es in drei Ausbaustufen:
+
+   fgh: Flug mit Handgepäck: Diese Gabe ermöglicht es Dir, mit Gepäck
+        zu fliegen, wenn Du halb soviel dabei hast, wie Du normalerweise
+        ohne die Gabe Lasttier tragen kannst.
+
+   fgn: Flug mit normaler Gepaeckmenge: Diese Gabe ermöglicht es Dir,
+        zusätzlich mit soviel Gepäck zu fliegen, wie Du ohne die Gabe
+        Lasttier tragen kannst. Um diese Gabe lernen zu können, benötigst
+        Du die Gabe Flug mit Handgepäck (fgh).
+
+   fgl: Flug mit Lasttiergepaeckmenge: Diese Gabe ermöglicht es Dir,
+        zusätzlich mit soviel Gepäck zu fliegen, wie Du mit Hilfe der Gabe
+        Lasttier tragen kannst. Um diese Gabe lernen zu können, benötigst
+        Du die Gaben Flug mit Handgepäck (fgh) und Flug mit normaler
+        Gepaeckmenge (fgn).
+
+
+------------------------------------------------------------------------------

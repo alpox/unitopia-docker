@@ -1,0 +1,218 @@
+Contents - oder wenn in einem Raum verschiedene Objekte liegen sollen
+---------------------------------------------------------------------
+
+Zusammenfassung:
+Contents ist ein inherit, das den Raum oder jeden andern Container um eine
+Multiobjekt Verwaltung erweitert. Der Ansatz von Contents ist sehr einfach.
+Contents ermöglicht es einem Raum eine vielzahl Objektbeschreibungen mit
+zu geben, und der Raum stellt in einem Reset dann eine zufällige Auswahl
+dar oder der Raum stellt alle Objekte dar, je nachdem in welchem Modus
+contents gerade aktiviert ist.
+
+Warum:
+Als DL habe ich mich immer genervt, dass ich in einer Map nur mit einem
+hohen Aufwand verschieden Objekte zufällig auf der Map erschienen lassen.
+Und genau das kann contents. Aber nicht nur das. Mir ist auch schleierhaft
+gewesen, warum ich jedesmal die gleiche Reset-Routine in einen Raum bauen
+muss, damit die Objekte im reset() geklont werden
+
+HOW-TO:
+An einem Beispiel ist es sehr schnell erklärt. Beispiel 1 zeigt einen Raum,
+der eine Fixe Anzahl von Objekten haben will, und Beispiel 2 zeigt einen
+Raum der verändernde Objektkonstellationen haben will.
+
+Beispiel 1:
+Ein Raum, 2 Orks sind drin, ein Pilz und eine Münze, die verborgen sein soll,
+bis ein Spieler sie nimmt.
+
+// Demo Raum Bsp 1
+// ---------------
+//
+inherit "/i/room";
+inherit "/i/room/contents";
+
+// Also alles geerbt, dann gehts mal mit dem create los
+
+void create()
+{
+    set_short("Testraum Bsp1");
+    set_long("Das ist der Testraum für Bsp1");
+    // Wahnsinige kreative :)
+    // So nun kommen die Objekte dran.
+    
+    add_object( ([
+		"name"          :"ork",
+		"object"        :"/d/Irgendwo/obj/Ork",
+		"hidden"        :0,
+		"clone_later"   :0,
+		"max"           :2,
+		"min"           :0,
+		"clone_message" :"Ein Ork springt hinter dem Busch hervor.",
+		"remove_message":"Ein Ork rennt weg.",
+		"chance"        :100]));
+    // So wir haben nun alle daten definiert, die notig sind, damit 2 Orks
+    // in dem Raum sind. min und chance müssen wir der vollstaendigekeit
+    // wegen mit geben. Momentan weiß der Raum noch nicht in welchem Modus
+    // er beim Reset läuft.
+    
+    add_object( ([
+		"name"          :"pilz",
+		"object"        :#'make_pilz,
+		"hidden"        :0,
+		"clone_later"   :0,
+		"max"           :1,
+		"min"           :0,
+		"clone_message" :"Ein Pilz wächst.",
+		"remove_message":"Ein Pilz verdorrt.",
+		"chance"        :100]));
+    
+    // Das nächste Ojekt ist ein Pilz, der Pilz wir in der Funktion make_pilz()
+    // erstellt, (Deklaration object make_pilz()). Die Eigenschaft hidden
+    // ermöglicht es, dass contents.c einen Pilz erstellt, und den versteckt
+    // für dies müsste aber der Wert hidden: 1 sein. Das Probieren wir
+    // ja gleich mal mit der Münze aus..
+    
+     add_object( ([
+                 "name"          :"münze",
+                 "object"        :#'make_muenze,
+                 "hidden"        :1,
+                 "clone_later"   :0,
+                 "max"           :1,
+                 "min"           :0,
+                 "clone_message" :"",
+                 "remove_message":"",
+                 "chance"        :100]));
+     
+     // Also die Münze wir nun erstellt. So nun konfigurieren wir noch den
+     // modus von contents. Mit set_random_clone_mode(0) sagen wir contents
+     // dass es nicht zufallsmaessig die Objekte im Reset herstellen muss,
+     // sondern max Ojekte erzeugen soll. set_random_clone_mode ist default
+     // mäßig auf 0.
+     
+     set_random_clone_mode(0);
+     
+     // Nun noch reset() aufrufen. Normalerweise werden die objekte über
+     // call_outs geclont, d.h. es gibt ne verzögerung. Will man das nicht,
+     // gibt man jedem objekt einfach noch "no_clone_delay":1, mit.
+     
+     reset();
+	
+}
+
+void reset()
+{
+    // Unbedingt noch reset in contents aufrufen, sonst tut nix.
+    contents::reset();
+}
+
+So der Beispielraum braucht nun noch die Funktionen um die Objekte münze und
+Pilz zu erstellen, hier kurz ein Beispiel wie so ne Funktion aussehen kann.
+
+object make_pilz()
+{
+    object ob;
+    ob = clone_object("/obj/nahrung");
+    ob->set_name("champignon");
+    ob->set_gender("maennlich");
+    ob->set_long("Des isch a Champignon.");
+    return ob;
+}
+
+Beispiel 2
+==========
+Also wir haben wieder mal unser Raum, es sollen in diesem Raum zwischen 2-8
+Orks sein, 2-3 Pilze und 1 Münze. Wichtig ist, dass die Orks gleich beim
+Betreten des Raums da sind.
+
+
+// Demo Raum Bsp 2 
+// ---------------
+//
+inherit "/i/room";
+inherit "/i/room/contents";
+
+// Also alles geerbt, dann gehts mal mit dem create los
+
+void create()
+{
+        set_short("Testraum Bsp1");
+        set_long("Das ist der Testraum für Bsp1");
+        // Wahnsinige kreative :)
+        // So nun kommen die Objekte dran.
+    
+        add_object( ([
+                    "name"          :"ork",
+                    "object"        :"/d/Irgendwo/obj/Ork",
+                    "hidden"        :0,
+                    "clone_later"   :0,
+                    "max"           :8,
+                    "min"           :2,
+                    "clone_message" :"Ein Ork springt hinter dem Busch hervor.",
+                    "remove_message":"Ein Ork rennt weg.",
+                    "chance"        :50,
+		    "no_clone_delay :1]));
+    // Also sieht doch fast aus, wie im Beispiel 1, außer, das chance auf 50 
+    // d.h. mit einer Chance von 50 % werden 8 Orks im Raum sein.
+    // "no_clone_delay":1 bewirkt, dass beim reset die Objekte gleich geclont 
+    // werden.
+
+    add_object( ([
+                "name"          :"pilz",
+                "object"        :#'make_pilz,
+                "hidden"        :0,
+                "clone_later"   :0,
+                "max"           :3,
+                "min"           :2,
+                "clone_message" :"Ein Pilz wächst.",
+                "remove_message":"Ein Pilz verdorrt.",
+                "chance"        :12]));
+ 
+    add_object( ([
+                 "name"          :"münze",
+                 "object"        :#'make_muenze,
+                 "hidden"        :0,
+                 "clone_later"   :0,
+                 "max"           :1,
+                 "min"           :0,
+                 "clone_message" :"",
+                 "remove_message":"",
+                 "chance"        :50]));
+			 
+    // Also nun noch mit set_random_clone_mode(1) die automatische  
+    // Konstellation berechnen lassen. 
+    // Mit set_max_objects können wir dem Raum noch ne Limite an der
+    // Gesamtanzahl Objekte machen, d.h. wir können sagen, Max. 9 
+    // Objekte können drin sein, set_min_objects macht das gleiche einfach
+    // der untere Grenzwert wird angepasst.
+			 
+    set_random_clone_mode(1);
+    set_max_objects(9);      
+      
+    reset();
+				   
+}
+
+void reset()
+{
+       // Unbedingt noch reset in contents aufrufen, sonst tut nix.
+       contents::reset();
+}
+
+Und voilaz, wir haben einen Raum, der jeden Reset ne andere Anzahl und
+Konstallation von Objekten hat.
+
+
+Zusammenfassung:
+Wer es leid ist, immer eine eigene Reset() Routine zu schreiben, um die
+geclonten Objekte zu ersetzen, die die Spieler mit nehmen, der kann contents
+im set_random_clone_mode(0) laufen lassen. Somit kümmert sich contents
+um alles. 
+
+ACHTUNG OBJEKTE die GETOUCHT werden, könne nicht verwendet werden, also
+NPCS die nur EINMAL vorkommen sollen, können noch nicht eingebunden werden.
+
+set_random_clone_mode(1) wird dann interessant, wenn man unterschiedliche
+Konstellationen im Raum haben will.
+Achtung set_random_clone_mode(1) ist ziemlich aufwendig, daher bitte nur
+Verwenden, wenn es Sinn macht.
+

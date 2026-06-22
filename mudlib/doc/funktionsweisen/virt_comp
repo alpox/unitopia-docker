@@ -1,0 +1,67 @@
+Der Virtual-Compiler.
+
+
+Mechanismus:
+  Wenn versucht wird, ein Objekt zu laden, für das es kein File gibt,
+  wird in dessen verzeichniss ein Objekt namens 'virtual_compiler'
+  gesucht und in diesem 'virtual_compiler' wird die Funktion
+
+    object virtual_compiler(string name_of_ob, string path)
+
+  aufgerufen.
+  Wenn diese Funktion ein Objekt zurueckliefert, wird dieses Objekt
+  genommen.
+
+
+Beispiel:
+  Eigentlich ist es sehr einfach:
+  Jemand versucht das Objekt /d/Doerrland/freaky/new_room
+  zu laden. Dieses (.c-) File gibt es aber nicht.
+  Also wird ein Objekt namens /d/Doerrland/freaky/virtual_compiler
+  gesucht. Wenn es dieses Objekt gibt, wird dort die Funktion
+  object virtual_compiler(string name_of_ob, string path)
+  aufgerufen. Diese liefert den Objektpointer auf einen Raum,
+  der erzeugt wurde. Danach gibt es dann einen Raum mit dem Filenamen
+  /d/Doerrland/freaky/new_room
+
+  Beispiel für einen Virtual_compiler:
+
+  void create() {
+      seteuid(getuid());
+  }
+
+  object virtual_compiler(string name, string path) {
+      object ob;
+
+      if (name=="new_room") {
+	  ob=clone_object("/obj/room");
+	  ob->set_short("Ein Raum");
+	  ob->set_long("Ein Testraum erzeugt vom virtual_compiler.\n");
+	  return ob;
+	  }
+  }
+
+  Dieser einfache virtual_compiler erzeugt einen Raum, wenn der name
+  'new_room' ist.
+  Das setzen der Eigenschaften eines Raumes geht wie beim MAP-System.
+
+
+Nachbehandlung:
+  Manchmal möchte man noch einige Aktionen mit dem Objekt ausführen,
+  nachdem es umbenannt wurde. (Alles, was man in der Funktion
+  virtual_compiler tut, wird im obigen Beispiel ja mit einem Namen
+  wie "/obj/room#123" gemacht und nicht "/d/Doerrland/freaky/new_room".)
+  
+  Dazu wird nach dem Umbenennen des Objektes (also wenn es dann wirklich
+  new_room heisst) die Funktion
+  
+    void setup_renamed_object(object ob, string alter_name)
+    
+  im virtual_compiler aufgerufen. Das zweite Argument beinhaltet den alten
+  Namen (im Beispiel "/obj/room#123"). Anschließend wird die Funktion
+
+    void setup_renamed_object(object vc, string alter_name)
+    
+  im Objekt selber aufgerufen. Dabei ist das erste Argument der
+  virtual_compiler, der dieses Objekt erzeugt hat (im Beispiel also
+  das Objekt /d/Doerrland/freaky/virtual_compiler).

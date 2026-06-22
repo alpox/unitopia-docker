@@ -1,0 +1,11 @@
+set_portal_name
+query_guests
+query_guest
+portal_exists
+is_homemud
+query_portal_room
+enter_portal
+send_command
+send_message
+send_savedata
+send_quit

@@ -1,0 +1,19 @@
+Wie bekomme ich die "richtige" Rasse für mein Monster?
+------------------------------------------------------
+Der Monster-Master generiert Stats-Werte auf der Grundlage von
+Rassenbeschreibungen, die du in der Datei /var/MONSTER_DEFS
+nachlesen kannst. Dort ist definiert, welche Körperform, Größe,
+Fähigkeiten und Wertebereiche für Stats die einzelnen Rassen haben. 
+
+Außerdem steht dort eine Liste von Alias-Namen, also von
+in Unitopia häufig vorkommenden Tiernamen, die ebenfalls zum 
+Initialisieren verwendet werden können. So würde zum Beispiel
+initialize("kuh", 90) ein gleichwertiges Monster erzeugen wie
+initialize("kamel", 90) oder initialize("gross-tier", 90),  weil
+in der Alias-Liste steht, dass Kamele und Kühe "gross-tiere" sind.
+
+Erkennt der Monster-Master in dem mitgegebenen String weder eine
+Rasse noch einen Alias-Namen, so generiert er ein Monster der 
+Rasse "mensch".
+
+

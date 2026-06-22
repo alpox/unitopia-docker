@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+zstatistik g        zeigt eine Statistik über die Gildenein/austritte
+                    der Spieler und Engel im aktuellen Monat.
+zstatistik t        zeigt die häufigsten Todesursachen an.
+zstatistik r        zeigt die häufigsten (Schutzengel-)Rettungen an.
+zstatistik b        zeigt eine Statistik über das Bruellverhalten an.
+zstatistik m        zeigt die Monatsliste an.
+-------------------------------------------------------------------------------

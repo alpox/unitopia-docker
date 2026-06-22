@@ -1,0 +1,11 @@
+FUNKTION: auto_owner_search
+DEKLARATION: object auto_owner_search(object|mapping ob)
+BESCHREIBUNG:
+Liefert das naechst-umgebende lebende Objekt von ob zurueck
+oder 0 falls kein lebendes Objekt gefunden.
+
+Mit anderen Worten: Es wird der Besitzer eines Objekts
+zurueckgeliefert, sprich derjenige, der es mit sich rumtraegt.
+VERWEISE: sein, seines, seinem, seinen, ihr, ihres, ihrem, ihren
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

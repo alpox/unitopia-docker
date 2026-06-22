@@ -1,0 +1,35 @@
+Standardobjekte sind z.B. Mudlibobjekte, welche mittels einigen set-Funktionen
+nach dem create/clonen noch angepasst werden. Werden solche vorbereiteten
+Mudlib-Inherits geerbt, kann man mittels 
+- clear_initial_conservation_data();
+am Ende des create die Standardkonfiguration damit einlagerbar machen.
+
+Sind zusätzliche Variablen speicherbar zu machen, kann man es entweder als
+Einzelobjekt umsetzen oder die set-Funktionen mittels der folgenden Funktionen
+in die Datenhaltung aufnehmen:
+- varargs void add_setter_conservation(string setter,mixed * args, 
+                  string sequence)
+  - add_setter_conservation wird verwendet, wenn die Daten speicherbar sind.
+  - die sequence wird nur dann verwendet, wenn es z.B. zu dem set_ 
+    zusätzlich eine add_-Funktionalität gibt, welche in einer festen 
+    Reihenfolge aufgerufen werden muss.
+  - Mit args==0 wird die zugehörige Funktion gelöscht.
+- void delete_seq_conservation(string sequence)
+  Wird eine sequence bei add_setter_conservation angegeben und es gibt eine
+  neue set_-Funktion, welche die vorherigen Eintrage hinfällig macht,
+  so muss mit delete_seq_conservation die betroffene Sequenz gelöscht werden.
+- void set_conservation_constraint(string setter, mixed args)
+  Kann keine speicherbaren Daten mit add_setter_conservation gesetzt werden,
+  z.B. bei Controllern, Objekten, Closures, so wird mit 
+  set_conservation_constraint ein Einlagern verhindert, args sollten beim
+  Debuggen kurz und prägnant den Grund verdeutlichen, warum es nicht 
+  einlagerbar ist. Mit args == 0 wird der einzelne Grund gelöscht.
+- mixed query_conservation_constraint(string key)
+  Mittels query_conservation_constraint kann ein einzelne Bedingung abgefragt
+  werden.
+- mapping query_conservation_constraints()
+  Liefert die Gesamtmenge an constraints.
+- mixed* query_conservation_data()
+  wird zum Einlagern verwendet.
+
+ 

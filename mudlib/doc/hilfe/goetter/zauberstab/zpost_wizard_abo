@@ -1,0 +1,5 @@
+Die Abonnements je Programmierer sind eine einfache Liste der 
+Abonnement-Namen mit ihrem internen Wert für die Sendehäufigkeit (0-4).
+Mit n kann man weitere, neue Abonnements hinzufügen (falls verfuegbar).
+Mit Angabe der Zahl wird die Detailanzeige des Abonnements ausgewählt.
+Mit z zurück zur Konfiguration, mit q ganz aus dem Menu aussteigen.

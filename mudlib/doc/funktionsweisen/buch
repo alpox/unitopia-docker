@@ -1,0 +1,149 @@
+Erstellen eines Buches
+======================
+
+- Man legt für jede Seite des Buchs ein File an,
+  das nicht mehr als 23 Zeilen haben sollte.
+- Man ruft im Buch die Funktion set_page_names(string *) auf,
+  der man die Dateinamen der Seiten übergibt.
+  Wildcards und relative Pfade sind möglich.
+      Beispiel:
+          set_page_names (({ "../texte/atlasseiten*",
+                             "../texte/einzelseite" }) );
+- Soll das Buch ein Inhaltsverzeichnis haben, so legt man für
+  dieses ebenfalls eine Datei mit nicht mehr als 23 Zeilen an.
+- Man ruft um Buch die Funktion set_verzeichnis(string) auf
+  mit dem Dateinamen der Inhaltsverzeichnisdatei
+  (Auch hier sind relative Pfade moeglich):
+      Beispiel:
+          set_verzeichnis("../texte/INHALT");
+- Um zum Beispiel in einem Raum auf einem Tisch ein auf einer
+  bestimmten Seite aufgeschlagenes Buch zu erlauben gibt
+  es die Funktion
+      int set_current_page(int)
+  welche die aktuelle Seite setzt.
+- Achtung: Inherittet man das Buch, so muss man
+  im create unbedingt ::create(); reinschreiben
+  oder seteuid (getuid());.
+- set_page_mode ("more") sorgt dafür, dass die Seite nicht
+  per cat sondern per more angezeigt werden.
+  set_page_mode ("page") macht das wieder rückgängig.
+- ist das Buch nur für Programmierer oder für Engel gedacht, so kann
+  man einfach mit set_wizard_book (1) bzw. set_hlp_book (1) das Buch
+  für nicht-Götter bzw. nicht-Engel unlesbar machen.
+- soll das Buch nicht zum Auf- und Zuschlagen sein so kann man
+  dies mit set_open_close(0) abstellen.  set_open_close(1) würde es
+  wieder ermöglichen.  Defaultmäßig kann man das Buch auf- und
+  zuschlagen und es werden entsprechende Meldungen generiert.
+- mit set_seiten_desc(mapping m) kann man das Seitenobjekt beschreiben
+  und einige Fehlermeldungen überlagern.
+      Einträge:
+        "no_pages" :         Keine Seiten im Buch
+        "which_page" :       Es wurde nicht angegeben welche Seite man lesen
+                             will.
+        "invalid_page" :     Die erwünschte Seitennummer ist <= 0.
+        "page_overflow" :    Die erwünschte Seitennummer ist zu groß.
+        "no_previous_page" : Es wurde versucht zu weit zurückzublättern (-).
+        "no_next_page" :     Es wurde versucht zu weit vorzublaettern (+).
+        "read_page_msg" :    Meldung beim lesen an Andere
+        "stop_reading" :     Man hört auf zu lesen
+        "stop_reading_msg" : Aufhoerenmeldung für Andere
+      Es dürfen Pseudoclosures verwendet werden.  'book_ob ist das
+      Buchobjekt und 'page_ob das seiten_desc-Mapping. 'page_nr die aktuelle
+      Seitennummer.
+
+      Beispiel:
+      set_seiten_desc(([
+                "name" : "Abschnitt",
+              "gender" : "maennlich",
+                 "ids" : ({"inschrift", "absatz", "abschnitt"}),
+            "no_pages" : "Alle Abschnitte wurden wohl von einem Vandalen "
+                         "unleserlich gemacht.",
+          "which_page" : "Welchen Abschnitt willst du lesen?",
+        "invalid_page" : "Diesen Abschnitt gibt es nicht.",
+       "page_overflow" : "Soviele Abschnitte gibt es nicht.",
+    "no_previous_page" : "Das ist schon der erste Abschnitt.",
+        "no_next_page" : "Das ist schon der letzte Abschnitt."
+       "read_page_msg" : "$Der(OBJ_TP) liest sich eine Inschrift durch."
+        "stop_reading" : "Du hörst auf $den('book_ob) zu studieren.",
+    "stop_reading_msg" : "$Der(OBJ_TP) hört auf $den('book_ob) zu studieren.",
+      ]));
+- Falls das Buch durchsuchbar sein soll (mit /<suchstring>) dann muss
+  set_searchable(1) gesetzt werden.  Das Kommando steht dann zur Verfügung.
+  Einige seiten_desc-Einträge gibts auch:
+  "not_searchable" :             Das Buch ist nicht durchsuchbar
+  "empty_search" :               Es wurde kein Suchstring angegeben
+  "search_beyond_end" :          Man befindet sich schon auf der letzten Seite
+  "search_reached_last_page" :   Die Suche hat die letzte Seite erreicht
+  "search_too_long_evaluation" : Suche vorzeitig abgebrochen, nichts gefunden
+- Falls das Buch dynamisch sein soll d.h. es die Seiten nicht als
+  Files gibt, muss mit set_max_page die Seitenanzahl gesetzt werden.
+  Weiter unter steht noch mehr über dynamische Bücher.
+
+- Abfragefunktionen von Außen (ziemlich sinnlos):
+  - string *query_page_names()
+    Liefert die Dateinamen der Seiten
+  - string query_page_inhalt(int seite)
+    Liefert den Seiteninhalt der Seite <seite>, sofern was drauf steht.
+  - string query_verzeichnis()
+    Liefert den Filenamen des aktuellen Verzeichnises oder 0.
+  - string query_verzeichnis_inhalt()
+    Liefert den Inhalt des Inhaltsverzeichnisses (sofern vorhanden).
+  - query_max_page()
+    Liefert die Seitenzahl des Buchs.
+    (Wird durch set_page_names() gesetzt.)
+  - int query_current_page()
+    Liefert die aktuelle Seite des Buches.
+  - query_page_mode() liefert "more" oder "page".
+  - query_wizard_book () liefert 0 oder 1.
+  - query_hlp_book () liefert 0 oder 1.
+  - query_open_close () liefert 0 oder 1.
+  - query_seiten_desc() liefert das gesetzte Seitenmapping bzw. ([])
+    falls nichts verändert wurde
+  - query_searchable() liefert 0 oder 1
+
+Beispiel:  Novizenbuch der Druidengilde, Bücher im Rathaus, ...
+
+Erstellen eines dynamischen Buches:
+===================================
+
+Anstatt das Buch zu clonen, inherittet man es.
+Im create macht man nun
+
+    void create ()
+    {
+        ::create ();
+        set_max_page (Zahl der Seiten, die das Buch haben soll);
+        set_verzeichnis (1);
+            falls das Buch ein Inhaltsverzeichnis haben soll.
+            Hat man das Inhaltsverzeichnis bereits als Datei vorliegen
+            und will es nicht dynamisch erzeugen, so kann man auch
+        set_verzeichnis (Dateiname);
+            wie gewohnt machen.
+        ggf. set_page_mode ("more");
+    }
+
+Nun braucht man noch eine Funktion, welche die dynamischen Seiten anzeigt,
+und, falls man ein Inhaltsverzeichnis haben will, eine für das Inhalts-
+verzeichnis:
+
+    string query_page_inhalt (int seitennummer)
+        Seitennummer zwischen 1 und der mit set_max_page im create
+        gesetzten Seitenzahl
+    {
+        So, nu baut man eine Seite zusammen und returnt den string an einem
+        Stück,
+    }
+
+Für das Inhaltsverzeichnis heißt das Ganze
+
+    string query_verzeichnis_inhalt ()
+    {
+        Naja, wie bei query_page_inhalt das Verzeichnis zusammenschrauben
+        und returnen.
+        set_verzeichnis (1); im create nicht vergessen!
+    }
+
+Achtung: Die Methode mit display_page() und display_verzeichnis() ist
+         veraltet, aber noch kompatibel.
+
+Beispiel: Bibliothek der Magiergilde

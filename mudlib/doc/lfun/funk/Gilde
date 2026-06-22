@@ -1,0 +1,12 @@
+query_entry
+player_died
+player_murdered
+leave_gilde
+enter_gilde
+player_new_rang
+player_suicid
+notify_login
+notify_quit
+query_erf_gilde_available
+query_erf_gilde
+query_erf_gilde_options

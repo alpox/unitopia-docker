@@ -1,0 +1,45 @@
+
+    CREATE INDEX
+    
+    Befehl ::= CREATE [UNIQUE] INDEX [Datenbank .] Indexname 
+               ON Tabelle ( Spalte [, Spalte]* )
+	       [ON CONFLICT Konfliktaufloesung]
+
+    Spalte ::= Name [COLLATE Sortiermethode] [ASC | DESC]
+    
+    Der 'CREATE INDEX'-Befehl erstellt einen neuen Index 'Indexname'
+    aus den in den Klammern angegebenen Spalten dieser Tabelle.
+    Zu jeder Spalte kann man die Art der Sortierung und die
+    Sortierreihenfolge (ASC für aufsteigend, DESC für absteigend)
+    angegeben werden. Die Reihenfolge wird derzeit jedoch ignoriert,
+    es wird immer aufsteigend sortiert.
+    
+    In der COLLATE-Klausel kann man eine Sortiermethode für Textspalten
+    angeben. Derzeit wird nur BINARY (binaerer Vergleich) und NOCASE
+    (binaerer Vergleich, wobei vorher die 26 ASCII-Großbuchstaben in
+    Kleinbuchstaben umgewandelt werden) unterstützt. Standardmäßig
+    wird die in der 'CREATE TABLE'-Anweisung angegebene Methode
+    genutzt bzw. BINARY, sofern dort keine angegeben wurde.
+    
+    Es gibt keinerlei Einschränkungen zu der Anzahl an Indizes für
+    eine Tabelle oder die Anzahl an Spalten in einem Index.
+    
+    Die UNIQUE-Option verhindert doppelte Einträge im Index. Jeder
+    versuch, einen Eintrag zur Tabelle hinzuzufügen, der einen schon
+    vorhanden Indexeintrag bewirkt, wird zu einem Fehler führen.
+    Die 'ON CONFLICT'-Option ermöglicht in diesem Falle eine
+    alternative Lösung als einen Fehler, falls jedoch ein INSERT-
+    oder UPDATE-Befehl eine eigene Konfliktaufloesungsstrategie
+    angeben, so hat diese Vorrang vor der des Indexes. Die
+    Standardstrategie ist ABORT (d.h. ein Fehler wird geworfen).
+    Zu den einzelnen Strategien siehe Beschreibung zu 'ON CONFLICT'.
+    
+    Der exakte Text jeder 'CREATE INDEX'-Anweisung wird in der 
+    sqlite_msater- bzw. sqlite_temp_master-Tabelle (je nachdem, ob
+    die Tabelle permament oder temporär ist) gespeichert. Jedes Mal,
+    wenn die Datenbank geöffnet wird, werden diese Anweisungen
+    eingelesen und ausgeführt, damit SQLite seine interne Darstellung
+    des Indexlayouts wiederherstellen kann.
+    
+    Indizes werden mit dem 'DROP INDEX'-Befehl entfernt.
+

@@ -1,0 +1,7 @@
+FUNKTION: time_to_vtime
+DEKLARATION: int time_to_vtime(int time)
+BESCHREIBUNG:
+Rechnet Realzeit (time(), sec seit 1970) in Spielzeit (vtime(), sec seit 0) um.
+VERWEISE: vtime_to_time, time, vtime
+GRUPPEN: simul_efun, zeit
+SOURCE: /secure/simul_efun/time.inc

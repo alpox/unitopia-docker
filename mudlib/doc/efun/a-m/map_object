@@ -1,0 +1,8 @@
+FUNKTION: map_object
+DEKLARATION: int map_object(string file_name)
+BESCHREIBUNG:
+Liefert 1, wenn es sich bei dem Raum 'file_name' um einen Map-Raum handelt.
+(z.B. bei /map/m1_1 oder auch bei /d/Doerrland/m0_0)
+GRUPPEN: simul_efun, map
+VERWEISE: 
+SOURCE: /secure/simul_efun/map.inc

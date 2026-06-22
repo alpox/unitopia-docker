@@ -1,0 +1,62 @@
+FUNKTION: search_file
+DEKLARATION: varargs string search_file(string path[, string absolute[, string subdir[, string extension, [string *exclude]]]])
+BESCHREIBUNG:
+search_file sucht nach der im ersten Parameter 'path' angegebenen Datei.
+
+ - path kann ein absolute Dateiname sein. Dazu muss er mit einem
+   Schraegstrich beginnen.
+
+ - path kann ein relativer Dateiname sein. Hierbei sind '../' nur am
+   Anfang erlaubt.
+
+ - Beginnt path mit einem '%' so wird vom lokalen Verzeichnis ausgehend in
+   allen uebergeordneten Verzeichnissen nach dieser Datei gesucht. Wurde
+   der Parameter subdir angegeben, so muss diese Datei im Unterverzeichnis
+   subdir liegen.
+   
+Der Parameter absolute gibt das lokale Verzeichnis an. Wurde er weggelassen
+oder ist er 0, so wird das Verzeichnis des Objektes, welches diese simul-efun
+aufruft, genommen.
+Die Erweiterung extension wird sofern nicht schon in path vorhanden,
+automatisch angehaengt.
+
+In exclude kann man absolute Dateinamen (mit Endung) angeben, welche
+von der Suche ausgeschlossen werden.
+
+search_file liefert den gefundenen Dateinamen zurueck, sofern diese
+Datei wirklich existiert, ansonsten 0.
+
+Beispiele: 
+
+    search_file("../../../map.c")
+	liefert "/d/Vaniorh/map.c", wenn es von einem Objekt in 
+	/d/Vaniorh/Tadmor/Stadtwache/room aufgerufen wird.
+
+    search_file("../../../map", 0, 0, ".c")
+        liefert das gleiche wie oben, hier duerfte man nur das .c
+	im Dateinamen weglassen.
+
+    search_file("%map.c")
+        schaut ausgehend von /d/Vaniorh/Tadmor/Stadtwache/room nach folgenden
+	Dateien:
+	  /d/Vaniorh/Tadmor/Stadtwache/room/map.c
+	  /d/Vaniorh/Tadmor/Stadtwache/map.c
+	  /d/Vaniorh/Tadmor/map.c
+	  /d/Vaniorh/map.c
+	wo es schliesslich fuendig wird und letzteres zurueckliefert.
+
+    search_file("%master", "/d/Vaniorh/Tadmor/Stadtwache", "apps", ".c")
+        sucht nach folgenden Dateien:
+	  /d/Vaniorh/Tadmor/Stadtwache/apps/master.c
+	  /d/Vaniorh/Tadmor/apps/master.c
+	  /d/Vaniorh/apps/master.c
+	  /d/apps/master.c
+	  /apps/master.c
+	und liefert den ersten gefundenen Dateinamen oder 0.
+
+    search_file("/room/church.c","/scheiss/egal/was")
+        liefert /room/church.c
+
+VERWEISE: file_path, object_name, abs_path
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc

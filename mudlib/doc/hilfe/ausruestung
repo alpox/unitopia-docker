@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------
+ausrüstung [-kmrstvw]          Zeigt die vom Spieler mitgeführten Gegen-
+ausr [-kmrstvw]                stände an.
+i [-kmrstvw]                   'i' ist ein Kürzel für ausr.
+
+ausrüstung [-kmstvw] etwas     Zeigt den Inhalt eines Objekts oder Lebewesens
+ausr [-kmstvw] etwas           an.
+i [-kmstvw] etwas
+
+Optionen:
+   k    Einteilung der Gegenstände nach Klassen
+   m    Verwendung eines 'more' zur Ausgabe
+   r    Tascheninhalte auch anzeigen
+   s    Sortierung der Gegenstände nach Namen
+   t    Zweispaltige Ausgabe
+   v    VT100 Support
+   w    Angegebene Optionen als Voreinstellung speichern
+   z    Gegenstände, die Du eh immer bei Dir hast wie Kaffeeklatsche,
+        Kuscheli oder Schnuller nicht auflisten
+   ?    Voreinstellung anzeigen
+
+Beispiele:
+ausr           Inhaltsliste mit voreingestellten Optionen ausgeben.
+ausr -k        Klassensortierte Ausgabe.
+ausr -ktvmw    Stellt die Ausruestungsliste auf mehrspaltige, klassensortierte
+	       Ausgabe unter Verwendung von VT100 und more um.
+ausr -         Standardinhaltsliste
+ausr -w        Setzt die Voreinstellung auf Standard zurück.
+------------------------------------------------------------------------------

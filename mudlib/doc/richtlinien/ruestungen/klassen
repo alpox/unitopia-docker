@@ -1,0 +1,9 @@
+Folgende Ruestungsklassen kann man mit set_armour_class setzen. Ein
+Spieler kann maximal eine Rüstung einer bestimmten Waffenklasse tragen.
+
+kopf			Helm
+oberkoerper		Brustpanzer, Kettenhemd, Mantel, Fell
+haende			Handschuh
+beine			Hose, Beinschiene
+fuesse			Sandale, Schuh, Stiefel
+magie			Schutzfeld

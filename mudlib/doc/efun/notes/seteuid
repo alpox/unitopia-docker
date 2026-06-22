@@ -1,0 +1,8 @@
+
+        Ein Objekt mit der UID user darf sich die EUID user und die
+        NOBODY_UID (definiert in /sys/uids.h) setzen.
+
+        Jedes Objekt bekommt seine UID automatisch als EUID gesetzt.
+        Daher ist der einzige Sinn dieser Funktion, sich die NOBODY_UID
+        zu setzen.
+

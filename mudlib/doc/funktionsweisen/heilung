@@ -1,0 +1,39 @@
+Die Heilung von Ausdauer- und Zauberpunkten richtet sich nach dem Zustand
+des Spielers:
+
+  1. Wasser-Punkte (wp)
+
+	Hat der Spieler mehr als -80 wp, bekommt er  +1 hp/sp
+
+	Hat der Spieler mehr als +80 wp, bekommt er  +1 hp/sp
+
+  2. Futter-Punkte (fp)
+
+	Hat der Spieler mehr als -40 wp, bekommt er  +1 hp/sp
+
+	Hat der Spieler mehr als +40 wp, bekommt er  +1 hp/sp
+
+
+  3. Alkohol im Blut
+
+	Solange er betrunken ist		     +3 hp/sp
+
+
+  ==>  Minimum: 0 hp/sp          (frueher: 1 hp/sp)
+  ==>  Maximum: 7 hp/sp          (frueher: 4 hp/sp)
+
+
+Essen und Getränke addieren können nicht nur wp und fp aufaddieren, sie
+können auch eine einmalige Zusatzheilung verteilen. Hierfür besitzen sie
+die Funktion set_healing(..).
+
+Richtlinen für den Gebrauch von set_healing(..) findet man in
+
+	/doc/richtlinien/heilkosten
+
+Näheres zu den wp und fp findet man in
+
+	/doc/funktionsweisen/verbrauch
+
+Geheilt wird alle HEALING_TIME (zZ 20 Sekunden); das entspricht in
+Spielzeit 3 Minuten.

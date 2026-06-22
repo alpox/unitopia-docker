@@ -1,0 +1,8 @@
+FUNKTION: array_to_time
+DEKLARATION: int array_to_time(int* arr)
+BESCHREIBUNG:
+Liefert zu einem Array (wie es von timearray() geliefert wurde)
+die zugehoerige Anzahl an Sekunden seit 1970.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, timestr, timearray, array_to_vtime
+SOURCE: /secure/simul_efun/time.inc

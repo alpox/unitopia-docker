@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+pfadkürzel (oder kurz: pk)
+
+Mit diesem Befehl kann man sich, ähnlich wie beim 'kuerzel'-Kommando
+Kürzel setzten, und zwar auf Pfade.
+
+Man muss dann also nicht mehr 'cd /d/Vaniorh/Tadmor' eingeben
+sondern z.B. 'cd vt', wenn man mit 'pk vt /d/Vaniorh/Tadmor' diese
+Pfadkürzel gesetzt hat.
+
+Ein Pfadkürzel entfernen kann man mit dem Befehl "unpk".
+
+Alle Pfadkürzel werden in der Datei ~/.pfadkürzel gespeichert.
+Diese wird beim Einloggen eingelesen.
+
+Diese Pfadkürzel sind dann für ALLE Befehle gültig, wie z.B. more, tail,
+mv, cp, rm, ed, cd und für alle Zauberstab-Befehle
+
+Syntax:
+   pk                          zeigt alle gesetzten Pfadkürzel an
+   pk -r                       liest die Datei '~/.pfadkuerzel' neu ein
+   pk vt /d/Vaniorh/Tadmor     setzt das Pfadkürzel 'vt'
+   pk vt                       zeigt das Pfadkürzel 'vt' an
+   unpk vt                     entfernt das Pfadkürzel 'vt'
+   
+Anwendungsbeispiele: (ein paar wenige von endlos vielen...)
+   cd vt            macht dann ein   cd /d/Vaniorh/Tadmor
+   cd vt/Strassen   macht dann ein   cd /d/Vaniorh/Tadmor/Strassen
+   zgehzu forum     macht dann ein   zgehzu /room/rathaus/forum
+-------------------------------------------------------------------------------

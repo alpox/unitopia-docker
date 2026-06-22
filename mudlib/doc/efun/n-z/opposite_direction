@@ -1,0 +1,14 @@
+FUNKTION: opposite_direction
+DEKLARATION: varargs string opposite_direction(string dir, int flags)
+BESCHREIBUNG:
+Liefert die Richtung, welcher der Richtung im ersten Parameter dir
+entgegengesetzt ist. Ist diese Richtung unbekannt, so wird 0 zurueckgeliefert.
+Der zweite Parameter flags kann eine Oder-Kombination aus folgenden
+Konstanten (definiert in simul_efuns.h) sein:
+
+    DIR_NUR_HIMMELSRICHTUNGEN   Nur bei Himmelsrichtungen beachten.
+    DIR_ALS_DEFAULT             Anstatt 0 dir zurueckliefern.
+				
+VERWEISE: expand_direction, is_direction
+GRUPPEN: simul_efun, ausgaenge
+SOURCE: /secure/simul_efun/map.inc

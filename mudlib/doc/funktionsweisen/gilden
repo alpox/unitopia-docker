@@ -1,0 +1,221 @@
+
+Bei allgemeinen Fragen bezüglich der Gilden wendet man sich an die Gildenadmins
+Wer das ist, bekommt man mit
+   zgehzu gouv
+   list auth
+heraus. Post adressiert man am besten an 'gilden'.
+
+
+
+
+                          Das Gilden-Handling
+
+  -  Es drei Variablen im player:
+
+	string gilde		Der Name der Gilde
+	int rang		Der Rang innerhalb der Gilde
+	mixed gilden_data 	Daten, die die Gilde im Spieler speichert
+
+
+  - Eintreten und Austreten aus einer Gilde sowie das Wechseln des
+    Ranges innerhalb einer Gilde geschieht mit den Funktionen:
+
+	int enter_gilde()
+	int leave_gilde()
+	int set_rang(int new_rang)
+	int set_gilden_data(mixed data)
+	mixed query_gilden_data()
+
+     Diese Funktionen können nur von folgenden Objekten aufgerufen werden:
+
+		- dem Gilden-Ob selbst
+		- Objekten, die in der Gilde eingetragen sind
+		  (wie und wo folgt weiter unten)
+		- dem Gildenmeister und den Gildenprogrammierer;
+		  ebenfalls in der Gilde eingetragen
+		- den Gildenlords und den 50ern (sie können bei
+		  enter_gilde den Gildennamen als Parameter angeben.)
+
+    Return-Codes (in /sys/gilden.h):
+
+
+	enter_gilde()
+
+		OK			ok.
+
+		INVALID_CALLER		Gilde ist gesperrt oder
+					nicht eingetragen.
+
+		OTHER_GUILD		Player ist bereits in einer
+					anderen Gilde.
+
+		ALREADY_MEMBER		Player ist bereits in dieser
+					Gilde.
+
+	leave_gilde()
+	set_rang()
+	query_gilden_data()
+	set_gilden_data()
+
+		OK			ok.
+
+		INVALID_CALLER		Gilde gesperrt oder
+					nicht eingetragen.
+
+		NO_GUILD		Player ist in keiner Gilde.
+
+		OTHER_GUILD		Player ist in einer anderen
+					Gilde.
+
+
+
+  -  Abgefragt wird die Gilden-Zugehörigkeit über die ebenfalls
+     neue Funktion im player:
+
+	mixed query_gilden_info(was)
+
+     was steht hierbei für folgende Defines (aus gilden.h):
+
+		GILDEN_NAME		Name der Gilde.
+		
+		GILDEN_GESCHLECHT	Geschlecht des Gildennamens.
+
+		KUERZEL			Kürzel der Gilde.
+		                        (Ein Zeichen als eindeutige Kennung
+					der Gilde.)
+
+		GILDEN_MEISTER		Der Meister der Gilde - dies ist
+				        der Gründer der Gilde.
+		
+		PROGRAMMIERER		Ein Array mit den Programmierern der
+					Gilde. (Wenn es nicht der Meister ist.)
+		                        
+
+		VALID_CALLER		Ein Array aus Dateinamen von Objekten,
+					die den Eintrag im Player ändern
+					dürfen. Falls nicht vorhanden, wird
+					das Gilden-Ob eingetragen.
+
+		FILE_NAME		Filename der Gilde.
+
+		STATUS			Status der Gilde:
+			OK		Alles in Ordnung.
+			NOT_ACTIVE	In /adm/Gilden disabled.
+			NOT_LOADABLE	Fehler beim Laden der Gilde.
+			INVALID_ENTRY   Fehlerhafte Gildenkofiguration.
+			TEST		Testbetrieb
+					
+		REASON			Kurzer Text im Fall von
+					NOT_ACTIVE.
+
+		MITGLIED		Allgemeiner Name eines
+					Gildenmitglieds unabhängig
+					vom Rang (Geschlecht (m/w/s)
+					bereits beruecksichtigt).
+
+		MITGLIED_PLURAL		Pluralform davon.
+
+		RANG			Rang innerhalb der Gilde
+					(Geschlecht (m/w/s) bereits
+					beruecksichtigt).
+
+		RANG_PLURAL		Pluralform davon.
+
+		RANG_NAME		Benennung des Ranges innerhalb
+					der Gilde. 
+
+	        GILDEN_BRETTER          Eine Array, der für die
+		                        Mitglieder der Gilde lesbaren
+					Gruppennamen des Gildenbretts
+	       
+	        AUTO_LOADER             Enthält den Filenamen des
+		                        Autoloaders, den der Spieler
+					aufgrund seiner Mitgliedschaft in
+					der Gilde haben darf.
+		GILDEN_FINGER		eine Closure, die mit folgenden
+					Parametern aufgerufen wird:
+			    mapping wer	    Name und Geschlecht des Spielers
+			    mapping rang    Rang des Spielers
+			    mapping gilde   Name und Geschlecht der Gilde
+			    int wiz	    Ob der, der die Info haben will
+			    		    ein Gott ist.
+                GILDEN_TOD               Falls die Gilde eigene Todessequenzen
+                                         besitzt, der Dateiname des
+                                         Todessraumes.
+                                         Siehe Funktionsweisen, Todessequenzen.
+
+  -  Jede Gilde hat ein Gilden-Ob, das im File-Dämon eingetragen ist.
+     Dies kann man mit 'zgehzu gouv' und 'liste gilden' anschauen.
+
+     Diese Gilden-Ob sollte unter /z/Gilden/<Name der Gilde>/apps/gilden_ob
+     liegen und muss /i/object/gilden_ob inheriten.
+
+     In diesem Gilden-Ob werden folgende Funktionen aufgerufen:
+       - private void notify_login(object player, int flag)
+	 wenn sich ein Spieler der Gilde einloggt.
+       - private void player_died(object player, object taeter)
+         wenn ein Spieler der Gilde stirbt.
+       - private void player_murdered(object player, object opfer)
+         wenn ein Spieler der Gilde einen anderen ermordet hat.
+       - private void player_suicid(string name)
+         wenn sich ein Spieler der Gilde suizidet hat.
+     
+     Diese Funktionen können alle private deklariert werden, und müssen
+     deshalb nicht extra vor falschem Zugriff geschützt werden.
+
+     Jede Gilden-Ob muss folgende Routine bereitstellen, die vom
+     Gildenbuero abgefragt wird:
+
+	private mapping query_entry() { return ...; }
+
+     Beispiel für einen entry - Eintrag:
+
+	private mapping query_entry()
+	{
+	    return ([
+		  GILDEN_NAME	    : "Abenteurergilde",
+		          /* Die Angabe ist freiwillig, da dieser Eintrag
+			     im Gildenraum überschrieben wird. */
+		  GILDEN_GESCHLECHT : "weiblich",
+		  KUERZEL	    : "a",
+			  /* Das Kürzel darf nur aus einem Zeichen
+			     bestehen und muss eindeutig sein. */
+		  GILDEN_MEISTER    : "Francis",
+		  VALID_CALLER      : 0,
+			  /* Nur die Gilde selbst */
+		  AUTO_LOADER       : 0,
+			  /* Keinen Autoloader */
+		  GILDEN_BRETTER    : ({ "Abenteurer" }),
+		  MITGLIED	: ([
+			  /* Die allgemeinen Namen */
+			MAENNLICH		: "Abenteurer",
+			MAENNLICH_PLURAL	: "Abenteurer",
+			WEIBLICH		: "Abenteurerin",
+			WEIBLICH_PLURAL		: "Abenteurerinnen",
+			SAECHLICH		: "Abenteuersuchende",
+			SAECHLICH_PLURAL	: "Abenteuersuchenden"
+				  ]),
+		  RAENGE	: ({
+			([
+			RANG_NAME		: "wanderer",
+			MAENNLICH		: "Wanderer",
+			MAENNLICH_PLURAL	: "Wanderer",
+			WEIBLICH		: "Wandererin",
+			WEIBLICH_PLURAL		: "Wandererinnen",
+			SAECHLICH		: "Wandernde",
+			SAECHLICH_PLURAL	: "Wandernden"
+					    ]),
+			([
+			RANG_NAME		: "krieger",
+			MAENNLICH		: "Krieger",
+			MAENNLICH_PLURAL	: "Krieger",
+			WEIBLICH		: "Kriegerin",
+			WEIBLICH_PLURAL		: "Kriegerinnen",
+			SAECHLICH		: "Kriegführende",
+			SAECHLICH_PLURAL	: "Kriegführenden"
+					    ])
+			})
+	    ]);
+	}
+
+Francis

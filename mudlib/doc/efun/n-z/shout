@@ -1,0 +1,7 @@
+FUNKTION: shout
+DEKLARATION: void shout(string str)
+BESCHREIBUNG:
+Der Aufruf dieser Funktion erzeugt ein Ereignis im Kanal "Gebruell",
+welcher ueber den Kurier (EVENT_MASTER) verteilt wird.
+GRUPPEN: simul_efun
+SOURCE: /secure/simul_efun/util.inc

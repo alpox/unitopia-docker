@@ -1,0 +1,3 @@
+set_door_height
+set_door_is_too_small_msg
+query_door_height

@@ -1,0 +1,37 @@
+In diesem Menü können Einstellungen zur einzelnen Kampfanzeige angepasst 
+werden.
+
+  Meldungstypen:
+  
+   E: Erste Kampfmeldung an/ausschalten
+      
+   K: Kritische Meldungen an/ausschalten
+      
+   W: Wenn die Waffe kaputtgeht, Meldung an/ausschalten
+            
+   R: Wenn eine Rüstung kaputtgeht, Meldung an/ausschalten
+   
+   L: Letzte Kampfmeldung an/ausschalten.
+   
+  Meldungskategorien:
+   
+   0: Meldungen ohne Treffer an/ausschalten
+   
+   1: Meldungen bei leichten Treffern an/ausschalten
+   
+   2: Meldungen bei mittleren Treffern an/ausschalten
+   
+   3: Meldungen bei starken Treffern an/ausschalten
+   
+   4: Meldungen bei sehr starken Treffern an/ausschalten
+   
+   5: Meldungen bei Treffern jenseits der Skala an/ausschalten
+
+
+  Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.

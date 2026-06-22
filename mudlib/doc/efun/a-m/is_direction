@@ -1,0 +1,12 @@
+FUNKTION: is_direction
+DEKLARATION: varargs int is_direction(string dir, int flags)
+BESCHREIBUNG:
+Liefert 1, wenn der erste Parameter dir eine Richtung ist, sonst 0.
+Der zweite Parameter flags kann eine Oder-Kombination aus folgenden
+Konstanten (definiert in simul_efuns.h) sein:
+
+    DIR_NUR_HIMMELSRICHTUNGEN   Nur Himmelsrichtungen beachten
+				
+VERWEISE: expand_direction, opposite_direction
+GRUPPEN: simul_efun, ausgaenge
+SOURCE: /secure/simul_efun/map.inc

@@ -1,0 +1,193 @@
+Standard-Räume:
+===============
+
+Man kann die Ausgänge wie folgt definieren:
+
+	set_exit(string Filename, string Kommando)
+oder	set_exits(string *Filenamen, string *Kommandos)
+
+	z.B.:  set_exit("/d/Vaniorh/uluji/ile/central_plaza1","westen");
+	       set_exits( ({ "/d/Vaniorh/uluji/market_place",
+			     "/d/Vaniorh/uluji/harbour_street1" }),
+			  ({ "norden", "westen" })
+			);
+
+
+
+Map-Räume:
+==========
+
+Per Voreinstellung sind acht Ausgänge definiert:
+Norden, Nordosten, Osten, etc.
+
+Man kann Ausgänge sperren:
+
+	delete_exit(string Kommando)
+oder	delete_exits(string *Kommandos)
+
+	z.B.: delete_exits( ({ "norden","westen", "südosten" }) );
+
+Man kann Ausgänge hinzufügen:
+
+	add_exit(string Filename, string Kommando)
+oder	add_exits(string *Filenamen, string *Kommandos)
+
+Man kann auch alle auf einmal überlagern:
+
+	set_exit(string Filename, string Kommando)
+oder	set_exits(string *Filenamen, string *Kommandos)
+
+All diese Befehle funktionieren auch für Standardraeume.
+
+
+
+Verbindung von Map- und Standard-Räumen:
+========================================
+
+Map-Räume können ja in den unterschiedlichsten Subdirectorys der einzelnen
+Domains liegen. Im geladenen Zustand dagegen kann man diese Herkunft nicht
+mehr am File-Namen erkennen.
+
+Bsp: "/d/Arktis/uluji/m0_0" auf Festplatte,
+     "/map/m3_1020"    im geladenen Zustand in der Map.
+
+Im Allgemeinen ist es egal, welchen Namen man angibt, da alle System-Routinen
+zum Laden von Räumen die Efun "touch(..)" verwenden, die sich den richtigen
+Namen heraussucht.
+
+"touch" verwendet intern folgende Efuns, um "Domain"-Namen in "Map"-Namen
+und umgekehrt zu verwandeln:
+
+    domain2map("/d/Arktis/uluji/m0_0") -> "/map/m3_1020"
+    map2domain("/map/m3_1020")    -> "/d/Arktis/uluji/m0_0"
+
+
+Versteckte Ausgänge:
+====================
+
+Von set_exit/set_exits gesetzte Ausgänge sind SICHTBAR, dass heißt sie
+werden beim Rumlaufen und bei 'schau' nach der Raumbeschreibung angezeigt.
+Die von der Map in Mapraeumen gesetzten 8 Standardausgaenge sind dagegen
+NICHT SICHTBAR, sie werden nicht angezeigt. (Eigenschaft NOLIST)
+Anderer Ausgänge sind sogar versteckt, das heißt auch andere Spieler
+bekomen nicht die Richtung mit, wenn man sich durch sie entfernt.
+(Eigenschaft HIDDEN)
+
+Man kann jedoch einzelne oder mehrer Ausgänge von Hand sichtbar bzw. 
+unsichtbar machen.
+Dazu gibt es die Funktionen:
+
+   hide_exit  ([string Kommando | string *Kommandos]);
+   nolist_exit([string Kommando | string *Kommandos]);
+   show_exit  ([string Kommando | string *Kommandos]);
+
+   Z.B.:
+      hide_exit("norden"); 
+		     versteckt den Ausgang nach Norden.
+      hide_exit(({"norden", "osten" }));
+		     versteckt die Ausgänge Norden und Osten.
+      hide_exit()
+		     versteckt alle Ausgänge
+
+             
+Kategorien von Ausgängen
+========================
+Kategorien sind Angaben bei sichtbaren Ausgängen, die zusätzlich zu 
+"Weiter:" angezeigt werden und zur Übersichtlichkeit beitragen können.
+Man kann auf zwei Arten Kategorien vergeben, über set_exit/set_exits
+  Beispiel:
+    add_exits(({"north_bridge",
+              "north_street1",
+              "harbour_street1",
+              "vorhalle",
+              "krone" }),
+            ({"südwesten", "norden", "nordosten", "osten", "westen"}),
+             0,
+            ({0,0,0,"Bank","Gasthaus Krone"}));
+          Bank: Osten.
+Gasthaus Krone: Westen.
+        Weiter: Südwesten, Norden und Nordosten.
+oder über set_exit_category.
+  Beispiel:
+    set_exit_category("osten","Bank");
+
+
+Filtern von Bewegungen:
+=======================
+
+Wenn man zusätzliche Bedingungen mit der Benutzung einzelner Ausgänge
+verknüpfen will, schreibt man jeweils eine Routine mit dem Namen:
+
+                int filter_<richtung>(object who) { }	
+
+Bei Benutzung der entsprechenden Richtung wird diese aufgerufen;
+liefert sie 0 zurück (oder existiert sie nicht), so wird die Bewegung durch-
+geführt, ansonsten wird die Bewegung verweigert.
+
+Unsichtbare Götter können damit allerdings NICHT aufgehalten werden !
+
+Beispiel:
+
+        /* Der Raum besitzt zwei Ausgänge,
+           wobei der zweite gefiltert werden soll. */
+
+        set_exits(({"/d/..../raum1","/d/.../raum2"}),({"norden","runter"}));
+
+
+        int filter_runter(object who) {
+            write("PUHH..... Geht die Falltür schwer auf.\n");
+            return 0;    /* Bewegung erlaubt. */
+        }
+
+  oder:
+
+       int filter_runter(object who) {
+           if (present("ork",this_object())) {
+              write("Ein Ork versperrt dir den Weg.\n");
+              return 1;
+              }
+           return 0;
+       }
+
+
+Zusätzliche (hoffentlich wichtige) Ausgangsfunktionen:
+======================================================
+
+- Um Standardbewegungsmeldungen zu überlagern:
+     set_exit_msg(string dir, string raus, string rein)
+
+  Beispiel:
+    set_exit_msg(
+        "nordosten",
+        "$Der(OBJ_TP) läuft den Pfad nach Nordosten hoch",
+        "$Ein(OBJ_TP) kommt von Südwesten den Pfad hochgelaufen");
+
+
+Flags zu Ausgängen:
+===================
+
+Folgende Konstanten aus room.h stehen zur Verfügung:
+
+EXIT_VISIBLE  Der Ausgang wird sichtbar. (nicht nolist oder versteckt)
+EXIT_NOLIST   Der Ausgang wird nicht angezeigt.  (Mapausgaenge)
+EXIT_HIDDEN   Der Ausgang ist versteckt,
+              Man kann ihn benutzen, aber man sieht ihn nicht als Spieler,
+              und andere sehen es nicht (deutlich), wenn ein Spieler ihn
+              benutzt, im Gegensatz zu EXIT_NOLIST.
+EXIT_LOCKED   Der Ausgang wird gesperrt.
+EXIT_UNLOCKED Der Ausgang wird entsperrt.
+EXIT_VIEW     Beim Betrachten des Raumes sieht der Spieler dort befindliche
+              PCs + NPCs, sofern er bei den Helligkeitsverhaeltnissen
+              in der Lage wäre zu sehen.
+
+und können in folgenden Funktionen verwendet werden:
+  add_exit, add_exit_flag, query_exit_flag, query_command_list,
+  query_exit_list, query_flag_list, set_exit
+
+BEISPIEL:
+   add_exit_flag(({"norden", "osten"}), EXIT_NOLIST);
+
+Für VISIBLE, NOLIST, HIDDEN, LOCKED und UNLOCKED gibt es eigene Funktionen:
+  show_exit, nolist_exit, hide_exit, lock_exit, unlock_exit  siehe dort.
+
+

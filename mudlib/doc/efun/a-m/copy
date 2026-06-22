@@ -1,0 +1,29 @@
+SYNOPSIS
+        mixed copy(mixed arg)
+
+DESCRIPTION
+        Create a shallow copy of <arg> and return it. For arrays, mappings,
+        structs and lightweight objects this means that a new array, mapping,
+        struct resp. lightweight object is created with copies of the
+        original content. Embedded arrays, mappings, structs or lightweight
+        objects are copied by reference!
+
+        For other values this function is a no-op.
+
+        If a lightweight objects was copied, the H_CREATE_LWOBJECT_COPY hook
+        will be called to finish initialization of the lightweight object.
+
+EXAMPLES
+        mixed *a, *b;
+
+        a = ({ 1, ({ 21, 22 }) });
+        b = copy(a);
+        a[0] = -1; a[1][0] = -21;
+         --> a is now ({ -1, ({ -21, 22 }) })
+             b is now ({  1, ({ -21, 22 }) })
+
+HISTORY
+        Introduced in LDMud 3.2.6.
+
+SEE ALSO
+        deep_copy(E)

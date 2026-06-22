@@ -1,0 +1,23 @@
+FUNKTION: domain2map
+DEKLARATION: string domain2map(string file_name)
+BESCHREIBUNG:
+Ein Map-Raum innerhalb einer Domain ist durch seine lokalen
+Koordinaten gekennzeichnet:
+
+/d/Domain/mx_y
+/d/Domain/mitglied/mx_y
+/d/Domain/mitglied/bereich/mx_y
+
+Sobald sie in der Map geladen werden, bekommen sie einen File-Namen mit
+absoluten Koordinaten:
+
+/map/mx_y
+
+Mit dieser Routine kann der Map-File-Name eines Domain-Files erfragt werden.
+
+Beispiel:
+    domain2map("/d/Arktis/uluji/schelfweg/m0_4") --> "/map/m3_1024"
+
+GRUPPEN: simul_efun, map
+VERWEISE: map2domain
+SOURCE: /secure/simul_efun/map.inc

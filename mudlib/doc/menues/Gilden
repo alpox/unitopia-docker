@@ -1,0 +1,23 @@
+# Dies ist das Menü für die Gilden-Doku
+
+# Untermenü: <file-name> <Ueberschrift>
+# wenn <file-name> ein Directory ist, wird ein Untermenü gemacht
+# ansonsten wird einfach ein Menüpunkt erstellt
+
+/z/Gilden/INFO/Enzyclopedia			Allgemeines über Gilden
++line 0
+/z/Gilden/Abenteurergilde/INFO/Enzyclopedia	Abenteurergilde
+/z/Gilden/Alchemistengilde/INFO/Enzyclopedia	Alchemistengilde
+/z/Gilden/Bardengilde/INFO/Enzyclopedia		Bardengilde
+/z/Gilden/Diebesgilde/INFO/Enzyclopedia		Diebesgilde
+/z/Gilden/Druidengilde/INFO/Enzyclopedia	Druidengilde
+/z/Gilden/Hexenvolk/INFO/Enzyclopedia		Hexenvolk
+/z/Gilden/Magiergilde/INFO/Enzyclopedia		Magiergilde
+/z/Gilden/Metamorpher/INFO/Enzyclopedia		Metamorpher
+/z/Gilden/OrdenDerFinsternis/INFO/Enzyclopedia	OrdenDerFinsternis
+/z/Gilden/Sehergilde/INFO/Enzyclopedia		Sehergilde
+/z/Gilden/Vampyrgilde/INFO/Enzyclopedia		Vampyrgilde
++line 0
+/z/Gilden/Geschwistergilden/INFO/Enzyclopedia	Geschwistergilden (Barden-, Druiden- und Sehergilde)
++line 0
+/z/Gilden/Ritterorden/INFO/Enzyclopedia		Ritterorden

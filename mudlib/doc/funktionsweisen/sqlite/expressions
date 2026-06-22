@@ -1,0 +1,260 @@
+
+                                   expression
+
+       expr ::=  expr  binary-op  expr  |
+                 expr  like-op  expr  [ESCAPE expr]  |
+                 expr  glob-op  expr  |
+                 unary-op  expr  |
+                 ( expr ) |
+                 column-name  |
+                 table-name . column-name  |
+                 database-name . table-name . column-name  |
+                 literal-value  |
+                 function-name ( expr-list  | * ) |
+                 expr ISNULL |
+                 expr NOTNULL |
+                 expr  [NOT] BETWEEN expr AND expr  |
+                 expr  [NOT] IN ( value-list ) |
+                 expr  [NOT] IN ( select-statement ) |
+                 expr  [NOT] IN [database-name .]  table-name  |
+                 [EXISTS] ( select-statement ) |
+                 CASE [expr]  ( WHEN expr THEN expr  )+  [ELSE expr]
+                 END
+
+    like-op ::=  LIKE | NOT LIKE
+
+    glob-op ::=  GLOB | NOT GLOB
+
+   This section is different from the others. Most other sections of this
+   document talks about a particular SQL command. This section does not talk
+   about a standalone command but about "expressions" which are subcomponents
+   of most other commands.
+
+   SQLite understands the following binary operators, in order from highest
+   to lowest precedence:
+
+ ||
+ *    /    %
+ +    -
+ <<   >>   &    |
+ <    <=   >    >=
+ =    ==   !=   <>   IN
+ AND
+ OR
+
+   Supported unary operators are these:
+
+ -    +    !    ~
+
+   Any SQLite value can be used as part of an expression. For arithmetic
+   operations, integers are treated as integers. Strings are first converted
+   to real numbers using atof(). For comparison operators, numbers compare as
+   numbers and strings compare using the strcmp() function. Note that there
+   are two variations of the equals and not equals operators. Equals can be
+   either = or ==. The non-equals operator can be either != or <>. The ||
+   operator is "concatenate" - it joins together the two strings of its
+   operands. The operator % outputs the remainder of its left operand modulo
+   its right operand.
+
+   The LIKE operator does a pattern matching comparison. The operand to the
+   right contains the pattern, the left hand operand contains the string to
+   match against the pattern. A percent symbol % in the pattern matches any
+   sequence of zero or more characters in the string. An underscore _ in the
+   pattern matches any single character in the string. Any other character
+   matches itself or it's lower/upper case equivalent (i.e. case-insensitive
+   matching). (A bug: SQLite only understands upper/lower case for 7-bit
+   Latin characters. Hence the LIKE operator is case sensitive for 8-bit
+   iso8859 characters or UTF-8 characters. For example, the expression
+   'a' LIKE 'A' is TRUE but 'æ' LIKE 'Æ' is FALSE.).
+
+   If the optional ESCAPE clause is present, then the expression following
+   the ESCAPE keyword must evaluate to a string consisting of a single
+   character. This character may be used in the LIKE pattern to include
+   literal percent or underscore characters. The escape character followed by
+   a percent symbol, underscore or itself matches a literal percent symbol,
+   underscore or escape character in the string, respectively. The infix LIKE
+   operator is implemented by calling the user function like(X,Y).
+
+   The LIKE operator is not case sensitive and will match upper case
+   characters on one side against lower case characters on the other. (A bug:
+   SQLite only understands upper/lower case for 7-bit Latin characters. Hence
+   the LIKE operator is case sensitive for 8-bit iso8859 characters or UTF-8
+   characters. For example, the expression 'a' LIKE 'A' is TRUE but
+   'æ' LIKE 'Æ' is FALSE.). The infix LIKE operator is identical the user
+   function like(X,Y).
+
+   The GLOB operator is similar to LIKE but uses the Unix file globbing
+   syntax for its wildcards. Also, GLOB is case sensitive, unlike LIKE. Both
+   GLOB and LIKE may be preceded by the NOT keyword to invert the sense of
+   the test. The infix GLOB operator is identical the user function
+   glob(X,Y).
+
+   A column name can be any of the names defined in the CREATE TABLE
+   statement or one of the following special identifiers: "ROWID", "OID", or
+   "_ROWID_". These special identifiers all describe the unique random
+   integer key (the "row key") associated with every row of every table. The
+   special identifiers only refer to the row key if the CREATE TABLE
+   statement does not define a real column with the same name. Row keys act
+   like read-only columns. A row key can be used anywhere a regular column
+   can be used, except that you cannot change the value of a row key in an
+   UPDATE or INSERT statement. "SELECT * ..." does not return the row key.
+
+   SELECT statements can appear in expressions as either the right-hand
+   operand of the IN operator, as a scalar quantity, or as the operand of an
+   EXISTS operator. As a scalar quantity or the operand of an IN operator,
+   the SELECT should have only a single column in its result. Compound
+   SELECTs (connected with keywords like UNION or EXCEPT) are allowed. With
+   the EXISTS operator, the columns in the result set of the SELECT are
+   ignored and the expression returns TRUE if one or more rows exist and
+   FALSE if the result set is empty. If no terms in the SELECT expression
+   refer to value in the containing query, then the expression is evaluated
+   once prior to any other processing and the result is reused as necessary.
+   If the SELECT expression does contain variables from the outer query, then
+   the SELECT is reevaluated every time it is needed.
+
+   When a SELECT is the right operand of the IN operator, the IN operator
+   returns TRUE if the result of the left operand is any of the values
+   generated by the select. The IN operator may be preceded by the NOT
+   keyword to invert the sense of the test.
+
+   When a SELECT appears within an expression but is not the right operand of
+   an IN operator, then the first row of the result of the SELECT becomes the
+   value used in the expression. If the SELECT yields more than one result
+   row, all rows after the first are ignored. If the SELECT yields no rows,
+   then the value of the SELECT is NULL.
+
+   Both simple and aggregate functions are supported. A simple function can
+   be used in any expression. Simple functions return a result immediately
+   based on their inputs. Aggregate functions may only be used in a SELECT
+   statement. Aggregate functions compute their result across all rows of the
+   result set.
+
+   The functions shown below are available by default. Additional functions
+   may be written in C and added to the database engine using the
+   sqlite3_create_function() API.
+
+                 abs(X)  Return the absolute value of argument X.
+
+      coalesce(X,Y,...)  Return a copy of the first non-NULL argument. If
+                         all arguments are NULL then NULL is returned. There
+                         must be at least 2 arguments.
+
+              glob(X,Y)  This function is used to implement the "X GLOB Y"
+                         syntax of SQLite. The sqlite3_create_function()
+                         interface can be used to override this function and
+                         thereby change the operation of the GLOB operator.
+
+            ifnull(X,Y)  Return a copy of the first non-NULL argument. If
+                         both arguments are NULL then NULL is returned. This
+                         behaves the same as coalesce() above.
+
+    last_insert_rowid()  Return the ROWID of the last row insert from this
+                         connection to the database. This is the same value
+                         that would be returned from the
+                         sqlite_last_insert_rowid() API function.
+
+              length(X)  Return the string length of X in characters. If
+                         SQLite is configured to support UTF-8, then the
+                         number of UTF-8 characters is returned, not the
+                         number of bytes.
+
+         like(X,Y [,Z])  This function is used to implement the "X LIKE Y
+                         [ESCAPE Z]" syntax of SQL. If the optional ESCAPE
+                         clause is present, then the user-function is
+                         invoked with three arguments. Otherwise, it is
+                         invoked with two arguments only. The
+                         sqlite_create_function() interface can be used to
+                         override this function and thereby change the
+                         operation of the LIKE operator. When doing this, it
+                         may be important to override both the two and three
+                         argument versions of the like() function.
+                         Otherwise, different code may be called to
+                         implement the LIKE operator depending on whether or
+                         not an ESCAPE clause was specified.
+
+               lower(X)  Return a copy of string X will all characters
+                         converted to lower case. The C library tolower()
+                         routine is used for the conversion, which means
+                         that this function might not work correctly on
+                         UTF-8 characters.
+
+           max(X,Y,...)  Return the argument with the maximum value.
+                         Arguments may be strings in addition to numbers.
+                         The maximum value is determined by the usual sort
+                         order. Note that max() is a simple function when it
+                         has 2 or more arguments but converts to an
+                         aggregate function if given only a single argument.
+
+           min(X,Y,...)  Return the argument with the minimum value.
+                         Arguments may be strings in addition to numbers.
+                         The minimum value is determined by the usual sort
+                         order. Note that min() is a simple function when it
+                         has 2 or more arguments but converts to an
+                         aggregate function if given only a single argument.
+
+            nullif(X,Y)  Return the first argument if the arguments are
+                         different, otherwise return NULL.
+
+               quote(X)  This routine returns a string which is the value of
+                         its argument suitable for inclusion into another
+                         SQL statement. Strings are surrounded by
+                         single-quotes with escapes on interior quotes as
+                         needed. BLOBs are encoded as hexadecimal literals.
+                         The current implementation of VACUUM uses this
+                         function. The function is also useful when writing
+                         triggers to implement undo/redo functionality.
+
+              random(*)  Return a random integer between -2147483648 and
+                         +2147483647.
+
+               round(X)  Round off the number X to Y digits to the right of
+             round(X,Y)  the decimal point. If the Y argument is omitted, 0
+                         is assumed.
+
+             soundex(X)  Compute the soundex encoding of the string X. The
+                         string "?000" is returned if the argument is NULL.
+                         This function is omitted from SQLite by default. It
+                         is only available the -DSQLITE_SOUNDEX=1 compiler
+                         option is used when SQLite is built.
+
+      sqlite_version(*)  Return the version string for the SQLite library
+                         that is running. Example: "2.8.0"
+
+          substr(X,Y,Z)  Return a substring of input string X that begins
+                         with the Y-th character and which is Z characters
+                         long. The left-most character of X is number 1. If
+                         Y is negative the the first character of the
+                         substring is found by counting from the right
+                         rather than the left. If SQLite is configured to
+                         support UTF-8, then characters indices refer to
+                         actual UTF-8 characters, not bytes.
+
+              typeof(X)  Return the type of the expression X. The only
+                         return values are "null", "integer", "real",
+                         "text", and "blob". SQLite's type handling is
+                         explained in Datatypes in SQLite Version 3.
+
+               upper(X)  Return a copy of input string X converted to all
+                         upper-case letters. The implementation of this
+                         function uses the C library routine toupper() which
+                         means it may not work correctly on UTF-8 strings.
+
+   The following aggregate functions are available by default. Additional
+   aggregate functions written in C may be added using the
+   sqlite3_create_function() API.
+
+      avg(X)  Return the average value of all X within a group.
+
+    count(X)  The first form return a count of the number of times that X is
+    count(*)  not NULL in a group. The second form (with no argument)
+              returns the total number of rows in the group.
+
+      max(X)  Return the maximum value of all values in the group. The usual
+              sort order is used to determine the maximum.
+
+      min(X)  Return the minimum non-NULL value of all values in the group.
+              The usual sort order is used to determine the minimum. NULL is
+              only returned if all values in the group are NULL.
+
+      sum(X)  Return the numeric sum of all values in the group.
+

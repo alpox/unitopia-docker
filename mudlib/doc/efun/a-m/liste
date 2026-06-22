@@ -1,0 +1,12 @@
+FUNKTION: liste
+DEKLARATION: string liste(string *str [, string pad])
+BESCHREIBUNG:
+Macht aus einem Stringarray eine normale Aufzaehlung:
+    liste(({"bla","schnack","sabbel"})) ->
+	"bla, schnack und sabbel"
+    liste() -> ""
+    liste(({"bla","schnack","sabbel"}), " oder ") ->
+	"bla, schnack oder sabbel"
+VERWEISE: unliste
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc

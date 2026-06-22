@@ -1,0 +1,18 @@
+------------------------------------------------------------------------------
+#ende                          Sichern der Spielerfigur und Verlassen des
+                               Spiels. Beim nächsten Einloggen kommt man
+			       am selben Ort wieder raus.
+
+#ende stadt                    Wie #ende, nur dass man beim nächsten Mal in
+			       einer zivilisationsreichen Gegend des
+			       Kontinents rauskommt. Ganz nützlich, falls man
+			       sich mal verfranzt hat. Kostet aber fast alle
+			       Zauberpunkte, ist aber immer möglich. Aller-
+			       dings bleiben alle Sachen, die man dabei hatte
+			       dort liegen, wo man '#ende stadt' eingibt.
+
+#ende start                    Nächster Start wieder bei der S-Bahn.
+			       Kosten siehe '#ende stadt'.
+
+siehe auch:   #sichern
+------------------------------------------------------------------------------

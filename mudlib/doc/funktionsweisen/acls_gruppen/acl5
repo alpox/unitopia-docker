@@ -1,0 +1,78 @@
+5. Wie werden die ACL - Rechte vergeben?
+
+Wie man an obigen Beispielen bereits sieht, haben also Gruppennamen
+und Verzeichnisnamen überhaupt nichts miteinander zu tun. Man
+kann Gruppennamen parallel zu Verzeichnisnamen vergeben, also
+der Gruppe Vaniorh:Orkberge:Räuberwald Schreibrechte auf
+/d/Vaniorh/Orkberge/Raeuberwald geben. Man muss das aber nicht.
+Man könnte genausogut der Gruppe Vaniorh:Räuberwald Schreibrechte
+auf /d/Vaniorh/Orkberge/Raeuberwald geben. Oder die Gruppe auch
+Vaniorh:Wälder:Räuberwald nennen... Oder auch Vaniorh:Gnaselfrum.
+Je nachdem, wie man das für sinnvoll hält.
+Wenn jedoch in dieser Gruppe sowieso nur ein einziger Gott
+enthalten ist, nämlich Parsec, oder seien es auch 2, dann ist
+schon die Frage da, ob es sich wirklich lohnt, dafür eine Gruppe
+aufzumachen. Man darf nicht dem Fehler verfallen, es mit den Gruppen
+zu übertreiben, denn sonst hat man bald die vierfache Arbeit...
+
+Nun, wie werden diese Rechte vergeben?
+Dazu dient der Befehl "zacl".
+
+Zum setzen oder löschen von ACLs bastelt man sich zunächst eine
+Maske zusammen, welche der Rechte man setzen oder entfernen will.
+Dabei gibts die folgenden Buchstaben:
+
+    c  für  "create"           Anlegen einer neuen Datei
+    w  für  "write"            Schreiben einer bestehenden Datei
+    d  für  "delete"           löschen einer bestehenden Datei
+    C  für  "CreateDir"        Anlegen eines neuen Verzeichnisses,
+    D  für  "DeleteDir"        Löschen eines bestehenden Verzeichnisses,
+    s  für  "save_object"      Recht zu "save_object",
+    r  für  "restore_object"   Recht zu "restore_object",
+    b  für  "deBug"            Man bekommt auch die Fehlermeldungen
+    a  für  "Administration"   Das Recht, die ACLs zu modifizieren
+
+(siehe auch die Erklärung dieser Rechte am Anfang des Textes)
+
+Diese Rechte kann man nun setzen (+) oder entfernen (-). Diese beiden
+Zeichen setzt man jeweils davor und alles dann hintereinander.
+Sieht man an einem Beispiel recht gut:
+
+   - man will das "delete" - Recht wegnehmen, das "deBug" - Recht
+     hinzufügen:
+                      -d+b
+   - man will das "create" - Recht geben, das "write" - Recht wieder
+     nehmen und das Administrationsrecht dazugeben:
+                      +d-w+a
+
+Jetzt braucht man den zacl - Befehl nur noch zusammenbasteln, vorne
+der Name, WO geschrieben oder gelöscht werden soll, hintendran
+der Name, WER da schreiben soll.
+
+Also wiedermal am Beispiel:
+
+   - Merry soll Schreibrecht, Createrecht und Loeschrecht bekommen in
+     Vaniorh im Düsterwald:
+         zacl /d/Vaniorh/Duesterwald +c+w+d merry
+   - Merry soll das Delete-Recht wieder genommen werden, dafür soll er
+     aber das "CreateDir" - Recht bekommen:
+         zacl /d/Vaniorh/Duesterwald -d+C merry
+   - Da im Düsterwald ein neues Rätsel, das berühmte Duesterwaldraetsel,
+     entsteht, soll der Gruppe Rätsel:Düsterwald dort Schreibrecht,
+     Createrecht, Loeschrecht, Createdir und Deletedir gegeben werden:
+         zacl /d/Vaniorh/Duesterwald +c+w+d+C+D Rätsel:Düsterwald
+   - bei diesem Rätsel wird ein Objekt angelegt, das Hexenhäuschen,
+     welches per save_object seinen Status abspeichern und per
+     restore_object wiederherstellen soll.
+     Das Hexenhäuschen steht in:
+         /d/Vaniorh/Duesterwald/Haeuser/Hexenhaeuschen
+     es soll sich abspeichern in:
+         /d/Vaniorh/save/Haeuser/hexenhaeuschen.o
+     Dann geht das mit:
+         zacl /d/Vaniorh/save/Haeuser/hexenhaeuschen +r+s
+             /d/Vaniorh/Duesterwald/Haeuser/Hexenhaeuschen
+         (natuerlich ist das ein Befehl, auch wenns hier zwei Zeilen sind).
+	 WICHTIG: das '.o' muss man hierbei weglassen, da ja ein
+	          save_object("/d/Vaniorh/save/Haeuser/hexenhaeuschen")
+    		  gemacht wird.
+

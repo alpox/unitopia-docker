@@ -1,0 +1,270 @@
+Wie programmiere ich ein Spiel?
+-------------------------------
+
+1. Idee
+   Man habe eine Idee.  Klingt einfach, ist es aber nicht unbedingt.  Nicht
+   jede Idee ist gut umzusetzen in ein Spiel.  Außerdem ist es inzwischen
+   sehr schwer geworden, etwas wirklich neues zu bringen.  Man überlege
+   sich, ob die Idee wirklich sinnvoll als Spiel innerhalb UNItopias zu
+   realisieren ist.  Z.B. ist ein Spiel wie Memory ziemlich witzlos, da
+   jeder seinen Rechner einsetzen kann, um sein Gedächtnis ein wenig zu
+   unterstützen.  Spiele, die schnelle Interaktionen verlangen, sind
+   ebenfalls sehr problematisch.  Desweiteren ist auch zu beachten, dass in
+   UNItopia die Spieldauer im Vergleich zum RL-Spiel sich sehr leicht
+   verdoppeln bis vervierfachen kann.
+
+2. Vergleich mit vorhandenen Spielen
+   Man versuche herauszufinden, ob die Idee in gleicher oder sehr
+   ähnlicher Form nicht vielleicht schon einmal umgesetzt wurde.  Auch
+   dieser Schritt ist nicht ganz einfach, da es inzwischen eine Unmenge an
+   Spielen gibt, und aus dem Namen nicht unbedingt hervorgeht, was sich
+   dahinter verbirgt.
+   Im Rathaus (/room/rathaus/raetsel bzw. zg raetsel) und im Spieleraum
+   (/z/Spiele/Admin/spieleraum bzw. zg spiele) ist eine Liste aller
+   installierten Spiele abrufbar.  Detaillierteren Aufschluss gibt das
+   Spielearchiv (/doc/spieleformulare), welches auch über den Spieleraum
+   einzusehen ist.  Auch die Newsbretter und die Spielelords geben
+   Informationen darüber, welche Spiele bereits programmiert wurden
+   bzw. in Planung sind.  Optimalerweise findet sich in
+   /z/Spiele/NEU/ZSF_SPIELE eine aktuelle Auflistung.  Die Spielelords
+   sind wohl die beste Anlaufstelle.  Sollte jemand nicht wissen, wer das
+   gerade ist, kann man das im Gouverneursbüro (zg go, list auth)
+   nachlesen, oder einfach ans Brett schreiben, die Spielelords beißen
+   nicht und werden sich melden ...  Ein Brief an die Adresse 'spiele'
+   hilft auch, da hier an alle Spielelords (und Admins) die Nachricht
+   geschickt wird.
+
+3. Reservierung der Spielidee
+   Vor der Programmierung eines Spiels verständige man den Spielelord.
+   Er/sie kann dann noch seinen Kommentar zur Realisierbarkeit der Idee
+   abgeben, gegenfalls sogar ein zu diesem Zeitpunkt noch weniger
+   schmerzliches Veto abgeben.  Außerdem wird er/sie in vielen Fällen
+   insbesondere unerfahrerenen Göttern wertvolle Tips geben können.  Eine
+   Liste aller Spiele, die sich im Bau befinden, sollte im Idealfall in
+   /z/Spiele/NEU/ZSF_SPIELE enthalten sein.
+   Hat das Spiel seine Zustimmung gefunden und sind die gröbsten
+   konzeptuellen Fragen geklärt, dann wird von den Spielelords ein
+   passendes Verzeichnis in /z/Spiele/ und ein vorläufiges Gameobjekt
+   angelegt und die Spieleentwicklung kann beginnen.
+
+4. Umgebung für das Spiel
+   Es ist sinnvoll, sich jetzt schon Gedanken darüber zu machen, in was
+   für eine Umgebung das Spiel gut passen könnte.  Wenn darüber von
+   vorne herein Klarheit besteht, kann man dem Spiel schon die geeignete
+   Atmosphäre mit auf den Weg geben.  Dies gilt besonders, wenn NSCs
+   (Nicht-Spieler-Charaktere) Bestandteil des Spiels sind.  Hat man eine
+   Wahl getroffen, sollte man diese auch mit der Domainleitung abstimmen,
+   was selten problematisch sein dürfte, da ein gutes Spiel sicher gerne
+   aufgenommen wird.
+
+5. Realisierung
+   Wenn man sich nicht von vorne herein im klaren darüber ist, wie man das
+   Spiel in LPC realisieren könnte, ist es sinnvoll, sich von der Machart
+   her ähnliche Spiele anzuschauen (die Spieleformulare helfen bei der
+   Suche nach solchen Spielen).  Die Spiele können in vier Gruppen
+   eingeteilt werden, die Programmierkonzepte direkt beeinflussen:
+      - Spiele für einen Spieler ohne NSC (transportabel / nicht transp.)
+      - Spiele für einen Spieler gegen NSC
+      - Spiele für mehrere (meist 2) Spieler ohne NSC (transp. o. nicht)
+      - Spiele für mehrere Spieler mit NSC(s)
+   Es ist darauf zu achten, dass man an kein allzu altes Spiel gerät, da
+   diese oft nicht mehr den heutigen Anforderungen genügen.  Wer mehr als
+   nur ein paar Fragmente aus existierenden Spielen übernehmen will,
+   sollte sich mit dem Programmierer der Vorlage abstimmen, der in der
+   Regel nichts dagegen haben wird.
+
+6. Typische Probleme
+   Folgendes ist bei der eigentlichen Programmierung zu beachten:
+   - Das Spiel muss sinnvoll darauf reagieren, wenn ein Spieler den Raum
+     verlässt.  Ausgaben sollten an den Spieler nur gemacht werden, wenn
+     er auch im Raum ist.
+   - Wie reagiert das Spiel, wenn sich ein Spieler ausloggt?  Dadurch
+     wird der Objektpointer 0 und es kann recht leicht zu Fehlern kommen.
+     Für solche Fälle empfiehlt es sich den Realname zu merken.
+   - Wie reagiert das Spiel, wenn ein Spieler zur Statue wird?
+   - Es muss damit gerechnet werden, dass ein beteiligter NPC oder Spieler
+     während des Spiels sterben kann.
+   - Falls der NPC Aktionen macht die ZPs verbrauchen (reden, brüllen
+     usw.) sollte man drauf achten, das er immer genügend dafür zur
+     Verfügung hat.
+   - Kann man das Spiel während einer Partie nehmen?  Ist wohl weniger
+     sinnvoll.
+   - Falls das Spiel mitten in einer Partie verlassen wird, können andere
+     Spieler das Spiel benutzen?
+   - Es sollte ein Logfile (mit log_file(), nicht mit write_file()) vom
+     Spiel geführt werden, aus dem der Zeitpunkt des Spielstarts, des
+     Spielendes und das Ergebnis eines Spieles hervorgehen.  Dies ist
+     wichtig, da es Anhaltspunkte für eine sinnvolle Vergabe von
+     Erfahrungspunkten liefert.  Außerdem können Betrugsversuche damit
+     aufdecken werden.
+   - Alle zum Spiel gehörigen Dateien sollten sinnvoll in der
+     Verzeichnisstruktur untergebracht sein.  Ein späterer Debugger wird
+     es euch danken, dass er nicht erst sich alles zusammen suchen muss.
+     Und wer lebt schon ewig?
+   - Eine Hilfe muss verfügbar sein.  Wie, hängt natürlich auch ein wenig
+     vom Spiel ab.  Bei einem Brettspiel könnte es auf der Rückseite
+     stehen, oder einen Beipackzettel haben.  Übliche Kommandos für die
+     Hilfe wären z.B. 'hilfe <spiel>' oder 'lies regeln', wobei mir das
+     Lesen der Regeln wesentlich besser gefällt.  Gibt es bei einem Spiel
+     viele Kommandos, ist auch eine Kurzzusammenfassung der Kommandos
+     sinnvoll.  Vgl. auch /z/Spiele/TEXT/REGELN.HLP
+   - Die Handhabung sollte so intuitiv wie möglich sein.  Deswegen auch
+     lieber ein paar mehr add_actions und v_items spendieren.  Über das
+     Betrachten der Vitems sollte man zu denselben Informationen kommen
+     (z.b. add_action liste und betrachte v_item liste).  Die Add_actions
+     sollten sehr flexibel gehalten werden.  An einigen Stellen empfiehlt
+     sich der Gebrauch von parse_com.  Manche Befehle (z.b. legen, ziehen
+     und setzen) kollidieren auch leicht mit anderen Add_actions.  Hier
+     sollte auch auf die Verträglichkeit geachtet werden.  Am besten hier
+     Alternativen anbieten.
+   - Bei den meisten Befehlen, die zur Verfügung gestellt werden, muss
+     abgeprueft werden, ob der Spieler, der es ausführen will, wirklich
+     das Recht hat, sie auszuführen. Z.B. ist es oft interessant, ob er
+     überhaupt mitspielt und ob er an der Reihe ist, und ein
+     Außenstehender sollte ein Spiel zwischen 2 Spielern nicht abbrechen
+     können, indem er es einfach neu startet.
+   - Gibt es etwas zu sortieren, unbedingt sort_array verwenden.  Wer sich
+     nicht dran hält, wird mit einer Programmier-Belehrung nicht unter 5
+     Minuten bestraft.  Alles andere ist einfach zu langsam, wenn erstmal
+     die ersten paar Dutzend Spieler sich vor das Spiel gesetzt haben.
+   - Falls eine Highscore gebraucht wird, am Besten /p/Misc/i/high_score.c
+     als Grundlage verwenden.  Damit muss man das Rad nicht neu erfinden
+     und sich auch weniger um die Effizienz kümmern.
+
+7. Testphase
+   Man teste das Spiel, bis man der Meinung ist, dass es so eingebunden
+   werden könnte.  Spieler sollten zum Testen nicht herangezogen werden,
+   andere Götter nach ihrer Meinung zum Spiel zu fragen, ist dagegen
+   ratsam, solange man sie nicht allzu sehr damit nervt...
+   Der Spielelord hat hier eigentlich noch nicht seinen Wirkungsbereich.
+   Keine Angst, er findet auch danach noch Bugs und andere Dinge, die ihm
+   nicht passen.  Und falls nicht - um so besser!
+
+8. Spieleformular
+   Man fülle ein Spieleformular aus.  Über die EP-Vergabe braucht man
+   sich hierbei noch keine allzu großen Gedanken machen.  Ein leeres
+   Formular findet sich in /z/Spiele/INFO/FORMULAR.TXT.  In FORMULAR.HLP
+   wird ausführlich erklärt, wie im einzelnen auszufüllen ist.
+
+9. Game-Objekt
+   Wer will, kann die Funktionen zur EP-Vergabe schon in sein Spiel
+   einbauen und ein Game-Objekt schreiben, diese Aufgabe kann aber
+   unter Umständen auch auf einen Spielelord abgewälzt werden.  Das
+   Gameobjekt liegt dann unter /z/Spiele/<spielname>/apps/spiele_ob.c.
+   Beim Eintragen des Spieles in die Testphase wird schon ein
+   Dummyobjekt angelegt, das noch entsprechend modifiziert werden
+   muss.
+
+   Siehe hierzu folgendes Beispiel, sowie Schritt 6 beim
+   Raetselprogrammieren.
+
+   Die Funktionen beim game_object heißen etwas anderes, hier ein
+   vollständiges Beispiel als Erklärung:
+
+   --- snip --- snap --- knabber ---
+   inherit "/i/object/game_obj";
+
+   void create() {
+       replace_program("/i/object/game_obj");
+       ::create();
+       set_name("Lancelot");
+       set_hint("Grabsch dir ein paar Mitspieler und spiel Lancelot!\n"+
+                "Meister Erad-Nair hatte angeblich solch ein Spiel...\n");
+       set_skill(500);
+       set_skill_msgs( ({
+           "Du hast gerade mal so die Regeln von Lancelot durchschaut.",
+           "Du entwickelst neue Tricks im Lancelotspiel.",
+           "Mit fiesen Zügen ärgerst du deine Mitspieler beim Lancelot.",
+           "Du bist ein gefürchteter Gegner für alle Lancelotspieler.",
+             ({
+               "Du bist ein wahres Meisterlein des Lancelotspiels.",
+               "Du bist ein wahrer Meister des Lancelotspiels.",
+               "Du bist eine wahre Meisterin des Lancelotspiels."
+             })
+           }) );
+       set_solved_msg("$Der('ob) ist Meister im Lancelot geworden!");
+   }
+   --- snip --- snap --- knabber ---
+
+   Falls die solved_msg geschlechtsabhängig sein soll:
+       set_solved_msg(
+            "$Der('ob) ist $choose_by_gender('ob,"
+            "([maennlich:Meister,weiblich:Meisterin,saechlich:Meisterliches]))"
+            " im Lancelot geworden!");
+    Achtung: Im $choose_by_gender-Aufruf sollten keine Leerzeichen vorkommen.
+
+
+   Der Aufruf zum Setzen der Punkte heißt entsprechend:
+
+   --- snip --- snap --- knabber ---
+   #include <game.h>
+   ...
+   GAME_ROOM->set_game("game_name", <Anzahl der neuen Punkte>, this_player());
+   --- snip --- snap --- knabber ---
+
+   Wichtiger Hinweis: set_game setzt nicht die EPs, sondern wirkt additiv.
+   D.h. zweimal set_game(..., 10, ...) erhöht um insgesamt 20 und setzt
+   nicht auf 10.
+
+   Alles weitere ist bei den Rätseln nachzulesen...
+
+   Kommentar:
+     Es mag sinnvoll erscheinen, das Spiel-Objekt von Programmierer
+     entwerfen zu lassen, besonders wenn man nicht die autoskalierten
+     Skill-Messages aus dem Beispiel oben verwendet.
+     Wer sich aber dabei nicht sicher ist, kann natürlich auch einen
+     Spielelord damit beauftragen, sollte ihm aber sagen, bei welchen
+     Ep-zahlen welche Skill-Message erscheinen soll.
+     Neugierige können natürlich auch bei schon bestehenden Spielen
+     spicken.
+
+10. Brief an die Spielelords
+    Jetzt kann man den Spielelords einen stolzen Brief schreiben, in dem
+    man erwähnen sollte, wo das Spiel mitsamt Formular zu finden ist.
+
+11. Endphase
+    Die Spielelords werden versuchen, das Spiel zum Abstürzen zu bringen.
+    Wenn sie das nicht schaffen, werden sie nach Bedienungsschwaechen
+    suchen.  Wenn sie sich auch in diesem Bereich ausgetobt haben, werden
+    sie überprüfen, ob sich das Spiel gut in seine Umgebung eingliedert.
+    Wenn dann auch noch eine Einigung über die EP-Vergabe erzielt wurde,
+    können die Funktionen zur Vergabe falls noch nicht vorhanden vom
+    Programmierer oder Spielelord eingebaut.  Klappt alles, kann das Spiel
+    offiziell eingebunden werden.
+
+
+Bei Fragen wendet man sich vertrauensvoll an die Spielelords.  Wer das
+ist, kann man mit
+   zg gouv
+   list auth
+herausbekommen.
+Mit Post an die Spielelords richte man sich am besten an 'spiele'.
+
+Hier nocheinmal eine Kurzfassung des Spieleschreibens:
+ 1. Idee hab'.
+ 2. Idee an Spielelord melden (Konzept erarbeiten und an Spielelords
+    schicken)
+ 3. nach Kampf mit Spielelord, Beginn der Programmierung (nicht vorher)
+ 4. Game-Objekt und Spiel in /z/Spiele proggen, dabei gleich:
+ 5. Formular erstellen
+ 6. Spiel testen (1. Phase)
+ 7. EP-Vergabe einbauen (in Testphase bekommen nur Götter und Testies EP)
+ 8. andere Götter nerven
+ 9. Spiel verbessern
+10. Spiel testen
+11. Spielelords verständigen, damit Spiel von ihnen getestet wird
+12. Spiel verbessern
+13. Spiel testen (2. Phase)
+14. Spielelords nerven, dass sie weitertesten
+15. Spiel verbessern
+16. Spiel testen
+17. Spielelords nerven, dass sie weitertesten
+18. Spiel testen lassen (jetzt evtl. auch von Engeln oder Spielern
+    (Nein, keine Spieler teleportieren.  Portable Spiele zu den
+    Spielern bringen, bzw. die entsprechenden Räume anschließen
+    (vorausgesetzt die Räume sind von den DL's abgenommen ;-)))
+19. Spiel verbessern
+20. Spielelords nerven, dass sie das Spiel freigegeben
+21. freuen
+22. Spiel für Spieler öffnen
+23. Spiel warten und verbessern!!!

@@ -1,0 +1,13 @@
+FUNKTION: copies
+DEKLARATION: string copies(string pattern, int times)
+BESCHREIBUNG:
+Gibt 'times' aneinandergesetzte Kopien von 'pattern' zurueck.
+
+Beispiele:
+        copies("*",10)          ->      "**********"
+        copies("hu",2)          ->      "huhu"
+        copies("tra",0)         ->      ""
+
+GRUPPEN: string, simul_efun
+VERWEISE: sprintf, wrap, left, right, center
+SOURCE: /secure/simul_efun/string.inc

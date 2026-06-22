@@ -1,0 +1,7 @@
+FUNKTION: einen
+DEKLARATION: varargs string einen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

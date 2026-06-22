@@ -1,0 +1,31 @@
+FUNKTION: choose_by_gender
+DEKLARATION: mixed choose_by_gender(string gender|object ob|mapping vitem, mixed *values|mapping values|string str)
+BESCHREIBUNG:
+Diese Funktion waehlt entsprechend gender ("maennlich","weiblich" oder
+"saechlich") bzw. dem Geschlecht des Objektes ob oder des V-Items vitem
+einen Wert aus values aus. Man kann ebenfalls die Defines OBJ_TP und andere
+OBJ-Defines aus deklin.h nutzen.
+values kann entweder ein Array Groesse 3 sein (Reihenfolge
+"saechlich", "maennlich", "weiblich"), ein Mapping (die Geschlechter als
+Schluessel) oder einfach ein String (der wird dann nur zurueck gegeben).
+Wenn values als Array ein viertes Element oder als Mapping einen weiteren
+Eintrag "plural" hat, dann wird im Falle des Plurals dieser Eintrag genommen.
+
+Beispiel:
+
+       choose_by_gender(OBJ(croft), ({ "Erschaffendes",
+           "Erschaffender", "Erschaffende" })) -> "Erschaffende"
+
+       choose_by_gender((["gender":"weiblich"]), ([
+           "saechlich" : "Testendes",
+           "maennlich" : "Testender",
+           "weiblich"  : "Testende" ])) -> "Testende"
+	
+Oder in einer Pseudoclosure:
+
+	"Hallo, $choose_by_gender(OBJ_TP," // <- Achtung, kein Leerzeichen!
+	"([maennlich:Meister,weiblich:Meisterin,saechlich:Meisterliches]))!"
+
+VERWEISE: query_gender
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

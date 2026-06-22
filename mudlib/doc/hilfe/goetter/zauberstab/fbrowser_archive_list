@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Hier werden die Fehlerliste des Offline Archives angezeigt. Die mit + 
+markierten Zeilen existieren noch in der FDB und werden bei Anwahl auch 
+aus der FDB heraus angezeigt und die mit -markierten Zeilen existieren nur
+noch im Offline Archive und werden nur noch als unveränderbaren Text
+angezeigt.
+Mögliche Befehle:
+
+    <nr>        Fehlerübersicht für den Bereich Nummer <nr> anzeigen.
+    A <nr>      archivierter Fehler anzeigen.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u, b        Eine Seite hochblättern.
+    Z [-t] [-i] <nr>-[<nr>]
+                  Alle Fehler auf einmal anzeigen.
+                  -t: Auch Trace mitanzeigen
+                  -i: Auch Debuginfos anzeigen
+    z           Eine Ebene zurück, falls möglich.
+    q, Q, e     Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

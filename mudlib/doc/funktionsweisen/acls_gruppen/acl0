@@ -1,0 +1,32 @@
+0. Wie wird die Umstellung des alten auf das neue System ablaufen?
+
+
+Die Umstellung auf die ACLs erfolgt in den folgenden Phasen:
+
+1. Phase: ACLs und das alte System laufen parallel, das alte System
+   gewinnt, die Unterschiede zwischen altem und neuem System werden
+   in /log/sys/VALID_WRITE_DIFFS aufgelistet.
+   Ziel hierbei ist, das ACL - System und das alte System aneinander
+   anzugleichen.
+
+   In dieser Zeit werden Bugs gesucht, Verbesserungsvorschläge
+   umgesetzt usw.
+
+   Hier werden Diskussionen stattfinden, wem man nun welche Rechte
+   gibt, welche Gruppen angelegt werden sollen, usw.
+
+2. Phase: Wenn alles ganz toll klappt, wird jetzt das alte System
+   in den Hintergrund treten, jetzt erst können die Vorteile,
+   welche die ACLs bieten, auch wirklich ausgenutzt werden. Das alte
+   System wird noch eine Weile parallel laufen, die ACLs jedoch werden
+   gewinnen.
+
+   Jetzt muss die Fehlerdatenbank auf das neue System umgestellt
+   werden, Post wird an die Gruppen versendet werden können, es gibt
+   bestimmt noch einige Stellen, an welchen die Gruppen sinnvoll
+   eingesetzt werden können.
+
+3. Phase: Die Schreibrechte werden ausschließlich über die ACLs
+   geregelt, kein Mensch kümmert sich mehr darum, wie es früher
+   war.
+

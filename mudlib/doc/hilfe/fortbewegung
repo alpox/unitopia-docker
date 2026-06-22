@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------
+Mit den folgenden Kommandos bewegt man sich fort:
+
+   n     norden                nw    nordwesten
+   s     süden                 no    nordosten
+   w     westen                sw    südwesten
+   o     osten                 so    südosten
+
+   h     hoch
+   r     runter
+
+In geschlossenen Räumen, in Städten, ... werden die möglichen Richtungen
+in der Regel angezeigt, während sie in freier Wildbahn fehlen, da man sich
+dort meist in alle Richtungen fortbewegen kann.
+
+Mit den Kommandos 
+
+                        betrete <Objekt>
+   a             oder   ausgang
+		 oder   verlasse <Objekt>
+
+kann man Dinge betreten oder verlassen (beispielsweise Schiffe).
+
+Mit dem Kommando
+
+    fliehe
+    
+bewegt man sich in eine zufällige Richtung.
+------------------------------------------------------------------------------

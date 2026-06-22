@@ -1,0 +1,8 @@
+FUNKTION: wizardshellp
+DEKLARATION: int wizardshellp()
+BESCHREIBUNG:
+Gibt den Level des Wiz-Shell-Besitzers zurueck, FALLS es sich bei
+dem Objekt um eine Wizard - Shell handelt.
+GRUPPEN: simul_efun, objekt
+VERWEISE: playerp, clonep
+SOURCE: /secure/simul_efun/util.inc

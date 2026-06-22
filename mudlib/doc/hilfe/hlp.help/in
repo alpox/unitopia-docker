@@ -1,0 +1,13 @@
+------------------------------------------------------------------------------
+
+Mit dieser Gabe kannst Du die Meldung setzten, die erscheint
+bevor Deine Ausrüstungsgegenstände aufgelistet werden,
+Du kannst Das mit 'schau mich an' kontrollieren.
+
+Syntax:
+   inhalt <meldung>
+
+Beispiel:
+   inhalt Mühsam trägt er folgendes bei sich:
+
+------------------------------------------------------------------------------

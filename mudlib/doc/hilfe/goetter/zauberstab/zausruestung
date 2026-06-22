@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+za[usrüstung] [-r] [<Objektstring>]
+  Zeigt Die Ausrüstung des Objektes an:
+  Nr    - Nummer im Inventory
+  Name  - Name des Obejekts (Bedeutung der Klammern siehe zinhalt)
+  Id    - Erste ID des Objektes
+  Wert  - Wert eines Objekts
+  Gew   - Gewicht
+  c     - Objektklasse (Ruestung,Waffe,Nahrung,Getränk,Container)
+  C     - Container Closed?
+  Klasse- Waffen/Ruestung/Kleidungsklasse
+  Sch   - Ruestungstaerke/Temperaturschutz
+  S-,S+ - Minimaler und Maximaler Schaden einer Waffe
+
+  Falls -r angegeben wurde wird dies rekursiv gemacht, d.h. z.B. auch den
+  Inhalt der Taschen
+  zausrüstung entspricht vollständig dem Befehl 'zinhalt -a'
+
+siehe auch: zinhalt
+-------------------------------------------------------------------------------

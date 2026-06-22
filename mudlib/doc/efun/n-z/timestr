@@ -1,0 +1,14 @@
+FUNKTION: timestr
+DEKLARATION: varargs string timestr(int clock, int only)
+BESCHREIBUNG:
+Gibt einen deutschsprachigen String mit dem Datum und der Uhrzeit zurueck,
+welchem clock entspricht. Das Argument clock sollte die Anzahl an Sekunden
+seit dem 1. Januar 1970 00:00:00 sein (wird von time() geliefert). Das
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird Uhrzeit und Datum geliefert. Diese Werte sind in simul_efuns.h definiert.
+Analogon fuer Spielzeit ist vtimestr().
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, ctime, strftime, vtimestr, shorttimestr, timearray, array_to_time
+SOURCE: /secure/simul_efun/time.inc

@@ -1,0 +1,7 @@
+bank            Die Banken oder wie man Spieler in ganz Magyra schröpft
+geld            Das liebe Geld: /obj/money.c und wie es funktioniert
+konten          Die Spielerkonten und wie man sie manipuliert
+laden           Der An- und Verkaufsladen und wie man ihn programmiert
+verkaeufer      Der Verkäufer dreht einem einfach alles an
+waren           Das Handelsgut und sein Wert: die Waren
+wechselkurs     Du Tauschen? Geldwechsel und Wechselkurse leicht gemacht

@@ -1,0 +1,27 @@
+10. Zugriffsrechte im /w
+
+10.1. Zugriffsrechte fuer Goetter
+
+Jeder Gott darf unbeschraenkt in seinem /w/<name> lesen und schreiben.
+Die Lehrmeister duerfen im /w/<name> ihrer Schueler lesen, mit Ausnahme
+von /w/<name>/priv. Alle Lords duerfen im /w/<name> aller Goetter lesen
+mit Ausnahme von /w/<name>/priv. Alle Goetter duerfen in /w/<name>/public
+lesen.
+
+Ein Gott darf weiteren Goettern Leserechte einraeumen, indem er in das
+betreffende Verzeichnis eine Datei READ legt. Diese Datei muss die
+kleingeschriebenen Namen der Goetter enthalten, die auch in diesem
+Verzeichnis lesen koennen sollen. Sollen sie auch in Unterverzeichnissen
+lesen koennen, so ist dem Namen ein * voranzustellen. Jeder Name ist
+in eine eigene Zeile zu schreiben. Zudem darf die Datei ausschliesslich
+Unix-Zeilenumbrueche ('\n') enthalten.
+
+10.2. Zugriffsrechte von Objekten
+
+Objekte mit der UID des Gottes duerfen unbeschraenkt im /w/<name>
+lesen und schreiben. Solche Objekte sind der Zauberstab, das durch
+den zlpc-Befehl erzeugte Objekt, und Objekte, denen ueber den Trust-
+Mechanismus ('vertraue'-Befehl) vertraut wurde.
+
+Objekte aus dem /w/<name> duerfen nach /w/<name>/.../save und
+/w/<name>/.../log schreiben und von /w/<name>/.../save lesen.

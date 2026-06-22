@@ -1,0 +1,1140 @@
+BEISPIEL: forbidden_move
+<int|string> forbidden_move(mapping mv_infos)
+{
+    object wer = mv_infos[MOVE_OBJECT];
+    object woher = mv_infos[MOVE_OLD_ROOM];
+    object wohin = mv_infos[MOVE_NEW_ROOM];
+    string dir = mv_infos[MOVE_DIRECTION];
+    int flags = mv_infos[MOVE_FLAGS];
+
+    if (bedingung)
+    {
+        return "In-Game-Erklaerung.";
+
+        // Alternativ:
+        // wer->set_not_moved_reason("In-Game-Erklaerung.");
+        // return 1;
+    }
+
+    return 0;
+}
+
+// Im create nicht vergessen:
+// add_controller("forbidden_move", TO);
+
+GRUPPEN: grundlegendes
+SOURCE: /d/Kokosinsel/Cyprus/bsp/move.4enzy
+BEISPIEL: talk_npc
+inherit "/p/Npc/Talk/i/talk-npc.c";
+
+#include <config.h>
+#include <message.h>
+#include <misc.h>
+#include "/p/Npc/Talk/sys/talk-npc.h"
+
+void talk_will_helfen(string str, string echo)
+{
+    exec_command("danke", TP);
+}
+
+void create()
+{
+    "*"::create();
+
+    initialize("mensch",60); // 60% von Stats eines Menschen
+
+    set_align(A_NETT);  // Gesinnung (siehe config.h)
+    set_aggressive(0);  // Greift nicht selber an
+    set_whimpy(0);      // Flucht-AP
+
+    set_name("Npc"); 
+    set_gender("maennlich"); 
+    set_id(({"npc"}));
+    set_long("Ein Mann.");
+    set_personal(0); // 0="Der Npc sagt:...", 1="Npc sagt: ..."
+
+    clone_object("/obj/soul")->move(TO);
+
+    load_chat(20, ({ // Chance von 20% pro Heartbeat
+        "Warum hilft mir denn keiner?", 
+        "!seufz",
+        "#$Der() hantiert etwas herum." }) );
+    set_chat_delay(5); // Mindestabstand der Meldungen in Sekunden
+
+    init_talk(TO,
+    ({ 
+        ({  TALK_HI,
+            "",
+            "!sag Guten Tag!", 
+        }),
+        ({  TALK_ABSCHIED,  
+            "",
+            "!winke",
+        }),
+        ({  "(will|moecht(|e)) && helfen",
+            "",
+            "_talk_will_helfen", 
+        }),
+    }));
+
+    set_accept_objects(({   #'accept_from_void,
+                            #'accept_invis }));
+
+    reset();
+}
+
+void reset()
+{
+    "*"::reset();
+}
+GRUPPEN: grundlegendes
+SOURCE: /d/Kokosinsel/Cyprus/bsp/npc.4enzy
+BEISPIEL: filestruktur
+    inherit "%room";
+    inherit "/p/Misc/i/action";
+
+    // Zuerst
+    // Grundlegende, einfache includes
+    // Mudlib, P, Gilden, Raetsel, domainweite, spezieller Includes 
+    #include <misc.h>       
+    #include <message.h>
+    #include <room_types.h>  
+
+    #include <p/action.h>
+
+    #include "/z/Gilden/Alchemistengilde/sys/export.h"
+    #include "/d/Vaniorh/Orkberge/Orklager/sys/orks.h"
+
+VERWEISE: 
+GRUPPEN: filestruktur
+SOURCE: /d/Vaniorh/INFO/Enzyclopedia/snippets.4enzy
+BEISPIEL: filestruktur
+// Funktionsaufrufe in Funktionen am besten nach Inherits zusammenlegen
+
+    void create()
+    {
+        "*"::create();
+
+// /i/item Gramatik, 'Aussehen'
+        set_name("dinge");
+        set_gender("saechlich");
+        set_plural(1);
+        set_menge(([
+            "name":"haufen",
+            "gender":"maennlich"]));
+        set_id(({"dinge","haufen"}))
+// Beschreibung
+        set_long("Haufen von Dingen.");
+        set_feel("Uuuhh!!!");
+
+// item Eigenschaften
+        set_material(MAT_HOLZ);
+        set_value(1000);
+
+// ...
+
+// Controller
+        add_controller("allowed_seele",(: 1 :));
+    }
+
+Ausnahmen waeren zB Funktionen, die eine Sache Intialisieren
+wie initialize, init_weapon und dabei vieles setzen und auch ueberschreiben
+
+VERWEISE: 
+GRUPPEN: filestruktur
+SOURCE: /d/Vaniorh/INFO/Enzyclopedia/snippets.4enzy
+BEISPIEL: tuer
+    void reset()
+    {
+        object tuer=present("tür");
+        tuer.set_keys("türschlüssel");
+        // ggf. durch eine einzigarige id ersetzen
+        // mit define in .h-datei
+        if(!tuer)
+        {
+            tuer=clone_object("/obj/tuer");
+            tuer.set_long("Eine Holztür. Sie führt nach Süden.");
+            tuer.init_door("/room/void","süden",-1);
+            tuer.move(TO);
+        }
+        else if( !tuer->query_door_is_locked())
+        {
+            tuer.close_door(0,"$Der(OBJ_TO) schließt sich.");
+            // keine Meldung, wenn Tür geschlossen.
+            tuer.lock_door();
+        }
+    }
+VERWEISE: init_door
+GRUPPEN: tuer
+SOURCE: /d/Vaniorh/INFO/Enzyclopedia/snippets.4enzy
+BEISPIEL: v_item
+    add_v_item( ([
+        "name" : "schatz",
+        "gender" : "saechlich",
+        "id" : ({ "schatz"}),
+        "long" : "Ein wertvoller Schatz.",
+    ]) );
+VERWEISE: v_item1
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c
+BEISPIEL: v_item1
+    add_v_item( ([ // Kann gefuellt/Geaendert werden
+        "name" : "schatz",
+        "gender" : "saechlich",
+        "id" : ({ "schatz"}),
+        "plural" : 0, // oder 1...
+        "long" : "Ein wertvoller Schatz.",
+        "look_msg" : "$Der(OBJ_TP) schaut $seinen('vitem) an.",
+        "read" : "Nichts zu lesen.", // read_v_item_cl
+        "read_msg" : "$Der(OBJ_TP) liest $seinen('vitem).",
+        "smell": "Nichts zu riechen.",
+        "smell_msg" : "$Der(OBJ_TP) riecht an $seinem('vitem).",
+        "noise": "Nichts zu hoeren.",
+        "hear_msg": "$Der(OBJ_TP) lauscht an $seinem('vitem).",
+        "feel": "Fuehlt sich glatt an.",
+        "feel_msg" : "$Der(OBJ_TP) fuehlt $seinen('vitem).",
+        "take": "Der Schatz ist befestigt.", // take_v_item_cl
+        "take_msg": "$Der(OBJ_TP) ruckelt an $seinem('vitem).",
+    ]) );
+VERWEISE: v_item0, read_v_item_cl, take_v_item_cl
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c
+BEISPIEL: read_v_item_cl
+// vor dem create, Name kann abgepasst werden:
+string read_schild(string parse_rest, 
+            string str,mapping vitem, object leser)
+{
+    // Beispiel 1: leser->more... siehe more_file
+    // dann return "";
+    // oder:
+    return "Da gibt es nix zu lesen.";
+}
+// und im add_v_item
+    "read" : #'read_schild,
+VERWEISE: v_item1
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c
+BEISPIEL: take_v_item_cl
+// vor dem create, Name kann abgepasst werden:
+string take_fackel(mapping vitem)
+{
+    object ob = clone_object("/obj/fackel");
+    ob->move(TP,([MOVE_FLAGS:MOVE_ERR_REMOVE]));
+    if (ob)
+        return "Du nimmst eine Fackel.";
+    else 
+        return "Du kannst keine Fackel nehmen.";
+    // solche Endlos-Reservoire sind verpoent.
+    // Vlt einen globalen Zaehler pro Reset nutzen.
+}
+// und im add_v_item
+    "take" : #'take_fackel,
+VERWEISE: v_item1
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c
+BEISPIEL: set_standard_conversation
+    verkaeufer->set_standard_conversation (
+    ([
+    "unsichtbarer_sagt":
+        ({"!sage Nanu, jetzt hoer ich schon Gespenster.",
+        "!mache kratzt sich reichlich ratlos hinterm Ohr."}),
+    "unsichtbarer_gibt":
+        "!frage Nanu, wo kommt denn $ her?",
+    "unsichtbarer_gibt_verschwinden":
+        "Hans wirft $ in den Brunnen.",
+    "al_kann_nicht_mehr_tragen":
+        "!sage Du kannst $ nicht mehr tragen, Du hast zuviel bei Dir.",
+        // Der Verkaeufer verkauft einen AutoLoader, den der Spieler nicht
+        // mehr tragen kann.
+    "bedient_bereits_diesen_spieler":
+        "!sage Moment, eines nach dem anderen.",
+        // Wenn der Spieler, der gerade bedient wird, noch etwas will,
+        // bevor er bezahlt hat
+    "bedient_bereits_anderen_spieler":
+        "!sage Moment, ich bediene gerade $.",
+        // Wenn bereits ein anderer Spieler bedient wird.
+    "kunde_verschwunden":
+        "!frage Nanu, wo ist denn $ hin?",
+        // ein Kunde ist davongelaufen, hat sich ausgeloggt, ...
+    "was_willst_du_haben":
+        "!frage Bitte? Was moechtest Du gerne haben?",
+        // Wird benutzt, falls ein Spieler nur "will" oder "moechte"
+        // eingibt, nicht jedoch, was er will.
+    "hab_ich_nicht":
+        "!sage Tut mir leid, sowas hab ich nicht.",
+        // Wird benutzt, falls "want" nix zurueckgibt
+    "das_kostet":
+        "!sage Das kostet $, wenn ich bitten darf...",
+        // wird verwendet, wnn keine procemessage angegeben ist
+    "zu_wenig_geld":
+        "!sage Das ist zu wenig, das kostet $.",
+        // Der Spieler hat Hans zu wenig Geld gegeben.
+    "zu_viel_geld":
+        "!sage Das ist zu viel, das kostet $.",
+        // Der Spieler hat dem Verkaeufefr zu viel Geld gegeben, der
+        // Verkaeufer akzeptiert kein Trinkgeld (-> set_accept_tip)
+    "bittesehr":
+        "!sage Da hast Du $, viel Spass damit!",
+    "dann_halt_nicht":
+        "!sage Dann eben nicht."
+        "!emote seufzt tief.",
+    "nanu":
+        "!frage Nanu, was ist denn das und was soll ich damit?",
+        // Dem Verkaeufer wurde was einfach so gegeben,
+        // given hat nicht reagiert, oder der Spieler hat bei einem
+        // Tauschgeschaeft das Falsche gegeben.
+    "illusion":
+        ({"!betrachte meine illusion",
+        "!lache",
+        "!GEBEN",
+        "!sage Bin ich blind oder was?"}),
+        // Reaktion auf Illusionen
+    "moment":
+        "!sage Moment, Moment.",
+        // Der Verkaeufer tut grad was (beispielsweise reparieren)
+    "falsche_waehrung":
+        "!sage Das ist jetzt aber die falsche Waehrung, "
+            "$ nehm ich nicht an.",
+    "fehler":
+        "!sage Tut mir leid, das ist mir ausgegangen",
+        // Programmierer hat nen Fehler gemacht,
+        // erhaelt mit do_error eine Nachricht,
+        // aber der Spieler soll auch was kriegen.
+    ]));
+VERWEISE: 
+GRUPPEN: verkaeufer, handel, monster
+SOURCE: /i/money/verkaeufer.c
+BEISPIEL: move_or_remove
+#include <move.h>
+// ein neu angelegtes Objekt (Pfad anpassen)
+    clone_object("/obj/schatz")->
+        move(this_object(),([MOVE_FLAGS:MOVE_ERR_REMOVE]));
+GRUPPEN: move
+SOURCE: /i/move.c
+BEISPIEL: move_messages
+#include <move.h>
+// ein bewegtes Objekt (hier der Spieler <raum> anpassen!)
+    this_player()->
+        move(<raum>,([MOVE_FLAGS:MOVE_NORMAL,
+         MOVE_MSG_ME:"Du stolperst noch $dir().",
+         MOVE_MSG_ENTER:"$Der() stolpert heran.",
+         MOVE_MSG_LEAVE:"$Der() stolpert nach $dir() davon.",
+        ]));
+GRUPPEN: move
+SOURCE: /i/move.c
+BEISPIEL: move_normal
+#include <move.h>
+// ein neu angelegtes Objekt (Pfad anpassen)
+    clone_object("/obj/schatz")->
+        move(this_object(),([MOVE_FLAGS:MOVE_NORMAL]));
+GRUPPEN: move
+SOURCE: /i/move.c
+BEISPIEL: drink_is_me
+int drink_is_me(string str)
+{
+     // trinke phiole
+    if (me(str))
+        return 1;
+
+     // trinke flüssigkeit [aus phiole]
+    if (here(str, "flüssigkeit # special # id"))
+        return 1;
+
+     // aus phiole
+    if (left(str, 4) == "aus ")
+    {
+        if (me(substr(str,5)))
+            return 1;
+    }
+
+    return 0;
+}
+GRUPPEN: getraenke
+SOURCE: /i/object/getraenk.c
+BEISPIEL: menu_dynamic_browse
+// <type> durch den effektiven Menuenamen ersetzen
+// Doku siehe ? dynamic_browse
+static mixed <type>_init(mapping old)
+{
+    // optional zum Initialisieren des Menues
+}
+
+mixed <type>_reload(mixed menues)
+{
+    // optional, wenn waehrend der Anzeige ein reload notwendig wird.
+    // z.B. ein neuer Aufruf von <type>_init.
+}
+
+static int <type>_total(mapping menue)
+{
+    // optional dient zur Endeerkennung.
+}
+
+static string * <type>_display(mapping menue)
+{
+    // Pflicht, Zeigt den aktuellen Ausschnitt an.
+}
+
+static string <type>_prompt(mapping menue)
+{
+    // optional zur Anzeige des Menue-Prompts.
+}
+
+static mixed <type>_action(string str, mapping * menues)
+{
+    // Die Reaktionen des Menues.
+    return B_NOTHING;
+}
+GRUPPEN: dynamic_browse
+SOURCE: /i/tools/dynamic_browser.c
+BEISPIEL: renewal
+void prepare_renewal()
+{
+}
+
+void abort_renewal()
+{
+}
+
+void finish_renewal(object neu)
+{
+}
+GRUPPEN: grundlegendes
+SOURCE: /i/zauberstab/zmarker.inc
+BEISPIEL: action
+   Beispiel 1: (aus dem Code)
+      room->add_v_item(([
+         "name":"loch",
+         "gender":"saechlich",
+         "long":
+            "Es scheint als könne man durch das Loch kriechen, "
+            "und so nach Richtung "+CAP(m[1])+" kommen.",
+         "feel":
+            "Es scheint als könne man durch das Loch kriechen, "
+            "und so nach Richtung "+CAP(m[1])+" kommen.",
+         "action":({({"krieche",-6,"durch"}),
+                    ({"krieche",-6,"in"}),
+                    ({"klettere",-7,"durch"}),
+                    ({"betrete",-6,""}),
+                    ({"betritt",0,""})}),
+         "action_exit": VROOM+x+"_"+y+"_"+z,
+         "action_exit_out":
+            "$Der() kriecht durch das Loch nach "+CAP(m[1])+".",
+         "action_exit_in":
+            "$Der() kriecht durch das Loch von "+CAP(m[1])+" her.",
+         "action_exit_self":
+            "Du kriechst durch das Loch nach "+CAP(m[1])+".",
+      ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/action.c
+BEISPIEL: action
+   Beispiel 2:
+      room->add_v_item(([
+         "name":"löcher",
+         "gender":"weiblich",
+         "plural":1,
+         "id":({"löcher","loch"}),
+         "long":
+            "Die Löcher sind nur fingergroß."
+            " Sie deuten scheinbar auf den Ausgang nach "+CAP(m[1])+".",
+         "action":({({"krieche",-6,"nach "+m[1]+"."})}),
+         "action_exit": VROOM+x+"_"+y+"_"+z,
+         "action_exit_out":
+            "$Der() kriecht nach "+CAP(m[1])+".",
+         "action_exit_in":
+            "$Der() kriecht von "+CAP(m[1])+" her.",
+         "action_exit_self":
+            "Du kriechst nach "+CAP(m[1])+".",
+      ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/action.c
+BEISPIEL: action
+   Beispiel 3:
+int bruecke_kletter_action()
+{
+    TP->send_message_to(TP,MT_FEEL,MA_EMOTE,
+        "Du sammelst all deinen Mut"
+        " und fängst an über die Bruchstücke zu balancieren.");
+    TP->send_message(MT_LOOK,MA_CRAFT,
+        Der(TP)+" versucht über die Trümmer der Brücke zu klettern.",
+        "",TP);
+    if(TP->query_stat(STAT_DEX)<=65 || (VERSUNKEN->query_versunken()))
+    {
+        TP->send_message(MT_NOISE,MA_NOISE,"\nPLATSCH\n\n");
+        TP->send_message_to(TP,MT_FEEL,MA_CRAFT,
+            "Du bist auf einem besonders"
+            " glitschigen Stück ausgerutscht"
+            " und ins Wasser gefallen!"
+            " Du bist wohl noch nicht geschickt genug...");
+        TP->send_message_to(TP, MT_FEEL,MA_CRAFT,
+            "Triefend vor Nässe watest du wieder an Land.");
+        TP->send_message(MT_LOOK,MA_LOOK,
+            Der(TP)+" ist ins Wasser gefallen"
+            " und watet triefend wieder ans Ufer.",
+            "",TP);
+
+        object shadow=clone_object("/p/kurdel/obj/feucht_shadow");
+        shadow->setup_shadow(TP);
+        return 1;
+    }
+    TP->send_message_to(TP,MT_LOOK,MA_CRAFT,
+        "Nach einigen Beinahe-Reinfallen hast du es geschafft!");
+    TP->send_message(MT_LOOK,MA_LOOK,
+        Der(TP)+" wäre zwar zweimal beinahe reingefallen,"
+        " aber er hat es geschafft!");
+    TP->move(SU_ISTARO_ROOM+"istaro01",([
+        MOVE_FLAGS: MOVE_NORMAL,
+        MOVE_MSG_LEAVE: "$Der() stößt einen Freudenschrei aus",
+        MOVE_MSG_ENTER: "$Der() betritt die Insel"]));
+    return 1;
+}
+      room->add_v_item(([
+         "name":"brücke",
+         "id":({"brücke", "steinbrücke",
+                "truemmerstücke","stücke"}),
+
+         "gender":"weiblich",
+         "long":"Beim näheren Hinsehen erkennst du, dass man "+
+               "mit einigem Geschick über die ins Wasser "+
+               "gefallenen Trümmerstücke klettern könnte.",
+         "look_msg":"$Der() schaut sich die Reste der Brücke "+
+                  "genauer an",
+         "action":({({"klettere",-7,"über"})}),
+         "action_exit":#'bruecke_kletter_action,
+      ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/action.c
+BEISPIEL: action
+   Beispiel 4:
+      room->add_v_item(([
+         "name":"fenster",
+         "gender":"saechlich",
+         "long":"Eigentlich ist es mehr ein Loch in der Wand.",
+         "action":({({"klettere",-7,"aus","einem Fenster"}),
+                    ({"klettere",-7,"hinaus."})}),
+         "action_exit": ZIELRAUM,
+      ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/action.c
+BEISPIEL: action
+   Beispiel 5:
+      room->add_v_item(([
+         "name":"tür",
+         "gender":"weiblich",
+         "long":"Du kannst ja mal versuchen sie zu öffnen, "
+                " schließen oder zu betreten.",
+         "action":({({"öffne",0,""}),
+                    ({"schließe",-7,""}),
+                    ({"betrete",0,""}),
+                    ({"betritt",0,""}),}),
+         "action_exit":
+             ({(: send_message_to(TP,MT_FAIL|MT_LOOK,MA_LOOK,
+                     "Die Tür ist schon offen.");
+                  return 1; :),
+               (: send_message_to(TP,MT_FAIL|MT_FEEL,MA_USE,
+                     "Die Tür klemmt,"
+                     " anscheinend lässt sie sich"
+                     " nicht schließen.");
+                  return 1; :),
+               ZIELRAUM,
+               ZIELRAUM
+             }),
+      ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/action.c
+BEISPIEL: do_stellen
+//  Bei der Grube:
+int do_stellen(object leiter)
+{
+
+  string wohin=query_down_stellen_direction_string();
+  if(!leiter->query_climbable())
+  {
+    send_message_to(TP, MT_NOTIFY|MT_FAIL, MA_USE,
+      "Du kannst "+den(leiter)+" nicht "+wohin+" stellen!");
+    return 1;
+  }
+  if(leiter->move(query_down_target_room())!=MOVE_OK)
+  {
+    send_message_to(TP, MT_NOTIFY|MT_FAIL, MA_USE,
+      leiter->query_not_moved_reason()
+      ||Der(leiter)+" ließ sich nicht bewegen!");
+    return 1;
+  }
+  TP->send_message(MT_LOOK,MA_MOVE,
+    Der(TP)+" stellt "+den(leiter)+" "+wohin+".",
+    "Du stellst "+den(leiter)+" "+wohin+".",
+    TP);
+  TP->send_message_in(query_down_target_room(),MT_LOOK,MA_MOVE_OUT,
+    Ein(leiter)+" wird von oben hier "+wohin+" gestellt.");
+  return 1;
+
+  Beim Baum:
+
+  string wohin=query_down_stellen_direction_string();
+  if(!leiter->query_climbable())
+  {
+    send_message_to(TP, MT_NOTIFY|MT_FAIL, MA_USE,
+       "Du kannst "+den(leiter)+" nicht "+wohin+" stellen!");
+    return 1;
+  }
+  object baum=TO->query_baum();
+  return baum && baum->do_set_leiter(leiter);
+}
+VERWEISE: 
+GRUPPEN: raumausstattung, spezialobjekte  
+SOURCE: /p/Misc/i/down_actions.c
+BEISPIEL: ecp_split_text
+    mapping * teile = ecp_split_text(text);
+    foreach (mapping m : teile)
+    {
+        if (m["typ"] == 0)
+            m["text"] = verarbeite_text_teil(m["text"]);
+    }
+    text = ecp_join_text(teile);
+GRUPPEN: text
+SOURCE: /p/Misc/i/escapecodeparser.c
+BEISPIEL: push_into
+   Beispiel 1:
+         room->add_v_item((["name":"loch",
+                         "gender":"saechlich",
+                         "long":
+            "Das Loch scheint als Abfalleimer zu dienen.",
+                         "put_into": ({({"lege",-3,"in"}),
+                                    ({"werfe",-4,"in"}),
+                                    ({"wirf",0,"in"}),
+                                    ({"entsorge",-7,"."}),
+                                    ({"werfe",-4,"weg."}),
+                                    ({"wirf",0,"weg."})}),
+                         "put_container": "/d/Atlantis/Thronraum/muellhalde",
+                         "put_into_msg_other":
+         "$Der() wirft $den('what) in $den('container).",
+                        "put_into_msg_self":
+         "Du wirfst $den('what) in $den('container).",
+                        "put_into_msg_in":
+         "$Der('what) fliegt neben dir in den Muell.",
+        ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/push_inherit.c
+BEISPIEL: push_into
+   Beispiel 2:
+         briefkasten->add_v_item((["name":"schlitz",
+                         "gender":"maennlich",
+                         "long":
+            "Durch den Schlitz werden Briefe und "
+            "anders in den Briefkasten geworfen.",
+                        "put_into": ({({"lege",-3,"in"}),
+                                    ({"werfe",-4,"in"}),
+                                    ({"wirf",0,"in"}),
+                                    ({"werfe",-4,"ein."}),
+                                    ({"wirf",0,"ein."})}),
+                         "put_container": briefkasten,
+                         "put_into_msg_other":
+         "$Der() wirft $den('what) in $den('container).",
+                        "put_into_msg_self":
+         "Du wirfst $den('what) in $den('container).",
+                        "put_into_msg_in":
+         "$Der('what) fliegt neben dir in den Muell.",
+        ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/push_inherit.c
+BEISPIEL: put_into
+   Beispiel 1:
+         room->add_v_item((["name":"loch",
+                         "gender":"saechlich",
+                         "long":
+            "Das Loch scheint als Abfalleimer zu dienen.",
+                         "put_into": ({({"lege",-3,"in"}),
+                                    ({"werfe",-4,"in"}),
+                                    ({"wirf",0,"in"}),
+                                    ({"entsorge",-7,"."}),
+                                    ({"werfe",-4,"weg."}),
+                                    ({"wirf",0,"weg."})}),
+                         "put_container": "/d/Atlantis/Thronraum/muellhalde",
+                         "put_into_msg_other":
+         "$Der() wirft $den('what) in $den('container).",
+                        "put_into_msg_self":
+         "Du wirfst $den('what) in $den('container).",
+                        "put_into_msg_in":
+         "$Der('what) fliegt neben dir in den Muell.",
+        ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/put_inherit.c
+BEISPIEL: put_into
+   Beispiel 2:
+         briefkasten->add_v_item((["name":"schlitz",
+                         "gender":"maennlich",
+                         "long":
+            "Durch den Schlitz werden Briefe und "
+            "anders in den Briefkasten geworfen.",
+                        "put_into": ({({"lege",-3,"in"}),
+                                    ({"werfe",-4,"in"}),
+                                    ({"wirf",0,"in"}),
+                                    ({"werfe",-4,"ein."}),
+                                    ({"wirf",0,"ein."})}),
+                         "put_container": briefkasten,
+                         "put_into_msg_other":
+         "$Der() wirft $den('what) in $den('container).",
+                        "put_into_msg_self":
+         "Du wirfst $den('what) in $den('container).",
+                        "put_into_msg_in":
+         "$Der('what) fliegt neben dir in den Muell.",
+        ]));
+VERWEISE: add_action
+GRUPPEN: misc_action, vitem
+SOURCE: /p/Misc/i/put_inherit.c
+BEISPIEL: raum_beispiel1
+// Aus /room/bsp/bsp1.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void create() 
+{
+    set_short("Beispielraum Nr. 1");
+    set_long("Langbeschreibung des Raums-1");
+    set_smell ("Hier riecht es nach Orangen.");
+    set_noise ("Du meinst, das Knabbern von Holzwuermern zu hoeren.");
+    set_feel ("Beim Umhertasten stellst Du fest, dass der Raum einen "
+        "Boden und vier Waende besitzt.");
+    set_exits( ({"bsp_eingang", "bsp2" }),
+               ({"sueden", "norden" }) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel2
+// Aus /room/bsp/bsp2.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset() 
+{
+    object fackel;
+    if(!present("fackel",this_object()))
+    {
+        fackel = clone_object("/obj/fackel");
+        fackel.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 2");
+    set_long("Langbeschreibung des Raums-2");
+    set_exits( ({"bsp3",   "bsp1"   }),
+              ({"norden", "sueden" }) );
+    add_v_item( ([
+      "name":   "sessel",
+      "gender": "maennlich",
+      "long":   "Ein kleiner behaglicher Sessel."
+            ]) );
+    add_v_item( ([
+      "name":   "glasvitrine",
+      "gender": "weiblich",
+      "id":     ({"glasvitrine", "vitrine"}),
+      "long":   "Eine leere Glasvitrine. Sie steht hier wohl nur als Beispiel."
+       ]) );
+    reset();
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel3
+// Aus /room/bsp/bsp3.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+#include <message.h>
+void create() 
+{
+    set_short("Beispielraum Nr. 3");
+    set_long("Langbeschreibung des Raums-3");
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    add_type(RT_KUNSTLICHT, 1);
+    set_own_light(1);
+    add_type(RT_KAEMPFEN_VERBOTEN,1);
+    set_exits( ({"bsp4", "bsp2" }), ({"norden","sueden"}) );
+}
+void init() 
+{
+    add_action("bloedlefunktion","bloedle");
+}
+int bloedlefunktion(string str) 
+{
+    if(!str) 
+    {
+        this_player().send_message(MT_LOOK,MA_EMOTE,
+            wrap(Der(this_player())+" bloedelt herum."),
+            "Ok, Du bloedelst herum.\n", this_player());
+        return 1;
+    }
+    notify_fail("Was willst Du herumbloedeln?\n");
+    return 0;
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel4
+// Aus /room/bsp/bsp4.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+#include <message.h>
+void create() 
+{
+    set_short("Beispielraum Nr. 4");
+    set_long("Langbeschreibung des Raums-4");
+    set_exits( ({"bsp5", "bsp3"}), ({"westen", "sueden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+
+int filter_westen(object who) 
+{
+    if(find_call_out("meldung") != -1) 
+    {
+        send_message_to(who,MT_NOISE, MA_COMM,
+            "Der Raum sagt: Warte doch mal auf den Call-Out!\n");
+        return 1;
+    }
+    return 0;
+}
+
+void init() 
+{
+    if(find_call_out("meldung") == -1)
+    {
+        call_out("meldung",8);
+    }
+}
+void meldung() 
+{
+    send_message(MT_NOTIFY, MA_UNKNOWN, "Hier kommt der Call-Out!\n");
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel5
+// Aus /room/bsp/bsp5.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#ifdef UNItopia
+#include "/d/Vaniorh/sys/vaniorh_exports.h"
+#endif
+#include <stats.h>
+#include <message.h>
+#include <monster.h>
+#include <room_types.h>
+void reset() 
+{
+    object mon;
+    if(!present("waschbaer",this_object()))
+    {
+        mon = clone_object("/obj/monster");
+        mon.initialize("tier", 20);
+        mon.set_name("waschbaer");
+        mon.set_gender("maennlich");
+        mon.set_id( ({"waschbaer","baer"}) );
+        mon.set_short("Ein kleiner Waschbaer");
+        mon.set_long(
+         "Ein kleiner quietschvergnuegter Waschbaer. Er "
+         "schaut Dich mit seinen dunklen grossen Augen an und schlaegt "
+         "ein paar unbeholfene Purzelbaeume. Das ist wirklich der "
+         "absolute Gipfel der Drolligkeit!");
+        mon.set_feel(
+          "Als Du den Waschbaeren beruehrst, zuckt er aengstlich zusammen, "
+          "er laeuft jedoch gluecklicherweise nicht davon. Er hat ein "
+          "weiches, wuschliges Fell.");
+        mon.set_one_stat(STAT_INT,200);
+        mon.set_aggressive(0);
+        mon.set_parse_conversation( this_object(),
+         ({ "hallo:     hi || guten && tag || hallo", PARSE_SAY|PARSE_CONTINUE,
+            "hallo:     <begruess>", PARSE_SOUL,
+            "befinden:  wie && geht", PARSE_SAY,
+            "emote:     <wuschel>", PARSE_SOUL }) );
+        mon.add_random_activities( ([
+            "!sage Ich bin ein sprechender Waschbaer." : 0,
+            "!sage Holla! Ich wasche so wahnsinnig gerne!" : 0,
+            "!echo $Der() schaut sich um." : 0,
+            "!echo $Der() waescht seine Pfoten im Bach." : 0,
+            "!nehme alles" : 0
+            ]) );
+        mon.set_activity(20);
+        mon.set_start_random(1);
+        mon.load_a_chat(50,
+        ({ "Der Waschbaer macht ein boeses Gesicht!",
+            "Der Waschbaer rubbelt Dich durch sein Waschbrett!",
+            "!nehme alles",
+            "Der Waschbaer spritzt Dir Seife in die Augen!" }) );
+        mon.add_v_item(
+         ([ "name":   "pfote",
+            "id":     ({"pfote","natural#weapon"}),
+            "gender": "weiblich",
+            "long":   "Eine niedliche, kleine Pfote, welche der Waschbaer "
+                    "da hat."
+            ]));
+        
+        mon.add_v_item(
+         ([ "name":   "pfote",
+            "id":     ({"pfote","natural#weapon"}),
+            "gender": "weiblich",
+            "long":   "Oh, noch eine zweite niedliche, kleine Pfote, welche "
+                    "der Waschbaer auch besitzt."
+           ]));
+        mon.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 5");
+    set_long(
+      "Du bist im Beispielraum Nr. 5 des Einfuehrungskurses fuer "
+      "Goetter. Mit dem Zauberstab-Kommando 'zmore hier' kannst Du den "
+      "Quellcode dieses Raumes anschauen. In diesem Raum wird ein Monster "
+      "erschaffen und vollstaendig initialisiert. Das Monster reagiert "
+      "auch auf Ansprache..."
+#ifdef UNItopia
+      "\nNach unten verzweigt ein Hilfekursabstecher zu Parsecs Talk-NPCs, "
+      "der Hauptkurs setzt sich im Sueden fort."
+#endif
+      );
+   set_exits( ({"bsp6",
+                "bsp4",
+#ifdef UNItopia
+            TALK_NPC_KURS,
+#endif
+            }),
+              ({"sueden","osten",
+#ifdef UNItopia
+            "runter",
+#endif
+            }) );
+
+    add_v_item(
+        ([ "name":   "baechlein",
+        "id":     ({"bach", "baechlein"}),
+        "gender": "saechlich",
+        "long":   "Ein kleines Baechlein, welches sich hier seinen "
+                "Weg durch den Beispielraum bahnt. Er plaetschert "
+                "lustig vor sich hin.",
+        "noise":  "Plaetscher, plaetscher, plaetscher.",
+        "feel":   "Ihhh, das ist ja nass.",
+        ]));
+    reset();
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+void hallo(string str, string verb, object npc, object player, int flags) 
+{
+   npc.send_message(MT_LOOK, MA_EMOTE,
+                     "Der Waschbaer verneigt sich.\n");
+}
+void befinden(string str, string verb, object npc, object player, int flags) 
+{
+   npc.do_command("sage Mir gehts gut, danke!");
+}
+
+void emote(string str, string verb, object npc, object player, int flags) 
+{
+   npc.send_message(MT_LOOK, MA_EMOTE,
+                     wrap(Der(npc)+" strahlt "+den(player)+" verwuschelt an."),
+                     wrap(Der(npc)+" strahlt dich verwuschelt an."),
+                     player);
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel6
+// Aus /room/bsp/bsp6.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+#include <stats.h>
+void reset() 
+{
+    if(!present("kampfaxt",this_object()))
+    {
+        object axt;
+        axt = clone_object("/obj/nahkampf_waffe");
+        axt.set_name("Kampfaxt");
+        axt.set_gender("weiblich");
+        axt.set_id( ({"axt","kampfaxt"}) );
+        axt.set_adjektiv("handlich");
+        axt.set_long(
+            "Eine handliche Kampfaxt. Der blutverkrustete "
+            "Eisenkopf laesst ein paar eindeutige Rueckschluesse auf den "
+            "Verwendungszweck dieser Axt zu... zum Faellen von Baeumen "
+            "wurde sie jedenfalls nicht gemacht!");
+        axt.set_weight(2);
+        axt.set_damage(4, 9);
+        axt.set_used_stats( ({STAT_STR, STAT_STR, STAT_DEX}) );
+        axt.set_skill_path( ({"skill", "offensiv", "scharf", "axt"}) );
+        axt.set_life(350);
+        axt.set_broken_message("CRUNSCH!!!\n");
+        axt.set_value(40, 230);
+        axt.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 6");
+    set_long("Langbeschreibung des Raums-6");
+    set_exits( ({"bsp7", "bsp5"}) , ({"sueden" , "norden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel7
+// Aus /room/bsp/bsp7.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset()
+{
+    if(!present("brustpanzer",this_object()))
+    {
+        object panzer; 
+        panzer=clone_object("/obj/armour");
+        panzer.set_name("Brustpanzer");
+        panzer.set_id(({"panzer","brustpanzer"}));
+        panzer.set_gender("maennlich");
+        panzer.set_material("metall");
+        panzer.set_smell("Er riecht leicht nach Schweiss.\n");
+        panzer.set_long(
+            "Ein dicker, schwerer Brustpanzer aus Bronze. Ein "
+            "Loewe ziert die Oberflaeche der Vorderseite.");
+        panzer.init_armour_data(3,
+                    "oberkoerper",
+                    250,
+                    "SCRATSCH!! Dein Brust"
+                    "panzer hat nur noch Schrottwert!\n");
+        panzer.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 7");
+    set_long("Langbeschreibung des Raums-7");
+    set_exits( ({"bsp8","bsp6"}), 
+            ({"sueden", "norden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel8
+// Aus /room/bsp/bsp8.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset() 
+{
+    if(!present("kissen",this_object()))
+    {
+        object kissen; 
+        kissen=clone_object("/room/bsp/obj/kissen");
+        kissen.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 8");
+    set_long("Langbeschreibung des Raums-8");
+    set_exits( ({"bsp9","bsp7"}), 
+            ({"westen", "norden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: kissen_beispiel8
+// aus /room/bsp/obj/kissen.c extrahiert:
+inherit "/i/item";
+inherit "/i/move";
+inherit "/i/value";
+#include <message.h>
+void create()
+{
+   set_name("kissen");
+   set_gender("saechlich");
+   set_adjektiv("bequem");
+   set_id("kissen");
+   set_weight(1);
+   set_value(10);
+   set_long(
+    "Ein bequemes Sitzkissen. Man kann sich darauf setzen mit 'sitz'.");
+}
+void init()
+{
+   add_action("sitz_funktion", "sitz");
+}
+int sitz_funktion(string str)
+{
+   this_player().send_message(MT_LOOK,MA_MOVE,
+     wrap(Der(this_player())+" setzt sich auf "+seinen()+"."));
+   this_player().send_message_to(this_player(), MT_LOOK, MA_MOVE,
+     wrap("Zum Testen: "+Der(this_player())+" setzt sich auf "+seinen()+"."));
+   this_player().send_message_to(this_player(), MT_LOOK|MT_NOTIFY, MA_MOVE,
+     wrap("Du setzt dich auf "+deinen()+"."));
+   return 1;
+}
+GRUPPEN: grundlegendes
+SOURCE: /room/bsp/bsp.4enzy
+BEISPIEL: raum_beispiel9
+// Aus /room/bsp/bsp9.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset() 
+{
+    object truhe, taler;
+    if (!present("francis#truhe",this_object()))
+    {
+      truhe = clone_object("/obj/truhe");
+      truhe.add_id("francis#truhe");
+      truhe.set_owner_name("francis");
+      truhe.move(this_object());
+      truhe.set_hidden_until_next_move();
+      taler = clone_object("/obj/money");
+      taler.init_money(200 + random(400), "krone");
+      taler.move(truhe);
+      truhe.close_con();
+    }
+}
+string busch_funktion(mapping v_item, object beobachter)
+{
+   object truhe;
+   truhe = present("francis#truhe",this_object());
+   if(truhe && truhe.query_invis())
+      return
+        "Der Busch hat lange spitze Dornen und dicke, "
+        "dunkelgruene Blaetter, aber\n"
+        "dein Blick wird sofort von einer im Busch"
+        " verborgenen Truhe gefesselt.\n";
+    return
+      "Der Busch hat lange spitze Dornen und dicke dunkelgruene Blaetter;\n"
+      "im Schatten seiner duerren Zweige gaehnt ein groesseres Loch.\n"
+      "Offensichtlich war hier etwas versteckt.\n";
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 9");
+    set_long("Langbeschreibung des Raums-9");
+    set_exits(({ "bsp8" }), ({ "osten" })); 
+    add_v_item( (["name":"felsblock",
+            "id":({"felsen","fels", "felsblock" }),
+            "gender":"maennlich",
+            "long":
+                "Du siehst einen grossen Felsblock, "
+                "auf dem erstaunlicherweise ein "
+                "ebenfalls grosser Busch waechst."
+            ]) );
+    add_v_item( (["name":"busch",
+            "gender":"maennlich",
+            "id":({"busch","strauch"}),
+            "long":#'busch_funktion,
+            "look_msg":"$Der() untersucht den Busch",
+            "take":
+                "Du kannst den Busch beim besten Willen nicht entwurzeln.",
+            "take_msg":
+                "$Der() versucht vergeblich den Busch zu entwurzeln"
+            ]) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+SOURCE: /room/bsp/bsp.4enzy

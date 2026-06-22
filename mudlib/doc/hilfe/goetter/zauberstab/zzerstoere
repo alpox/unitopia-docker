@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+zz[erstöre] [-d] [-f] [<Objektstring>]
+        Zerstört das Objekt <Objektstring> (wie zerstoere)
+
+        -d   Es wird NUR ein destruct() ausgeführt, ohne vorher einen
+             ob->remove() zu probieren.
+             (bitte nur -d verwenden, wenn es unbedingt nötig ist)
+
+        -f   Zerstören auch dann durchführen, wenn sich noch Spieler
+             (welche keine Götter oder Testies sind) im Raum befinden.
+
+Siehe auch: zerschaffe, lade, zerneuere
+-------------------------------------------------------------------------------

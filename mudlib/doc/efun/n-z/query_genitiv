@@ -1,0 +1,10 @@
+FUNKTION: query_genitiv
+DEKLARATION: string query_genitiv()
+BESCHREIBUNG:
+Ist diese Funktion in einem Objekt implementiert, so rufen die Grammatik-
+Funktionen bei Genitiv-Generierung diese Funktion auf statt den Genitiv
+generieren zu lassen.
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht.
+VERWEISE: query_dekliniert, query_dativ, query_akkusativ, query_deklin_name
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c

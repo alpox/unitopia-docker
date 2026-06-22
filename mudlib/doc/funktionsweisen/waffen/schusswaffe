@@ -1,0 +1,70 @@
+/obj/schuss_waffe.c
+
+Eine Schusswaffe besteht eigentlich aus mehreren Objekten, nämlich der Waffe
+selbst, einem Magazin und den Geschossen, wobei die Waffe und das Magazin
+auch identisch sein können.
+
+1. Womit schießt die Waffe ?
+
+       Mit dem Aufruf
+
+	  void set_pfeil_id(string id)
+
+       teilt man der Waffe mit, welche Objekte sie verschießen kann, und mit
+
+          void set_koecher_id(string id)
+
+       in welchen Magazin sie suchen soll. Lässt man letzteren Aufruf weg,
+       sucht sie nur in sich selber nach Geschossen, ansonsten im Köcher
+       und im Spieler.
+
+       Beispiele für Pfeile und Köcher findet man in /obj/pfeil.c und
+       /obj/koecher.c.
+
+       Diese IDs werden mit init_weapon bereits richtig gesetzt.
+
+2. Soll das Geschoss nach dem Schuss zerstört werden, wie zB Kugeln einer
+   Pistole, kann man
+
+         set_destroy_pfeil(1)
+
+   aufrufen. 
+
+
+3. Fehlermeldung, wenn keine Geschosse mehr vorhanden sind:
+
+         void set_no_arrow_message(string Meldung)
+
+   Voreinstellung:
+
+         set_no_arrow_message("Du hast keine Pfeile !\n");
+
+
+4. Schuss-Meldung an den Besitzer der Waffe:
+
+         void set_owner_message(string Meldung)
+
+   Die Meldung wird anschließend noch durch den Namen des Opfers ergänzt.
+   Voreinstellung:
+ 
+         set_owner_message("Du schickst einen Pfeil Richtung");
+
+
+5. Schuss-Meldung an das Opfer:
+
+         void set_enemy_message(string Meldung)
+
+   Diese Meldung wird durch den Namen des Besitzers ergänzt.
+   Voreinstellung:
+
+         set_enemy_message("schießt mit einem Pfeil auf dich.\n");
+
+
+6. Meldung an Unbeteiligte:
+
+         void set_others_message(string Meldung)
+
+   Wird durch beide, Täter und Opfer ergänzt. Voreinstellung:
+
+         set_others_message("schickt einen Pfeil Richtung");
+

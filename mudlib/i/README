@@ -1,0 +1,23 @@
+                             Inherit-Files
+                             =============
+
+Hier findet man Standard-Files, die mit dem Inherit-Befehl "inherited" werden
+können. Diese werden von von allen Objekten GEMEINSAM benutzt (sharing), was
+den Bedarf an Hauptspeicher erheblich reduziert.
+
+
+Grundbausteine:
+	/i/room für Räume
+	/i/item für alle sonstigen Objekte
+	/i/shadow für "Schatten"
+
+zum Kombinieren mit /i/item:
+	/i/move bzw /i/install für bewegliche Objekte
+	/i/contain  für Behälter
+	/i/value    für Objekte des freien Handels
+
+In /i/object/ findet man einfache, bereits fertige Objekte, die auch ein
+"clone"-bares Pendant in /obj besitzen.
+
+Die größten (und kompliziertesten) Objekte sind in eigenen Sub-Directories
+untergebracht.

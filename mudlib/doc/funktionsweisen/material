@@ -1,0 +1,45 @@
+In /i/item/material.c gibt es 
+die Möglichkeit, einem Objekt eine bestimmte Materialart (oder auch
+mehrere) zuzuweisen. Folgende Routinen wurde installiert:
+
+void set_material(string *str)
+	Im String-Array str werden alle Materialien eines Objektes übergeben.
+	Beispiel: set_material( ({"holz"}) )   oder
+	          set_material( ({"glas","wasser"}) )  =>Getraenk!
+
+void add_material(string *str)
+	Der String-Array str wird dem bereits vorhandenen Material-Array
+        hinzugefügt.
+	Beispiel: add_material( ({"metall"}) )   gibt dem Objekt zusätzlich
+        die Eigenschaften von Metall.
+
+void delete_material(string *str)
+        Die Elemente des String-Arrays str werden aus dem Material-Array
+        entfernt.
+        Beispiel: delete_material( ({"wasser"}) )   angewandt auf das obige
+        Getränk, ergibt dies jetzt ein leeres Getränk.
+
+int material(string str)
+	Liefert TRUE (=1) zurück, wenn der Materialstring str im Material-
+        Array des Objektes gesetzt ist. Ansonsten kommt natürlich FALSE (=0)
+        zurück.
+	Beispiel: Beim obigen Getränke-Beispiel liefert material("glas")
+        TRUE, während material("holz") FALSE zurückgibt (wer hätte das
+        gedacht!)
+
+string *query_material()
+        Liefert das gesamte Material-Array zurück.
+
+
+Wozu das Ganze?
+Nun, jedes Material hat die für sich typischen physikalischen und chemischen
+Eigenschaften. Holz schwimmt in Wasser und kann brennen, Metall wird von
+Magneten angezogen und leitet Strom, Glas durchsichtig und leicht zerbrechlich,
+Stein ist im allgemeinen hart, während Textilien weich und elastisch  sind
+usw. usw....
+
+Die Möglichkeiten, hier kleine Rätsel daraus zu bauen oder auch nur um
+neue Funktionen zu realisieren (Magier und Metall - Igitt!, Schmied 
+repariert nur Metall-Gegenstände...) sind enorm.
+
+Eine Liste aller Materialien findet Ihr in /doc/richtlinien/materialien.

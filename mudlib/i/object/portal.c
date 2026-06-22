@@ -1,0 +1,54 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:	/i/object/portal.c
+// Description:	Ein Portal
+// Author:	Gnomi
+
+inherit "%item";
+inherit "%install";
+
+#include <portal.h>
+
+string portal;
+
+/*
+FUNKTION: set_portal_name
+DEKLARATION: void set_portal_name(string name)
+BESCHREIBUNG:
+Initialisiert das Portal.
+Der Name muss ein in /static/adm/PORTALS registrierter Name sein.
+VERWEISE:
+GRUPPEN: Portal
+*/
+void set_portal_name(string name)
+{
+    if(!PORTAL_SERVER->portal_exists(name))
+        raise_error(sprintf("Unknown portal: %s\n", name));
+
+    portal = name;
+    add_id(ID_PORTAL(name));
+}
+
+string query_portal_name()  { return portal; }
+
+object query_enter_room(object who)
+{
+    return PORTAL_SERVER->query_portal_room(portal, who);
+}
+
+string* query_enter_messages(object who)
+{
+    return ({
+        Der(who) + " tritt durch " + den() + ".$",
+        Ein(who) + " tritt aus " + dem() + ".$"
+    });
+}
+
+
+void create()
+{
+    "*"::create();
+    set_name("portal");
+    set_gender("saechlich");
+    set_id(({"portal", ID_PORTAL_ALL}));
+}

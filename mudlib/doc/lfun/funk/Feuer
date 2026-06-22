@@ -1,0 +1,15 @@
+query_abbrennzeit
+query_fire_shadow
+query_burn_time
+query_is_brennbar
+query_streichholz
+query_burning
+query_burned_out
+query_anzuender
+allowed_strike
+prepare_strike
+strike_done
+do_notifying
+concerned_strike
+do_strike
+notify_strike

@@ -1,0 +1,48 @@
+Die Restriktionen durch Verzeichnisnamen
+----------------------------------------
+
+Die Pfad-Restriktionen bestimmen, in welchen Verzeichnissen
+einzelne Aktionen, wie beispielsweise clone_object(),
+load_object(), inherit oder move, gesperrt sind.
+Diese Restriktionen werden von der Mudlib bereitgestellt,
+man muss das also nicht jeweils selbst programmieren.
+
+Diese Restriktionen müssen eingehalten werden. Sie dürfen
+in keinster Weise umgangen werden. Kurzzeitiges Kopieren oder
+Umbenennen von Dateien/Verzeichnissen ist also nicht zulässig.
+
+ - no-load: Verhindert das Laden von Objekten
+        Admin   INFO    OLD     Old     Orbit   doc
+        log     priv    save    static  sys
+   Ausnahme: /z/Raetsel/Admin
+             Orbit ist in Orbit und TestMUDs erlaubt.
+   Hinweis: Nicht geladene Objekte können auch nicht gecloned,
+            inherited, oder gar gemoved werden.
+
+ - no-clone: Verhindert das Clonen von Objekten
+        apps    i       touch
+   Hinweis: Generell muss /obj/ im Pfad vorkommen (und keines
+            der obigen Namen).
+
+ - no-inherit: Verhindert das Erben
+        Alle Pfade, die kein /i/ enthalten, verhindern das Erben.
+        Files in /w/ dürfen nur von Objekten aus /w/ geerbt werden.
+
+ - no-include: Einbinden von Code aus anderen Dateien
+        Admin   INFO    OLD     Old     doc     log
+        priv    save    static  var
+   Ausnahme: /z/Raetsel/Admin/ darf aus /z/Raetsel/Admin/ includen
+             /z/Raetsel/<name>/ darf aus /z/R*/A*/Secure/<name>/ includen
+             /z/Spiele/<name>/ darf aus /z/S*/A*/Secure/<name>/ includen
+   Hinweis: Include-Files müssen auf '.h' oder '.inc' enden.
+            Files in /w/ dürfen nur von Files aus /w/ includet werden.
+
+ - no-move: Verhindert den Move von Objekten
+        apps    i       room    obj
+   Hinweis: Bisher wird nur der Move von Blueprints aus obj verhindert.
+
+ - Generell:
+   Files aus /w/ dürfen nur von Files aus /w/ geladen, inherited, included,
+   gecloned werden. (Und von Objekten mit der UID eines Gottes also z.B.
+   dem Zauberstab)
+

@@ -1,0 +1,11 @@
+set_random_clone_mode
+query_random_clone_mode
+add_object
+delete_object
+query_object
+query_all_objects
+query_present_objects
+query_later_objects
+set_max_objects
+set_min_objects
+do_clone_now

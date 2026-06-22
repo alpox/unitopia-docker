@@ -1,0 +1,14 @@
+FUNKTION: find_living
+DEKLARATION: object find_living(string name)
+BESCHREIBUNG:
+Diese Funktion sucht das Lebewesen mit dem Namen 'name' und liefert
+dessen Objekt-Pointer. 'name' muss hierbei der Name sein,
+der mit set_living_name() gesetzt murde.
+
+Beispiel:
+  object ob;
+  ob = find_living("detlef");
+
+VERWEISE: set_living_name, find_player, find_object, query_living_name
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc

@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Hier werden die Fehletypen zur Auswahl angezeigt.
+Mögliche Befehle:
+
+    <nr>        Fehlertyp der angezeigten Nummer umschalten, 
+                [X] ist ausgewählt, [ ] nicht.
+    z           Eine Ebene zurück, hier zur Fehlerliste
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

@@ -1,0 +1,8 @@
+FUNKTION: format_seconds
+DEKLARATION: string format_seconds(int seconds)
+BESCHREIBUNG:
+Liefert einen String der Form:
+'x Tage x Stunden x Minuten x Sekunden'
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_vseconds, short_format_seconds, short_format_vseconds
+SOURCE: /secure/simul_efun/time.inc

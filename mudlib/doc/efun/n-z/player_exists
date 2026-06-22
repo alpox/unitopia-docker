@@ -1,0 +1,7 @@
+FUNKTION: player_exists
+DEKLARATION: int player_exists(string name)
+BESCHREIBUNG:
+Schaut nach, ob es einen Spieler mit diesem Namen gibt.
+VERWEISE:
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/living.inc

@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Hier siehst Du einen einzelnen Commit, dessen Beschreibung und die geänderten
+Dateien. Zu jeder Datei wird die Anzahl an hinzugefügten und gelöschten
+Zeilen angezeigt.
+
+Du kannst eine Datei per Nummer auswählen, um die Unterschiede als Diff zu
+sehen. Desweiteren stehen folgende Befehle zur Auswahl:
+    r: Diesen Commit rückgängig machen
+-------------------------------------------------------------------------------

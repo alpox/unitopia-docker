@@ -1,0 +1,15 @@
+FUNKTION: deep_present
+DEKLARATION: object deep_present(mixed was, object wo)
+BESCHREIBUNG:
+deep_present sucht im Objekt 'wo' und in allen darin enthaltenen Objekten
+nach 'was', wobei 'was' eine ID oder ein Objekt sein kann.
+
+deep_present wird wie present aufgerufen, benoetigt aber immer
+den zweiten Parameter.
+
+Dies und noch mehr kann cond_deep_present. Wenn es nur mit diesen beiden
+Parametern aufgerufen wird, verhaelt es sich genauso wie deep_present.
+
+VERWEISE: cond_deep_present, present
+GRUPPEN: simul_efun, objekt
+SOURCE: /secure/simul_efun/util.inc

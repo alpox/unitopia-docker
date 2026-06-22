@@ -1,0 +1,82 @@
+-------------------------------------------------------------------------------
+Um von Dir eingegebene Umlaute korrekt verarbeiten und Dir Umlaute richtig
+anzeigen zu können, muss der Zeichensatz Deines Clients bekannt sein.
+Bei einigen Clients wird es automatisch erkannt, bei anderen musst Du es
+manuell einstellen.
+
+Gehe dazu in das Einstellungsmenü (Befehl #einst), in die Rubrik 'MUD-Client
+und E-Mail', dort die Option 'Zeichensatz' (Taste c). Es werden mehrere
+Möglichkeiten angezeigt, aus denen Du wählen kannst.
+
+Alternativ geht das ohne Menü mit den Befehlen:
+    #einst client zeichensatz liste
+    #einst client zeichensatz <zeichensatz>
+
+Hinweise zu einzelnen MUD-Clients:
+
+    MushClient:
+        Die Unicode-Unterstützung gibt es in MushClient nur halbseitig
+        (Ausgabe funktioniert, Eingabe jedoch nicht) und ist damit für
+        UNItopia ungeeignet. Daher sollte die in den World-Einstellungen
+        unter 'Appearance/Output" der Haken bei 'UTF-8' nicht gesetzt sein.
+        Stattdessen sollte im MUD 'Windows-1252' eingetragen werden
+        (#einst client zeichensatz Windows-1252).
+
+    TinyFugue:
+        Das originale TF unterstützt keine anderen Zeichensätze außer ASCII.
+        TF Rebirth (https://github.com/ingwarsw/tinyfugue) unterstützt Umlaute
+        automatisch ohne weitere Einstellungen.
+
+*** Zusätzliche Hinweise zur Programmierung: ***
+Raumausgänge:
+    Bei Raumausgängen sollte die Schreibung mit Umlauten verwendet werden.
+
+    Man kann zwar Raumausgänge wahlweise mit Umlauten oder deren Umschreibung
+    angeben. Bei der Bewegung wird unabhängig davon beides akzeptiert, so z.B.
+    auch bei Funktionen wie query_one_exit(). Wenn man aber die Ausgangsliste
+    z.B. per query_command_list() abfragt, bekommt man exakt den Namen, wie er
+    gesetzt wurde, zurück. So wird er also auch den Spielern angezeigt.
+
+    Bei den filter_xxx()-Funktionen wird immer die Umschreibung verwendet
+    (so z.B. filter_sueden()).
+
+IDs:
+    Bei IDs werden beide Schreibweisen akzeptiert. Wird die ID abgefragt,
+    erhält man exakt die original gesetzte Schreibweise zurück. Langfristig
+    hätten wir jedoch gern überall IDs mit Umlauten, damit beispielsweise
+    "statue" nicht bei "statü" gefunden wird.
+
+Adjektive:
+    Bei Adjektiven werden zwar beide Schreibweisen akzeptiert, angezeigt wird
+    jedoch die original gesetzte Schreibweise. Deswegen sollten Adjektive mit
+    Umlauten gesetzt werden.
+
+Geschlecht:
+    Man kann das Geschlecht sowohl mit als auch ohne Umlaute angeben. Bei der
+    Abfrage wird das Geschlecht immer ohne Umlaute zurückgegeben (z.B.
+    "saechlich"), daher ist diese Form zu bevorzugen.
+
+Actions:
+    Bei Actions werden beide Schreibweisen akzeptiert. Ähnlich wie bei den IDs
+    sollten langfristig die Actions mit Umlauten geschrieben werden.
+    Zur Abfrage gibt es eine neue Efun query_verb_ascii(), welches das Verb
+    immer ohne Umlaute liefert.
+
+Kleidungstyp/Rüstungsklasse:
+    Man kann den Kleidungstyp und die Rüstungsklasse mit oder ohne Umlaute
+    angeben. query_typ() bzw. query_armour_class() liefern immer die Schreibung
+    ohne Umlaute.
+
+Comm/Seele-Controller:
+    Die Tätigkeit bei forbidden/modify/notify_comm/notify_seele werden weiterhin
+    ohne Umlaute angegeben.
+
+Skills:
+    Skills werden weiterhin mit der Umschreibung (z.B. "raetsel" oder
+    "getoetet") geschrieben.
+
+Monsterkonversation:
+    Sowohl set_parse_conversation() wie auch die Talk-NPCs akzeptieren beide
+    Schreibweisen sowohl bei der Spezifikation als auch später bei der
+    Interaktion mit Spielern.
+-------------------------------------------------------------------------------

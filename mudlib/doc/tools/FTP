@@ -1,0 +1,28 @@
+FTP in UNItopia
+
+Es gibt auch einen ftp-Zugang zu UNItopia. 
+
+Mittels 
+   ftp 217.11.52.248
+      bzw.
+   ftp unitopia.de
+kann man sich mit seinem Mudnamen und Mudpasswort einloggen und auf 
+seine Files zugreifen. Man hat dort dieselben Lese- und Schreibrechte wie im 
+Mud.
+
+Außerdem existiert ein anonymer Zugang. Man landet dann im öffentlichen 
+/pub Verzeichnis des Muds. Dort kann man allerdings nur Lesen.
+
+FTP ist für all die geplant, die MTP nicht verwenden können.
+Es ist zwar etwas unbequemer aber meistens noch besser als mit dem ed zu
+arbeiten.
+
+Für Emacssuechtige: (bei Emacsfragen nicht uns löchern!)
+
+in dein ~/.emacs File:  (ab v19.33)
+   (ange-ftp-add-dumb-unix-host "unitopia.de")
+oder (vor v19.33)
+   (defvar ange-ftp-dumb-unix-host-regexp "^unitopia.*$" "")
+
+Und dann beim Laden mit ^X^F zum Beispiel:
+   /<dein_mud_name>@unitopia.de:~

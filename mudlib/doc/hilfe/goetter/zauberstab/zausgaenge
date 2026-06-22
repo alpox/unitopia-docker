@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+zausg[änge] [<Objektstring>]
+        Zeigt alle Ausgänge vom Objekt <Objektstring> an.
+
+	In der ersten Spalte steht der Ausgang , in der zweiten
+	der zugehörige Filename, bzw. zuständige Map + Koordinaten.
+	In der dritten Spalte steht der Zustand des Ausgangs:
+	   nl   nolist    Wird nicht in der Raumbeschreibung aufgeführt
+	   h    hidden    Es erfolgt keine Richtungsangabe in der Meldung
+	                  beim Verlassen in diese Richtung
+	   l    locked    Der Ausgang ist z.Zt nicht passierbar
+	   v    view      Man sieht die livings im Nebenraum durch diesen Exit
+	   n    not   (sollte nie zu sehen sein)
+-------------------------------------------------------------------------------

@@ -1,0 +1,1509 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:            /obj/protokollindex.c
+// Description:     Ein Protokoll-Index als Autoloader.
+// Author:          Myonara (19.Apr.2013)
+
+#pragma strong_types
+#pragma pedantic
+#pragma no_inherit
+
+inherit "/i/install";
+inherit "/i/item";
+inherit "/i/tools/security";
+inherit "/i/tools/dynamic_browser";
+
+#include <apps.h>
+#include <commands.h>
+#include <config.h>
+#include <dynamic_browser.h>
+#include <editor.h>
+#include <level.h>
+#include <message.h>
+#include <misc.h>
+#include <monster.h>
+#include <more.h>
+#include <move.h>
+#include <notify_fail.h>
+#include <protokoll.h>
+
+#define DEBUGGER "myonara"
+#include <debug.h>
+
+#define LINE      "-------------------------------------------------------------------------------"
+#define MORE_LINE "...--------------------------------------------------------------------- (MORE)"
+
+#define DYPR_ADMINSICHT "dyn:protokoll:adminsicht"
+#define DYPR_WORTLISTE  "dyn:protokoll:wortliste"
+#define DYPR_TYPKLASSE  "dyn:protokoll:typklasse"
+#define PR_MODUS_PROTOKOLLANT 1
+#define PR_MODUS_PROTOKOLL_L  2
+#define PR_MODUS_PROTOKOLL_S  3
+
+private mapping einst = ([]), bparam =([]);
+private mapping * resume;
+private object protokollant;
+private int after_help, modus;
+
+mixed query_auto_load()
+{
+    return ([ "bparam" : bparam]);
+}
+
+void init_arg(mixed data)
+{
+    if (mappingp(data))
+    {
+        if (member(data,"bparam") && mappingp(data["bparam"]))
+        {
+            bparam = data["bparam"];
+        }
+    }
+}
+
+void set_bparam(mapping bpar)
+{
+    //DEBUG("index->set_bparam");
+    if (mappingp(bpar)) bparam = bpar;
+}
+
+mapping query_bparam()
+{
+    //DEBUG("index->query_bparam");
+    return bparam;
+}
+
+nomask int query_prevent_shadow(object shadow)
+{
+    return 1;
+}
+
+private int check_player(object pl)
+{
+    return wizp(pl) || spielerratp(pl) 
+            || testplayerp(pl) == "myonara";
+}
+
+string query_long(object viewer)
+{
+    string s = ::query_long(viewer);
+    if (wizp(viewer) && object_time() < object_time(touch(__FILE__))) 
+    {
+        return s+"Der Protokollindex benötigt eine ZERNeuerung.\n";
+    }
+    return s;
+}
+
+void notify_net_dead(object who)
+{
+    if (who == ENV_TO) 
+    {
+         modus = PR_MODUS_PROTOKOLLANT;
+    }
+}
+
+private string convert_wizorgroup(string name)
+{
+    if (GOETTER_REGISTER->is_wiz(name)) 
+    {
+        return lower_case(name);
+    }
+    else if (GROUP_MASTER->group_exists(name)) 
+    {
+        return name;
+    }
+    else if (player_exists(name)) 
+    {
+        return lower_case(name);
+    }
+    else if (name == "Spielerrat" || name == "Zeitung" || name = "Pantheon") 
+    {
+        return name;
+    } 
+    else 
+    {
+        return 0;
+    }
+}
+
+private string get_proto_objname()
+{
+    object env = ENV(TO);
+    return PROTOKOLL_VC+"protokollant_"+({string})env->query_real_name();
+}
+
+private object get_proto()
+{
+    if (objectp(protokollant)) 
+    {
+        return protokollant;
+    }
+    object env = ENV(TO);
+    if (playerp(env)) 
+    {
+        protokollant = touch(get_proto_objname());
+        return protokollant;
+    }
+    return 0;
+}
+
+private void load_einst()
+{
+    if (modus == PR_MODUS_PROTOKOLLANT && objectp(get_proto())) 
+    {
+        einst = ({mapping}) protokollant->query_einstellungen();
+        if (sizeof(einst)==0 && spielerratp(ENV_TO))
+        {
+            einst[PR_FLAG_ALLE] = 1;
+            einst[PR_FLAG_ALLES] = 1;
+            einst[PR_LESEZUGRIFFE] = ({ "Spielerrat" });
+        }
+    }
+}
+
+private void save_einst()
+{
+    if (modus == PR_MODUS_PROTOKOLLANT && objectp(get_proto())) 
+    {
+        protokollant->set_einstellungen(einst);
+    }
+}
+
+private varargs void print_protokoll_options(int quiet)
+{
+    string prompt;
+    string *prmenu;
+    after_help = quiet;
+    load_einst();
+    switch (modus) {
+    case PR_MODUS_PROTOKOLL_L:
+        if (wizp(TP)) 
+        {
+            prompt = "Protokoll (Lesemodus) [?,i,e1,e2,e3,s,q,z] ";
+        } 
+        else 
+        {
+            prompt = "Protokoll (Lesemodus) [?,i,e,s,q,z] ";
+        }
+        prmenu = ({ " Protokoll ("+einst[PR_ID]+"):" });
+        prmenu+= ({"","  Autor: "+einst[PR_AUTOR]+
+                " Zeitstempel: "+shorttimestr(einst[PR_ZEITSTEMPEL]) });
+        if (resume[<1][DYPR_ADMINSICHT]) 
+        {
+            prmenu+= ({"","  Datei:"+einst[PR_FILENAME],
+                "  Zustand: "+einst[PR_ZUSTAND] });
+        }
+        break;
+    case PR_MODUS_PROTOKOLL_S:
+        prompt = "Protokoll (Schreibmodus) "
+            "[?,d,t,k,w+,w-,l+,l-,s+,s-,q,z] ";
+        prmenu = ({ " Protokoll ("+einst[PR_ID]+"):" });
+        prmenu+= ({"","  Autor: "+einst[PR_AUTOR]+
+                " Zeitstempel: "+shorttimestr(einst[PR_ZEITSTEMPEL]) });
+        if (resume[<1][DYPR_ADMINSICHT]) 
+        {
+            prmenu+= ({"","  Datei:"+einst[PR_FILENAME],
+                "  Zustan(d): "+einst[PR_ZUSTAND] });
+        }
+        break;
+    case PR_MODUS_PROTOKOLLANT:
+    default:
+        prompt = "Hauptmenü Protokollant "
+            "[?,a,n,m,f,t,k,w+,w-,l+,l-,s+,s-,q,z] ";
+        prmenu = ({
+" Protokolleinstellungen:",
+"",
+"  ["+(einst[PR_FLAG_ALLE]?"*":" ")+"] (A)lle Spieler protokollieren.",
+"  ["+(einst[PR_FLAG_NPC]?"*":" ")+"] Alle (N)PC protokollieren.",
+"  ["+(einst[PR_FLAG_ALLES]?"*":" ")+"] Alle (M)essagetypen protokollieren.",
+"  ["+(einst[PR_FOLGE_MODUS]?"*":" ")+"] Mir (f)olgen.",
+});
+        break;
+    }
+    this_player()->more(prmenu+({
+"", 
+"  (T)itel: "+einst[PR_TITEL],
+"  Typ(k)lasse/Thema: "+einst[PR_TYPKLASSE],
+  })+explode(wrap_say("  Stichworte (w+,w-):",
+     liste(einst[PR_STICHWORTE],", "))[..<2],"\n")
+    +explode(wrap_say("  Lesezugriffe (l+,l-):",
+     liste(einst[PR_LESEZUGRIFFE],", "))[..<2],"\n") 
+    +explode(wrap_say("  Schreibzugriffe (s+,s-):",
+     liste(einst[PR_SCHREIBZUGRIFFE],", "))[..<2],"\n"),
+        ({ prompt,
+"----------- Protokoll: --------------------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        }), 0,
+        M_DO_NOT_END|M_FRAME|M_THIS_OBJECT|(quiet?M_NO_FIRST_SCREEN:0),
+        "Root:Protokoll:Metadaten");
+}
+
+private varargs void print_protokoll_inhalt_options(int quiet)
+{
+    after_help = quiet;
+    this_player()->more( einst[PR_INHALT],
+        ({ "Protokollinhalt %d/%d [?,q,z]",
+"----------- Protokollinhalt: --------------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        }), 0,
+        M_DO_NOT_END|M_FRAME|M_THIS_OBJECT|(quiet?M_NO_FIRST_SCREEN:0),
+        "Root:Protokoll:Inhalt");
+}
+
+
+public void pr_inhalt_mini_ed_end(string * text)
+{
+    DEBUG("minied-end"+mixed2str(caller_stack())+ "\n"+(text==0));
+}
+
+static void pr_inhalt_web_ed_end(string text)
+{
+    DEBUG("webed-end"+mixed2str(caller_stack())+ "\n"+(text==0));
+}
+
+public void pr_inhalt_edit_end(string * puffer, int changed)
+{
+    object *cs = caller_stack();
+    mixed result;
+    if (TI != TP || sizeof(cs)!=2 || cs[0] != TP || cs[1] != TP) 
+    {
+        return;
+    }
+    if (changed) 
+    {
+        einst[PR_INHALT] = puffer;
+        result = ({mixed}) 
+                    PROTOKOLL_MASTER->speichere_protokoll(einst);
+        if (mappingp(result)) 
+        {
+            einst = result;
+        }
+    }
+    print_protokoll_options();
+}
+
+private int handle_protokoll_options(string str)
+{
+    string param = "";
+    string plusminus = "";
+    string * namen = ({}); 
+    mixed result;
+    int ix;
+    if (strlen(str)>2) 
+    {
+        plusminus = str[1..1];
+        param = str[2..];
+        namen = regexplode(space(param),"[, ]") - ({ ""," ","," });
+    } 
+    else if (strlen(str)==2) 
+    {
+        plusminus = str[1..1];
+    }
+    switch (lower_case(str[0..0]))
+    {
+        case "":
+            if (after_help)
+            {
+                print_protokoll_options();
+                after_help = 0;
+                return END_MORE;
+            }
+            return CONTINUE;
+        case "d":
+            if (modus != PR_MODUS_PROTOKOLL_S) return CONTINUE;
+            einst[PR_ZUSTAND] = (einst[PR_ZUSTAND]==PR_ZUSTAND_AKTIV)
+                ? PR_ZUSTAND_GELOESCHT: PR_ZUSTAND_AKTIV;
+            print_protokoll_options();
+            return END_MORE;
+        case "k":
+            if (modus == PR_MODUS_PROTOKOLL_L) return CONTINUE;
+            if (strlen(str)>1) 
+            {
+                ix = ({int}) PROTOKOLL_MASTER->pr_get_typklasse(str[1..]);
+                if (ix > 0) 
+                {
+                    einst[PR_TYPKLASSE] = space(str[1..]);
+                } 
+                else 
+                {
+                    send_message_to(TP,MT_NOTIFY,MA_LOOK,wrap(
+                        "Nur folgende Typklassen sind verfügbar: "
+                        + liste(PROTOKOLL_MASTER->pr_get_typklassen(0,0))));
+                }
+            }
+            print_protokoll_options();
+            return END_MORE;
+        case "t":
+            if (modus == PR_MODUS_PROTOKOLL_L) 
+                return CONTINUE;
+            if (strlen(str)<2 || strlen(str)>60) 
+                return CONTINUE;
+            einst[PR_TITEL] = space(str[1..]);
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "f":
+            if (modus != PR_MODUS_PROTOKOLLANT) 
+                return CONTINUE;
+            if (member(einst,PR_FOLGE_MODUS)) 
+            {
+                 m_delete(einst,PR_FOLGE_MODUS);
+            } 
+            else 
+            {
+                einst[PR_FOLGE_MODUS] = 1;
+            }
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "a": 
+            if (modus != PR_MODUS_PROTOKOLLANT) 
+                return CONTINUE;
+            if (member(einst,PR_FLAG_ALLE)) 
+            {
+                 m_delete(einst,PR_FLAG_ALLE);
+            } 
+            else 
+            {
+                einst[PR_FLAG_ALLE] = 1;
+            }
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "n": 
+            if (modus != PR_MODUS_PROTOKOLLANT) return CONTINUE;
+            if (member(einst,PR_FLAG_NPC)) 
+            {
+                 m_delete(einst,PR_FLAG_NPC);
+            } 
+            else 
+            {
+                einst[PR_FLAG_NPC] = 1;
+            }
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "m": 
+            if (modus != PR_MODUS_PROTOKOLLANT) return CONTINUE;
+            if (member(einst,PR_FLAG_ALLES)) 
+            {
+                 m_delete(einst,PR_FLAG_ALLES);
+            } 
+            else 
+            {
+                einst[PR_FLAG_ALLES] = 1;
+            }
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "w": 
+            if (modus == PR_MODUS_PROTOKOLL_L) 
+                return CONTINUE;
+            if (!pointerp(einst[PR_STICHWORTE])) 
+            {
+                einst[PR_STICHWORTE] = ({ });
+            }
+            if (plusminus == "+") 
+            {
+                if (sizeof(namen)) 
+                {
+                    einst[PR_STICHWORTE] -= namen;
+                    einst[PR_STICHWORTE] += namen;
+                }
+            } 
+            else if (plusminus == "-") 
+            {
+                if (sizeof(namen)) 
+                {
+                    einst[PR_STICHWORTE] -= namen;
+                }
+            } 
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "l": 
+            if (modus == PR_MODUS_PROTOKOLL_L) return CONTINUE;
+            if (!pointerp(einst[PR_LESEZUGRIFFE])) 
+            {
+                einst[PR_LESEZUGRIFFE] = ({ });
+            }
+            if (plusminus == "+") 
+            {
+                namen = map(namen, (: convert_wizorgroup($1) :) ) - ({0});
+                if (sizeof(namen)) 
+                {
+                    einst[PR_LESEZUGRIFFE] -= namen;
+                    einst[PR_LESEZUGRIFFE] += namen;
+                }
+            } 
+            else if (plusminus == "-") 
+            {
+                if (sizeof(namen)) 
+                {
+                    einst[PR_LESEZUGRIFFE] -= namen;
+                }
+            } 
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "s": 
+            if (modus == PR_MODUS_PROTOKOLL_L) 
+            {
+                if (PROTOKOLL_MASTER->pr_has_write_access(einst[PR_ID])
+                        ||resume[<1][DYPR_ADMINSICHT]) 
+                {
+                    modus = PR_MODUS_PROTOKOLL_S;
+                    print_protokoll_options();
+                    return END_MORE;
+                } 
+                else 
+                {
+                    send_message_to(TP,MT_NOTIFY,MA_LOOK,wrap(
+                        "Kein Schreibzugriff für Schreibmodus."));
+                    return CONTINUE;
+                }
+            }
+            if (!pointerp(einst[PR_SCHREIBZUGRIFFE])) 
+            {
+                einst[PR_SCHREIBZUGRIFFE] = ({ });
+            }
+            if (plusminus == "+") 
+            {
+                namen = map(namen, (: convert_wizorgroup($1) :) ) - ({0});
+                if (sizeof(namen)) 
+                {
+                    einst[PR_SCHREIBZUGRIFFE] -= namen;
+                    einst[PR_SCHREIBZUGRIFFE] += namen;
+                }
+            } else if (plusminus == "-") 
+            {
+                if (sizeof(namen)) 
+                {
+                    einst[PR_SCHREIBZUGRIFFE] -= namen;
+                }
+            } 
+            save_einst();
+            print_protokoll_options();
+            return END_MORE;
+        case "i":
+            if (modus != PR_MODUS_PROTOKOLL_L) 
+                return CONTINUE;
+            print_protokoll_inhalt_options();
+            return END_MORE;
+        case "e":
+            if (modus != PR_MODUS_PROTOKOLL_L) 
+                return CONTINUE;
+            if (!PROTOKOLL_MASTER->pr_has_write_access(einst[PR_ID])) 
+            {
+                send_message_to(TP,MT_NOTIFY,MA_LOOK,wrap(
+                        "Kein Schreibzugriff für Editieren."));
+                print_protokoll_options();
+                return END_MORE;
+            }
+            if (wizp(TP)) 
+            {
+                switch (plusminus) 
+                {
+                case "4":
+                    if (TP->webmud_edit("Protokoll:",#'pr_inhalt_web_ed_end,
+                        implode(einst[PR_INHALT]||({}),"\n") ))
+                    {
+                        return END_MORE;
+                    }
+                case "": plusminus = "2";
+                case "2": 
+                case "3":
+                case "1":
+                case "0":
+                    if (TP->mini_ed(#'pr_inhalt_mini_ed_end,
+                          to_int(plusminus),0,
+                          ([MINI_ED_TITLE:"Protokoll editieren"]),0, 
+                          einst[PR_INHALT]+({}))) 
+                    {
+                        return END_MORE;
+                    } 
+                    else 
+                    {
+                        send_message_to(TP,MT_NOTIFY,MA_LOOK,wrap(
+                                "Editieren nicht verfügbar."));
+                        print_protokoll_options();
+                        return END_MORE;
+                    }
+                default:
+                        send_message_to(TP,MT_NOTIFY,MA_LOOK,wrap(
+                                "Unbekannte Editieroption "
+                                "(ausser e1,e2,e3,e4)."));
+                        print_protokoll_options();
+                        return END_MORE;
+                }
+            // IDEE fuer wizp 3 Varianten des mini_ed anbieten.
+            } 
+            else if (TP->edit(einst[PR_INHALT]+({}),
+                            "pr_inhalt_edit_end", TO)) 
+            {
+                return END_MORE;
+            } 
+            else 
+            {
+                send_message_to(TP,MT_NOTIFY,MA_LOOK,wrap(
+                        "Editieren nicht verfügbar."));
+                print_protokoll_options();
+                return END_MORE;
+            }
+        case "?":
+            switch(modus) 
+            {
+            default:
+            case PR_MODUS_PROTOKOLLANT: 
+                plusminus = PR_HELPFILE_MAIN;
+                break;
+            case PR_MODUS_PROTOKOLL_L: 
+                plusminus = PR_HELPFILE_MAIN_L;
+                break;
+            case PR_MODUS_PROTOKOLL_S: 
+                plusminus = PR_HELPFILE_MAIN_S;
+                break;
+            }
+            PO->print_options_help(0, plusminus, space(str[1..]),
+                (: print_protokoll_options($1); :), 0);
+            return END_MORE;
+        case "q":
+            if (modus == PR_MODUS_PROTOKOLL_S) 
+            {
+                result = ({mixed}) 
+                    PROTOKOLL_MASTER->speichere_protokoll(einst);
+                if (mappingp(result)) 
+                {
+                    einst = result;
+                }
+                modus = PR_MODUS_PROTOKOLL_L;
+            } 
+            else 
+            {
+                modus = PR_MODUS_PROTOKOLLANT;
+            }
+            return END_MORE;
+        case "z":
+            if (modus == PR_MODUS_PROTOKOLL_S) 
+            {
+                result = ({mixed}) 
+                    PROTOKOLL_MASTER->speichere_protokoll(einst);
+                if (mappingp(result)) 
+                {
+                    einst = result;
+                }
+                modus = PR_MODUS_PROTOKOLL_L;
+                print_protokoll_options();
+            } else if (modus == PR_MODUS_PROTOKOLL_L) 
+            {
+                modus = PR_MODUS_PROTOKOLLANT;
+                dynamic_browse(resume);
+                return END_MORE;
+            } 
+            else 
+            {
+                this_player()->start_options_menue();
+            }
+            return END_MORE;
+        default:
+            return CONTINUE;
+    }
+}
+
+private int handle_protokoll_inhalt_options(string str)
+{
+    switch (lower_case(str[0..0]))
+    {
+        case "q":
+            modus = PR_MODUS_PROTOKOLLANT;
+            return END_MORE;
+        case "z":
+            modus = PR_MODUS_PROTOKOLL_L;
+            print_protokoll_options();
+            return END_MORE;
+        default:
+            return CONTINUE;
+    }
+
+}
+
+private void handle_protokoll_actions(string str)
+{
+    string *bstr,*worte;
+    int ix;
+
+    if (!str || (space(str)==""))
+    {
+        print_protokoll_options();
+        return;
+    }
+    bstr = explode(lower_case(space(str))," ");
+    if (bstr[0] == "?")
+    {
+        if (sizeof(bstr)>1)
+        {
+              PO->print_options_help(0, PR_HELPFILE_ACTION,
+                  bstr[1],0, 0);
+        }
+        else
+        {
+              PO->print_options_help(0, PR_HELPFILE_ACTION,
+                "? ?",0, 0);
+        }
+        return;
+    }
+    if ((sizeof(bstr)>1)&&(bstr[1]=="?"))
+    {
+          PO->print_options_help(0, PR_HELPFILE_ACTION,
+                  bstr[0],0, 0);
+        return;
+    }
+    load_einst();
+    switch (lower_case(bstr[0])) 
+    {
+    case "spieler":
+        if (sizeof(bstr)>=2 && bstr[1] = "an") 
+        {
+            einst[PR_FLAG_ALLE] = 1;
+        } 
+        else if (sizeof(bstr)>=2 && bstr[1] = "aus") 
+        {
+            m_delete(einst, PR_FLAG_ALLE);
+        } 
+        else 
+        {
+            PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Option protokoll->spieler ist "+(
+                einst[PR_FLAG_ALLE] ? "an." : "aus.")));
+            return;
+        }
+        break;
+    case "npc":
+        if (sizeof(bstr)>=2 && bstr[1] = "an") 
+        {
+            einst[PR_FLAG_NPC] = 1;
+        } 
+        else if (sizeof(bstr)>=2 && bstr[1] = "aus") 
+        {
+            m_delete(einst, PR_FLAG_NPC);
+        } 
+        else 
+        {
+            PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Option protokoll->npc ist "+(
+                einst[PR_FLAG_NPC] ? "an." : "aus.")));
+            return;
+        }
+        break;
+    case "mt":
+        if (sizeof(bstr)>=2 && bstr[1] = "an") 
+        {
+            einst[PR_FLAG_ALLES] = 1;
+        } 
+        else if (sizeof(bstr)>=2 && bstr[1] = "aus") 
+        {
+            m_delete(einst, PR_FLAG_ALLES);
+        } 
+        else 
+        {
+            PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Option protokoll->mt ist "+(
+                einst[PR_FLAG_ALLES] ? "an." : "aus.")));
+            return;
+        }
+        break;
+    case "titel":
+        if (sizeof(bstr) >= 2) 
+        {
+            einst[PR_TITEL] = implode(bstr[1..]," ");
+            break;
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Aktueller Titel:"+einst[PR_TITEL]));
+        return;
+    case "typklasse":
+        if (sizeof(bstr) >= 2) 
+        {
+            ix = ({int}) PROTOKOLL_MASTER->pr_get_typklasse(bstr[1]);
+            if (ix > 0) 
+            {
+                einst[PR_TYPKLASSE] = space(bstr[1]);
+                break;
+            }
+        }
+        send_message_to(PO,MT_NOTIFY,MA_LOOK,wrap(
+                    "Nur folgende Typklassen sind verfügbar: "
+                    + liste(PROTOKOLL_MASTER->pr_get_typklassen(0,0))));
+        return;
+    case "wort+":
+        if (sizeof(bstr) >= 2) 
+        {
+            worte = regexplode(implode(bstr[1..]," "),"[ ,]")- ({""," ",","});
+            if (sizeof(worte)) 
+            {
+                einst[PR_STICHWORTE] -= worte; // unique halten.
+                einst[PR_STICHWORTE] += worte;
+                break;
+            }
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Momentane Stichworte: "+liste(einst[PR_STICHWORTE],", ")));
+        return; 
+    case "wort-":
+        if (sizeof(bstr) >= 2) 
+        {
+            worte = regexplode(implode(bstr[1..]," "),"[ ,]")- ({""," ",","});
+            if (sizeof(worte)) 
+            {
+                einst[PR_STICHWORTE] -= worte; // unique halten.
+                break;
+            }
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Momentane Stichworte: "+liste(einst[PR_STICHWORTE],", ")));
+        return; 
+    case "lese+":
+        if (sizeof(bstr) >= 2) 
+        {
+            worte = regexplode(implode(bstr[1..]," "),"[ ,]")- ({""," ",","});
+            worte = map(worte, (: convert_wizorgroup($1) :) ) - ({0});
+            if (sizeof(worte)) 
+            {
+                einst[PR_LESEZUGRIFFE] -= worte; // unique halten.
+                einst[PR_LESEZUGRIFFE] += worte;
+                break;
+            }
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Momentane Lesezugriff: "+liste(einst[PR_LESEZUGRIFFE],", ")));
+        return; 
+    case "lese-":
+        if (sizeof(bstr) >= 2) 
+        {
+            worte = regexplode(implode(bstr[1..]," "),"[ ,]")- ({""," ",","});
+            if (sizeof(worte)) 
+            {
+                einst[PR_LESEZUGRIFFE] += worte;
+                break;
+            }
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Momentane Lesezugriff: "+liste(einst[PR_LESEZUGRIFFE],", ")));
+        return; 
+    case "schreib+":
+        if (sizeof(bstr) >= 2) 
+        {
+            worte = regexplode(implode(bstr[1..]," "),"[ ,]")- ({""," ",","});
+            worte = map(worte, (: convert_wizorgroup($1) :) ) - ({0});
+            if (sizeof(worte)) 
+            {
+                einst[PR_SCHREIBZUGRIFFE] -= worte; // unique halten.
+                einst[PR_SCHREIBZUGRIFFE] += worte;
+                break;
+            }
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Momentane Schreibzugriff: "+liste(einst[PR_SCHREIBZUGRIFFE],", ")));
+        return; 
+    case "schreib-":
+        if (sizeof(bstr) >= 2) 
+        {
+            worte = regexplode(implode(bstr[1..]," "),"[ ,]")- ({""," ",","});
+            if (sizeof(worte)) 
+            {
+                einst[PR_SCHREIBZUGRIFFE] += worte;
+                break;
+            }
+        }
+        PO->send_message_to(PO, MT_LOOK, MA_LOOK, wrap(
+                "Momentane Schreibzugriff: "+liste(einst[PR_SCHREIBZUGRIFFE],", ")));
+        return; 
+    default:
+    }
+    save_einst();
+}
+
+public int more_action(string str, int line, int max_line, mixed more_id)
+{
+    object *cs = caller_stack(),ob;
+    //DEBUG("more_action:\""+str+"\" cs:"+mixed2str(cs)+" TP:"+mixed2str(TP)
+    //    +" TI:"+mixed2str(TI)+" more_id:"+mixed2str(more_id));
+    if (TP == 0 || TI != TP || sizeof(cs)<2 || sizeof(cs)>3 ) 
+    {
+        return CONTINUE;
+    }
+    foreach (ob : cs)
+    {
+        if (ob != TP)
+            return CONTINUE;
+    }
+    
+    if(!str)
+      return CONTINUE;
+    if(!stringp(more_id))
+      return CONTINUE;
+    switch(more_id)
+    {
+        case "Root:Protokoll:Metadaten":
+            return handle_protokoll_options(str);
+        case "Root:Protokoll:Inhalt":
+            return handle_protokoll_inhalt_options(str);
+    }
+    return NOTHING;
+}
+
+//Einstellungen (menue) beim Spieler ein und austragen.
+void notify_moved(mapping mv_infos)
+{
+    object woher = mv_infos[MOVE_OLD_ROOM];
+    object wohin = mv_infos[MOVE_NEW_ROOM];
+    
+    if (mv_infos[MOVE_OBJECT] != this_object())
+        return;
+    if (woher && playerp(woher))
+    {
+        woher->delete_options_menue("Protokollant");
+        woher->delete_options_action("protokollant");
+    }
+    if (wohin && check_player(wohin))
+    {
+        wohin->add_options_menue("Protokollant",#'print_protokoll_options);
+        wohin->add_options_action("Protokollant","protokollant",-4,
+            #'handle_protokoll_actions);
+    }
+    if (wohin && !check_player(wohin))
+    {
+        send_message_to(wohin, MT_NOTIFY, MA_UNKNOWN, wrap(
+            Der()+" löst sich auf."));
+        call_out("remove",0);
+    }
+}
+
+// -------------------------------------------------------------------------
+// alle Lfuns zu pr_hauptmenu (dynamic_browser-Menu)
+static mixed pr_hauptmenu_init(mapping old)
+{
+    string * adminoptions = ({ });
+    if (adminp(TP) && mappingp(old)) 
+    {
+        adminoptions = ({ 
+"Mittels 'a' kann man die Adminsicht aktivieren und deaktivieren.\n",
+"Bei aktiver Adminsicht werden die Lese- und Schreibzugriffsfelder\n",
+"beim Sichten der Protokolle ignoriert.\n"});
+    }
+    if (!member(old, B_HELP)) 
+    {
+        old[B_HELP] = ([
+            B_TYPE : B_STATICMORE,
+            B_HEADER_LINES : B_HEADER4HELP,
+            B_DATA : ({
+"Die Uebersichts-Hilfe ist relativ uninteressant, da nur die Zahlen der \n",
+"Untermenüs auszuwählen ist. Die Hilfen der Untermenüs sind interessanter.\n",
+            })+adminoptions,
+            ]);
+    }
+    if (!member(old, B_HEADER_LINES)) 
+    {
+        old[B_HEADER_LINES] = ({ 
+"----------- Protokoll-Hauptmenu: ----------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        });
+    }
+    return old;
+}
+
+static string * pr_hauptmenu_display(mapping menue)
+{
+    string * adminoptions = ({ });
+    if (adminp(TP) && mappingp(menue)) 
+    {
+        if (menue[DYPR_ADMINSICHT]) 
+        {
+            adminoptions = ({ "-a- Adminsicht deaktivieren" });
+        }
+        else 
+        {
+            adminoptions = ({ "-a- Adminsicht aktivieren" });
+        }
+    }
+    return ({
+        "-1- Alle ungelesenen Protokolle anschauen",
+        "-2- Alle Protokolle anschauen",
+        "-3- Stichwortliste anschauen",
+        "-4- verfügbare Typklassen anschauen",
+        "-s- s <wort1>,<wort2>... Suche nach Stichworten"
+    }) + adminoptions;
+}
+
+static int pr_hauptmenu_total(mapping menue)
+{
+    return adminp(TP) ? 6 : 5;
+}
+
+static string pr_hauptmenu_prompt(mapping menue)
+{
+    return "Protokoll-Hauptmenü [1-4,s,"
+        +(adminp(TP) ? "a,": "")+"?,q]";
+}
+
+static mixed pr_hauptmenu_action(string str, mapping * menues)
+{
+    string * worte;
+    str = space(str);
+    if (str == "") 
+        return B_NOTHING;
+    switch (str[0..0]) 
+    {
+    case "1":
+        return menues + ({ ([
+                B_TYPE : "pr_ungelesen",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+            ]) });
+    case "2":
+        return menues + ({ ([
+                B_TYPE : "pr_listealle",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+            ]) });
+    case "3":
+        return menues + ({ ([
+                B_TYPE : "pr_stichwortliste",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+            ]) });
+    case "4":
+        return menues + ({ ([
+                B_TYPE : "pr_typklassen",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+            ]) });
+    case "s":
+        if (strlen(str)<=1) return B_NOTHING;
+        worte = regexplode(str[1..],"[ ,]") - ({ "", " ", "," });
+        return menues + ({ ([
+                B_TYPE : "pr_stichwortsuche",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+                DYPR_WORTLISTE : worte,
+            ]) });
+    case "a":
+    case "A":
+        menues[<1][DYPR_ADMINSICHT] = menues[<1][DYPR_ADMINSICHT] ? 0 : 1;
+        return menues;
+    default:
+        return B_NOTHING;
+    }
+}
+
+// ------------------------------------------------------------------------
+
+static mixed pr_ungelesen_init(mapping old)
+{
+    if (!member(old, B_HELP)) 
+    {
+        old[B_HELP] = ([
+            B_TYPE : B_STATICMORE,
+            B_HEADER_LINES : B_HEADER4HELP,
+            B_DATA : ({
+"Die ungelesenen Protokolle werden mit ID(zahl) und Thema angezeigt. ",
+"Über Auswahl der Nummer kann man in die Anzeige des Protokolls wechseln. ",
+"Mit 'M' kann man alle Protokolle als gelesen markieren, was ein wenig ",
+"dauern kann, da dafür ein Hintergrundjob genutzt wird.",
+            }),
+            ]);
+    }
+    if (!member(old, B_HEADER_LINES)) {
+        old[B_HEADER_LINES] = ({ 
+"----------- ungelesene Protokolle: --------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        });
+    }
+    return old;
+}
+
+static string * pr_ungelesen_display(mapping menue)
+{
+    if (!mappingp(menue)) 
+    {
+        return 0;
+    }
+    return ({string *}) PROTOKOLL_MASTER->pr_ungelesen(
+        menue[B_CURRENT_LINE],
+        menue[B_NUM_LINES],
+        menue[DYPR_ADMINSICHT] );
+}
+
+static int pr_ungelesen_total(mapping menue)
+{
+    return ({int}) PROTOKOLL_MASTER->pr_anzahl_ungelesen(
+        menue[DYPR_ADMINSICHT] );
+}
+
+static string pr_ungelesen_prompt(mapping menue)
+{
+    return "Ungelesene Protokolle [<nr>,?,z,q]";
+}
+
+static mixed pr_ungelesen_action(string str, mapping * menues)
+{
+    int prnr = to_int(str);
+    mapping p;
+    if (prnr > 0) 
+    {
+        p = ({mapping}) PROTOKOLL_MASTER->get_protokoll_by_id(prnr,
+            menues[<1][DYPR_ADMINSICHT]);
+        if (mappingp(p)) 
+        {
+            modus = PR_MODUS_PROTOKOLL_L;
+            resume = menues;
+            einst = p;
+            PROTOKOLL_MASTER->pr_gelesen(({prnr}),0); // Gelesen setzen.
+            print_protokoll_options();
+            return B_QUIT;
+        } 
+        else 
+        {
+            browse_write_line("Kein Protokoll gefunden.");
+            return B_DONE;
+        }
+    }
+    switch (str) 
+    {
+    case "M": 
+         PROTOKOLL_MASTER->pr_gelesen(0, menues[<1][DYPR_ADMINSICHT] );
+            browse_write_line(
+                "Job \"Markiere alles als ungelesen\" gestartet.");
+            return B_DONE;
+    }
+    return B_NOTHING;
+}
+
+// ------------------------------------------------------------------------
+
+static mixed pr_listealle_init(mapping old)
+{
+    if (!member(old, B_HELP)) 
+    {
+        old[B_HELP] = ([
+            B_TYPE : B_STATICMORE,
+            B_HEADER_LINES : B_HEADER4HELP,
+            B_DATA : ({
+"Die Protokolle werden mit ID(zahl) und Thema angezeigt. ",
+"Über Auswahl der Nummer kann man in die Anzeige des Protokolls wechseln. ",
+            }),
+            ]);
+    }
+    if (!member(old, B_HEADER_LINES)) 
+    {
+        old[B_HEADER_LINES] = ({ 
+"----------- alle Protokolle: --------------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        });
+    }
+    return old;
+}
+
+static string * pr_listealle_display(mapping menue)
+{
+    if (!mappingp(menue)) 
+    {
+        return 0;
+    }
+    return ({string *}) PROTOKOLL_MASTER->pr_getliste(
+        menue[B_CURRENT_LINE],
+        menue[B_NUM_LINES],
+        menue[DYPR_ADMINSICHT],
+        menue[DYPR_TYPKLASSE] );
+}
+
+static int pr_listealle_total(mapping menue)
+{
+    return ({int})PROTOKOLL_MASTER->pr_anzahl_getliste(
+        menue[DYPR_ADMINSICHT],
+        menue[DYPR_TYPKLASSE] );
+}
+
+static string pr_listealle_prompt(mapping menue)
+{
+    return "Alle Protokolle "
+        +(stringp(menue[DYPR_TYPKLASSE])?"(Typ="+menue[DYPR_TYPKLASSE]+")"
+        :"")+"[<nr>,?,z,q]";
+}
+
+static mixed pr_listealle_action(string str, mapping * menues)
+{
+    int prnr = to_int(str);
+    mapping p;
+    if (prnr > 0) 
+    {
+        p = ({mapping}) PROTOKOLL_MASTER->get_protokoll_by_id(prnr,
+            menues[<1][DYPR_ADMINSICHT]);
+        if (mappingp(p)) 
+        {
+            modus = PR_MODUS_PROTOKOLL_L;
+            resume = menues;
+            einst = p;
+            print_protokoll_options();
+            return B_QUIT;
+        }
+        else 
+        {
+            browse_write_line("Kein Protokoll gefunden.");
+            return B_DONE;
+        }
+    }
+    return B_NOTHING;
+}
+
+// ------------------------------------------------------------------------
+
+static mixed pr_stichwortliste_init(mapping old)
+{
+    if (!member(old, B_HELP)) 
+    {
+        old[B_HELP] = ([
+            B_TYPE : B_STATICMORE,
+            B_HEADER_LINES : B_HEADER4HELP,
+            B_DATA : ({
+"Mittels 's <worty,wort2,...>' kann man Protokolle nach Stichworten suchen.",
+"Es werden Protokolle ausgewählt, die mind. einem der gesuchten Worte",
+"entspricht. Mittels 'z' kann man zurück, mit 'q' das Menu beenden.",
+            }),
+            ]);
+    }
+    if (!member(old, B_HEADER_LINES)) 
+    {
+        old[B_HEADER_LINES] = ({ 
+"----------- Stichworte: -------------------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        });
+    }
+    return old;
+}
+
+static string * pr_stichwortliste_display(mapping menue)
+{
+    if (!mappingp(menue)) 
+    {
+        return 0;
+    }
+    return ({string *}) PROTOKOLL_MASTER->pr_stichwortliste(
+        menue[B_CURRENT_LINE],
+        menue[B_NUM_LINES],
+        menue[DYPR_ADMINSICHT] );
+}
+
+static int pr_stichwortliste_total(mapping menue)
+{
+    return ({int}) PROTOKOLL_MASTER->pr_anzahl_stichwortliste(
+        menue[DYPR_ADMINSICHT] );
+}
+
+static string pr_stichwortliste_prompt(mapping menue)
+{
+    return "Ungelesene Protokolle [?,s,z,q]";
+}
+
+static mixed pr_stichwortliste_action(string str, mapping * menues)
+{
+    string * worte;
+    str=space(str);
+    if (str == "") 
+        return B_NOTHING;
+    switch(lower_case(str[0..0])) 
+    {
+    case "s":
+        if (strlen(str)<=1) 
+            return B_NOTHING;
+        worte = regexplode(str[1..],"[ ,]") - ({ "", " ", "," });
+        return menues + ({ ([
+                B_TYPE : "pr_stichwortsuche",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+                DYPR_WORTLISTE : worte,
+            ]) });
+    }
+    return B_NOTHING;
+}
+
+// ------------------------------------------------------------------------
+
+static mixed pr_stichwortsuche_init(mapping old)
+{
+    if (!member(old, B_HELP)) 
+    {
+        old[B_HELP] = ([
+            B_TYPE : B_STATICMORE,
+            B_HEADER_LINES : B_HEADER4HELP,
+            B_DATA : ({
+"Die Protokolle werden mit ID(zahl) und Thema angezeigt. ",
+"Über Auswahl der Nummer kann man in die Anzeige des Protokolls wechseln. ",
+            }),
+            ]);
+    }
+    if (!member(old, B_HEADER_LINES)) 
+    {
+        old[B_HEADER_LINES] = ({ 
+"----------- Protokolle über Stichworten: --------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        });
+    }
+    return old;
+}
+
+static string * pr_stichwortsuche_display(mapping menue)
+{
+    if (!mappingp(menue)) 
+    {
+        return 0;
+    }
+    return ({string *}) PROTOKOLL_MASTER->pr_getliste_via_sw(
+        menue[DYPR_WORTLISTE],
+        menue[B_CURRENT_LINE],
+        menue[B_NUM_LINES],
+        menue[DYPR_ADMINSICHT] );
+}
+
+static int pr_stichwortsuche_total(mapping menue)
+{
+    return ({int}) PROTOKOLL_MASTER->pr_anzahl_getliste_via_sw(
+        menue[DYPR_WORTLISTE],
+        menue[DYPR_ADMINSICHT] );
+}
+
+static string pr_stichwortsuche_prompt(mapping menue)
+{
+    return "Protokolle via Stichwortsuche [?,z,q]";
+}
+
+static mixed pr_stichwortsuche_action(string str, mapping * menues)
+{
+    int prnr = to_int(str);
+    mapping p;
+    if (prnr > 0) 
+    {
+        modus = PR_MODUS_PROTOKOLL_L;
+        p = ({mapping}) PROTOKOLL_MASTER->get_protokoll_by_id(prnr,
+            menues[<1][DYPR_ADMINSICHT]);
+        if (mappingp(p)) 
+        {
+            modus = PR_MODUS_PROTOKOLL_L;
+            resume = menues;
+            einst = p;
+            print_protokoll_options();
+            return B_QUIT;
+        } 
+        else 
+        {
+            browse_write_line("Kein Protokoll gefunden.");
+            return B_DONE;
+        }
+    }
+    return B_NOTHING;
+}
+
+// ------------------------------------------------------------------------
+
+static mixed pr_typklassen_init(mapping old)
+{
+    if (!member(old, B_HELP)) 
+    {
+        old[B_HELP] = ([
+            B_TYPE : B_STATICMORE,
+            B_HEADER_LINES : B_HEADER4HELP,
+            B_DATA : ({
+"Die Anzeige der verfügbaren Typklassen bietet nur das Kommando ",
+"'k <typklasse' an, um eine Anzeige von Protokollen mit der entsprechenden ",
+"Typklasse einzuleiten.",
+            }),
+            ]);
+    }
+    if (!member(old, B_HEADER_LINES)) 
+    {
+        old[B_HEADER_LINES] = ({ 
+"----------- Typklassen: -------------------------------------------------------",
+           LINE, MORE_LINE, MORE_LINE
+        });
+    }
+    return old;
+}
+
+static string * pr_typklassen_display(mapping menue)
+{
+    if (!mappingp(menue)) 
+    {
+        return 0;
+    }
+    return ({string *}) PROTOKOLL_MASTER->pr_get_typklassen(
+        menue[B_CURRENT_LINE],
+        menue[B_NUM_LINES]);
+}
+
+static int pr_typklassen_total(mapping menue)
+{
+    return ({int}) PROTOKOLL_MASTER->pr_get_anzahl_typklassen();
+}
+
+static string pr_typklassen_prompt(mapping menue)
+{
+    return "Typklassen [?,k,z,q]";
+}
+
+static mixed pr_typklassen_action(string str, mapping * menues)
+{
+    string rest;
+    int ix;
+    str = space(str);
+    if (str == "" || strlen(str)<2) 
+    {
+        return B_NOTHING;
+    }
+    rest = space(str[1..]);
+    switch (lower_case(str[0..0])) 
+    {
+    case "k":
+        ix = ({int}) PROTOKOLL_MASTER->pr_get_typklasse(rest);
+        if (ix > 0) 
+        {
+            return menues + ({ ([
+                B_TYPE : "pr_listealle",
+                B_START_LINE : 0,
+                DYPR_ADMINSICHT : menues[<1][DYPR_ADMINSICHT],
+                DYPR_TYPKLASSE : rest,
+            ]) });
+        } 
+        else 
+        {
+            browse_write_line("Keine Typklasse gefunden.");
+            return B_DONE;
+        }
+    }
+    return B_NOTHING;
+}
+
+// ------------------------------------------------------------------------
+// Kommando pr: im Index.
+public int pr_cmd(string str)
+{
+    object envr, envpr;
+    int flag_hier;
+    if (!check_security() || !playerp(TP) || TP != ENV_TO) 
+    {
+        return 0;
+    }
+    if (!check_player(TP))
+    {
+        call_out("remove",0);
+        FAILWP("Der Protokollindex löst sich auf.",FAIL_INTERNAL);
+    }
+    envr = ENVR(TO);
+    if (find_object(get_proto_objname()))
+    {
+        envpr = ENV(get_proto());
+        flag_hier = (envr == envpr);
+    }
+    else
+    {
+        flag_hier = 0;
+    }
+    string onkl = PROTOKOLL_VC+"klausur_"+RN(TP);
+    switch(convert_umlaute(lower_case(space(str)))) {
+    case "klausur":
+        if (object_name(envr) == onkl) 
+        {
+            FAILWP("Du bist schon in deinem Klausurraum.",FAIL_INTERNAL);
+        } 
+        else 
+        {
+            TP->move(onkl,([
+                MOVE_FLAGS:MOVE_MAGIC,
+                MOVE_MSG_LEAVE: "$Der() verschwindet in Klausur.",
+                MOVE_MSG_ENTER: "$Ein() kommt heran." ]));
+            return 1;
+        }
+    case "hole":
+        if (flag_hier) 
+        {
+            FAILWP("Dein Protokollant steht neben Dir.",FAIL_INTERNAL);
+        } 
+        else 
+        {
+            get_proto();
+            protokollant->hole(TP);
+            return 1;
+        }
+    case "einst":
+    case "einstellung":
+    case "einstellungen":
+        modus = PR_MODUS_PROTOKOLLANT;
+        print_protokoll_options();
+        return 1;
+    case "menu":
+    case "menue":
+        dynamic_browse( ([B_TYPE : "pr_hauptmenu" ]) );
+        return 1;
+    case "":
+    case "?":
+    case "hilfe":
+        if (!flag_hier) 
+        {
+          TP->more(PR_CMD_HILFE,({ "pr:-Hilfe [?,w,q,z] ",
+            "----------- Protokoll: -------------------------------------------------------",
+            LINE, MORE_LINE, MORE_LINE
+          }), 0,
+          M_DO_NOT_END|M_FRAME,
+          0);
+          return 1;
+        }
+        return 0; // der Protokollant kuemmert sich drum.
+    default:
+        if (flag_hier) 
+        {
+            return 0; // der Protokollant kuemmert sich drum.
+        } 
+        else 
+        {
+            FAILWP("Hole erst "
+                +den(protokollant
+                    ||(["name":"protokollant","gender":"maennlich"]))
+                +" zu dir, dann kannst du die anderen Befehle absetzen.", 
+                FAIL_INTERNAL);
+        }
+    }
+}
+
+void init() 
+{
+    if (TP && TP == ENV_TO) 
+    {
+        add_action("pr_cmd","pr:",AA_IMM_ARGS);
+    }
+}
+
+void create()
+{
+    set_name("protokollindex");
+    set_gender("maennlich");
+    set_id( ({ "protokollindex", "index" }) );
+    set_long("Der Protokollindex regelt die Einstellungen zu Protokollen "
+             "und gewährt Zugriff auf die Protokolle. "
+             "Kommando pr:? erläutert die Kommandos.");
+    set_weight(0);
+    modus = PR_MODUS_PROTOKOLLANT;
+    init_security_for_actions();
+
+    add_controller( ({"notify_moved", "notify_net_dead"}) ,TO);
+}
+
+void abort_renewal() 
+{
+}
+
+void finish_renewal(object neu) 
+{
+}
+
+void prepare_renewal() 
+{
+}

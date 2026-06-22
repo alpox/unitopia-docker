@@ -1,0 +1,45 @@
+-------------------------------------------------------------------------------
+zern[euere] [-n] [-a | -A [-s]] [-d] [<Objektstring>]
+        Erneuert das Objekt <Objektstring>, indem es
+            1. Zerstört wird
+            2. entweder geladen oder erschafft wird (je nach dem)
+	Wenn das Objekt nicht geladen war, wird es geladen.
+
+	-a (alle) : Es werden alle Inheritfiles mit erneuert.
+
+        -A (Alle) : Es werden auch Inheritfiles erneuert, die man nicht
+	            schreiben darf (nur für Admins)
+
+	-s : Normalerweise werden nur nur Inherit-Files erneuert,
+             wenn etwas geändert wurde (funktioniert nicht, wenn in einem
+	     Include-File etwas geändert wurde). Bei Angabe von '-s'
+	     werden alle Files, die man schreiben darf, erneuert.
+	     (Nur im Zusammenhang mit '-a' oder '-A' verwendbar)
+
+	-n : Autoloadparameter werden bei zerneuere NICHT gerettet
+
+	-d : Das Objekt wird nicht wieder geladen.
+
+        -t : Das Erneuern wird nur dann durchgeführt, wenn es testweise
+	     geschehen kann. Dazu müssen die Funktionen prepare_renewal,
+	     finish_renewal und abort_renewal im zu erneuerenden Objekt
+	     definiert sein.
+	     
+	     Das alte Objekt wird erst dann zerstört, wenn das neue Programm
+	     geladen werden konnte. (Existieren die genannten Funktionen,
+	     wird ein Objekt auch ohne diese Option auf diese Weise erneuert.
+	     Die Option -t führt nur dazu, dass das Erneuern verweigert
+	     wird, sollte es diese Möglichkeit nicht geben.)
+
+	-T : Wie -t, nur dass obige LFuns nicht gefordert werden, dafür ist
+	     aber Schreibzugriff auf die Datei erforderlich.
+	     (Achtung: Dieses Verfahren kann zu Inkonsistenzen führen!)
+	     
+	-u : Normalerweise wird -t automatisch eingeschaltet, wenn die
+	     Bedingungen erfüllt sind. -u verhindert das.
+
+        -f : Zerneuern auch dann durchführen, wenn sich noch Spieler
+	     (welche keine Götter oder Testies sind) im Raum befinden.
+		 
+Siehe auch: zzerstoere, lade, zerschaffe
+-------------------------------------------------------------------------------

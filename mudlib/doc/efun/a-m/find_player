@@ -1,0 +1,9 @@
+FUNKTION: find_player
+DEKLARATION: object find_player(string name)
+BESCHREIBUNG:
+Findet den Spieler mit dem Namen 'name'
+Die Funktion liefert das Player-Objekt des Spielers.
+'name' muss dabei der Name sein, der mit set_living_name() gesetzt wurde.
+VERWEISE: set_living_name, find_living, find_object
+GRUPPEN: simul_efun, player, objekt
+SOURCE: /secure/simul_efun/living.inc

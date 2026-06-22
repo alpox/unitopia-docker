@@ -1,0 +1,37 @@
+Hier eine (verbindliche) Liste von Materialien, die in /i/item
+mit set_material(string *str) gesetzt werden können:
+
+metall		- Alles was hauptsächlich aus Metall ist, Schwerter etc.
+holz		- Alles was hauptsächlich aus Holz ist, Fackeln etc.
+papier          - Alles was hauptsächlich aus Papier ist, Bücher etc.
+glas		- Alles was hauptsächlich aus Glas ist, Getränke etc.
+wasser          - Alles was aus TRINKBARER Flüssigkeit besteht.
+nahrung		- ESSBARES
+eis             - erklärt sich von selbst
+fluessigkeit	- Alle nicht trinkbaren Flüssigkeiten.
+textil		- Alles was aus Textilien und ähnlichem besteht (Kleider,
+		  Seil ... etc.).
+leder		- Alles aus Leder (einige Rüstungen z.B.)
+biologisch	- Alles Lebendige (Spieler, Monster, Virus ... etc.)
+bein            - Knochen, Elfenbein, Reste von "biologisch", ...
+pflanzlich	- Blaetter/Aeste/Laub/Blumen/Zweige/Stroh...
+stein		- Alles was hauptsächlich aus Stein besteht
+kunststoff	- Alles was aus Kunststoffen besteht.
+edelmetall	- Im Gegensatz zu Metall Witterungsbeständiger  (Geld)
+edelstein	- Diamanten, Saphire, Smaragde...
+gas		- Alles was gasförmig ist (Geister?)
+keramik         - Ton-Geschirr etc
+erde            - Alles aus Erde bzw nicht gebranntem Ton.....
+oel             - Alles was schmieren und brennen kann
+wachs		- Alles aus Wachs
+gummi           - Alles, was hauptsächlich aus Gummi ist
+feuer		- Offene Flammen, Feuerdaemonen, brennende Himmel, ...
+
+Wer weitere Materialtypen verwendet sollte eine Eintragung in diese Liste
+veranlassen!
+
+Weitere Materialien sollten nur dann gesetzt werden, wenn sie auch tatsächlich
+in relevanter Menge an dem Objekt vorhanden sind. Bsp: Eine Truhe ist im
+allgemeinen aus Holz, selbst wenn sie eine Metallschnalle hat. Die Metall-
+schnalle hat praktisch keinen Einfluss auf das physikalische Verhalten der
+Truhe!

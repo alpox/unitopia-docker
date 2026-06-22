@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------------
+Die Dienste von UNItopia werden auch über verschlüsselte Verbindungen
+angeboten. Die dafür verwendeten TLS-Zertifikate sind von Let's Encrypt
+(https://letsencrypt.org/certificates/) unterschrieben:
+
+    Telnet:
+        Adresse: unitopia.de
+        Port: 992 (telnets)
+
+    Web-Server:
+        URL: https://www.unitopia.de
+
+    FTP-Server:
+        Adresse: ftp.unitopia.de
+        Port: 21 (ftp)
+        TLS-Verwendung im FTP-Client einzustellen
+        (sofern sie nicht bereits automatisch verwendet wird).
+-------------------------------------------------------------------------------

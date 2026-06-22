@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+zlog [-f|-F] [-s|-S <Suchwort>] <Datei oder Verzeichnis>
+
+        Zeigt die Commits für die angegebene Datei oder Verzeichnis an.
+
+zlog [-f|-F] [-s|-S <Suchwort>] -o <Objektstring>
+
+        Zeigt die Commits für das angegebene Objekt an.
+        Hierbei wird nur die Datei des Objektes selbst betrachtet, nicht
+        dazugehörige Inherits oder Includes.
+
+zlog [-f|-F] [-s|-S <Suchwort>]
+
+        Zeigt die Commits zum aktuellen Verzeichnis an.
+
+        Optionen:
+
+          -f    Zusätzlich zum Commit wird auch die Datei angezeigt, die
+                die meisten Änderung in diesem Commit hatte. Falls mehr als
+                eine Datei geändert wurde, wird die Anzahl der unterschlagenen
+                Dateien angezeigt.
+
+          -F    Es werden zu jedem Commit alle geänderten Dateien aufgelistet.
+
+          -s    Sucht Commits, die eine Zeile mit dem gewünschten Suchwort
+                hinzugefügt oder entfernt hat.
+
+          -S    Sucht Commits, die eine Zeile, die auf den angegebenen
+                regulären Ausdruck passt, hinzugefügt oder entfernt hat.
+
+Siehe auch: zcommit
+-------------------------------------------------------------------------------

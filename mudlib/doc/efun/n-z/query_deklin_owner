@@ -1,0 +1,18 @@
+FUNKTION: query_deklin_owner
+DEKLARATION: varargs string query_deklin_owner(object|mapping|int who, int art, int fall, string|<string|int|<string|int>*>*|int adjektiv, <object|mapping|int> owner, int oart, string|<string|int|<string|int>*>*|int oadjektiv)
+BESCHREIBUNG:
+Liefert die deklinierte Form eines Objektnamens. Dabei wird zusaetzlich
+der Besitzer des Objektes mit ausgegeben. Wird der Besitzer nicht
+explizit angegeben, so wird das naechst umgebende lebende Objekt
+herangezogen.
+
+Das Objekt selbst wird durch die Parameter: who, art, fall und adjektiv
+beschrieben. Diese Parameter werden so an query_deklin() weitergegeben.
+Siehe dort fuer die genaue Beschreibung der Parameter.
+
+Der Besitzer wird durch die Parameter owner, oart und oadjektiv
+beschrieben. query_deklin() wird mit diesen und FALL_GEN aufgerufen.
+
+VERWEISE: query_deklin, ihr
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

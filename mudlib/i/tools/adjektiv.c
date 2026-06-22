@@ -1,0 +1,52 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:	/i/tools/adjektiv.c
+// Description:	Hilfsfunktionen fuers Adjektivhandling
+// Author:	Garthan
+
+/*
+FUNKTION: search_adjektiv
+DEKLARATION: int search_adjektiv(mixed *adjektiv, string str)
+BESCHREIBUNG:
+Sucht in einer Liste von Adjektiven jenes raus, welches auf <str>
+passt und liefert den Index+1 dieses Eintrages zurueck, oder 0,
+falls kein passes gefunden wurde.
+VERWEISE: adjektiv
+GRUPPEN: grammatik
+*/
+int search_adjektiv(mixed *adjektiv, string str)
+{
+   int i,s,t0,t1, bonus;
+   string stamm;
+
+   if(!stringp(str))
+      return 0;
+
+   str = convert_umlaute(str);
+   s = strlen(str);
+
+   if (pointerp(adjektiv))
+      for(i = 0; i < sizeof(adjektiv); i++)
+      {
+         stamm = convert_umlaute(query_deklin_ein_adjektiv(adjektiv[i], -1));
+         string orig;
+         if(stringp(adjektiv[i]))
+            orig = adjektiv[i];
+         else
+            orig = adjektiv[i][0];
+
+         orig = convert_umlaute(orig);
+         if(stamm == orig && (stamm[<2..] == "er" || stamm[<2..] == "en"))
+            stamm = stamm[..<3] + stamm[<1..<1]; // Ohne 'e' als Alternative
+
+         t0 = strlen(orig);
+         t1 = strlen(stamm);
+         bonus = abs(t0 - t1);
+         if(str[<1]==',')
+            bonus++;
+         if((s >= t0 && s <= t0+bonus+2 && str[0..t0-1] == orig) ||
+            (s >= t1 && s <= t1+bonus+2 && str[0..t1-1] == stamm))
+            return i+1;
+      }
+   return 0;
+}

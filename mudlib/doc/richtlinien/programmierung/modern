@@ -1,0 +1,147 @@
+Modernes LPC
+============
+
+Dies hier sind keine verbindlichen Regeln, sondern eher Hinweise, um einen
+modernen Programmierstil zu hegen. LPC hat viel Weiterentwicklung erfahren,
+die in der aktuellen Codebasis aus historischen Gründen nicht abgebildet
+werden, daher wird auch neuer Code oftmals in altem Stil geschrieben. Hier
+also ein paar Punkte zu modernem LPC-Stil.
+
+Lfun-Closures
+-------------
+Efuns wie add_action(), input_to(), call_out(), filter() und map() können
+Funktionen als String (Funktionsname) oder Closure entgegennehmen. Es gibt
+selten einen Grund, die Funktion via String anzugeben. Closures verhindern
+Tippfehler beim Namen, sind performanter in der Ausführung, erlauben es,
+die Funktion private zu machen, und verhindern damit Namenskollisionen:
+
+  add_action(#'take_command, "nimm");
+
+
+Structs
+-------
+Früher war es üblich, Verbunddatentypen mit einem Array zu implementieren.
+Zur besseren Lesbarkeiten hat man dann Defines für die Indizes angelegt.
+(Siehe z.B. timearray()) Stattdessen bietet LDMud seit Version 3.3 nun schon
+Strukturen an, seit LDMud 3.5.0 Jahren kann man sie auch uneingeschränkt
+empfehlen. Sie sind effizienter, typsicherer und lesbarer als Arrays.
+
+Beispiel (aus dem Singleclub):
+  struct flasche_t
+  {
+    status fuellmenge,fuellmege_max;
+    string geruch,long;
+    struct etikett_t etikett;
+  };
+
+  struct flasche_t flasche = (<flasche_t>
+    geruch: "Du ziehst den Korken heraus und riechst sofort: "
+            "\"Apfelsaft\". Nur staerker.",
+    fuellmenge: 3,
+    etikett: (<etikett_t>
+      long: "Auf dem Etikett ist ein wunderbar praller, gruener Apfel "
+            "abgebildet.",
+      read:"gruener Apfel",
+    ),
+  );
+
+  string geruch = flasche.geruch; // Zugriff ein Element
+
+Wenn zwei Programme die gleiche Struktur verwenden wollen, so gehört die
+Strukturdefinition in ein gemeinsames Inherit.
+
+Structs kann man auch erben, falls man eine Struktur um weitere Einträge
+erweitern will:
+    struct abgeleitete_struct (originale_struct)
+    {
+        int weiteres_element;
+    };
+
+Diese Struktur kann man dann auch an allen Stellen einsetzen, wo die originale
+Struktur verlangt ist.
+
+
+call_strict()
+-------------
+Als Alternative zu call_other() (ein Aufruf wie ob->fun()) gibt es seit
+LMDud 3.6.2 auch call_strict():
+
+    ob.fun();
+
+Falls die Funktion nicht in dem Objekt existiert, wirft der Aufruf einen
+Laufzeitfehler. (call_other() liefert da ja einfach 0 zurück.)
+
+Diese Aufrufart sollte verwendet werden, wenn die Funktion existieren muß.
+Dies ist z.B. der Fall, wenn man ein Objekt clont und initialisiert.
+Die aufzurufenden Funktionen wie set_name() und set_id() sollten besser
+existieren. Auch ist das üblicherweise der Fall, wenn man mit Objekten
+hantiert, die aus dem eigenen Bereich kommen.
+
+
+Union-Types
+-----------
+Wenn ein Parameter oder eine Variable mehrere Typen annehmen kann, so war
+früher 'mixed' die einzige Option. Inzwischen gibt es Union-Types, mit denen
+alle möglichen Typen spezifizieren kann, was die Typsicherheit deutlich erhöht:
+
+  void set_id(string|string* new_ids) // Sowohl ein einzelner String, wie auch
+                                      // ein String-Array sind möglich.
+
+Union-Types kann man überall Einsetzen, wo Typangaben möglich sind: bei
+Funktionsparametern, Funktionsrückgabetypen, Variablendeklarationen oder
+auch Struct-Member.
+
+
+Default-Argumente
+-----------------
+Für Funktionen mit variablen Argumenten gab es bisher nur 'varargs'. Dies
+bedeutete, daß alle Argumente optional waren, und falls sie nicht angegeben
+wurden, wurden sie mit 0 initialisiert. Inzwischen kann dies ohne Angabe
+von 'varargs' flexibler gestalten:
+
+    string wrap(string str, int len = 75, int left = 0)
+                                    // str ist Pflicht, der Rest optional.
+
+
+Moderne Inline-Closures
+-----------------------
+Da sowieso die meisten Götter Angst vor Lambdas haben, erübrigt sich fast der
+Hinweis, daß diese nur in Ausnahmefällen noch eine Existenzberechtigung haben.
+Aber auch bei Inline-Closures gibt es die alte (Smiley-)Variante, die nicht
+mehr verwendet werden sollte. Stattdessen bietet die moderne Variante
+typsichere und benannte Argumente, und sind damit besser lesbar:
+
+    closure cl = function int(int arg)
+    {
+        return arg * 2;
+    };
+
+
+foreach
+-------
+Viel leichter zu lesen als eine for-Schleife ist die foreach-Schleife.
+Eine Iteration über Arrays oder Mappings gestaltet sich damit sehr
+übersichtlich:
+
+    foreach (string elem: mein_array)
+    {
+    }
+
+    foreach (string key, int val: mein_mapping)
+    {
+    }
+
+Genauso kann man auch über die einzelnen Buchstaben eines Strings, Bytes oder
+Member einer Struct iterieren (wobei ich für Structs noch keinen richtigen
+Anwendungsfall gesehen habe). Aber auch einfaches Zählen ist möglich:
+
+    foreach (int i: 10)
+    {
+        // Zählt von 0 bis 9.
+    }
+
+    foreach (int i: 5..10)
+    {
+        // Zählt von 5 bis 10
+    }
+

@@ -1,0 +1,7 @@
+------------------------------------------------------------------------------
+chsh [<shell_nr> | <shell_filename>]
+        Überträgt Deine (interaktive) Seele auf ein anderes Objekt.
+        Ohne Parameter werden die verfügbaren (Shell-)Objekte angezeigt.
+
+Dies ist ein Level 50 Kommando.
+------------------------------------------------------------------------------

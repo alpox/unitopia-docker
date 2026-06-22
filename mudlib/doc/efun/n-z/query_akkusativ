@@ -1,0 +1,10 @@
+FUNKTION: query_akkusativ
+DEKLARATION: string query_akkusativ()
+BESCHREIBUNG:
+Ist diese Funktion in einem Objekt implementiert, so rufen die Grammatik-
+Funktionen bei Akkusativ-Generierung diese Funktion auf statt den Akkusativ
+generieren zu lassen.
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht.
+VERWEISE: query_dekliniert, query_dativ, query_genitiv, query_deklin_name
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c

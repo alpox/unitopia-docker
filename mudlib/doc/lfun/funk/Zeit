@@ -1,0 +1,8 @@
+notify_midnight
+notify_highnoon
+notify_begin_daylight
+notify_begin_darkness
+add_job
+delete_job
+IS_NIGHT
+IS_DAY

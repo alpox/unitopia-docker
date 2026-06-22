@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------
+ztop [-e|-d|-c] [-t|-i|-a] [-n <num>] [-r <sec>] [-v <sec>]
+
+        Zeigt die Aktivität nach UIDs aufgeschlüsselt an. Dabei werden zu jeder
+        UID folgende Informationen angezeigt:
+
+          - Die Anzahl an verbrauchten Evals
+          - Die Größe der verwendeten Datenstrukturen (in Anzahl an Elementen)
+          - Die Anzahl an call_out()s
+
+        Per default wird einmalig die Statistik seit MUD-Start ausgegeben.
+
+        Optionen:
+
+          -e        Nach Evals sortieren (Default).
+          -d        Nach Größe der Datenstrukturen sortieren.
+          -c        Nach Anzahl an call_outs()s sortieren.
+
+          -t        Die Gesamtzahl seit MUD-Start ausgeben (Default).
+          -i        Die Differenz seit der letzten Anzeige ausgeben
+                    (nur bei -r und -v verfügbar, dann auch Default).
+          -a        Die Anzahl seit Befehlsstart ausgeben
+                    (nur bei -r und -v verfügbar).
+
+          -n <num>  Nur die <num> ersten Einträge anzeigen (Default: 20).
+
+          -r <sec>  Die Ausgabe alle <sec> Sekunden wiederholen.
+                    (Abbruch mit einem weiteren ztop-Aufruf.)
+
+          -v <sec>  Wie -r, vor jeder Ausgabe aber den Bildschirm leeren.
+
+Siehe auch: zsysinfo
+-------------------------------------------------------------------------------

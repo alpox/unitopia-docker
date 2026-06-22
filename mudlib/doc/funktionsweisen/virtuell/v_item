@@ -1,0 +1,111 @@
+Um ein Objekt noch genauer beschreiben zu können, gibt es die Möglichkeit,
+Details an Objekten und in Räumen genauer zu beschreiben.
+
+Diese Details nennt man Virtuelle Objekte oder v-item
+
+Folgende Routinen gibt es zur Beschreibung von Details:
+
+    add_v_item(mapping item [, mixed *pfad ] )
+    delete_v_item(mixed *pfad)
+    change_v_item(mapping map, mixed *pfad)
+
+Bei add_v_item() wird ein Mapping übergeben, in dem alle wesentlichen
+Merkmale des Details gespeichert sind, so z.B. der Name, das Geschlecht
+und die Lang-Beschreibung.
+
+Folgende Einträge werden unterstützt:
+    name		Name und Gender MÜSSEN definiert sein !
+    gender
+    plural
+    adjektiv
+    id
+    invis
+    genitiv             Diese Einträge kann man verwenden, um Problemen bei
+    dativ               der Deklinationen zu begegnen. Allerdings auch bitte
+    akkusativ           erst dann, wenn sich keine andere Möglichkeit ergibt.
+    prep                Präposition für die Umgebung
+    nummer		Die Nummer des V-Items.
+    long		long, noise, read, smell und take werden automatisch
+    noise		umgebrochen. take wird ausgegeben, wenn jemand ver-
+    read		sucht, das v_item zu nehmen, was natürlich nicht
+    smell		geht.
+    feel
+    menge
+    seher_info          Zusaetliche Infos für Mitglieder der Sehergilde
+    take
+    living
+    align
+    far
+    soul
+    attack
+    look_msg		Diese Meldungen werden ausgegeben, wenn z.B.
+    read_msg		Das v-item angeschaut, gelesen usw wird.
+    smell_msg		Hier kann man $Der(OBJ_TP) usw verwenden.
+    feel_msg
+    hear_msg
+    take_msg
+    attack_msg
+
+Beispiel:
+
+    add_v_item( (["name":"tür",
+		  "gender":"weiblich",
+		  "adjektiv":({"geschlossen"}),
+		  "long":"Die Tür ist zu.\n"
+		]) );
+    add_v_item( (["name":"fenster",
+		  "gender":"saechlich",
+		  "long":
+		  "Vor dem Fenster siehst du einen hübschen Kräutergarten.",
+		  "look_msg":"$Der(OBJ_TP) schaut durch das Fenster",
+		  "take":"Das Fenster ist fest eingemauert.",
+		  "take_msg":"$Der() zerrt an dem Fenster."
+		]) );
+    add_v_item( (["name":"wände",
+		  "gender":"weiblich",
+		  "plural":1,
+		  "long":"Die Wände sind mit einer hübschen Tapete beklebt.",
+		  "id":({"wand","wände"})
+		]) );
+
+    Beispiel für problematische Deklination:
+    add_v_item(([
+        "name"     : "hronzele",
+        "gender"   : "maennlich",
+        "id"       : ({"hronzele","hroags","hrumpfeln","hronzler"}),
+        "genitiv"  : "hroags",
+        "dativ"    : "hrumpfeln",
+        "akkusativ": "hronzler",
+        "long"     : "Der Hronzele ist ein unsinniges Geschöpf. Er ist ein "
+                     "grammatikverachtendes Wesen, denn seine Deklination "
+                     "ist höchst unregelmäßig."
+    ]]);
+
+    add_v_item (([
+        "name":"eichhörnchen",
+        "gender":"saechlich",
+        "id":({"eichhörnchen","hörnchen"}),
+        "long":"Das Eichhörnchen sitzt hoch über Dir auf einem Ast.",
+        "living":1,
+        "soul":"Dazu müsstest Du erst mal auf den Baum hochklettern.",
+        "attack":"Du springst wie blöde am Baum hoch, kommst aber nicht "  
+                 "an das Eichhörnchen heran.",
+        "attack_msg":"$Der(OBJ_TP) springt wie blöde am Baum hoch, aber "
+                 "$er(OBJ_TP) hat zu kurze Ärmchen, um an das "
+                 "Eichhörnchen ranzukommen."
+    ]));
+
+
+    Diese Beschreibung kann nachträglich auch geändert werden:
+
+	change_v_item( (["long":"Die Tür ist offen.",
+			 "adjektiv":({"offen"})
+		       ]),
+		       ({"tür"}) );
+
+	bei dieser Anweisung wird die Langbeschreibung und das Adjektiv
+	geändert.
+
+    oder auch gelöscht werden:
+
+	delete_v_item( ({"fenster"}) );

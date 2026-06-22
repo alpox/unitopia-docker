@@ -1,0 +1,15 @@
+FUNKTION: space
+DEKLARATION: string space(string str [,int n [,string pad]] )
+BESCHREIBUNG:
+Loescht alle ueberschuessigen Spaces, und Tabs zwischen den Woertern
+und fuellt die Zwischenraeume durch den String <pad> auf
+
+Beispiele:
+        space("   hallo  wie gehts   ") -> "hallo wie gehts"
+        space("hallo  wie gehts",2)     -> "hallo  wie  gehts"
+        space("hallo  wie gehts",1,"")  -> "hallowiegehts"
+        space("hallo  wie gehts",3,"+") -> "hallo+++wie+++gehts"
+
+GRUPPEN: simul_efun, string
+VERWEISE: trim
+SOURCE: /secure/simul_efun/string.inc

@@ -1,0 +1,124 @@
+FUNKTION: wer
+DEKLARATION: varargs string wer(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Nominativ deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat
+(query_personal()==1).
+
+  who   Das Objekt dessen deklinierte Form im Nominativ gewuenscht ist.
+
+	ODER eine virtuelles Objekt in der Form:
+	   ([ "name" : "...", "gender" : "..." ])
+	oder bei Plural
+	   ([ "name" : "...", "gender" : "...", "plural": 1 ])
+
+        ODER eine Zahl:
+           OBJ_TO  0   this_object()  (default)
+           OBJ_PO  1   previous_object()
+           OBJ_TP  2   this_player()
+           OBJ_OW  3   auto_owner_search  (sonst this_player())
+           OBJ_TI  4   this_interactive()
+
+  art
+     ART_EIN            unbest. Artikel    (ein) + Adjektive + Nomen
+     ART_DER            bestimmter Artikel (der) + Adjektive + Nomen
+     ART_DIESER         demonstrativ       (dieser)  + Adjektive + Nomen
+     ART_MEIN           possesiv 1.Person  (mein) + Adjektive + Nomen
+     ART_DEIN           possesiv 2.Person  (dein) + Adjektive + Nomen
+     ART_SEIN           possesiv 3.Person  (sein) + Adjektive + Nomen
+     ART_ICH            personal 1.Person  (ich)
+     ART_DU             personal 2.Person  (du)
+     ART_ER             personal 3.Person  (er)
+     ART_KEIN           negiert            (kein)
+     ART_JENER      \
+     ART_MANCHER     > Selbsterklaerend :)
+     ART_WELCHER    /
+     
+     ART_VIS            Zeigt die sichtbare Deklination, unabhaengig,
+                        ob das Objekt/Lebewsen sichtbar ist oder nicht.
+     ART_INVIS          Zeigt die unsichtbare Deklination.
+
+     ART_KEINS          Kein Artikel, nur die Adjektive und das Nomen.
+     ART_KEINS_BEST     Kein Artikel, nur die Adjektive und das Nomen.
+     ART_KEINS_UNBEST   Kein Artikel, nur Adjketive(unbestimmte Form) und
+                        das Nomen.
+     ART_NUR_EIN        nur unbest. Artikel      (keine Adj., kein Nomen)
+     ART_NUR_DER        nur bestimmter Artikel   (keine Adj., kein Nomen)
+     ART_NUR_DIESER     nur demonstr. Artikel (keine Adj., kein Nomen)
+     ART_NUR_MEIN       nur Possesivpronomen 1.P.(keine Adj., kein Nomen)
+     ART_NUR_DEIN       nur Possesivpronomen 2.P.(keine Adj., kein Nomen)
+     ART_NUR_SEIN       nur Possesivpronomen 3.P.(keine Adj., kein Nomen)
+     ART_NUR_KEIN       nur Negationspronomen kein (keine Adj., kein Nomen)
+     ART_CAPITALIZE     Im Fall eines Pronoms wird dieses grossgeschrieben
+                        im Falle einer pronomenlosen Konstruktion mit
+                        Adjektiven wird das erste Adjektiv gross geschrieben.
+
+     ART_AAA            Automatische Artikelauswahl (ein/der) + Adj + Nomen
+     ART_NUR_AAA        Nur Artikel nach automatischer Auswahl (k.Adj.,k.Nomen)
+                        (Je nach Anzahl gleicher Objekte in der Umgebung wird
+                         ein oder der benutzt.)
+
+  adjektiv
+     string  ->  Grundform eines Adjektivs
+                 ""         KEINE Adjektive
+     string* ->  ({ unregelm.Grundform, Deklinationsstamm }) eines Adjektivs
+                 ({ adjektiv1, adjektiv2, ...}) mehrere Adjektive
+     int i   ->  i == 0     ALLE Adjektive des Objekts who.
+                 i >  0     Die ersten i Adjektive des Objekts who.
+                 i <  0     Das -i. te Adjektiv des Objekts who.
+     int*    ->  ({ a, b }) Die a bis b. Adjektive des Objekts who.
+                 ({})       KEINE Adjektive
+
+  owner Besitzer des Objekts. Falls 0 wird es aus dem environment berechnet.
+        (nur fuer art == ART_SEIN bzw ART_NUR_SEIN verwendet)
+
+Die Konstanten ART_..., FALL_..., OBJ_... werden in deklin.h definiert.
+
+Mit Hilfe von adjektiv koennen alle oder bestimmte Adjektive des Objekts
+oder ein fremdes Adjektiv in den Ergebnisstring zwischen Artikel/Pronom und
+Substantiv gestellt werden.
+(Adjektive eines Objekts setzt man mit set_adjektiv, siehe dort.)
+
+Alle Parameter sind optional.
+Defaultwerte sind dann
+   who:      this_object()
+   art:      0  (bestimmter Artikel)
+   adjektiv: 0  (alle Adjektive des Objekts who)
+   owner:    0  (auto owner search: living environment object)
+
+
+Beispiele fuer wer, wem, wen
+   who  sei eine Person namens Anton
+   ork  sei ein Ork ohne Namen
+
+     Wer(who)+" zieht "+wem(ork,ART_EIN)+" einen Pullover an."
+        liefert:
+     "Anton zieht einem Ork einen Pullover an."
+
+     Wer(ork,ART_DIESER,"boese")+
+         " laesst sich das von "+wem(who)+" nicht gefallen."
+        liefert:
+     "Dieser boese Ork laesst sich das von Anton nicht gefallen."
+
+     Wer(ork)+" haette "+wen(who,ART_ER)+" am liebsten davongejagt."
+        liefert:
+     "Der Ork haette ihn am liebsten davongejagt."
+
+     Wer(ork)+" patscht "+wem(who)+" auf "+
+     wen((["name"  :"finger",
+	   "gender":"maennlich",
+	   "plural":1]), ART_SEIN, 0, who)+"."
+        liefert:
+     "Der Ork patscht Anton auf seine Finger."
+
+
+wer, wem, wen sind Spezialfaelle von query_deklin.
+
+ANSTELLE VON wer, wen, wem SOLLTEN DIE BEFEHLE:
+  der, dem, den, ein, einem, einen, dein, deinem, deinen,
+  sein, seinem, seinen, dieser, diesem, diesen, er, ihm, ihn, ihr,
+  Der, Dem, Den, Ein, Ihr, ...
+BENUTZT WERDEN!!!!!  (siehe dort)
+VERWEISE: der, query_pronom, query_deklin, set_adjektiv
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

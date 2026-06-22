@@ -1,0 +1,21 @@
+Im Raum mit den Schließfächern wird man automatisch zu seinen und nur zu
+seinen Schließfächern geleitet.
+- Nun kann man seine Schließfächer betrachten.
+- mit 'oeffne leeres schliessfach' kann man, sofern das Maximum nicht erreicht
+  ist, ein weiteres Schließfach erhalten und füllen.
+- In jedes Schließfach geht nur ein Gegenstand hinein, 
+  darunter aber meist keine gefüllten Behältnisse.
+- Das Schließfach verweigert das Einlagern, wenn der Gegenstand nicht
+  sicher vor Armageddon gelagert werden kann.
+- Mit 'schliesse schliessfach' wird entweder eingelagert oder eine leeres
+  Schließfach zurückgegeben.
+- Solange man ein Schließfach offen hat, kann man die anderen Schließfächer
+  nicht sehen.
+- Andere im Raum können nicht an die Schließfächer heran, aber man kann
+  ihnen die Schließfächer einzeln oder alle zeigen.
+- Sollte einem Gegenstand die Freigabe fehlen oder kann er prinzipiell nicht 
+  eingelagert werden, so kann man direkt nach dem Versuch, ihn in das
+  Schließfach zu legen, eine Idee zum noch offenen Schließfach absetzen.
+  Nur so erhält das Pantheon neben einer Begründung die notwendigen
+  Informationen für eine Bearbeitung.
+- Eine Mietübersicht hängt aus bzw. kann mitgenommen werden.

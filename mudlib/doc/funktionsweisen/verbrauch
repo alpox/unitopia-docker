@@ -1,0 +1,121 @@
+Der körperliche Zustand eines Spielers drückt sich unter anderem in den
+beiden Variablen wp (Wasserpunkte) und fp (Futterpunkte) aus.
+
+Bei beiden ist 0 der Normalzustand, ein Wert kleiner als 0 bedeutet Mangel und
+größer als 0 Überfluss.
+
+Der Mindest-(Spiel)Tagesbedarf (wichtig fürs Design von Speisen und Getraenken)
+liegt ca bei 480 wp/fp.
+
+Einfluss von wp und fp auf die Heilung:
+
+		wp		fp
+
+		< -40		< -80		keine Heilung
+
+		-40 bis +40	-80 bis 80	einfache Heilung (+1)
+
+		> 40		> 80		doppelte Heilung (+2)
+
+Verändert werden die Werte mit den Funktionen:
+
+	add_wp(int wieviel) und
+	add_fp(int wieviel)
+
+wobei wieviel positiv oder negativ sein kann.
+
+In /obj/getraenk und /obj/nahrung wird die Menge an fp und wp mit der
+Funktion:
+
+	set_amount(int fp_oder_wp)
+
+gesetzt. Richtlinien über das Verhältnis zwischen Wert und amount findet
+man in /doc/richtlinien/nahrung .
+
+Was beeinflusst den Verbrauch von wp und fp ?
+	 (Vwp bedeutet Verbrauch an wp)
+
+  2. Grundlast-Verbrauch
+
+	1 Vwp / Vfp
+
+  1. Temperatur des Raumes
+
+	zwischen 10 und 25 Grad Celsius: 	keinen Einfluss
+
+	< 10 Grad:				+1 Vfp pro 10 Grad
+
+	> 25 Grad:				+1 Vwp pro 5 Grad
+
+	Setzen kann man die Temperatur des Raumes mit
+
+		add_type("temperatur",wieviel_grad_celsius)
+
+	Voreinstellung ist 20 Grad Celsius
+
+  2. Schwierigkeitstufe des Raumes (Gelaendeform etc)
+
+	Man kann mit 
+
+		add_type("wasserverbrauch", float_faktor)
+		add_type("nahrungsverbrauch", float_faktor)
+
+	einen Faktor angeben, mit dem die Vfp und Vwp MALGENOMMEN werden.
+	Werte kleiner als 0.0 werden als 1.0 interpretiert.
+
+	Voreinstellung ist 1.0 (d.h. keinen Einfluss)
+
+  3. Spezielle Räume (zB /d/Campus komplett)
+
+	Hier kann man mit
+
+		add_type("kein_verbrauch",1)
+
+	den Spieler dazu veranlassen Vfp und Vwp auf Null zu setzen, solange
+	er sich dort aufhält.
+
+  4. Kleidung
+
+	Alle Kleidungsstücke (/obj/kleidung), haben einen Temperaturschutz;
+	er wird mit
+
+		set_schutz(int wieviel)
+
+	gesetzt. Diese Werte werden auf die Raumtemperatur aufaddiert, 
+	BEVOR Vfp und Vwp berechnet werden.
+	
+	==> Positive Werte schützen vor Kälte und negative Werte
+	    schützen vor Wärme.
+
+	
+  5. Kampf
+
+	Kämpft man viel, dh verliert man Ausdauer-Punkte, erhöht sich
+	der Vwp und Vfp folgendermaßen:
+
+		 80 ap Verlust pro 3 Minuten Spielzeit:  Vwp/Vfp * 2
+
+		160 ap Verlust pro 3 Minuten Spielzeit:  Vwp/Vfp * 3
+
+		usw
+
+  6. Bewegung
+
+	 Läuft man viel in der Gegend rum, erhöht sich ebenfalls der
+	 Verbrauch:
+
+		 50 Räume pro 3 Minuten Spielzeit:	Vwp/Vfp * 2
+
+		100 Räume pro 3 Minuten Spielzeit:	Vwp/Vfp * 3
+
+		usw
+
+
+	Warum drei Minuten ?     
+
+		Im heart_beat des Players wird alle HEALING_TIME
+		(in /sys/config.h definiert, zZ 20) Sekunden Realzeit
+		diese Berechnung durchgeführt; in Spielzeit sind das
+		HEALING_TIME * TIMEWARP (ebenfalls config.h, zZ 9)
+		Sekunden = 3 Minuten.
+

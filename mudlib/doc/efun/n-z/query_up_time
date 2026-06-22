@@ -1,0 +1,7 @@
+FUNKTION: query_up_time
+DEKLARATION: int query_up_time()
+BESCHREIBUNG:
+Gibt die Zeit in Sekunden seit dem letzten System-Start zurueck.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time
+SOURCE: /secure/simul_efun/time.inc

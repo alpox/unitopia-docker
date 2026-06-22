@@ -1,0 +1,11 @@
+is_controller
+add_controller
+delete_controller
+query_controller
+forbidden
+allowed
+notify
+modify
+concerned
+do_notifies
+do_forbiddens

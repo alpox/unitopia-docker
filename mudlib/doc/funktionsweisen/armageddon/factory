@@ -1,0 +1,97 @@
+// Dies ist ein kommentiertes Codebeispiel für eine Factory
+// mit folgenden Funktionen (siehe auch /room/bank/test_factory.c)
+// - string precheck_conservation(object ob)
+// - mixed get_conservation_data(object ob)
+// - varargs object get_conservation_object(string identifier,mixed data)
+// - float query_conservation_item_rent(object ob)
+//
+// Zur Zeit werden KEINE Factories eingesetzt/unterstuetzt!
+
+#include <properties.h> // für die genutzten Root-Properties...
+#include <stats.h>      // für das Messer.
+
+// Wenn ein Objekt temporär nicht eingelagert werden soll, 
+// so muss diese Funktion eine Begründung als String zurückgeben, 0 sonst.
+string precheck_conservation(object ob)
+{
+    if (!objectp(ob)) return "Unbekanntes Objekt!";
+    switch(ob->query(P_CONSERVATION,P_CONSERVATION_IDENTIFIER))
+    {// Dieser String muss nur innerhalb dieser Factory eindeutig sein
+    case "MESSER": 
+        return (ob->query_broken() || ob->query_life()<=0)
+        ? "Zerbrochene Messer werden nicht eingelagert.":0;
+    case "SCHATZ": 
+        return 0;
+    default: return "Unbekanntes Objekt.";
+    }
+}
+
+// Die Daten für das einzulagernde Objekt, 0 bedeutet nicht einlagern!
+mixed get_conservation_data(object ob)
+{
+    if (!objectp(ob)) return 0;
+    switch(ob->query(P_CONSERVATION,P_CONSERVATION_IDENTIFIER))
+    {
+    case "MESSER": return ob->query_life();
+    case "SCHATZ": return 1; // einfachster Fall, !=0 :)
+    default: return 0;
+    }
+}
+
+// Die folgende Funktion kann zum Neuerschaffen (data==0) und
+// zum Wiedererschaffen(==Auslagern, data !=0)  genutzt werden.
+varargs object get_conservation_object(string identifier,mixed data)
+{
+    object ob;
+    int life;
+    switch (identifier)
+    {
+    case "MESSER":
+        // Folgende Zeile holt die Daten oder 100 für den initialen Wert
+        life = (intp(data) && data > 0) ? (int)data : 100;
+        ob = clone_object("/obj/nahkampf_waffe");// das clonen des Objektes
+        // nun folgen die set-Aktionen
+        ob->set_id("messer");
+        ob->set_value(35);
+        ob->set_name("messer");
+        ob->set_long("Ein scharfes Messer. "
+                  "Als reines Essutensil geht das nicht mehr durch. "
+                  "Es besteht aus Metall.");
+        ob->set_gender("saechlich");
+        ob->set_material("metall");
+        ob->set_weight(2);
+        ob->set_skill_path(({ "skill", "offensiv", "scharf", "messer" }));
+        ob->set_used_stats(({ STAT_STR, STAT_DEX, STAT_DEX, STAT_INT }));
+        ob->set_damage(2,7);
+        ob->set_max_life(100);
+        ob->set_life(life);// Hier die internen Daten setzen.
+        break;
+    case "SCHATZ":
+        ob = clone_object("/obj/schatz");
+        ob->set_value(2000); // wertvoll
+        // Im folgenden wird es als Trophae gekennzeichnet, siehe Properties.
+        ob->add(P_CONSERVATION,P_CONSERVATION_TROPHEY,1);
+        // auch der Tarif für den Gegenstand wird runtergesetzt, siehe Props.
+        ob->add(P_CONSERVATION,P_CONSERVATION_ITEM_TARIFF,1.0);
+        break;
+    default: return 0;
+    }
+    // Damit die Objekte als Factory-Objekte erkannt werden,
+    // werden Dateiname und Identifier am Objekt als Property gemerkt.
+    ob->add(P_CONSERVATION,P_CONSERVATION_FACTORY,__FILE__);
+    ob->add(P_CONSERVATION,P_CONSERVATION_IDENTIFIER, identifier);
+    ob->clear_initial_conservation_data(); // mudlib-Konform einlagern lassen.
+    return ob; // Rückgabe des Objektes, Move übernimmt der Aufrufer.
+}
+
+// Optional kann eine Gegenstandsmiete definiert werden:
+float query_conservation_item_rent(object ob)
+{
+    if (!objectp(ob)) return 0.1;
+    switch(ob->query(P_CONSERVATION,P_CONSERVATION_IDENTIFIER))
+    {
+    case "MESSER": return ob->query_value() *0.05; // 5 %
+    case "SCHATZ": return 0.9; // Sonderpreis für Trophäen.
+    default: return 0;
+    }
+}

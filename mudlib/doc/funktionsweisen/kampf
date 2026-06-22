@@ -1,0 +1,31 @@
+Prinzipiell ist ein Kampf nichts anderes als ein Abziehen von 
+Ausdauer-Punkten (hp im Code) im Gegner.
+
+Hierfür gibt es nur eine Routine in /i/living/hands.c für
+alle Lebewesen:
+
+
+    varargs int add_hp(int punkte, object feind)
+
+
+       Diese Routine betrachtet die Aktion nur dann als Kampf, wenn
+
+           1. punkte kleiner gleich Null ist  UND
+           2. feind angegeben wurde.
+
+       Im Falle eines Kampfes wird je nach Schaden eine Meldung ausgegeben
+       und eventuell geflüchtet.
+
+       Sie liefert entweder den tatsächlich abgezogenen Schaden oder
+       im Falle des Todes -1 zurück.
+
+
+Die meisten Kämpfe finden im Heartbeat-Modus statt. Im Spieler wird
+dabei der Gegner in der entsprechenden Hand eingetragen. Ein Spieler
+(oder Monster) kann also gleichzeitig gegen so viele Gegner kämpfen
+wie er (es) Hände hat.
+
+Pro Heartbeat wird nur gegen einen Gegner gekämpft; hat die zugehörige Hand
+eine Waffe geführt, wird in ihr die Routine do_attack(object gegner) aufge-
+rufen, ansonsten führt die Hand selbst den add_hp(..) - Aufruf durch.
+

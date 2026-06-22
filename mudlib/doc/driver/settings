@@ -1,0 +1,21 @@
+UNItopia läuft mit dem LDMud-Driver 3.6.
+In der Regel läuft eine der neusten Versionen.
+
+Aktuelle Settings: (ohne Gewaehr)
+
+   TIME_TO_RESET	    2400  40 min
+   TIME_TO_CLEAN_UP	    5400  1.5 h
+   TIME_TO_SWAP		      -1  nie
+   TIME_TO_SWAP_VARIABLES     -1  nie
+   MAX_COST		  500000  evals
+   MAX_PLAYERS		     200 
+   INITIALIZATION_BY___INIT
+
+Aktuelle Driver und Patches sind auf dem FTP Server ftp.unitopia.de
+zu finden.
+
+Die UNItopia Mudlib ist eine Weiterentwicklung einer
+Experimental 3.0 Mudlib von Lars Pensjo.
+Besondere Features:
+Deutscher Befehlsparser und Unterstützung deutscher Grammatik. 
+Map/Domain System. Objektorientierte, modularisierte Basis Mudlib.

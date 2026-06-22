@@ -1,0 +1,222 @@
+Hier ist die deutschsprachige Doku einiger applied lfuns für die Enzy drin.
+
+/*
+FUNKTION: create
+DEKLARATION: void create()
+BESCHREIBUNG:
+Die Funktion create wird in einem Objekt aufgerufen, wenn das Objekt
+erschaffen wird. Daher gehört in diese Funktion alles hinein, was ein
+einziges mal beim Erschaffen des Objektes getan werden soll wie Aussehen,
+Geruch, Geräusch, Name, Geschlecht usw bei Gegenständen, Ausgänge
+und add_types bei Räumen und ähnliches. Werden globale Variablen nicht
+bereits in ihrer Deklaration initialisiert (mapping blubber = ([]);)
+so ist create der geeignete Ort, dies zu tun.
+
+Überlagert man diese Funktion, so sollte man dort die create()-Routinen
+der Inherits aufrufen mit:
+    "*"::create();
+Dies kann man auch tun, wenn man unsicher ist, ob ein Inherit überhaupt
+ein create() besitzt (oder vielleicht mal besitzen wird).
+Meist wird am Ende von create noch die Funktion reset aufgerufen, siehe dort.
+VERWEISE: reset, init, clonep
+GRUPPEN: applied, grundlegendes
+*/
+
+/*
+FUNKTION: reset
+DEKLARATION: void reset()
+BESCHREIBUNG:
+Die Funktion reset dient dazu, einen Raum, ein Monster, einen Gegenstand
+oder was auch immer "aufzuräumen" und in einen Ausgangszustand zurück zu
+versetzen.
+Dazu gehören beispielsweise: Erschaffen von Dingen / Monstern, die da sein
+sollen, falls sie nicht da sind; schließen von Türen, Truhen, Schränken;
+leeren von Muelleimern; führen von Waffen bei Monstern, falls ein
+Spieler das Monster dazu gebracht hat, die Waffe zu senken; nachwachsen
+gepflückter Blumen oder Früchte usw.
+Es ist meist sinnvoll, diese Funktion am Ende der Funktion create ebenfalls
+aufzurufen, um das Objekt in einen Startzustand zu versetzen; ansonsten wird
+sie automatisch ganz grob alle 40 Minuten aufgerufen, sofern mit dem Objekt
+seit dem letzten Aufruf irgendetwas gemacht wurde (sprich, in ihm eine
+Funktion aufgerufen wurde).
+VERWEISE: create, init
+GRUPPEN: applied, grundlegendes
+*/
+
+/*
+FUNKTION: init
+DEKLARATION: void init()
+BESCHREIBUNG:
+
+Wann wird "init" aufgerufen?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kurz gesagt wird init in einem Objekt immer dann aufgerufen, wenn das
+objekt und ein lebewesen das gleiche environment bekommen (egal, ob durch
+eine Bewegung des Lebewesens oder des Objektes), oder wenn das eine in
+das andere bewegt wird (egal, ob das Lebewesen in das Objekt oder das
+Objekt in das Lebewesen bewegt wird).
+
+Näheres siehe unten.
+
+Andere Formulierung:
+
+Was geschieht im "init"?
+~~~~~~~~~~~~~~~~~~~~~~~~
+In der Funktion init werden fast immer nur die add_actions eines Objektes
+angegeben, siehe dazu unter "add_action". Inheritet man dabei
+(moeglicherweise) etwas, das ebenfalls solche actions besitzt, so darf
+man "*"::init(); nicht vergessen. Dies kann man auch tun, wenn man
+unsicher ist, ob ein Inherit überhaupt ein init() besitzt (oder vielleicht
+mal besitzen wird).
+
+Die Funktion "init" kann auch dazu verwendet werden, zu erkennen, dass sich
+ein Spieler einem Monster nähert, welches dann beispielsweise "Huhu" sagt.
+
+
+Erläuternde Beispiele dafür, wann "init" aufgerufen wird:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Um dies zu verdeutlichen, die (hoffentlich) verständlicheren Erklärungen
+an Hand von Beispielen:
+- Ein Lebewesen betritt einen Raum, egal, auf welchem Weg. Dann wird für
+  dieses Lebewesen in allen Objekten (egal, ob lebendig oder nicht), die
+  sich direkt im Raum befinden (also nicht in einem Schrank oder einer
+  Tasche oder innerhalb eines anderen Lebewesens) die Funktion init für
+  dieses, den Raum betretende Lebewesen, aufgerufen. Im Raum selbst, welchen
+  das Lebewesen betritt, wird ebenfalls die Funktion init aufgerufen.
+- Nimmt ein Spieler einen Gegenstand, egal, ob aus einer Tasche heraus oder
+  aus einem Raum heraus, so wird in dem Gegenstand für den nehmenden
+  Spieler die Funktion init aufgerufen. Trägt der Spieler zufälligerweise
+  ein Lebewesen bei sich, so wird die Funktion init auch für dieses Lebewesen
+  aufgerufen, und zwar im Gegenstand.
+- legt ein Spieler einen Gegenstand hin, so wird die Funktion init für den
+  Spieler sowie für alle sich bei dem Spieler befindlichen Lebewesen im
+  hingelegten Gegenstand aufgerufen.
+- legt ein Spieler einen Gegenstand in eine Tasche, so wird die Funktion
+  init für alle sich in der Tasche befindlichen Lebewesen (sofern vorhanden)
+  in dem Gegenstand aufgerufen.
+
+Wem das jetzt zu einfach war:
+- Nimmt ein Spieler ein Lebewesen auf, so wird die Funktion init aufgerufen:
+  - in dem Spieler selbst, der das Lebewesen genommen hat, für das
+    genommene Lebewesen,
+  - in dem Lebewesen, das der Spieler genommen hat, für den Spieler,
+  - in allen Objekten (egal, ob lebendig oder nicht), die der Spieler bei
+    sich trägt, für das genommene Lebewesen.
+- Legt ein Spieler ein Lebewesen hin, so wird init aufgerufen:
+  - in allen sich bei dem hingelegten Lebewesen befindlichen Objekten, egal,
+    ob tot oder lebendig, für das hingelegte Lebewesen,
+  - im hingelegten Lebewesen für alle sich jetzt bei dem hingelegten
+    Lebewesen befindlichen Lebewesen (einschliesslich dem hinlegenden Spieler
+    selbst).
+
+So, jetzt ein verzwickterer Fall, der sich bei genauerem Hinsehen als ganz
+einfach erweist:
+- ein Spieler X gibt einem Spieler Y ein Lebewesen Z.
+  Dann wird init aufgerufen:
+  - im Spieler Y für das Lebewesen Z,
+  - im Lebewesen Z für den Spieler Y,
+  - in allen sich im Spieler Y befindlichen Objekten, egal, ob lebendig oder
+    nicht, für das Lebewesen Z.
+
+VERWEISE: create, reset, add_action, living, this_player
+GRUPPEN: applied, grundlegendes
+*/
+
+/*
+FUNKTION: virtual_compiler
+DEKLARATION: object virtual_compiler(string name, string path)
+BESCHREIBUNG:
+Wenn versucht wird, ein Objekt zu laden, für das es kein File gibt,
+wird in dem Verzeichnis ein Objekt namens 'virtual_compiler' gesucht
+und falls es ihn gibt, in ihm die Funktion virtual_compiler(name, path)
+aufgerufen. Liefert diese Funktion ein Objekt zurück, so wird dieses Objekt
+genommen. Das zurückgelieferte Objekt muss ein Clone sein. (Einzige
+Ausnahme: Das Objekt heißt genauso wie das gesuchte Objekt.)
+
+Beispiel:
+Jemand versucht das Objekt '/d/SuperGebiet/IrgendwoDarin/room_1' zu laden.
+Dieses (.c-) File gibt es aber nicht.
+Also wird ein Objekt namens '/d/SuperGebiet/IrgendwoDarin/virtual_compiler'
+gesucht. Wenn es dieses Objekt gibt, wird dort die Funktion
+virtual_compiler("room_1", "/d/SuperGebiet/IrgendwoDarin/") aufgerufen.
+Diese liefert den Objektpointer auf einen Raum, der erzeugt wurde.
+Danach gibt es dann einen Raum mit dem Objektnamen
+'/d/SuperGebiet/IrgendwoDarin/room_1'.
+
+  Beispiel für einen Virtual_compiler:
+
+  // Dieser einfache virtual_compiler erzeugt einen Raum, wenn der name
+  // 'new_room' ist.
+  // Das setzen der Eigenschaften eines Raumes geht wie beim MAP-System.
+
+  void create() {
+      seteuid(getuid());
+  }
+
+  object virtual_compiler(string name, string path) {
+      object ob;
+
+      if (name=="new_room") {
+          ob=clone_object("/obj/room");
+          ob->set_short("Ein Raum");
+          ob->set_long("Ein Testraum erzeugt vom virtual_compiler.\n");
+          return ob;
+          }
+  }
+
+VERWEISE: setup_renamed_object
+GRUPPEN: grundlegendes, virtual_compiler
+*/
+
+/*
+FUNKTION: heart_beat
+DEKLARATION: void heart_beat
+BESCHREIBUNG:
+Wenn der Herzschlag mittels set_heart_beat eingeschaltet wurde,
+so wird diese Funktion automatisch alle 2 Sekunden aufgerufen.
+
+Man sollte sparsam mit dieser Möglichkeit umgehen, da es viele
+Driverresourcen benötigt, wenn mehrere Objekte den Herzschlag
+rund um die Uhr anhaben.
+Tritt während der Ausführung dieser Funktion ein Fehler auf,
+so wird der Herzschlag automatisch abgeschaltet.
+
+Falls das Objekt, in welchem diese Funktion aufgerufen wurde, lebendig
+ist, so wird es von this_player() während der Ausführung geliefert,
+anderenfalls liefert this_player() 0.
+VERWEISE: set_heart_beat, enable_commands, 
+          set_turn_heart_beat_off, query_turn_heart_beat_off
+GRUPPEN: grundlegendes, monster
+*/
+
+/*
+FUNKTION: setup_renamed_object
+DEKLARATION: void setup_renamed_object(object vc, string old_name)
+BESCHREIBUNG:
+Dies wird nach der Umbenennung dieses Objektes des Virtual-Compilers vc
+im umbenannten Objekt aufgerufen.
+old_name ist der alte Name. Der neue Name ist object_name(this_object()).
+VERWEISE: virtual_compiler
+GRUPPEN: grundlegendes, virtual_compiler
+*/
+
+/*
+FUNKTION: setup_renamed_object
+DEKLARATION: void setup_renamed_object(object ob, string old_name)
+BESCHREIBUNG:
+Dies wird nach der Umbenennung des Objektes ob im Virtual-Compiler aufgerufen.
+old_name ist der alte Name. Der neue Name ist object_name(ob).
+VERWEISE: virtual_compiler
+GRUPPEN: grundlegendes, virtual_compiler
+*/
+/*
+FUNKTION: real_filename
+DEKLARATION: string real_filename(string name, string path)
+BESCHREIBUNG:
+Der Master fragt diese Funktion ab, wenn die Datei path+name geladen wird,
+um einen Hinweis zu erhalten, ob er woanders nach Include-Dateien oder
+Inherits suchen soll. (Dies ist für seltene Fälle, wo ein VC eine
+andere Datei zur gewünschten Stelle kopiert, um sie dort zu laden.)
+VERWEISE: virtual_compiler
+GRUPPEN: grundlegendes, virtual_compiler
+*/

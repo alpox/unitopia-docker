@@ -1,0 +1,55 @@
+FUNKTION: string_parser
+DEKLARATION: varargs mixed string_parser(string str, int tp_flag, int|symbol use_tp, mapping functions)
+BESCHREIBUNG:
+Der uebergebene String str wird nach Funktionen durchsucht und ein Array
+aus Closures und Strings aufgebaut und zurueckgegeben, welches fuer die
+Konstruktion einer lambda-Closure verwendet werden kann.
+Enthaelt der String str Funktionen, so muessen sie in der Form "$fun(args)"
+geschrieben werden. Dabei ist fun der Name der Funktion und args ist eine
+Liste von durch Kommas getrennten Argumenten.
+Argumente koennen Mappings, Arrays, Strings, Integerzahlen, Closures oder
+Symbole sein.
+In Mappings und Arrays koennen keine Closures oder Symbole vorkommen!
+Die Strings koennen ohne "" geschrieben werden, Zahlen werden als Argumente
+und Mappingeintraege automatisch als solche erkannt. Will man partout eine
+Zahl als Stringargument, muss man sie in "" setzen, das Quoten mit \ in
+LPC-Strings nicht vergessen!
+
+Ist tp_flag gesetzt, wird Funktionen ohne Argument entweder 'tp (use_tp==1),
+use_tp (falls use_tp ein Symbol ist) oder OBJ_TP uebergeben.
+
+Ist use_tp == 1, so wird 'tp eingesetzt, wenn OBJ_TP im String vorkam.
+Ist use_tp ein Symbol, so wird es statt OBJ_TP eingesetzt.
+
+Im Mapping functions kann man noch zusaetzliche Funktionen angeben.
+Dabei muss einem Funktionsname eine Closure zugeordnet werden.
+(z.B. (["hinweis": #'hinweis]), dann wird bei $hinweis(OBJ_TP) hinweis(OBJ_TP)
+aufgerufen.)
+
+string_parser wird von mixed_to_closure verwendet, im Normalfall kommt man
+damit vor allem bei msgs von v_items und Bewegungsmeldungen in Beruehrung.
+Argumente sind vor allem praktisch, wenn man sein/ihr verwenden moechte
+bei der Erwaehnung von Sinnen oder Koerperteilen des Spielers in den msgs,
+man muss dann nicht mehr eigenhaendig Closures konstruieren.
+
+Beispiele:
+
+   Bewegungsmeldungen:
+
+      "$Der() naehert sich $dir()."
+      "$Der(OBJ_TP,besoffen) torkelt $dir() davon."
+      "Du stolperst ueber $den(OBJ_TP,\"\")." (kein Adjektiv)
+
+   v_item-msgs:
+
+      "$Des(OBJ_TP,ungeschickt) Versuch schlaegt fehl."
+      "$Sein(([name:haare,gender:saechlich,plural:1]),({lila,lilan}),
+         OBJ_TP) stehen $ihm() gut."
+      "$Ihr(([name:augen,plural:1,gender:saechlich]),mued,OBJ_TP,
+         erschoepft) fallen zu."
+      "$Ihr(([name:nase,gender:weiblich]),empfindlich,OBJ_TP
+       ,herumschnueffelnd) kraeuselt sich."
+
+VERWEISE: mixed_to_closure
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

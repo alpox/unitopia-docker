@@ -1,0 +1,869 @@
+##
+##  Über Wasser, Flüsse, Brunnen, Flaschen und ähnliche Dinge
+##  Ein Konzept von Jafar & Yellow
+##
+##  Stand: 11. November 1997
+##
+
+##
+##  Inhalt
+##
+
+1)  Für Ungeduldige
+2)  Das Konzept
+3)  Wasser
+4)  Brunnen
+5)  Fluss
+6)  Flasche
+7)  Gift
+8)  Die Dateien
+9)  Noch ein Anliegen
+
+##
+##  1) Für Ungeduldige
+##
+
+Wenn du einfach nur eine Wasserquelle oder ein Gefäß für Wasser haben 
+willst, dann ist dir schnell geholfen. Bei Wasserquellen stehen dir zwei 
+Möglichkeiten zur Verfügung: Objekte oder Vitems, die es Spielern erlauben 
+Wasser zu trinken und es in Gefäße abzufüllen. Zur Zeit werden folgende 
+Befehle für das Trinken verstanden:
+
+    trinke wasser
+    trinke wasser aus brunnen
+    trinke aus brunnen
+
+Entscheidest du dich für ein Objekt, dann klone '/obj/brunnen', passe
+das Aussehen an deine Wünsche an, gib ihm ein geeignetes Gewicht und bewege es
+in den entsprechenden Raum. Soll die Quelle im Raum fest installiert werden, 
+vergiss das set_no_move nicht. So erhält man mit folgendem Beispiel einen 
+ziemlich schweren Brunnen, der nicht bewegt werden kann.
+
+    void reset()
+    {
+       object brunnen;
+
+
+       if (!present("brunnen")) {
+         brunnen = clone_object("/obj/brunnen");
+         brunnen->set_weight(10000);  
+         brunnen->set_no_move(1);
+         brunnen->move(this_object());
+       }
+    } 
+    
+Ziehst du Vitems vor, dann erbe noch vor '/i/room' von '/i/wasser/fluss'. 
+Jedes Vitem, welches als Wasser dienen soll, muss die Id '# water #' tragen. 
+Zusätzlich kann man noch einen Brunnen oder ähnliches festlegen, indem sich 
+das Wasser befindet. Ein solches Vitem muss die Id '# well #' tragen und damit
+ersichtlich ist, das beide zusammengehören, muss man dem Vitem für das Wasser
+noch den Eintrag well_id und dem Vitem für den Brunnen den Eintrag 
+water_id geben, die jeweils eine eindeutige Id des anderen angeben.
+
+So erhält man mit folgendem Beispiel Wasser in einem Fluss und verschüttetes
+Wasser. Bei Befehlen wie 'trinke wasser', 'trinke aus see' und 'trinke wasser 
+aus see' wird das Wasser aus dem See getrunken, bei Befehlen wie 'trinke 
+verschüttetes wasser' oder 'trinke 2. wasser' eben das verschüttete.  
+
+    inherit "/i/wasser/fluss";
+    inherit "/i/room";
+
+    void init()
+    {
+	"*"::init(); // Damit das init() aller Inherits aufgerufen wird.
+    }
+    
+    void create() 
+    {
+       set_long("Ein Beispiel.");
+       set_short("Ein Beispiel");
+
+
+       add_v_item(([
+         "name"     : "see",
+         "id"       : ({"see", "# well #"}),
+         "gender"   : "maennlich",
+         "long"     : "Ein virtueller See mit gewöhnlichem "
+                      "Wasser.",
+         "water_id" :  "wasser # see"
+       ]));
+
+       add_v_item(([
+         "name"     : "wasser",
+         "id"       : ({"wasser", "wasser # see", 
+                        "# water #"}),
+         "gender"   : "saechlich",
+         "long"     : "Klares, sauberes Wasser.",
+         "well_id"  : "see",
+       ]));
+
+
+       add_v_item(([
+         "name"     : "wasser",
+         "id"       : ({"wasser", "# water #"}),
+         "gender"   : "saechlich",
+         "adjektiv" : "stinkend",
+         "long"     : "Jemand hat es hier verschüttet."
+       ]));
+    }
+
+##
+##  2) Das Konzept
+##
+
+Das bisherige Konzept für Flaschen verließ sich allein auf die Ids der 
+Vitems. Konnte die Flasche in einem Raum eine Id aus einer Liste (wasser, see,
+brunnen, fluss, ...) finden, so konnte man sie mit reinem Wasser füllen. Ob
+ein Brunnen aber ausgetrocknet oder etwas anderes als gewöhnliches Wasser 
+enthielt, spielte dabei keine Rolle. Andere Flüssigkeiten wie Wein oder Gift 
+konnten nicht in Flaschen abgefüllt werden, es sei denn es gab Gefäße die  
+wiederum nur mit Wein oder Gift funktionierten.
+
+Die Idee ist nun einer Flasche die Informationen über ihren Inhalt mitzugeben.
+Daneben werden die Dinge an denen man Flaschen füllen kann, eindeutig 
+gekennzeichnet und können beim Füllen auch mitreden. Sie können das Füllen 
+ganz verbieten oder auch nur einen Teil der verlangten Menge ausgeben. 
+
+Die Basis-Objekte sollen nur das Notwendigste definieren, aber möglichst 
+leicht erweiterbar sein. So kann auf einfache Weise in die Schnittstelle des 
+Brunnens zur Flasche eingegriffen werden, um zum Beispiel Brunnen die mit ihrem
+Inhalt haushalten oder anderes zu realisieren. Das Wasser-Objekt kann beliebig 
+erweitert werden. Denkbar sind Säfte die mit der Zeit schlecht werden, 
+Flüssigkeiten die verdunsten, den Spieler vergiften, durstig machen anstatt 
+den Durst zu löschen, nüchtern machen oder heilen. Die Parser sind alle von 
+der eigentlichen Funktion getrennt, sodass sie weiterverwendet werden können,
+wenn eine Funktion überlagert wird (eine sehr gute Idee von Yellow). 
+
+Es gab noch einige Ideen, die es nicht geschafft haben. So war es auch geplant
+eine Funktion in Räumen aufzurufen, wenn die Flasche geleert wird. Aber das 
+ist wohl eher etwas für eine Basis-Gieskanne. Eine Misch-Funktion war geplant,
+die verschiedene Wasser-Objekte mischen konnte. Zum Beispiel Alkohol, der mit 
+Wasser verdünnt werden könnte. Dieser generelle Ansatz wurde jedoch aufgrund
+des Verhältnisses vom Aufwand zum Nutzen fallen gelassen. Gewicht und Wert 
+der Flasche sollten sich urpsruenglich mit dem Inhalt ändern. Aber zum einen
+sind Änderungen des Gewichtes von Gegenständen, solange sie ein Spieler bei 
+sich trägt, nicht ganz unproblematisch und zum anderen sollen Flaschen keine
+Goldgrube sein.
+
+Der Haken an der ganzen Sache ist, das dieses Konzept so gut wie inkompatibel 
+zum bisherigen ist. Da die neue Flasche nur an bestimmten Objekten und Vitems 
+gefüllt werden kann, kann sie nicht zusammen mit Brunnen herkömmlicher Art 
+benutzt werden und umgekehrt arbeitet die alte Flasche nur auf Vitems und das 
+eingeschränkt. Wenn, dann müsste die Umstellung also in größerem Maßstab 
+erfolgen.
+
+Das eigentliche Konzept teilt sich auf in Wasser, Brunnen, Fluss und Flasche.
+
+a)  Wasser
+
+Der Begriff Wasser umfasst alle Flüssigkeiten, welche man trinken und in 
+Flaschen abfüllen kann. Ein Wasser-Objekt beschreibt eine Flüssigkeit und 
+trägt die Informationen und die Funktionalität für das Trinken der 
+Flüssigkeit. Unter den Informationen sind Dinge wie Alkoholgehalt, wie gut 
+löscht es den Durst oder wie groß die einmalige Heilung ausfällt. Bei jedem
+Trinken wird dann eine Funktion des Wasser-Objekts aufgerufen, in welcher die 
+Informationen umgesetzt werden und der Spieler zum Beispiel vergiftet oder
+einfach nur sein Durst gelöscht werden kann.
+
+Die Spieler bekommen Wasser-Objekte nie zu Gesicht, sie werden ausschließlich
+intern eingesetzt.
+
+
+b)  Brunnen
+
+Brunnen sind Quellen für Wasser. Brunnen-Objekte enthalten in der Regel ein 
+Wasser-Objekt, damit aus ihnen getrunken werden kann. Die Funktionalität beim 
+Trinken muss so genau einmal in ein Wasser-Objekt umgesetzt werden und kann 
+dann im Brunnen und den Flaschen verwendet werden. Meldungen beim Trinken 
+werden aus Teilen von der Flasche und Teilen vom Brunnen zusammengesetzt. Ein 
+Brunnen bietet weiterhin die Möglichkeit Wasser abzugeben. Eine Flasche kann 
+anfragen ob überhaupt und wenn ja, welche Art von Wasser und wieviel davon 
+man dem Brunnen entnehmen kann. Gewöhnlich sind Brunnen unerschöpflich, aber
+man hat die Möglichkeit das Wasser zu rationieren oder ganz zu verweigern. 
+Das können dann Weinfässer sein, die leer werden oder Ziehbrunnen an denen 
+man erst Wasser bekommt, wenn man es zuvor mit dem Eimer aus der Tiefe geholt
+hat.
+
+
+c)  Fluss
+
+Flüsse arbeiten mit Vitems, in deren Mappings die benötigte Information
+enthalten ist. Mit ihnen wird es möglich, Spieler an bestimmten Vitems 
+trinken oder Flaschen füllen zu lassen oder ihnen Gründe zu geben, warum das
+an bestimmten Vitems nicht geht. Das ist insbesondere dann nützlich, wenn
+man eine Wasser-Quelle sehen, aber nicht erreichen kann (zum Beispiel ein 
+Wasserfall in der Ferne). Es können sowohl einzelnes Wasser und einzelne 
+Wasser-Behälter als auch Paare von beiden (wie etwa Bach und Wasser oder Fass
+und Wein) realisiert werden und zwar beliebig viele und beliebig verschiedene 
+im selben Raum. Flüsse sind einfacher einzusetzen wie Brunnen, dafür aber 
+auch weit weniger flexibel und ortsgebunden. Im Gegensatz zu Brunnen werden 
+nur dann Wasser-Objekte erzeugt, wenn sie auch wirklich gebraucht werden. 
+Damit eignen sich Flüsse auch für großflächige Wasser-Quellen wie Seen 
+oder Flüsse. 
+
+
+d)  Flasche
+
+Flaschen sind alle Gefäße, in die man Flüssigkeiten füllen kann. Man kann 
+sie an Brunnen oder Flüssen füllen, aus ihnen trinken und sie auch wieder 
+leeren. Füllt man sie an Brunnen, fragen sie dort nach einem Wasser-Objekt 
+und der verfügbaren Menge. Bei Flüssen wird aus den Informationen (name, 
+gender, id, adjektiv und weitere wasserspezifische) von dem entsprechenden 
+Vitem ein Wasser-Objekt erzeugt und in die Flasche bewegt. Wie bei Brunnen 
+wird auch hier beim Trinken die Funktionalität im Wasser-Objekt verwendet und
+die Meldungen werden wieder aus Teilen vom Wasser und von der Flasche 
+zusammengesetzt. 
+
+
+##
+##  3) Wasser
+##
+
+Eigenschaften des Wassers:
+
+    void set_healing(int n) 
+    void set_strength(int n) 
+    void set_amount(int n) 
+    int query_healing() 
+    int query_strength() 
+    int query_amount() 
+
+Mit diesen Funktionen können die Wasser-Punkte (amount, vorgegeben 40), der 
+Alkoholgehalt (strength, vorgegeben 0) und eine einmalige Heilwirkung 
+(healing, vorgegeben 0) geändert werden. Die Werte beziehen sich auf einen 
+Schluck des Wassers. Für healing und strength können auch negative Werte 
+angegeben werden, dann wird eben Alkohol im Spieler abgebaut oder sein Durst 
+vergrößert.
+
+
+Meldungen:
+
+    void set_success_message(mixed s) 
+    void set_other_success_message(mixed s) 
+    void set_failure_message(mixed s) 
+    void set_other_failure_message(mixed s) 
+
+Mit diesen Funktionen können die Meldungen für erfolgreiches (sucess_message,
+other_success_message) und erfolgloses Trinken (failure_message, 
+other_failure_message) gesetzt werden. Das Trinken schlägt dann fehl, wenn 
+der Spieler schon zuviel getrunken hat oder zu alkoholisiert ist. Als Argument
+können, wie üblich, Closures und Pseudoclosures verwendet werden.  
+
+
+    string query_success_message() 
+    string query_other_success_message() 
+    string query_failure_message() 
+    string query_other_failure_message() 
+
+Diese Funktionen liefern die Meldungen zurück, nachdem eventuelle Closures aufgelöst wurden. Sie werden vom Brunnen und der Flasche benötigt.
+
+
+Das Trinken: 
+
+    int drink_action()
+
+drink_action wird von der Flasche und dem Brunnen aufgerufen wenn von dem 
+entsprechenden Wasser getrunken wird. War das Trinken erfolgreich muss ein 
+Wert ungleich 0, bei einem Fehlschlag 0 zurückgegeben werden. Je nach 
+Rückgabewert werden in Flasche und Brunnen die Meldungen für Erfolg oder 
+Fehlschlag ausgegeben und in der Flasche der Inhalt verringert.
+
+
+Sonstige Funktionen:
+
+    int is_water() 
+
+is_water liefert 1 zurück, wenn es sich um ein Wasser-Objekt handelt. Nur 
+Objekte mit dieser Kennung dürfen in Flaschen und Brunnen bewegt werden.
+ 
+
+##
+##  4) Brunnen
+##
+
+Meldungen:
+
+    void set_success_message(mixed s)
+    void set_other_success_message(mixed s)
+    void set_failure_message(mixed s)
+    void set_other_failure_message(mixed s)
+    void set_fill_message(mixed s)
+    void set_other_fill_message(mixed s)
+
+Mit diesen Funktionen können die Meldungen für erfolgreiches (sucess_message,
+other_success_message) und erfolgloses Trinken (failure_message, 
+other_failure_message) gesetzt werden. Als Argument können, wie üblich, 
+Closures und Pseudoclosures verwendet werden. In den Meldungen steht der 
+Bezeichner water für das Wasser, in den Meldungen für das Füllen von
+Flaschen gibt es zusätzlich noch bottle für die Flasche. Beispiele wäre
+
+    set_success_message("Du schöpfst mit der Hand etwas von $dem('water) "
+        "aus dem Brunnen und trinkst davon.");
+
+oder
+
+    set_fill_message("Du tauchst $deinen('bottle) in den Brunnen. "
+        "Blubbernd entweicht die Luft, während $er('bottle) sich mit "
+        "Wasser füllt."
+
+Die Funktionen 
+
+    string query_success_message() 
+    string query_other_success_message() 
+    string query_failure_message() 
+    string query_other_failure_message() 
+
+setzen die Meldungen für erfolgreiches und erfolgloses Trinken vom Wasser 
+und vom Brunnen zusammen, lösen eventuell vorhandene Closures auf und geben 
+diese Meldungen zurück. Die beiden Funktionen
+
+    string query_fill_message(object bottle, object water)
+    string query_other_fill_message(object bottle, object water)
+
+werden von der Flasche aus aufgerufen und liefern die Meldungen für das
+Füllen zurück. Als Argumente erhalten sie die Flasche und das Wasser-Objekt.
+
+
+Das Wasser: 
+
+    void set_water_file(string file_name)
+
+set_water_file legt den Pfad für das Wasser-Objekt fest, welches der Brunnen 
+klonen soll.
+
+
+    varargs void set_design_function(string function[, mixed obj])
+
+Mit set_design_function kann eine Funktion vom Typ void foo(object water)
+bestimmt werden, die nach jedem Klonen eines Wasserobjekts aufgerufen wird.
+Damit hat sie die Möglichkeit die Eigenschaften des Wassers (name, gender
+oder andere Dinge) vor seiner Verwendung anzupassen. Ist nichts weiter 
+angegeben, wird die Funktion im Objekt gesucht, welches set_design_function
+aufgerufen hat, ansonsten im in obj direkt oder als Dateinamen angegebenen 
+Objekt.
+
+
+    object clone_water()
+
+Wurde ein Pfad für ein Wasser-Objekt angegeben, dann wird dieses ansonsten 
+das Standard-Objekt '/i/wasser/wasser' geklont, mit diesem Objekt die 
+Design-Funktion aufgerufen, falls eine angegeben wurde und dann das Objekt 
+zurückgeliefert.
+
+
+    object query_water(string s) { return water; }
+
+Diese Funktion liefert das Wasser-Objekt im Brunnen zurück. Das Objekt darf 
+auf keinen Fall aus dem Brunnen bewegt werden. 
+
+
+    string water_me(string s) 
+
+water_me ist ein abgesicherter Aufruf von me im Wasser-Objekt des Brunnens und 
+überprüft, ob das Wasser auf den angegeben String passt. Trifft das zu, wird 
+der Reststring zurückgegeben, ansonsten 0. 
+
+
+    int get_water(object water, int amount, int max_amount)
+
+Über die Funktion get_water kann der Brunnen Wasser abgeben. max_amount ist 
+die maximale Menge die abgenommen werden kann. Klappt die Abgabe des Wassers, 
+liefert die Funktion einen Wert ungleich 0, in water wird das Wasser-Objekt 
+und in amount die wirklich abgegebene Menge (amount <= max_amount) 
+zurückgegeben (beide Variablen müssen als Referenz übergeben werden). Die 
+Flasche gibt bei erfolgreicher Übergabe eine Meldung aus. Klappt die Abgabe 
+nicht, weil der Brunnen zum Beispiel leer ist, ist der Rückgabewert 0. In 
+diesem Fall unterlässt die Flasche jegliche Meldung und überlässt dies dem 
+Brunnen.
+
+
+    void setup()
+
+Die Funktion setup die im init des Brunnen aufgerufen wird, erzeugt ein 
+Wasser-Objekt und bewegt es in den Brunnen. 
+    
+
+    int drink_command()
+
+Der Parser für den Trink-Befehl. Er erkennt die Befehle
+
+    trinke wasser
+    trinke wasser aus brunnen
+    trinke aus brunnen
+
+Wird ein gültiger Trink-Befehl erkannt, wird die Funktion  
+
+    int drink_command(string s)
+
+aufgerufen. Sie ruft wiederum drink_action im Wasser-Objekt auf und gibt je 
+nach Erfolg oder Fehlschlag die entsprechenden Meldungen aus.
+
+
+Sonstiges: 
+
+    int is_well()
+
+liefert bei einem Brunnen 1 zurück. Mit Hilfe dieser Funktion erkennt die 
+Flasche einen Brunnen. 
+ 
+
+##
+## 5) Fluss
+##
+
+Um von Vitems trinken zu können, musst man zuerst von '/i/wasser/fluss' erben
+und dabei sicherstellen, das das init des Flusses auch aufgerufen wird. Alle
+Informationen, die der Fluss verwendet trägt man, wie die üblichen Einträge
+auch, einfach in die Vitems ein. Dabei hat man die Wahl, einzelnes Wasser,
+einen einzelnen Brunnen oder ein Paar aus Wasser und Brunnen zu verwenden. 
+Im letzteren Fall wird mit den Einträgen 
+
+    water_id
+    well_id
+
+den Vitems eine eindeutige Id des Partners zugewiesen. Damit geht das
+Fluss-Inherit davon aus, das beide zusammengehören und dass sich das
+Wasser im Brunnen befindet. 
+
+Nun gibt es zwei Varianten. Bei der ersten Variante kann von den Vitems
+getrunken werden. Dazu markiert man das Vitem für Wasser mit der Id
+'# water #' und das Vitem für den Brunnen mit der Id '# well #'. Nun stehen
+im Brunnen zusätzlich die folgenden Einträge zur Verfügung
+
+    water_id               - Id des dazugehörenden Wassers 
+    well_success_msg       - Meldungen für erfolgreiches Trinken (der 
+    well_other_success_msg   Bezeichner water wird durch das Wasser ersetzt)
+    well_failure_msg       - Meldungen für erfolgloses Trinken (der 
+    well_other_failure_msg   Bezeichner water wird durch das Wasser ersetzt)
+    well_fill_msg          - Meldungen für das Füllen von Flaschen 
+    well_other_fill_msg      (Bezeichner bottle und water werden durch Flasche
+                             und Wasser ersetzt)
+
+und im Wasser 
+
+    well_id                 - Id des dazugehörenden Brunnens (optional)
+    water_amount            - Wasserpunkte pro Schluck (vorgegeben 40)
+    water_strength          - Alkoholgehalt pro Schluck (vorgegeben 0)
+    water_healing           - einmalige Heilung pro Schluck (vorgegeben 0)
+    water_success_msg       - Meldungen für erfolgreiches Trinken
+    water_other_success_msg
+    water_failure_msg       - Meldungen für erfolgloses Trinken
+    water_other_failure_msg
+    water_adjektiv          - Adjektive, wenn das Wasser geklont wird
+    water_fill_msg          - Meldungen für das Füllen von Flaschen 
+    water_other_fill_msg      (Bezeichner bottle wird durch Flasche ersetzt)
+
+Da zum Trinken Wasser gebraucht wird, kann kein Brunnen ohne Wasser verwendet
+werden. Fehlende Einträge werden mit Default-Werten ersetzt. Wird das Wasser 
+für die Flasche geklont, werden in der Regel die Adjektive des Vitems 
+verwendet. Mit water_adjektiv kann davon abgewichen werden. Dabei gibt es 
+folgende Möglichkeiten: 
+
+    n                - die ersten n Adjektive des Vitems, bei n == 0 keines
+    ({a, b})         - alle Adjektive vom a-ten bis zum b-ten des Vitems
+    "grün"          - ein einzelnes Adjektiv
+    ({"grün", ...}) - eine Liste von Adjektiven  
+
+Weiter kann mit den folgenden Einträgen noch ein Virus angegeben werden, der 
+beim Trinken des Wassers zuschlägt.
+
+    virus_name                 - Name des Virus
+    virus_type                 - Virustyp (gift, krankheit, seuche, fluch)
+    virus_infection_chance     - Infizierungswahrscheinlichkeit  beim Trinken
+    virus_infection_msg        - Meldungen bei einer Infizierung
+    virus_other_infection_msg 
+    virus_str                  - AP-Abzug pro Minute
+    virus_min                  - ab dieser AP-Grenze ist der Spieler geheilt
+    virus_dur                  - Verweildauer des Virus
+    virus_chance               - Ansteckungswahrscheinlichkeit bei Seuchen
+    virus_immun_time           - Dauer der Immunisierung
+    virus_look                 - Extra-Beschreibung eines Erkrankten
+    virus_heal_msg             - Meldung bei einer Heilung
+    virus_messages             - Meldungen beim Krankheitsverlauf
+    virus_shadow_path          - Dateiname eines Virus, der währende der
+                                 Lebensdauer des Virus aufrecht erhalten wird
+
+Damit ein Virus verwendet wird, muss mindestens der Eintrag virus_name 
+vorhanden sein. Fehlende Einträge werden mit Default-Werten ersetzt. 
+virus_infection_chance gibt die Wahrscheinlichkeit an, mit der sich der 
+Spieler beim Trinken mit dem Virus infiziert. Die vorgegebene 
+Wahrscheinlichkeit ist 100%. Nach einer erfolgten Infektion werden die 
+Meldungen beim Trinken entsprechend erweitert. Die Texte dafür können mit 
+virus_infection_msg und virus_other_infection_msg festgelegt werden. Alle
+weiteren Einträge entsprechen den entsprechenden Funktionen im Virus
+(naehers dazu in /obj/virus.c).
+ 
+Die zweite Alternative bei Flüssen sind Vitems die zwar auf die Befehle 
+trinken und füllen ansprechen, aber an denen der Versuch scheitert. Das ist
+dann nützlich, wenn man Wasser-Quellen zwar sehen aber nicht erreichen oder 
+nutzen kann, wie etwa ein tosender Wasserfall in der Ferne oder eine 
+Pfütze. Dazu werden die Vitems für Wasser mit der Id '# no_water #' und die
+für die Brunnen mit der Id '# no_well #' markiert. Danach stehen im Wasser die
+folgenden Einträge bereit
+    
+    well_id                - Id des zugehörigen Brunnens
+    water_no_drink_reason  - Warum kann man das Wasser nicht trinken?
+    water_no_fill_reason   - Warum kann man mit dem Wasser nichts füllen?
+                             (bottle wird durch die Flasche ersetzt)
+
+und im Brunnen
+
+    water_id               - Id des zugehörigen Wassers
+    well_no_drink_reason   - Warum kann man aus dem Brunnen nichts trinken?
+                             (water wird durch das Wasser ersetzt)
+    well_no_fill_reason    - Warum kann man am Brunnen nichts füllen? 
+                             (water wird durch das Wasser, bottle durch die
+                             zu füllende Flasche ersetzt)
+
+Meldungen:
+
+    string query_success_message(mapping well, mapping water, int infected)
+    string query_other_success_message(mapping well, mapping water, int infected)
+    string query_failure_message(mapping well, mapping water)
+    string query_other_failure_message(mapping well, mapping water)
+
+Diese Funktionen setzen die entsprechenden Meldungen für erfolgloses oder 
+erfolgreiches Trinken von Wasser und Brunnen (sofern einer vorhanden ist) 
+zusammen und lösen die Closures auf. Ist infected ungleich 0, werden die 
+Meldungen um die Texte für die Infizierung ergänzt. Sind keine Meldungen 
+angegeben, werden die Default-Meldungen verwendet. 
+
+
+    string query_no_drink_reason(mapping well, mapping water)
+
+liefert bei Vitems den Grund, warum man nicht von oder aus ihnen trinken kann.
+
+
+Das Trinken:
+
+   int drink_command(string s)
+
+drink_command ist der Parser für den Trink-Befehl. Er versteht dieselben 
+Befehlsformen wie der Parser des Brunnen, parst den Befehl jedoch für alle in 
+frage kommenden Vitems im Raum. Wird ein Befehl erkannt und kann man von den
+entsprechenden Vitems nicht trinken, wird mit query_no_drink_reason der 
+Grund ermittelt und dem Spieler mitgeteilt. Ansonsten wird mit den Vitems die
+Funktion 
+
+   int drink_action(mapping well, mapping water)
+ 
+aufgerufen. Bei einzelnem Wasser ist well gleich 0, ansonsten wird ein 
+zusammengehörendes Paar aus Wasser und Brunnen übergeben. drink_action 
+wertet danach die Eigenschaften des Wassers aus, erhöht die Wasserpunkte und 
+den Alkoholgehalt im Spieler, infiziert ihn eventuell mit einem Virus und gibt
+entsprechende Meldungen aus.
+
+
+##
+## 6) Flasche
+##
+
+Inhalt:
+
+    void set_content(int n) 
+    void set_max_content(int n) 
+    int query_max_content()
+    int query_content()
+
+Mit diesen Funktionen kann der maximale und der gegenwärtige Inhalt der 
+Flasche gesetzt und abgefragt werden. Die Werte werden in Schlucken angegeben.
+
+
+    int set_water(object new_water) 
+
+Mit set_water wird ein neues Wasser-Objekt gesetzt, welches den Inhalt der 
+Flasche repräsentiert. Ist bereits ein Wasser-Objekt vorhanden, wird dieses 
+gelöscht. Das neue Objekt wird in die Flasche bewegt. Schlägt dies fehl 
+(was nicht vorkommen sollte), wird es gelöscht und die Flasche bleibt leer.
+
+
+    object query_water()
+
+Mit query_water kann das Wasser-Objekt in der Flasche abgefragt werden. Ist 
+keines vorhanden liefert query_water 0.
+
+
+    string water_me(string s) 
+
+water_me ist ein abgesicherter Aufruf von me im Wasser-Objekt. Passt der 
+übergebene String auf dieses Objekt, wird der Reststring zurückgegeben, 
+ansonsten 0.
+
+
+Meldungen:
+
+    void set_success_message(mixed s) 
+    void set_other_success_message(mixed s) 
+    void set_failure_message(mixed s) 
+    void set_other_failure_message(mixed s) 
+
+Mit diesen Funktionen können die Meldungen für erfolgreiches (sucess_message,
+other_success_message) und erfolgloses Trinken (failure_message, 
+other_failure_message) gesetzt werden. Als Argument können, wie üblich, 
+Closures und Pseudoclosures verwendet werden, wobei der Bezeichner water
+für das Wasser steht. 
+
+
+    string query_success_message() 
+    string query_other_success_message() 
+    string query_failure_message() 
+    string query_other_failure_message() 
+
+Diese Funktionen setzen die Meldungen für erfolgreiches und erfolgloses 
+Trinken vom Wasser und der Flasche zusammen, lösen eventuell vorhandene 
+Closures auf und geben diese Meldungen zurück.
+
+
+    string query_fill_message(mixed well, mixed water) 
+    string query_other_fill_message(mixed well, mixed water) 
+
+Diese beiden Funktionen liegern die Meldungen für das Füllen der Flasche
+zurück. Dazu wird die Meldung entweder vom Brunnen erfragt oder bei Flüssen 
+aus dem Vitem für den Brunnen oder falls es einzelnes Wasser ist aus dem Vitem
+für das Wasser bestimmt und die Closures aufgelöst. Sind keine speziellen 
+Meldungen gesetzt, wird eine Default-Meldungen verwendet.
+
+
+    string query_no_fill_reason(mapping well, mapping water)
+
+query_no_fill_reason ermittelt den Grund, warum an einem Vitem oder einem Paar
+von Vitems keine Flasche gefüllt werden kann.
+
+
+    void set_empty_message(mixed s) 
+    void set_other_empty_message(mixed s) 
+
+Mit diesen Funktionen können die Meldungen für das Leeren der Flasche gesetzt
+werden. Dabei steht in den Closures der Bezeichner water für das Wasser zur
+Verfügung.
+
+
+    string query_empty_message()
+    string query_other_empty_message()
+    
+Diese beiden Funktionen liefern die Meldungen für das Leeren der Flasche 
+zurück, nachdem vorhandene Closures aufgelöst wurden.
+
+
+Das Trinken:
+
+    int drink_command(string s)
+    
+Der Parser für das Trinken aus der Flasche. Gegenwärtig versteht er folgende 
+Befehle
+
+    trinke wasser
+    trinke wasser aus flasche
+    trinke aus flasche
+
+Wird einer dieser Befehle erkannt, ruft drink_command die Funktion 
+drink_action auf.
+
+
+    int drink_action()  
+
+drink_action ruft die Funktion drink_action im Wasser-Objekt auf. Je nach deren
+Rückgabewert werden Meldungen über den Erfolg oder Misserfolg ausgegeben. 
+Bei erfolgreichem Trinken wird zusätzlich der Inhalt der Flasche erniedrigt.
+
+
+    int fill_command(string s)
+
+Der Parser (und bei weitem der komplexeste) für das Füllen der Flasche. 
+Gegenwärtig versteht er folgende Befehle
+
+    fülle flasche
+    fülle flasche mit wasser
+    fülle flasche mit wasser aus brunnen
+    fülle flasche an/am brunnen
+    fülle flasche an/am brunnen mit wasser
+
+Der Parser versucht zuerst ein passendes Brunnen-Objekt zu finden und danach 
+passende Vitems. Unpräzise Angaben über Wasser und Brunnen werden bei der 
+Suche ergänzt. Wird ein passendes Objekt gefunden, wird damit die Funktion
+
+    int fill_from_object(object well)
+
+aufgerufen. In ihr findet der Handel mit dem Brunnen statt. Dem Brunnen wird 
+die Anfrage nach Wasser mit der maximal aufnehmbaren Menge übergeben. Wird 
+diese Anfrage erfüllt, wird das Wasser-Objekt vom Brunnen angemeldet, die 
+wirklich erhaltene Menge als neuer Inhalt gesetzt und entsprechende Meldungen 
+ausgegeben. Wird die Anfrage abgelehnt, bleibt der Zustand der Flasche 
+erhalten und alle Meldungen obligen dem Brunnen.  
+
+
+Bleibt die Suche nach einem passenden Objekt erfolglos, wird unter den Vitems
+weitergesucht. Wurden passende Vitems gefunden, kann man aber nicht von ihnen
+trinken wird mit query_no_fill_reason der Grund ermittelt und dem Spieler
+mitgeteilt. Ist das Trinken dagegen möglich, wird mit den Vitems die Funktion
+
+
+    int fill_from_vitem(mapping well, mapping water)
+
+aufgerufen. Sie wertet die Einträge im Vitem water aus, well wird nur zur  
+Ausgabe von Meldungen verwendet und kann 0 sein. Ist ein Virus angegeben, wird
+Gift ('/obj/gift') geklont in welches die Eigenschaften des Virus eingetragen 
+werden, ansonsten wird normales Wasser ('/obj/wasser') verwendet. Bevor das 
+neue Objekt angemeldet und in die Flasche bewegt wird, werden die restlichen 
+Eigenschaften (name, id, gender, adjektiv, Wasserpunkte, Alkoholgehalt, 
+einmalige Heilwirkung und die Meldungen) eingetragen. Der Inhalt der Flasche 
+wird gleich dem maximalen Inhalt gesetzt und die entsprechenden Meldungen 
+ausgegeben.  
+
+
+Das Leeren der Flasche:
+
+    int empty_command(string s) 
+    int pour_command(string s)
+    int vacate_command(string s)
+
+Die drei Parser für die Befehle zum Leeren. empty_command erkennt folgende 
+Befehle
+
+    leere flasche
+    leere flasche aus
+    leere wasser weg
+    leere wasser aus
+
+vacate_command den Befehl
+
+    entleere flasche
+
+und pour_command die Befehle
+
+    schütte wasser weg
+    schütte wasser aus
+
+Erkennen die Funktionen einen dieser Befehle, so rufen sie die Funktion 
+empty_action auf.
+
+
+    int empty_action() 
+
+empty_action tut nichts weiter als den Inhalt der Flasche auf 0 zu setzen und 
+die entsprechende Meldung auszugeben, dass die Flasche geleert worden ist.
+
+
+Sonstige Funktionen:
+
+    int is_bottle() 
+
+is_bottle liefert 1 zurück, wenn es sich um eine Flasche handelt. 
+
+##
+##  7) Gift
+##
+
+Das Gift erweitert das Wasser durch Informationen für einen Virus, mit dem 
+der Spieler beim Trinken vergiftet werden kann. Es wird von der Flasche beim
+Füllen an Vitems mit Virus-Daten benutzt. 
+
+Die Meldungen:
+
+    void set_virus_infection_message(mixed s) 
+    void set_virus_other_infection_message(mixed s) 
+
+Mit diesen Funktionen können die Meldungen bei einer erfolgten Infizierung 
+festgelegt werden, die dann mit 
+
+    string query_virus_infection_message() 
+    string query_virus_other_infection_message() 
+
+abgerufen werden können, nachdem eventuell vorhandene Closures aufgelöst 
+wurden. Mit diesen Meldungen werden in 
+
+    string query_success_message()
+    string query_other_success_message()
+
+die Erfolgsmeldungen bei einer erfolgten Infizierung ergänzt.
+
+
+Eigenschaften des Virus:
+
+Die Wahrscheinlichkeit, mit der ein Spieler sich beim Trinken mit dem
+Virus infiziert kann mit den Funktionen 
+
+    void set_virus_infection_chance(int chance) 
+    int query_virus_infection_chance() 
+
+gesetzt und wieder abgefragt werden. Alle weiteren Daten des Virus können 
+mit 
+
+    void set_virus_str(int strength) 
+    void set_virus_min(int minimum) 
+    void set_virus_dur(int duration) 
+    void set_virus_chance(int chance) 
+    void set_virus_immun_time(int immun_time) 
+    void set_virus_heal_msg(string heal_msg) 
+    void set_virus_type(string type) 
+    void set_virus_name(string name) 
+    void set_virus_look(string look)
+    void set_virus_messages(string *messages) 
+    void set_virus_shadow_path(string path)
+
+festgelegt werden. Praktisch speichern sie diese Informationen nur zwischen. 
+Jede dieser Funktionen hat ein Ebenbild im Virus, an die die Information
+beim Erzeugen eines neuen Virus weitergereicht wird. Näheres dazu findet man 
+in /obj/virus.c. Die Informationen können vom Gift mit den folgenden 
+Funktionen wieder abgefragt werden. 
+
+    int query_virus_str() 
+    int query_virus_min() 
+    int query_virus_dur() 
+    int query_virus_chance() 
+    int query_virus_immun_time() 
+    string query_virus_heal_msg() 
+    string query_virus_type() 
+    string query_virus_name() 
+    string query_virus_look()
+    string *query_virus_messages() 
+    string query_virus_shadow_path()
+
+Das Trinken:
+
+    int drink_action() 
+
+Zusätzlich zu den Aufgaben im Wasser, infiziert drink_action im Gift den 
+Spieler mit einem Virus.
+
+##
+##  8) Die Dateien
+##  
+
+Die Dateien findet ihr in '/i/wasser'. Das Verzeichnis '/obj' 
+enthält Versionen zum klonen.
+
+    wasser.c   - die Grundform von Wasser
+    gift.c     - infiziert den Spieler beim Trinken zusätzlich mit einem Virus
+    brunnen.c  - ein Objekt als Wasserquelle
+    fluss.c    - Vitems als Wasserquelle
+    flasche.c  - die Flasche
+
+Weiter findet ihr in '/p/jafar/room/wasser_test.c' ein Beispiel indem ihr das 
+ganze einmal unter die Lupe nehmen könnt. 
+
+##
+##  9) Noch ein Anliegen
+##
+
+In der ersten Testphase gab es einen Hinweis in den News. Das Feedback war so 
+gut wie nicht vorhanden. Das fand ich sehr schade, denn wenn dieses Konzept
+wirklich umgesetzt wird, betrifft das Ganze mehrere und sie müssen damit
+arbeiten. Ich hoffe mal fest, das in Zukunft mehr mitreden, 
+Verbesserungsvorschläge anbringen und Kritik üben. 
+
+Wenn du eines der Objekte hier irgendwo einsetzt, dann kannst du dich ja 
+einmal melden (vor allem in der Anfangsphase), damit ich erfahre, wo es 
+Probleme gibt oder was man so lassen kann. Wenn du eine größere Erweiterung
+realisierst, die auch andere gebrauchen könnten, dann melde dich erst recht, 
+damit ich eine Liste über solche Dinge führen kann.
+
+Jafar
+
+
+
+
+
+
+
+

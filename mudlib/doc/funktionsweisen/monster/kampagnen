@@ -1,0 +1,27 @@
+
+
+                    Programmgesteuerte Monster
+
+
+
+	Kampagnen sind Scripte in einer einfachen Programmiersprache,
+	die es erlauben, Monster ensprechend ihren Umgebungsbedingungen
+	verschiedene Handlungen ausführen zu lassen.
+
+	Der wesentlichste Aspekt liegt hierbei in der vereinfachten
+	Anwendung von call_outs für timeouts und delays sowie der
+	Möglichkeit der Verzweigung von Handlungsstraengen.
+	
+
+        Eine genaue Beschreibung findet man im Header von
+
+                        /i/monster/kampagne.c
+
+        Ein Beispiel für ein solches Monster ist:
+
+                        /d/Vaniorh/Tadmor/Strassen/npc/bettler.c
+
+        und ein Beispiel für eine Kampagne ist:
+
+                        /d/Vaniorh/Tadmor/Strassen/rollen/*
+

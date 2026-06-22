@@ -1,0 +1,204 @@
+
+
+Erzeugung von Meldungen, ähnlich der bei den Bewegungen bzw. bei
+----------------------------------------------------------------
+Nahrung und Getränken.
+----------------------
+
+
+Oft hat man das Problem, dass man Objekte erschaffen will, in denen 
+man während des create() Meldungen mittels set_... Funktionen setzen
+möchte, in denen aber Satzteile enthalten sind, die abhängig vom 
+Namen und Geschlecht eines anderen Objektes sind.
+
+Beispiel:
+
+void create()
+{
+   set_other_chew_message("Garthan kaut an seinem Brot rum.\n");
+                           =======         ====== ----
+}
+
+Die doppelt unterstrichenen Teile hängen also davon ab, wer das 
+Brot SPÄTER isst. 
+Das Problem ist, dass zur 'Erschaffungszeit' des Objektes, also
+im create() NOCH NICHT feststeht, wer das sein wird!
+
+Das ist sozusgagen eine zeitliche Vorwaertsreferenz, die erst in 
+der Zukunft ausgewertet werden kann.
+
+
+Wie löst man das Problem?
+=========================
+
+Es funktioniert NICHT, in dem man einfach schreibt:
+               =======
+
+void create()
+{
+   set_other_chew_message(Der(this_player())+" kaut an "+seinem()+" rum.\n");
+     		          =================              =-=-=-=-
+}
+
+Es wird dann für Der(), der Name des Spielers eingesetzt, das Objekt
+(also das Brot) erschaffen hat, also den create() aufgerufen hat und
+nicht der Name des Spielers, der es SPÄTER einmal essen wird!
+Für seinen() gilt das gleiche.
+
+
+Man muss also wirklich einen anderen Weg gehen.
+Hier in UNItopia macht man das entweder 'hardcore'-mäßig mit
+Closures, was aber hier nicht demonstriert werden soll.
+[Die im folgenden beschriebene Methode verwendet intern in der Tat 
+ Closures.]
+
+Um das Problem zu lösen muss man das Brot (hier als allgemeines Objekt
+eben die Nahrung  (/obj/nahrung)) so programmieren, dass es möglich wird
+(siehe PROGRAMMIERERSEITE).
+
+ANWENDERSEITE
+=============
+
+Der Einfachheit halber wird jetzt davon ausgegangen, dass die Nahrung
+entsprechend programmiert wurde. Für den Anwender verbleibt nur noch der
+korrekte Aufruf im create() oder von außen durch ein call_other (->).
+
+Das funktioniert dann so: (aufgerufen z.b von einem Raum aus)
+
+   brot = clone_object("/obj/nahrung");
+   brot->set_name("brot");
+   brot->set_gender("saechlich");
+   brot->set_other_chew_message("$Der(OBJ_TP) kaut an $seinem() rum.\n");
+                                 ============         =-=-=-=-=
+
+Die Vorwaertsreferenzen werden durch symbolische Grammatikaufrufe im String
+realisiert: $Der(...) und $seinem(...)
+
+Wird die Meldung dann im Objekt SPÄTER tatsächlich gebraucht, so werden
+diese Referenzen dann aufgelöst und durch richtige Grammatikaufrufe
+ersetzt, kurz bevor die Meldung an den Spieler ausgegeben wird.
+
+Damit das funktioniert, müssen diese Objekte (hier /obj/nahrung)
+entsprechend programmiert sein.
+Wie man das relativ einfach macht kommt jetzt:
+
+PROGRAMMIERERSEITE
+==================
+
+Um ein Objekt mit der oben geschilderten Funktionalität zu erhalten 
+muss man ein paar Veränderungen in den set_... Funktionen und bei 
+der Ausgabe der Meldung einbauen.
+
+Statt der string Variable, die sonst im Objekt die Meldung beinhalten,
+definiert man nun eine closure Variable:
+
+Statt
+   string other_chew_message;
+schreibt man also 
+   closure other_chew_message;
+
+
+Die set_other_chew_message() Funktion sieht 
+statt
+   void set_other_chew_message(string str)
+   { 
+      other_chew_message = str; 
+   }
+dann so aus:
+   void set_other_chew_message(mixed str)
+   {
+      other_chew_message = mixed_to_closure(str);
+   }
+
+
+Wenn man die Meldung dann ausgeben will benutzt man statt
+   say(.....other_chew_message...);
+den Aufruf
+   say(closure_to_string(other_chew_message));
+
+Das war's von Programmiererseite aus auch schon.
+
+
+NACHTEILE:
+==========
+
+Bei der beschriebenen Methode  hat das Objekt keine Möglichkeit,
+eine query_other_chew_message() einzubauen, die das liefert, was man eingegeben
+hat. Wenn man das will muss man den string den man bei set_...
+übergibt zusätzlich zur Closure im Objekt speichern und bei
+query_... dann zurückgeben. (Konsistente query_.... / set_... Paare
+sind fast immer sinnvoll.)
+
+Die Objekte speichern die Closures bei save_objekt nicht so ab, dass sie
+nach restore_object wieder verwendet werden können.
+
+
+
+AUFRUFMOEGLICHKEITEN FÜR CLOSURE_TO_STRING
+==========================================
+
+Die folgenden vier Syntaxen (? ;-)) sind möglich (als Beispiel
+hier messages wie sie im Standard essen/nahrung auftreten):
+
+1) Historischer UND FALSCHER!!! Aufruf 
+
+   closure_to_string("wird schlecht von "+seinem(steak)+
+			     " und "+er()+" kotzt alles wieder raus!\n");
+   Beim Setzen dieser Meldung weiß man schließlich in der regel noch
+   nicht, wem das Steak gehört, und wer es wieder ausspuckt!!!
+   NICHT SO!!!
+   Also muss man es anders machen:
+
+2) In einem übergebenen String wird jeder String nach einer
+   Funktion der Art ".... $fun(arg) ..." durchsucht. Als Argument sind die
+   Defines OBJ_XY aus deklin.h möglich, wird dies nicht gefunden, 
+   wird als Argument this_object() beim Aufruf der Funktion benutzt. 
+   (vgl. Funktionsweise der Bewegungsmeldungen)
+
+   Man erhält damit:
+
+   closure_to_string(mixed_to_closure(
+      "$Dem(OBJ_TP) wird schlecht von $seinem() und "+
+      "$er(OBJ_TP) kotzt alles wieder raus!\n"));
+
+3) Ein einzelnes closure-programm, das den String erzeugt,
+
+     closure_to_string( lambda(({}),
+	    ({#'+,({#'Dem,({#'this_player})}),
+	    ({#'+," wird schlecht von ",
+	    ({#'+,({#'seinem,({#'this_object})}),
+	    ({#'+," und ",
+	    ({#'+,({#'er,({#'this_player})}),
+	    ({#'+," kotzt ",
+	    ({#'+,({#'wen,({#'this_object}),ART_ER}),
+	            " wieder raus!\n"
+	    }) }) }) }) }) }) }) ));
+
+4) Ein mixed-array bestehend aus einzelnen closure-programmen und strings.
+   Alle werden aneinander gehängt (nachdem die closures durchlaufen wurden),
+   siehe auch 2):
+
+      closure_to_string(mixed_to_closure(({ ({#'Dem,({#'this_player})}),
+				     " wird schlecht von ",
+				     ({#'seinem,({#'this_object})}),
+				     " und ",({#'er,({#'this_player})}),
+				     " kotzt ", ({#'wen,({#'this_object}),
+					ART_DIESER}),
+				     " wieder raus!\n"})));
+   oder auch gemischt mit 2) :
+
+   closure_to_string(mixed_to_closure(
+      ({"$Dem(OBJ_TP) wird schlecht von $seinem(OBJ_TO)",
+	" und $er(OBJ_TP) kotzt ", ({#'wen,({#'this_object}),ART_DIESER}),
+	" wieder raus!\n"}) ));
+
+
+Beispiele:
+==========
+
+Anwendung
+   siehe /i/object/nahrung.c
+   siehe /i/object/tuer.c
+Sourcen:
+   siehe /secure/deklin.c     (string_parser, mixed_to_closure)
+   siehe /i/item/messages.c   (closure_to_string)

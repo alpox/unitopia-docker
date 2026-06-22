@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Hier siehst Du eine Liste aller geänderten Dateien. Dateien, die zum Commit
+vorgesehen sind, haben ein Sternchen am Anfang der Zeile. Folgende Befehle
+stehen Dir hier zur Verfügung:
+
+    <nr>        Datei zum Committen aus- oder abwählen
+    n           Alle Dateien abwählen
+    a           Alle Dateien auswählen
+    d <nr>      Änderungen anzeigen
+    c           Commit durchführen
+    q           Dialog beenden
+    Q           Dialog ohne Rückfrage beenden
+    ?           Diese Hilfe anzeigen
+
+-------------------------------------------------------------------------------

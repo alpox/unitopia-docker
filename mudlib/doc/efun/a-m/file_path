@@ -1,0 +1,9 @@
+FUNKTION: file_path
+DEKLARATION: string file_path([object file])
+BESCHREIBUNG:
+file_path liefert das Directory zurueck, in dem das File von ob steht. Wenn
+ob nicht angegeben wird, dann wird this_object() genommen. Sollte ob ein 
+Raum einer Subdomain sein, wird der richtige Pfad der Subdomain errechnet.
+VERWEISE: object_name, abs_path
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc

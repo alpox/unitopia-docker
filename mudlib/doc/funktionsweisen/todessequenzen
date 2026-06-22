@@ -1,0 +1,102 @@
+Wie man eine Todessequenz macht
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Der Todessequenzenraum muss mit dem Eintrag GILDEN_TOD in der Library
+eingetragen sein.
+
+Also, erstmal inherittet man /i/room/death_room.
+
+Dann macht man ne "create" - Funktion; als erste Zeile bekommt die ein
+::create(); durch das ::create() muss man sich nun um die ganzen add_type
+und lichtlevel - Sachen nicht mehr kümmern. Auch braucht man im create
+kein reset() aufrufen, das macht das ::create() schon.
+Im create ruft man dann ggf. die folgenden Funktionen auf:
+
+  set_ende_meldung (string text): Hiermit setzt man, welche Meldung ein
+        Spieler bekommen soll, wenn er während der Todessequenz "ende"
+        eingibt.
+     Beispiel:
+        set_ende_meldung ("Der Tod sagt: DU KANNST DEM TOD NICHT ENTRINNEN!");
+
+  set_nicht_tot_meldung (string text): Hiermit setzt man, welche Meldung ein
+        Spieler bekommen soll, der in den Todesraum reinkommt, ohne tot zu
+        sein; in der Regel wird das wohl ein Gott sein.
+     Beispiel:
+        set_nicht_tot_meldung ("Der Tod sagt: WAS TUST DU HIER? "
+                               "DEINE ZEIT IST NOCH NICHT REIF!\n\n");
+
+  set_kirche (kirchendateiname): Soll der Spieler nach der Todessequenz
+        nicht in der Tadmorer Kathedrale rauskommen, so kann mit set_kirche
+        ein alternativer Ort gesetzt werden; dieser MUSS allerdings ladbar
+        sein.
+
+Im Rest von create setzt man ein short, long, vitems und so weiter, nur halt
+keinen Ausgang.
+
+Sollen in dem Raum noch irgendwelche Sachen rumliegen, so programmiert man
+ne reset - Funktion. Muss aber nicht sein.
+
+Gehört zu dem Tod eine Todesmonster (oder mehrere, beispielsweise DER TOD
+oder das Sandmaennchen) so fügt man noch eine Funktion "get_tod" hinzu,
+welche solch ein Todesmonster (oder mehrere) fabriziert, falls es noch nicht
+da ist. Diese wird dann immer aufgerufen, wenn ein Spieler den Todesraum
+betritt.
+
+Beispiel:
+
+    object death;
+
+    void get_tod ()
+    {
+       if (!death) 
+          death = touch("/z/Gilden/Sehergilde/death/todesmonster");
+       if (!present (death))
+          death->move(this_object());
+    }
+
+So, jetzt kommen wir zum Wichtigsten, nämlich der eigentlichen
+Todessequenz. Die verbirgt sich in der Funktion
+
+    int do_sequence (object wer, int nr)
+
+Der erste Parameter "wer" ist der Spieler, der zweite Parameter "nr" ist die
+Nummer, die angibt, die wievielte Sekunde der Todessequenz für diesen
+Spieler ablaufen soll. Die Meldungen der Sequenz sind dann an den Spieler
+via tell_object auszugeben.
+Hierfür kann man sich die folgenden Defines, oder auch andere, machen,
+die das etwas erleichtern, zu programmieren:
+    #define WRITE(x) tell_object(wer, wrap(x))
+    #define SPEAK(x) tell_object(wer, wrap_say("Der Tod sagt: ",x))
+    #define EMOTE(x) tell_object(wer, wrap("Der Tod "+x))
+Ist die Todessequenz fertig, so gibt man -1 zurück, andernfalls 0.
+
+Beispiel:
+
+    int do_sequence (object wer, int nr)
+    {
+        switch (nr) {
+            case  5: SPEAK ("Hallo, was machst Du denn hier?");
+                     return 0;
+            case 10: SPEAK ("Ah, Du bist gestorben? Mein Beileid.");
+                     return 0;
+            case 15: SPEAK ("Na, dann werd ich Dich mal wieder in die Welt "
+                            "der Sterblichen zurueckbefoerdern.");
+                     return 0;
+            case 20: EMOTE ("holt ganz tief Luft.");
+                     return 0;
+            case 25: EMOTE ("blaesst Dich davon.");
+                     WRITE ("Du fliegst toll durch die Gegend.");
+                     return -1;
+            default: return 0;
+        }
+    }
+
+Durch diese Methode ist es in do_sequence fürchterlich leicht, alles
+gewünschte zu machen; also Texte in Abhängigkeit von Align, Geschlecht,
+Alter oder sonstwas zu erzeugen.
+
+Testen kann man solch eine Todessequenz dann mit:
+   zc mich->set_ghost(1)
+   zg todesraumdateiname
+
+Sissi.

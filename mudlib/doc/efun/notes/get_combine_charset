@@ -1,0 +1,7 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität übernimmt:
+            interactive_info(this_interactive(), IC_COMBINE_CHARSET_AS_STRING)
+        bzw.
+            interactive_info(this_interactive(), IC_COMBINE_CHARSET_AS_STRING)
+

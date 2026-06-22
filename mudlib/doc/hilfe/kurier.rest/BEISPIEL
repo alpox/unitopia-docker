@@ -1,0 +1,23 @@
+Beispiele für den Kurier (in Folge eingegeben)
+(Alle Befehle SCHALTEN UM nicht AN oder AUS.)
+
+kurier 9 p grobi, ekel           ; Bestimmte Personen ausschliesen
+   9 Gebruell  *-p  grobi, ekel  ; bedeutet: ALLE Brüller AUSSER denen von 
+                                 ;           Grobi und Ekel anzeigen.
+
+kurier 9                         ; Brüller ausschalten
+   9 Gebruell  p    grobi, ekel  ; bedeutet NUR noch Brüller von Ekel und Grobi
+
+kurier 9 pD                      ; spez. Spieler ausblenden,
+				 ; Druidenbereich einblenden
+   9 Gebruell  D                 ; bedeutet: NUR noch Meldungen von Druiden
+
+kurier 9 D                       ; Druidenbereich ausblenden
+   9 Gebruell                    ; bedeutet: ÜBERHAUPT KEINE Brüller mehr
+
+kurier 9                         ; Brüller einschalten
+   9 Gebruell  *                 ; bedeutet: ALLE Brüller melden
+
+kurier 9 s                       ; Brüller von Spielern ausblenden
+   9 Gebruell  *-s               ; Nur noch Brüller von Göttern.
+				 ; Das '-' bedeutet also so viel 'ausser'

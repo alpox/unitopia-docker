@@ -1,0 +1,9 @@
+Wizzard-Shell
+-------------
+
+Wenn man sich in UNItopia anstelle den Namens mit '*name' (z.B. *freaky)
+einloggt, bekommt man Zugriff auf eine Wizzard-Shell. Dort funktionieren
+alle File-Kommandos.
+
+Allerdings muss der 'normale' Wizzard-Charakter dazu eingeloggt sein,
+da nur im Wizzard-Objekt die Shell-Variablen gespeichert werden können.

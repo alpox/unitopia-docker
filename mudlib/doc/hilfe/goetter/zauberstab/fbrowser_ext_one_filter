@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Hier wird ein Filter einer Workflow-Liste angezeigt.
+Mögliche Befehle:
+
+    L           Filter löschen.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

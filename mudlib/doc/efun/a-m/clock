@@ -1,0 +1,7 @@
+FUNKTION: clock
+DEKLARATION: int clock()
+BESCHREIBUNG:
+Liefert einen Integer im Format: hhmmss mit der Realuhrzeit
+GRUPPEN: simul_efun, zeit
+VERWEISE: vclock, time, timestr, vtime, vtimestr
+SOURCE: /secure/simul_efun/time.inc

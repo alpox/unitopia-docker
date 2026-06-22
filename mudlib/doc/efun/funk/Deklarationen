@@ -1,0 +1,136 @@
+mixed2str                  string mixed2str(mixed arr) #$# simul_efun array string
+not_alone                  int not_alone(object ob) #$# simul_efun grammatik
+auto_owner_search          object auto_owner_search(object|mapping ob) #$# simul_efun grammatik
+string_parser              varargs mixed string_parser(string str, int tp_flag, int|symbol use_tp, mapping functions) #$# simul_efun grammatik
+mixed_to_closure           varargs closure mixed_to_closure(closure|mixed*|string mix, symbol* symbols, int tp_flag, int|symbol use_tp, mapping functions) #$# simul_efun grammatik
+convert_message            deprecated mixed convert_message(mixed str) #$# simul_efun grammatik
+query_pronom               varargs string query_pronom(object|mapping who, int art, int fall, object|mapping owner) #$# simul_efun grammatik
+query_deklin_ein_adjektiv  varargs string query_deklin_ein_adjektiv(string|<string|int>* adj, int fall, string gender_string, int plural) #$# simul_efun grammatik
+query_deklin_adjektiv      varargs string query_deklin_adjektiv(object|mapping who, string|<string|int|<string|int>*>*|int adj, int fall) #$# simul_efun grammatik
+get_genitiv                string get_genitiv(string name) #$# simul_efun grammatik
+query_genitiv              string query_genitiv() #$# grammatik
+query_dativ                string query_dativ() #$# grammatik
+query_akkusativ            string query_akkusativ() #$# grammatik
+query_real_owner           object query_real_owner() #$# grammatik
+query_deklin_name          string query_deklin_name(object|mapping who, int fall) #$# simul_efun grammatik
+query_dekliniert           string query_dekliniert(int fall, object interessent, int flags) #$# grammatik
+query_deklin               varargs string query_deklin(object|mapping|int who, int art, int fall, string | <string|int|<string|int>*>* | int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+query_deklin_owner         varargs string query_deklin_owner(object|mapping|int who, int art, int fall, string|<string|int|<string|int>*>*|int adjektiv, <object|mapping|int> owner, int oart, string|<string|int|<string|int>*>*|int oadjektiv) #$# simul_efun grammatik
+wer                        varargs string wer(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+wessen                     varargs string wessen(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+wem                        varargs string wem(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+wen                        varargs string wen(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+der                        varargs string der(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+des                        varargs string des(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+dem                        varargs string dem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+den                        varargs string den(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+ein                        varargs string ein(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+eines                      varargs string eines(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+einem                      varargs string einem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+einen                      varargs string einen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+dein                       varargs string dein(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+deines                     varargs string deines(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+deinem                     varargs string deinem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+deinen                     varargs string deinen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+sein                       varargs string sein(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+seines                     varargs string seines(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+seinem                     varargs string seinem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+seinen                     varargs string seinen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner) #$# simul_efun grammatik
+dieser                     varargs string dieser(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+dieses                     varargs string dieses(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+diesem                     varargs string diesem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+diesen                     varargs string diesen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv) #$# simul_efun grammatik
+er                         varargs string er(object|mapping|int who) #$# simul_efun grammatik
+ihm                        varargs string ihm(object|mapping|int who) #$# simul_efun grammatik
+ihn                        varargs string ihn(object|mapping|int who) #$# simul_efun grammatik
+ihr                        varargs string ihr(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art) #$# simul_efun grammatik
+ihres                      varargs string ihres(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art) #$# simul_efun grammatik
+ihrem                      varargs string ihrem(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art) #$# simul_efun grammatik
+ihren                      varargs string ihren(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art) #$# simul_efun grammatik
+plural                     varargs string plural(string einzahl_str, string plural_str, object|mapping|int ob, int art) #$# simul_efun grammatik
+ist                        varargs string ist(object|mapping|int ob, int spaces) #$# simul_efun grammatik
+choose_by_gender           mixed choose_by_gender(string gender|object ob|mapping vitem, mixed *values|mapping values|string str) #$# simul_efun grammatik
+find_player                object find_player(string name) #$# simul_efun player objekt
+set_living_name            void set_living_name(string name) #$# simul_efun monster
+query_living_name          string query_living_name(object ob) #$# simul_efun monster
+find_living                object find_living(string name) #$# simul_efun monster
+player_exists              int player_exists(string name) #$# simul_efun player
+query_livings              object *query_livings() #$# simul_efun monster
+log_file                   int log_file(string file_name, string message) #$# simul_efun file
+sys_log                    void sys_log(string file_name, string message) #$# simul_efun file
+domain2map                 string domain2map(string file_name) #$# simul_efun map
+map2domain                 string map2domain(string file_name, int flag) #$# simul_efun map
+map_object                 int map_object(string file_name) #$# simul_efun map
+touch                      object touch(string|object ob [,int flag] ) #$# simul_efun objekt
+expand_direction           varargs string expand_direction(string dir, int flags) #$# simul_efun ausgaenge
+is_direction               varargs int is_direction(string dir, int flags) #$# simul_efun ausgaenge
+opposite_direction         varargs string opposite_direction(string dir, int flags) #$# simul_efun ausgaenge
+str2int                    int str2int(string str, int &value, int base = 10) #$# simul_efun typen
+round                      int round(float op) #$# simul_efun rechnen
+xy2pol                     int *xy2pol(int x, int y) #$# simul_efun rechnen
+pol2xy                     int *pol2xy(int grad, int dist) #$# simul_efun rechnen
+notify_fail                varargs int notify_fail(mixed fail, int priority, int dont_overwrite) #$# simul_efun grundlegendes player
+parse_com                  varargs mixed *parse_com(string command, mixed where, string *trenner, int flag) #$# simul_efun string player
+parse_com_error_string     string parse_com_error_string(mixed *parsed, string errormsg [, string only_one] ) #$# simul_efun player
+parse_com_error            int parse_com_error(mixed *parsed, string errormsg [, string only_one [, int dont_overwrite]] ) #$# simul_efun player
+file_path                  string file_path([object file]) #$# simul_efun file
+abs_path                   string abs_path(string path, [string absolute_path]) #$# simul_efun file
+search_file                varargs string search_file(string path[, string absolute[, string subdir[, string extension, [string *exclude]]]]) #$# simul_efun file
+valid_file_name            int valid_file_name(string name) #$# simul_efun file
+search_object              mixed search_object(string objekt_string [,int flag] ) #$# simul_efun objekt
+liste                      string liste(string *str [, string pad]) #$# string simul_efun
+unliste                    string * unliste(string str [, string pad, ...]) #$# string simul_efun
+wrap                       string wrap(string str [, int len [, int left]]) #$# string simul_efun
+wrap_say                   string wrap_say(string str1, string str2 [, int len [, int left]]) #$# string simul_efun
+copies                     string copies(string pattern, int times) #$# string simul_efun
+center                     string center(string text, int len [,string pad] ) #$# simul_efun string
+left                       string left(string text, int len [,string pattern] ) #$# simul_efun string
+right                      string right(string text, int len [,string pattern] ) #$# simul_efun string
+substr                     string substr(string text, int n[, int len [,string pattern]] ) #$# simul_efun string
+strip                      string strip(string text) #$# simul_efun string
+space                      string space(string str [,int n [,string pad]] ) #$# simul_efun string
+add_dot_to_msg             string add_dot_to_msg(string msg) #$# simul_efun string
+convert_umlaute            string convert_umlaute(string str) #$# simul_efun string
+escape_string              varargs string escape_string(string str, int mode) #$# string simul_efun
+time_to_vtime              int time_to_vtime(int time) #$# simul_efun zeit
+vtime_to_time              int vtime_to_time(int vtime) #$# simul_efun zeit
+vtime                      int vtime() #$# simul_efun zeit
+vtimestr                   varargs string vtimestr(int vtime, int only) #$# simul_efun zeit
+shortvtimestr              varargs string shortvtimestr(int spiel_zeit, int full_year, int only) #$# simul_efun zeit
+vclock                     int vclock() #$# simul_efun zeit
+format_vseconds            string format_vseconds(int seconds) #$# simul_efun zeit
+short_format_vseconds      string short_format_vseconds(int seconds) #$# simul_efun zeit
+timestr                    varargs string timestr(int clock, int only) #$# simul_efun zeit
+shorttimestr               varargs string shorttimestr(int clock, int full_year, int only) #$# simul_efun zeit
+clock                      int clock() #$# simul_efun zeit
+format_seconds             string format_seconds(int seconds) #$# simul_efun zeit
+short_format_seconds       string short_format_seconds(int seconds) #$# simul_efun zeit
+real_time_diff             int real_time_diff(int zeit_von, int zeit_bis) #$# simul_efun zeit
+file_time                  int file_time(string file) #$# simul_efun zeit file
+query_up_time              int query_up_time() #$# simul_efun zeit
+timearray                  int* timearray(int clock) #$# simul_efun zeit
+vtimearray                 int* vtimearray(int clock) #$# simul_efun zeit
+array_to_time              int array_to_time(int* arr) #$# simul_efun zeit
+array_to_vtime             int array_to_vtime(int* arr) #$# simul_efun zeit
+strfvtime                  string strftime([string fmt] [, int clock] [, int localized]) #$# simul_efun zeit
+playerp                    int playerp(mixed ob) #$# simul_efun objekt hlpp wizp query_real_player_level
+wizardshellp               int wizardshellp() #$# simul_efun objekt
+get_align_string           string get_align_string(int align) #$# simul_efun player
+shout                      void shout(string str) #$# simul_efun
+deep_present               object deep_present(mixed was, object wo) #$# simul_efun objekt
+cond_present               object cond_present(string was, object wo, mixed fun, [ mixed args]) #$# simul_efun
+cond_deep_present          varargs object cond_deep_present(string was, object wo, int flags, mixed fun, varargs mixed args) #$# simul_efun
+player_present             varargs object player_present(object room, int flags) #$# simul_efun player
+Name                       string Name(object ob) #$# simul_efun objekt
+arr_delete                 mixed *arr_delete(mixed *array, int index) #$# simul_efun array
+query_real_player_level    int query_real_player_level(object player) #$# simul_efun player
+get_unique_string          string get_unique_string() #$# simul_efun
+call_proved                mixed call_proved(string fn|object ob|object *ob, string fun|mapping fun|mixed *fun, varargs mixed *par) #$# Objekt
+QUERY                      mixed QUERY(string what, object ob|mapping vitem) #$# virtuell
+QUERY_PARS                 mixed QUERY_PARS(string what, object ob|mapping vitem, mixed *parameter) #$# virtuell
+HAS_ID                     int HAS_ID(object ob|mapping vitem, string id) #$# virtuell
+call_with_this_player      mixed call_with_this_player(string fun|closure cl, varargs mixed *args) #$# Monster
+foldl                      mixed foldl(mixed *array, mixed startwert, closure funktion, ...) #$# simul_efun array
+foldr                      mixed foldr(mixed *array, mixed startwert, closure funktion, ...) #$# simul_efun array
+read_bits                  int read_bits(string str, int start, int length) #$# 
+write_bits                 string write_bits(string str, int start, int length, int number) #$# 

@@ -1,0 +1,20 @@
+FUNKTION: timearray
+DEKLARATION: int* timearray(int clock)
+BESCHREIBUNG:
+Gibt das Datum und die Uhrzeit in einem Array zurueck, welche clock entspricht.
+Dabei ist clock die Zahl der Sekunden seit dem 1. Januar 1970 00:00:00 (wird
+durch time() geliefert). Das Array enthaelt folgende Elemente:
+
+    timearray(clock)[TM_SEC]:   Sekunden (0-59)
+    timearray(clock)[TM_MIN]:   Minuten (0-59)
+    timearray(clock)[TM_HOUR]:  Stunden (0-23)
+    timearray(clock)[TM_MDAY]:  Tag des Monats (1-31)
+    timearray(clock)[TM_MON]:   Monat (1-12)
+    timearray(clock)[TM_YEAR]:  Jahr
+    timearray(clock)[TM_WDAY]:  Tag in der Woche (Sonntag:0, Montag: 1,...)
+    timearray(clock)[TM_YDAY]:  Tag im Jahr (0-365)
+
+Diese Defines gibt es in time.h.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, timestr, strftime, array_to_time, vtimearray
+SOURCE: /secure/simul_efun/time.inc

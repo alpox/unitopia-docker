@@ -1,0 +1,14 @@
+nomask
+    Funktion kann nicht geshadowed werden, und nicht neu definiert werden.
+    (Beachte dazu /doc/richtlinien/programmierung/shadows!)
+
+static
+    Diese Funktionen lassen sich nicht via call_other aufrufen,
+    sind jedoch im gesamten Objekt durch direct-calls erreichbar.
+
+private
+    Diese Funktionen sind nur im File gültig, in dem sie definiert werden.
+    Man kann sie nicht via call_other aufrufen.
+    Auch werden sie durch einen call_out filter_array usw nicht aufgerufen.
+    Sie sind jedoch durch eine gleichnamige Funktion ueberlagbar.
+

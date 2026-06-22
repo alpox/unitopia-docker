@@ -1,0 +1,39 @@
+Hier kannst Du einen bestimmten Text besonders einfärben.
+
+   T: Text
+      Der Text, dem eine besondere Farbe verpasst werden soll.
+      Der Ausdruck darf folgende Sonderzeichen beinhalten:
+        *             steht für eine beliebige Anzahl an Zeichen
+	?             steht für ein einzelnes Zeichen
+	[abc]         steht für einen Buchstaben aus dieser Liste
+	{wort1,wort2} steht für eines der Silben
+	(wort1,wort2) steht für eines der Wörter
+
+   P: Position
+      Alle Texte werden der Reihe nach abgearbeitet und eingefärbt.
+      Mit dieser Angabe kannst Du die Position in der Liste aller
+      Sondertexe festlegen.
+
+   F: Farbe auswählen
+      Damit öffnet sich ein weiteres Menü, in welchem Du die
+      Farbe und weitere Attribute festlegen kannst.
+
+   I: Piepton ausgeben
+      Zusätzlich zur Einfärbung wird für jedes Vorkommen
+      auch ein Piepton ausgeben.
+
+   A: Farbattribute des Textes übernehmen
+      Wenn der Text bereits eingefärbt ist, so wird für den
+      gefundenen Text diese Einfärbung normalerweise aufgehoben,
+      so dass er exakt so aussieht, wie eingestellt. Mit dieser
+      Option wird die Einfärbung weiterbehalten und die eingestellten
+      Attribute kommen zusätzlich zu diesen zum Tragen.
+      
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

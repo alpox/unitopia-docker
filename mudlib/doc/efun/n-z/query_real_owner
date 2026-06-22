@@ -1,0 +1,12 @@
+FUNKTION: query_real_owner
+DEKLARATION: object query_real_owner()
+BESCHREIBUNG:
+Diese Funktion wird aufgerufen, um den wahren Eigentuemer einer Sache
+zu ermitteln. Ist dieser Eigentuemer ein anderer als der ermittelte
+(d.h. der beim Parameter 'owner' der jeweiligen Grammatikfunktionen
+uebergebene oder der, der das Objekt bei sich traegt), so
+wird beim Aufruf von dein(), sein() oder mein() automatisch
+der Eigentuemer wie bei ihr() angegeben.
+VERWEISE: query_deklin, query_dekliniert, dein
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c

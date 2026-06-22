@@ -1,0 +1,9 @@
+FUNKTION: get_genitiv
+DEKLARATION: string get_genitiv(string name)
+BESCHREIBUNG:
+Liefert die Genitiv-Form eines (Personal)-Namens zurueck.
+Bsp: Francis  -> Francis'
+     Detlef   -> Detlefs
+VERWEISE: ihr, ihres, ihrem, ihren
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

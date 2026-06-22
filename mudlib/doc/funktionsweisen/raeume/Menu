@@ -1,0 +1,11 @@
+grundlagen	Grundlegende Funktionen der Räume: Was ist ein Raum?
+@lfun_gruppe:raum Eine Übersicht über alle Lfuns fur Räume
+details		Detaillierte Raumbeschreibungen, Raumdetails
+@lfun_gruppe:virtuell Lfuns zu Virtual Items
+ausgaenge	Ausgänge in Räumen
+tueren		Türen
+typen		Raumtypen (Hafen, Kein Verbrauch, Kämpfen Verboten usw.)
+typenliste	Liste der bisher verwendeten Typen
+raumarten	Von normalen Räumen und Map-Räumen
+basis		Das Map-System von UNItopia
+koordinaten     Über die Koordinaten eines Raumes

@@ -1,0 +1,10 @@
+acl0            Wie läuft die Umstellung ab?
+acl1            WELCHE Rechte können per ACL vergeben werden?
+acl2            Für WEN werden per ACLs Rechte vergeben?
+acl3            WOFÜR werden einzelne Rechte vergeben?
+acl4            Was sind Gruppen, wie werden sie verwaltet?
+acl5            Wie werden die ACL - Rechte vergeben?
+acl6            Technische Infos zur ACL - Verwaltung
+acl7            Technische Infos zur Gruppenverwaltung
+acl8            Inkonsistenzen bei ACLs zum Umbenenen von Dateien / Verzeichnissen
+w               Zugriffsrechte im /w

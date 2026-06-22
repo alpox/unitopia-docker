@@ -1,0 +1,34 @@
+overview	Überblick
+design		Design
+programmierung	Programmierung
++line 0
++efun sl_open
++efun sl_exec
++efun sl_insert_id
++efun sl_close
++line 0
+altertable	ALTER TABLE
+transactions	BEGIN TRANSACTION
+transactions	COMMIT TRANSACTION
+createindex	CREATE INDEX
+createtable	CREATE TABLE
+createtrigger	CREATE TRIGGER
+createview	CREATE VIEW
+delete		DELETE
+dropindex	DROP INDEX
+droptable	DROP TABLE
+droptrigger	DROP TRIGGER
+dropview	DROP VIEW
+transactions	END TRANSACTION
+explain		EXPLAIN
+insert		INSERT
+pragma		PRAGMA
+insert		REPLACE
+reindex		REINDEX
+transactions	ROLLBACK TRANSACTION
+select		SELECT
+update		UPDATE
+vacuum		VACUUM
++line 0
+expressions	Ausdrücke
+onconflict	ON CONFLICT

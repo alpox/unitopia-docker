@@ -1,0 +1,6 @@
+Eine FDB-Benachrichtigungsgruppe kann wie folgt angepasst werden:
+  f   aktuelle Sendehäufigkeit auswählen: 
+      0: Nie 1: Zeitnah, 2: Täglich, 4: Wöchentlich, 8: Monatlich
+  m   MailFormat Lang oder Kurz
+  z   Zurück zur vorherigen Ebene
+  q   Menü ganz verlassen.

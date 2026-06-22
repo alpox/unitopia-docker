@@ -1,0 +1,5 @@
+FUNKTION: read_bits
+DEKLARATION: int read_bits(string str, int start, int length)
+BESCHREIBUNG:
+Liest aus dem Bitstring eine Zahl ab Bitposition start aus.
+SOURCE: /secure/simul_efun/util.inc

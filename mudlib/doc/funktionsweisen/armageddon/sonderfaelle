@@ -1,0 +1,27 @@
+Bei Objekten und Shadows, die dynamische Controller oder ähnliches haben,
+helfen die folgenden Funktionen:
+
+Folgende Funktionen sind denkbar:
+- void prepare_conservation()
+- void abort_conservation()
+- void done_conservation()
+- void finish_conservation()
+
+Beispiel an einem Shadow mit controller:
+//--------------------------------------------------------------------
+void prepare_conservation() 
+{
+    remove_my_controllers();
+    QSO->prepare_conservation();
+}
+
+//--------------------------------------------------------------------
+void abort_conservation() 
+{
+    add_my_controllers();
+    QSO->abort_conservation();
+}
+// wobei add_my_controllers und remove_my_Controllers zentrale Funktionen
+// innerhalb des Sahdows sind, wo die Controller an und abgemeldet werden.
+// finish_conservation wurde hier nicht verwendet, da die Controller
+// schon im shadow_create_action übergeworfen wurden.

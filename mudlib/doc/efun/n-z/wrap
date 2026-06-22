@@ -1,0 +1,13 @@
+FUNKTION: wrap
+DEKLARATION: string wrap(string str [, int len [, int left]])
+BESCHREIBUNG:
+wrap bricht einen String um. Leere Strings werden nicht umgebrochen.
+
+<len> ist die Gesamtbreite des Textes. Wenn <len> nicht angegeben wird, wird
+auf 75 Zeichen ungebrochen. Der Text kann noch um <left> Zeichen eingerueckt
+werden; <len> bleibt dabei die Gesamtbreite inklusive dieser <left>
+eingerueckten Zeichen. Will man <left> angeben, ohne <len> anzugeben,
+so gibt man fuer <len> einfach 0 an.
+GRUPPEN: string, simul_efun
+VERWEISE: sprintf, copies, left, right, center, wrap_say
+SOURCE: /secure/simul_efun/string.inc

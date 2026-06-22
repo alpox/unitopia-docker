@@ -1,0 +1,7 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität übernimmt:
+            driver_info(DC_DEFAULT_RUNTIME_LIMITS)
+        bzw.
+            driver_info(DI_CURRENT_RUNTIME_LIMITS)
+

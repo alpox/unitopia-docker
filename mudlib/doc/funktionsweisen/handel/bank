@@ -1,0 +1,102 @@
+Wie funktionieren Banken ?
+
+Die Banken machen zunächst nichts anderes, als eine Variable im Spieler selbst
+zu verwalten. In /doc/funktionsweisen/handel/konten ist dies genauer erläutert.
+
+Banken haben im Allgemeinen aber noch weitere Features:
+
+  - Wechseln verschiedener Währungen in die eigene
+  - Auszahlung von Guthaben-Zinsen
+  - Erteilung von Krediten
+  - Einbehalten von Kredit-Zinsen
+  - Kassieren von Gebühren
+
+Hierfür sind aber zusätzlich Information über die Zeiten von Ein- und
+Auszahlung notwendig.
+
+Diesen Verwaltungs-Aufwand übernehmen die Routinen in /i/money/banking.
+
+1. /i/money/banking
+
+   a. Setzen der Währung
+
+          set_valuta(string Waehrungs_Name_Einzahl)
+          set_valutas(string Waehrungs_Name_Mehrzahl)
+
+   b. Setzen des Wechselkurses
+
+      Dies geschieht über die Setze-routinen von /i/money/exchange, die
+      von /i/money/banking inherited werden. Näheres siehe
+      /doc/funktionsweisen/handel/wechselkurs.
+
+       Damit die Bank funktioniert, muss auf jeden Fall eine Minimal-
+       Kurs-Tabelle gesetzt werden:
+  
+       Wenn die Währung der Bank "taler" ist:
+                  set_valuta_tafel(  ({"taler"}) );
+                  set_valutas_tafel( ({"taler"}) );
+                  set_kurs_tafel(    ({ 1000  }) );
+
+       und wenn sie zB "zorkmid" heißt:
+                  set_valuta_tafel(  ({"taler", "zorkmid" }) );
+                  set_valutas_tafel( ({"taler", "zorkmids"}) );
+                  set_kurs_tafel(    ({ 1000,    2000     }) );
+
+   c. Zinsen setzen
+
+      Guthaben-Zinsen werden mit  set_zins(int Zinssatz)
+      in Prozent festgesetzt, die Kredit-Zinsen mit
+      set_kredit_zins(int Zinssatz).
+
+      Der Zeitraum, über den die Zinsen gelten, kann mit
+      set_zins_zeitraum(int Zeitraum_in_Sekunden) gesetzt werden,
+      üblicherweise eine Woche, also 604800 Sekunden.
+
+   d. Gebühren
+
+      Einzahlung:         set_kosten_einzahlung(int wieviel)
+      Auszahlung:         set_kosten_auszahlung(int wieviel)
+      Kontoführung:       set_kosten_fuehrung(int wieviel)
+      Kontostand-Abfrage: set_kosten_kontostand(int wieviel)
+
+   e. Die eigentliche Aufgabe von /i/money/banking, nämlich das Verwalten
+      des Spieler-Kontos, geschieht alles mit einer Routine, nämlich:
+
+             int bewegung(int betrag, object spieler)
+
+      Ist <betrag> kleiner als Null, so wird ausgezahlt, ist <betrag>
+      größer Null, so wird eingezahlt und ist Betrag gleich Null,
+      so wird nur der Kontostand zurückgegeben.
+
+      Auf jeden Fall wird der nach der Bewegung aktuelle Kontostand
+      zurückgeliefert.
+
+      Braucht man den Kontostand, OHNE das gleich die Kontostand-Gebühren
+      abgezogen werden, wie bei bewegung(..), nimmt man
+
+                query_kontostand(object spieler)
+
+      Das Konto wird auf jeden Fall aktualisiert, d.h. es werden bei beiden
+      Routinen Zinsen addiert bzw abgezogen.
+
+
+2. /i/money/bank
+
+   Hier werden die Kommandos definiert, über die die Spieler Geld einzahlen,
+   auszahlen und wechseln können.
+
+   Dieser File inherited bereits /i/money/banking.
+
+
+   a. Kommandos:
+
+      zahle <wieviel> <valuta> ein
+      hebe <wieviel> <valuta> ab
+      wechsle <wieviel> <valuta>
+      kontostand
+
+   b. Settings
+
+      Kredit-Limit:        set_kredit_rahmen(int Kredit_Limit)
+      Wechsel-Gebühren     set_kosten_wechseln(int Wechsel_kosten; }
+

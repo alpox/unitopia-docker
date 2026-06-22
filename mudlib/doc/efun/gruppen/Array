@@ -1,0 +1,15 @@
+allocate
+copy
+deep_copy
+filter
+filter_objects
+map
+map_objects
+member
+pointerp
+rmember
+sizeof
+slice_array
+sort_array
+transpose_array
+unique_array

@@ -1,0 +1,10 @@
+FUNKTION: query_living_name
+DEKLARATION: string query_living_name(object ob)
+BESCHREIBUNG:
+Liefert den mit 'set_living_name' gesetzten Namen.
+
+ACHTUNG: Nicht verwenden, sondern stattdessen query_npc_name() verwenden.
+
+VERWEISE: query_npc_name, set_living_name, find_living, find_player, find_object
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc

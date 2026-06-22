@@ -1,0 +1,15 @@
+query_plugin_commands
+add_plugin_command
+Msg
+Msg_To
+W
+WLN
+query_plugin_commander
+query_plugin_vars
+set_plugin_vars
+query_plugin_info
+query_plugin_help
+plugin_initialize
+plugin_remove
+print_plugin_options
+create_plugin_callback

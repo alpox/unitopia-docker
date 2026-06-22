@@ -1,0 +1,8 @@
+Hier wird ein einzelnes Abonnement angezeigt. 
+
+  f    Sendehäufigkeit für dieses Abonnement festlegen: 
+       0: Nie 1: Zeitnah, 2: Täglich, 4: Wöchentlich, 8: Monatlich
+  m    Optionale Einstellung des Mailformats, wird abhängig vom Abonnement
+       angezeigt und ist auch nur dann veränderbar.
+  z    Zurück zur vorherigen Ebene
+  q    Menü ganz verlassen.

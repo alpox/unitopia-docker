@@ -1,0 +1,24 @@
+Jeder Raum in Magyra sollte seine Koordinaten kennen, damit der Kompass
+sinnvolle Werte anzeigt. Ein Map-Raum besitzt diese Koordinaten bereits
+in seinem Namen, aber bei Nicht-Map-Räumen muss man da noch nachhelfen.
+Und dazu gibt es folgende Möglichkeiten:
+
+1. Über add_type:
+
+   add_type("x_koordinate", 1234);
+   add_type("y_koordinate", 5678);
+
+2. Über eine Datei mit dem Namen "KOORDINATEN". Diese Datei wird
+   ausgehend vom Verzeichnis, in dem der Raum liegt, in allen
+   höheren Verzeichnissen gesucht. Die erste (also speziellere)
+   Datei wird genommen.
+   Diese Datei besteht nur aus einer einzigen Zeile mit folgendem Format:
+
+   x=-3141 y=59
+
+3. Wenn die obigen beiden Varianten nicht funktionieren, wird einfach
+   der Mittelpunkt der Domain genommen.
+
+
+Wenn man selber an die Koordinaten eines belieben Raumes gelangen will,
+so dient einem die Funktion peilexy aus /i/schiffe/compass_logic.

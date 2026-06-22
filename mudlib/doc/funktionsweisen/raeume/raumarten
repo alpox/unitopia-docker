@@ -1,0 +1,63 @@
+Es gibt zwei Raum-Typen, den Standard-Raum und den Map-Raum, die sich
+nur in der Art der Verpointerung untereinander unterscheiden.
+
+
+1. Standard-Raum:
+
+	Die Ausgänge werden mittels eines Funktions-Aufrufs
+	explizit gesetzt.
+
+	Vorteile:
+
+		- Labyrinthe sind leicht zu programmieren, es lassen
+		  sich auch bereits bestehende Landschaften nachträglich
+		  erweitern.
+
+	Nachteile:
+
+		- Alle Räume müssen als Files existieren, es treten schnell
+		  Inkonsistenzen in der Landschaft auf.
+
+
+2. Map-Raum:
+
+	Jeder Raum besitzt eine X- und eine Y- Koordinate, womit die 
+	Verbindungen zu den acht Nachbar-Räumen eindeutig bestimmt sind und
+	nicht explizit gesetzt werden müssen.
+	Zu erkennen sind die Map-Räume an ihrem charakteristischem Namen:
+	/map/mX_Y, wobei X und Y für positive oder negative Zahlen
+	stehen.
+	
+	Grenzen bilden hierbei nur der Integer-Zahlenbereich:
+
+		Die größte positive Integer-Zahl:  2147483647
+		Und die größte negative:          -2147483648
+
+	Durch den Integer-Überlauf bekommt die Map also die Form eines Torus.
+
+	Vorteile:
+
+		- Räume müssen nicht unbedingt als Files existieren,
+		  sie können während der Bewegung aus dem /i/room
+		  angelegt, geladen und sofort wieder gelöscht werden,
+		  wobei ihre Beschreibung durch den File /map/map
+		  erzeugt wird.
+
+		- Man erhält große, in sich konsistente Landschaften.
+
+	Nachteile:
+
+		- Labyrinthe sind fast unmöglich und es lässt sich
+		  nachträglich nichts mehr einflicken.
+
+		- Probleme bei der Untergliederung der Landschaft in Bereiche
+		  der einzelnen Götter.
+
+
+Um trotzdem die Vorteile der quasi unendlich großen Map zu bekommen,
+wurde der Map-Raum-Typ verwässert:
+
+1. Man kann Ausgänge sperren.
+2. Man kann neue Ausgänge hinzufügen.
+3. Man kann auch in Standard-Räume (und von dort zurueck) verzweigen.
+

@@ -1,0 +1,79 @@
+Deklaration eines Feldes:
+
+string *feld;
+mixed *feld;
+int *feld;
+object *feld;
+
+Man hat damit allerdings nur einen Pointer, keine Feldelemente !
+
+Beschaffen der Elemente:
+
+    feld = ({});				Ein leeres Feld
+    feld = ({ 0,0,0});				Ein Feld mit drei Elementen
+    feld = allocate(3);				Dasselbe....
+    feld = ({ "eins", "zwei", "drei" });       in strings...
+
+Es geht auch während der Deklaration:
+
+string *feld = ({});
+string *feld = ({ 0,0,0 });
+string *feld = ({"eins, "zwei", "drei"});
+
+
+Erweitern eines Feldes:
+
+    feld += ({ "hugo" });
+    feld += ({ "hugo", "otto" });
+
+
+Verkleinern eines Feldes:
+
+    feld -= ({ "hugo" });        Wirft alle Elemente mit Inhalt "hugo" raus !
+
+
+Länge eines Feldes bestimmen:
+
+   laenge = sizeof(feld);
+
+
+Ansprechen eines Feld-Elementes:
+
+   (geht nur, wenn:   (sizeof(feld) > 0)  , ansonsten Fehler! )
+
+    feld[0]              = "IMMER das erste Element";
+    feld[sizeof(feld)-1] = "IMMER das letzte Element";
+
+Man kann die Elemente auch von "hinten" indizieren:
+
+    feld[<1]  = "IMMER das letzte Element";
+    feld[<2]  = "IMMER das vorletzte Element";
+
+Herausholen eines Teilfeldes:
+
+    subfeld = feld[6..8];
+    subfeld = feld[6..];   entspricht feld[6..<1]
+    subfeld = feld[6..<2]
+    subfeld = feld[<2..<1]
+
+
+Gibt eine Routine ein Feld zurück, so wird tatsächlich nur
+der Pointer auf das Feld übergeben.
+Das Objekt, welches diesen Pointer erhält, kann nun den Inhalt
+des Feldes ändern, egal wie das Feld deklariert ist.
+(auch private schirmt nicht ab!)
+
+TIP: Routinen sollten das Feld in ein temporäres Feld umkopieren
+und dessen Pointer übergeben.
+BEISPIEL:
+
+              string *feld;            /* globale Variable; */
+
+              string *query_feld() {
+                 return ({})+neu_feld; /* Kopie der globalen Variablen feld. */
+              }
+
+({})+neu_feld oder copy(neu_feld) erstellen dabei eine flache Kopie des
+Feldes. Aber dort eingebette Arrays und Mappings werden nicht kopiert,
+sondern nur deren Ponter. Um eine richtige ("tiefe") Kopie des Feldes
+zu erstellen, gibt es deep_copy(neu_feld).

@@ -1,0 +1,24 @@
+In diesem Directory findet ihr die Dokumentation zu dieser Mudlib.
+Sie gliedert sich in folgende Teilbereiche:
+
+ - lpc         Die Programmier-Sprache, in der die Mudlib geschrieben ist.
+
+ - efun        Die bereits im Parser vordefinierten Funktionen.
+
+ - lfun        Funktionen, die über Inherit-Files zugänglich gemacht
+               werden können.
+
+ - funktionsweisen  Hier werden die Funktionsweisen der  Räume, Monster und
+               Spieler sowie deren Interaktion erläutert.
+
+ - tools       Beschreibung zum Editor ed, zu ftp und mtp
+
+ - Pläne       Stadt/Landkarten von Inseln/Staedten sofern schon vorhanden.
+
+ - beschwerden Beschwerden von einzelnen Spielern, gleichzeitig anstoß,
+               wie ihr euch als Gott NICHT verhalten sollt.
+
+ - hilfe       Die Hilfstext zu den Kommandos für Spieler und Götter.
+ 
+ - richtlinien Werte für Ruestungen/Waffen/... die als Anhaltspunkt dienen
+               sollen für eigene Objekte.

@@ -1,0 +1,15 @@
+set_kosten
+set_sorten
+bewegung
+query_kontostand
+set_valuta
+set_valutas
+set_zins_zeitraum
+set_zins
+set_kredit_zins
+set_kosten_einzahlung
+set_kosten_auszahlung
+set_kosten_kontostand
+set_kosten_fuehrung
+set_money_flags
+query_money_flags

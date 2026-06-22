@@ -1,0 +1,9 @@
+------------------------------------------------------------------------------
+rm <file> {<files>}            Der angegebene File wird gelöscht.
+                               Es sind auch Wildcards möglich.
+                               Es wird gefragt ob gelöscht werden soll:
+                               'j' bedeutet Ja! löschen!
+                               'n' bedeutet NEIN! bitte nicht löschen!
+                               'e' bedeutet Ende! Löschvorgang beenden
+Siehe auch: cp, ls, mv, pwd,...
+------------------------------------------------------------------------------

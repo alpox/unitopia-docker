@@ -1,0 +1,24 @@
+FUNKTION: touch
+DEKLARATION: object touch(string|object ob [,int flag] )
+BESCHREIBUNG:
+Laedt einen File und gibt bei Erfolg einen Pointer darauf zurueck,
+bei Misserfolg 0.
+
+Im Prinzip macht load_object(file) dasselbe, jedoch kann
+damit im Gegensatz zum touch() kein Map-Raum geladen werden!
+
+Folgende Flags sind in /sys/touch.h definiert und koennen
+mittels | (binaeres Oder) kombiniert werden:
+
+  NO_LOG     Es gibt keinen Eintrag in der FDB, wenn diese Datei
+             nicht geladen werden konnte.
+  NO_WRITE   Es gibt keine Meldung an this_player, wenn diese Datei
+             nicht geladen werden konnte.
+
+Beispiel:
+        touch("/d/Vaniorh/uluji/jetty");
+        touch("/map/m24_644");
+
+GRUPPEN: simul_efun, objekt
+VERWEISE: clone_object
+SOURCE: /secure/simul_efun/map.inc

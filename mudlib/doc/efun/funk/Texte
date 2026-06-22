@@ -1,0 +1,2596 @@
+FUNKTION: mixed2str
+DEKLARATION: string mixed2str(mixed arr)
+BESCHREIBUNG:
+Wandelt einen beliebigen Datentyp in einen String um.
+Gut fuer Debuggingzwecke.
+GRUPPEN: simul_efun, array, string
+VERWEISE: to_string, to_int, to_float
+SOURCE: /secure/simul_efun/convert.inc
+FUNKTION: not_alone
+DEKLARATION: int not_alone(object ob)
+BESCHREIBUNG:
+Liefert 1 zurueck, wenn sich weitere Objekte mit derselben Id wie ob
+in der Umgebung von ob befinden.
+(wird beispielsweise zur Automatischen Artikel Auswahl (ART_AAA) in
+der Grammatik/Deklination verwendet.
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: auto_owner_search
+DEKLARATION: object auto_owner_search(object|mapping ob)
+BESCHREIBUNG:
+Liefert das naechst-umgebende lebende Objekt von ob zurueck
+oder 0 falls kein lebendes Objekt gefunden.
+
+Mit anderen Worten: Es wird der Besitzer eines Objekts
+zurueckgeliefert, sprich derjenige, der es mit sich rumtraegt.
+VERWEISE: sein, seines, seinem, seinen, ihr, ihres, ihrem, ihren
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: string_parser
+DEKLARATION: varargs mixed string_parser(string str, int tp_flag, int|symbol use_tp, mapping functions)
+BESCHREIBUNG:
+Der uebergebene String str wird nach Funktionen durchsucht und ein Array
+aus Closures und Strings aufgebaut und zurueckgegeben, welches fuer die
+Konstruktion einer lambda-Closure verwendet werden kann.
+Enthaelt der String str Funktionen, so muessen sie in der Form "$fun(args)"
+geschrieben werden. Dabei ist fun der Name der Funktion und args ist eine
+Liste von durch Kommas getrennten Argumenten.
+Argumente koennen Mappings, Arrays, Strings, Integerzahlen, Closures oder
+Symbole sein.
+In Mappings und Arrays koennen keine Closures oder Symbole vorkommen!
+Die Strings koennen ohne "" geschrieben werden, Zahlen werden als Argumente
+und Mappingeintraege automatisch als solche erkannt. Will man partout eine
+Zahl als Stringargument, muss man sie in "" setzen, das Quoten mit \ in
+LPC-Strings nicht vergessen!
+
+Ist tp_flag gesetzt, wird Funktionen ohne Argument entweder 'tp (use_tp==1),
+use_tp (falls use_tp ein Symbol ist) oder OBJ_TP uebergeben.
+
+Ist use_tp == 1, so wird 'tp eingesetzt, wenn OBJ_TP im String vorkam.
+Ist use_tp ein Symbol, so wird es statt OBJ_TP eingesetzt.
+
+Im Mapping functions kann man noch zusaetzliche Funktionen angeben.
+Dabei muss einem Funktionsname eine Closure zugeordnet werden.
+(z.B. (["hinweis": #'hinweis]), dann wird bei $hinweis(OBJ_TP) hinweis(OBJ_TP)
+aufgerufen.)
+
+string_parser wird von mixed_to_closure verwendet, im Normalfall kommt man
+damit vor allem bei msgs von v_items und Bewegungsmeldungen in Beruehrung.
+Argumente sind vor allem praktisch, wenn man sein/ihr verwenden moechte
+bei der Erwaehnung von Sinnen oder Koerperteilen des Spielers in den msgs,
+man muss dann nicht mehr eigenhaendig Closures konstruieren.
+
+Beispiele:
+
+   Bewegungsmeldungen:
+
+      "$Der() naehert sich $dir()."
+      "$Der(OBJ_TP,besoffen) torkelt $dir() davon."
+      "Du stolperst ueber $den(OBJ_TP,\"\")." (kein Adjektiv)
+
+   v_item-msgs:
+
+      "$Des(OBJ_TP,ungeschickt) Versuch schlaegt fehl."
+      "$Sein(([name:haare,gender:saechlich,plural:1]),({lila,lilan}),
+         OBJ_TP) stehen $ihm() gut."
+      "$Ihr(([name:augen,plural:1,gender:saechlich]),mued,OBJ_TP,
+         erschoepft) fallen zu."
+      "$Ihr(([name:nase,gender:weiblich]),empfindlich,OBJ_TP
+       ,herumschnueffelnd) kraeuselt sich."
+
+VERWEISE: mixed_to_closure
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: mixed_to_closure
+DEKLARATION: varargs closure mixed_to_closure(closure|mixed*|string mix, symbol* symbols, int tp_flag, int|symbol use_tp, mapping functions)
+BESCHREIBUNG:
+
+Eine vollstaendige Dokumentation dazu ist /doc/funktionsweisen/pseudoclosures.
+
+Diese Funktion verhaelt sich je nach mix unterschiedlich: 
+ - Ist mix bereits eine Closure, so wird diese einfach zurueckgeliefert.
+ - Ist mix ein Array, so wird angenommen, dass seine Elemente entweder
+   Strings (welche dann als Pseudoclosures behandelt werden) oder
+   Lambda-Ausdruecke (also die Sachen, die man lambda als 2. Parameter gibt)
+   sind. Die Ergebnisclosure addiert dann im Endeffekt die Ergebnisse der
+   einzelnen Array-Elemente zusammen und liefert den Gesamttext zurueck.
+ - Ist mix ein String, so wird dieser als Pseudoclosure behandelt und von
+   string_parser in einen Lambda-Ausdruck umgewandelt.
+		  
+Die Parameter tp_flag, use_tp und functions werden direkt an string_parser
+weitergegeben. Der zurueckgelieferte Lambda-Ausdruck wird in eine ungebundene
+Lambda-Closure mit symbols als Parameter der Closure in der angegebenen
+Reihenfolge (symbols ist ein Array von Symbolen) umgewandelt und
+zurueckgeliefert.
+		  
+VERWEISE: closure_to_string, string_parser
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: convert_message
+DEKLARATION: deprecated mixed convert_message(mixed str)
+BESCHREIBUNG:
+
+ACHTUNG: convert_message() führt keine Konvertierung mehr durch, sondern
+         liefert den String im Original zurück.
+
+Früher hat es Meldungen alten Typs in Pseudoclosures umgewandelt, in dem dort
+"$Der(OBJ_TP) " vorne angehängt wurde, falls kein $ in str enthalten war.
+VERWEISE: mixed_to_closure, string_parser, convert_message
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_pronom
+DEKLARATION: varargs string query_pronom(object|mapping who, int art, int fall, object|mapping owner)
+BESCHREIBUNG:
+Diese Funktion liefert Artikel und Pronomen aller Art.
+
+  who   Das Objekt dessen Pronomen oder Artikel gewuenscht ist.
+
+	ODER eine virtuelles Objekt in der Form:
+	   ([ "name" : "...", "gender" : "..." ])
+	oder bei Plural
+	   ([ "name" : "...", "gender" : "...", "plural": 1 ])
+
+  art
+     ART_EIN        unbest. Artikel    (ein)
+     ART_DER        bestimmter Artikel (der)
+     ART_DIESER     demonstrativ       (dieser)
+     ART_MEIN       possesiv 1.Person  (mein)
+     ART_DEIN       possesiv 2.Person  (dein)
+     ART_SEIN       possesiv 3.Person  (sein)  Besitzerangabe moeglich
+     ART_ICH        personal 1.Person  (ich)
+     ART_DU         personal 2.Person  (du)
+     ART_ER         personal 3.Person  (er)
+     ART_KEIN       negiert            (kein)
+     ART_JENER      \
+     ART_MANCHER     > Selbsterklaerend :)
+     ART_WELCHER    /
+
+  fall
+     FALL_DEF   0   Nominativ
+     FALL_NOM   1   Nominativ
+     FALL_GEN   2   Genitiv
+     FALL_DAT   3   Dativ
+     FALL_AKK   4   Akkusativ
+
+  owner Besitzer des Objekts. Falls 0 wird es aus dem environment berechnet.
+        (nur fuer art == ART_SEIN bzw. ART_NUR_SEIN verwendet)
+
+Die Konstanten ART_..., FALL_... werden in deklin.h definiert.
+
+Alle Parameter sind optional.
+Defaultwerte sind dann
+   who:      this_object()
+   art:      0  (bestimmter Artikel)
+   fall:     0  (Nominativ)
+   owner:    0  (auto owner search: living environment object)
+
+Die Verwendung von der, dem, den,... wird empfohlen!!! Siehe dort.
+VERWEISE: query_deklin, wer, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_deklin_ein_adjektiv
+DEKLARATION: varargs string query_deklin_ein_adjektiv(string|<string|int>* adj, int fall, string gender_string, int plural)
+BESCHREIBUNG:
+Diese Funktion liefert ein dekliniertes Adjektiv.
+
+adj
+   hat die Syntax eines ELEMENTS der Adjektivliste:
+      string        Grundform eines Adjektivs           "gruen", "blau",...
+         ODER
+      string *      Ein zweielementiges Feld:           ({"lila", "lilan"})
+                    ({ grundform, unregelmaessiger_wortstamm })
+         ODER
+      string|int*   Ein zweielementiges Feld:           ({"rosa",
+                                                          ADJ_NICHT_DEKLIN })
+                    ({ grundform, art })
+         ODER
+      string *      Ein einelementiges Feld:            ({"blau"})
+
+fall  (default 1)
+      1            Nominativ (mit bestimmtem Artikel davor)
+      2            Genitiv        "          "
+      3            Dativ          "          "
+      4            Akkusativ      "          "
+      5            Nominativ (mit unbestimmtem Artikel davor)
+      6            Genitiv        "          "
+      7            Dativ          "          "
+      8            Akkusativ      "          "
+      9            Nominativ (ohne Artikel davor)
+     10            Genitiv        "          "
+     11            Dativ          "          "
+     12            Akkusativ      "          "
+
+gender_string   (default saechlich)
+      "saechlich"
+      "maennlich"
+      "weiblich"
+
+plural   (default 0)
+      0            Singularform
+      1            Pluralform
+
+An sich braucht man diese Funktion nie direkt, da man alles auch mit
+den Funltionen wer,wessen,wem,wen und dessen Spezialformen erreichen kann.
+
+BEISPIEL:
+   query_deklin_ein_adjektiv("gross", FALL_DAT, "maennlich")   --> "grossen"
+
+VERWEISE: set_adjektiv, query_adjektiv, adjektiv,
+          add_adjektiv, delete_adjektiv,
+          query_deklin_adjektiv, query_deklin, wer, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_deklin_adjektiv
+DEKLARATION: varargs string query_deklin_adjektiv(object|mapping who, string|<string|int|<string|int>*>*|int adj, int fall)
+BESCHREIBUNG:
+Diese Funktion liefert eine fertig deklinierte (gebeugte), komma
+getrennte Liste von Adjektiven eines Objekts oder ein fremdes,
+vorher uebergegebenes, dekliniertes Adjektiv.
+
+who
+   Das Objekt dessen Adjektive dekliniert werden.
+
+adj
+   hat ENTWEDER die Syntax eines ELEMENTS der Adjektivliste:
+      string    Grundform eines Adjektivs  ("gruen", "blau",...)
+      string *  Ein zweielementiges Feld:
+                ({ grundform, unregelmaessiger_wortstamm })
+		oder ein Feld aus mehreren Adjektiven:
+		({ "jung", "gruen", "gut riechend" })
+		(Bei 2 Adjektiven muss eines als Array 
+		z.B. ({"jung"}) angegeben werden)
+   ODER folgende Syntax zur AUSWAHL bestimmter Adjektive des Objekts
+      int i :  i == 0 : ALLE Adjektive des Objekts
+               i >  0 : die ERSTEN i Adjektive des Objekts
+               i <  0 : das -i. Adjektiv des Objekts
+      int *ip: ip == ({ a, b }) Alle Adjektive vom a. bis zum b.
+               Ist a, b negativ oder 0 dann wird von hinten gezaehlt.
+               ( 1 ist das erste Adjektiv,
+                 0 ist das letzte Adjektiv,
+                -1 das vorletzte,...)
+
+fall  0,1   Nominativ
+      2     Genitiv
+      3     Dativ
+      4     Akkusativ
+      5     Nominativ unbestimmte Form
+      6     Genitiv unbestimmte Form
+      7     Dativ  unbestimmte Form
+      8     Akkusativ unbestimmte Form
+
+BEISPIEL:
+   Das Objekt ob habe folgende Adjektivliste mit set_adjektiv definiert
+   und sei maennlich.
+
+   set_adjektiv( ({"offen", ({ "lila", "lilan" }), "voll"}) );
+
+   Dann liefert         (wenn zweites Argument fehlt, dann Nominativ)
+      query_deklin_adjektiv(ob)               "offene, lilane, volle"
+      query_deklin_adjektiv(ob,0)             "offene, lilane, volle"
+      query_deklin_adjektiv(ob,1)             "offene"
+      query_deklin_adjektiv(ob,2)             "offene, lilane"
+      query_deklin_adjektiv(ob,3,4)           "offenen, lilanen, vollen"
+      query_deklin_adjektiv(ob,-1)            "offene"
+      query_deklin_adjektiv(ob,-2,4)          "lilanen"
+      query_deklin_adjektiv(ob,-3)            "vollen"
+      query_deklin_adjektiv(ob,({1,2})        "offene, lilane"
+      query_deklin_adjektiv(ob,({2,3})        "lilane, volle"
+      query_deklin_adjektiv(ob,({2,2})        "lilane"
+      query_deklin_adjektiv(ob,({2,0})        "lilane, volle"
+      query_deklin_adjektiv(ob,({2,-1})       "lilane"
+
+      query_deklin_adjektiv("rote",3)      "roten"
+      query_deklin_adjektiv(({"rosa","rosan"}),3) "rosanen"
+
+VERWEISE: set_adjektiv, query_adjektiv, adjektiv,
+          add_adjektiv, delete_adjektiv,
+          set_id, query_id, id, add_id, delete_id,
+          query_deklin, wer, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: get_genitiv
+DEKLARATION: string get_genitiv(string name)
+BESCHREIBUNG:
+Liefert die Genitiv-Form eines (Personal)-Namens zurueck.
+Bsp: Francis  -> Francis'
+     Detlef   -> Detlefs
+VERWEISE: ihr, ihres, ihrem, ihren
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_genitiv
+DEKLARATION: string query_genitiv()
+BESCHREIBUNG:
+Ist diese Funktion in einem Objekt implementiert, so rufen die Grammatik-
+Funktionen bei Genitiv-Generierung diese Funktion auf statt den Genitiv
+generieren zu lassen.
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht.
+VERWEISE: query_dekliniert, query_dativ, query_akkusativ, query_deklin_name
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_dativ
+DEKLARATION: string query_dativ()
+BESCHREIBUNG:
+Ist diese Funktion in einem Objekt implementiert, so rufen die Grammatik-
+Funktionen bei Dativ-Generierung diese Funktion auf statt den Dativ
+generieren zu lassen.
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht.
+VERWEISE: query_dekliniert, query_genitiv, query_akkusativ, query_deklin_name
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_akkusativ
+DEKLARATION: string query_akkusativ()
+BESCHREIBUNG:
+Ist diese Funktion in einem Objekt implementiert, so rufen die Grammatik-
+Funktionen bei Akkusativ-Generierung diese Funktion auf statt den Akkusativ
+generieren zu lassen.
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht.
+VERWEISE: query_dekliniert, query_dativ, query_genitiv, query_deklin_name
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_real_owner
+DEKLARATION: object query_real_owner()
+BESCHREIBUNG:
+Diese Funktion wird aufgerufen, um den wahren Eigentuemer einer Sache
+zu ermitteln. Ist dieser Eigentuemer ein anderer als der ermittelte
+(d.h. der beim Parameter 'owner' der jeweiligen Grammatikfunktionen
+uebergebene oder der, der das Objekt bei sich traegt), so
+wird beim Aufruf von dein(), sein() oder mein() automatisch
+der Eigentuemer wie bei ihr() angegeben.
+VERWEISE: query_deklin, query_dekliniert, dein
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_deklin_name
+DEKLARATION: string query_deklin_name(object|mapping who, int fall)
+BESCHREIBUNG:
+Diese Funktion liefert ein dekliniertes Nomen.
+
+who       Das Objekt dessen Namen gewuenscht ist
+
+fall (default ist 1)
+      1            Nominativ (mit bestimmtem Artikel davor)
+      2            Genitiv        "          "
+      3            Dativ          "          "
+      4            Akkusativ      "          "
+      5            Nominativ (mit unbestimmtem Artikel davor)
+      6            Genitiv        "          "
+      7            Dativ          "          "
+      8            Akkusativ      "          "
+      9            Nominativ (ohne Artikel davor)
+     10            Genitiv        "          "
+     11            Dativ          "          "
+     12            Akkusativ      "          "
+
+Im Normalfalle liefert diese Funktion einfach who->query_cap_name(),
+welches bei Genitiv gegebenenfalls ein "es", "s" oder "'" angehaengt
+bekommt.
+Man kann aber Ausnahmen definieren, indem man entweder eine Funktion
+query_dekliniert  oder Funktionen query_genitiv, query_dativ und
+query_akkusativ im Objekt implementiert.
+
+VERWEISE: query_deklin, query_dekliniert, wer, der,
+          query_genitiv, query_dativ, query_akkusativ
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_dekliniert
+DEKLARATION: string query_dekliniert(int fall, object interessent, int flags)
+BESCHREIBUNG:
+Die Grammatik-Funktionen rufen bei der Deklination des Namens eines
+Objektes in dem Objekt diese Funktion auf.
+
+Ist der Rueckgabewert ungleich 0, so wird dieser Wert als deklinierte Form
+des Namens verwendet; ist der Rueckgabewert 0, so wird auf herkoemmlichem
+Wege versucht, den Namen zu deklinieren.
+
+Diese Funktion hat Vorrang vor den Einzelfall-Funktionen query_genitiv(),
+query_dativ und query_akkusativ.
+
+Die Defines fuer fall stehen in /sys/deklin.h (sind 1-4 fuer
+Nominativ-Akkusativ), das Objekt interessent ist das Objekt, welches die
+Grammatikfunktion aufgerufen hat, die den Namen dekliniert haben will.
+
+flags gibt an, in welchem Kontext der Name verwendet werden soll:
+    DEKL_BESTIMMT       Dem Namen wird ein bestimmter Artikel vorangestellt
+    DEKL_UNBESTIMMT     Dem Namen wird ein unbestimmter Artikel vorangestellt
+    DEKL_BLANK          Dem Namen wird kein Artikel vorangestellt
+Obige Defines sind keine Bitflags, d.h. eine Abfrage sollte aehnlich wie
+(flags&DEKL_ART_MASK)==DEKL_BESTIMMT aussehen.
+
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht; im
+Allgemeinen duerften die Einzelfall-Funktionen ausreichen.
+
+Bei V-Items mit einer Closure als Eintrag fuer "dekliniert" wird als
+1. Parameter das V-Item selber uebergeben und danach die Parameter
+wie bei query_dekliniert.
+
+BEISPIELE:
+
+    string query_dekliniert(int fall, object interessent, int flags)
+    {
+        return
+            ({ "Atlas",
+               "Atlasses",
+               "Atlasse",
+               "Atlas",
+            }) [fall-1];
+    }
+
+// Fuer adjektivaehnliche Namen (z.B. Reisender) kann man auf
+// Grammatikfunktionen zurueckgreifen:
+// (DEKL_2_ADJ_ART uebernimmt hierbei die Umrechung des Flags in den
+// 2. Parameter von query_deklin. Es entspricht einem ART_NUR_ADJEKTIV
+// mit ART_DER, ART_EIN bzw. ART_BLANK.)
+
+    string query_dekliniert(int fall, object interessent, int flags)
+    {
+	return query_deklin(
+	    ([
+		"adjektiv": ({"Reisend"}),
+		"gender":"maennlich"
+	    ]), DEKL_2_ADJ_ART(flags), fall);
+    }
+
+VERWEISE: query_genitiv, query_dativ, query_akkusativ, query_deklin_name,
+          query_dekliniert
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_deklin
+DEKLARATION: varargs string query_deklin(object|mapping|int who, int art, int fall, string | <string|int|<string|int>*>* | int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Dabei wird beruecksichtigt,
+ob das Objekt ein personal_name hat (query_personal()==1).
+
+  who   Das Objekt dessen deklinierte Form gewuenscht ist.
+
+	ODER eine virtuelles Objekt in der Form:
+	   ([ "name" : "...", "gender" : "..." ])
+	oder bei Plural
+	   ([ "name" : "...", "gender" : "...", "plural": 1 ])
+
+        ODER eine Zahl:
+           OBJ_TO  0   this_object()  (default)
+           OBJ_PO  1   previous_object()
+           OBJ_TP  2   this_player()
+           OBJ_OW  3   auto_owner_search  (sonst this_player())
+           OBJ_TI  4   this_interactive()
+
+
+  art
+     ART_EIN            unbest. Artikel    (ein) + Adjektive + Nomen
+     ART_DER            bestimmter Artikel (der) + Adjektive + Nomen
+     ART_DIESER         demonstrativ       (dieser)  + Adjektive + Nomen
+     ART_MEIN           possesiv 1.Person  (mein) + Adjektive + Nomen
+     ART_DEIN           possesiv 2.Person  (dein) + Adjektive + Nomen
+     ART_SEIN           possesiv 3.Person  (sein) + Adjektive + Nomen
+     ART_ICH            personal 1.Person  (ich)
+     ART_DU             personal 2.Person  (du)
+     ART_ER             personal 3.Person  (er)
+     ART_KEIN           negiert            (kein)
+     ART_JENER      \
+     ART_MANCHER     > Selbsterklaerend :)
+     ART_WELCHER    /
+
+     ART_KEINS          Kein Artikel, nur die Adjektive und das Nomen.
+     ART_KEINS_BEST     Kein Artikel, nur die Adjektive und das Nomen.
+     ART_KEINS_UNBEST   Kein Artikel, nur Adjketive(unbestimmte Form) und
+                        das Nomen.
+     ART_NUR_DER        nur bestimmter Artikel   (keine Adj., kein Nomen)
+			(ART_DER | ART_NO_ADJEKTIV | ART_NO_NOMEN)
+     ART_NUR_EIN        nur unbest. Artikel      (keine Adj., kein Nomen)
+			(ART_EIN | ART_NO_ADJEKTIV | ART_NO_NOMEN)
+     ART_NUR_DEIN       nur Possesivpronomen 2.P.(keine Adj., kein Nomen)
+     ART_NUR_SEIN       nur Possesivpronomen 3.P.(keine Adj., kein Nomen)
+     ART_NUR_DIESER     nur demonstr. Artikel (keine Adj., kein Nomen)
+     ART_NUR_KEIN       (ART_KEIN | ART_NO_ADJEKTIV | ART_NO_NOMEN)
+
+     ART_AAA            Automatische Artikelauswahl (ein/der) + Adj + Nomen
+     ART_NUR_AAA        Nur Artikel nach automatischer Auswahl (k.Adj.,k.Nomen)
+                        (Je nach Anzahl gleicher Objekte in der Umgebung wird
+                         ein oder der benutzt.)
+     ART_CAPITALIZE     Im Falle eines Pronoms wird jenes grossgeschrieben,
+                        im Falle einer pronomenlosen Konstruktion mit
+                        Adjektiven wird das erste Adjektiv gross geschrieben.
+
+  fall
+     FALL_DEF   0   Nominativ
+     FALL_NOM   1   Nominativ
+     FALL_GEN   2   Genitiv
+     FALL_DAT   3   Dativ
+     FALL_AKK   4   Akkusativ
+
+
+  adjektiv
+     string  ->  Grundform eines Adjektivs
+                 ""         KEINE Adjektive
+     string* ->  ({ unregelm.Grundform, Deklinationsstamm }) eines Adjektivs
+                 ({ adjektiv1, adjektiv2, ...}) mehrere Adjektive
+     int i   ->  i == 0   ALLE Adjektive des Objekts who.
+                 i >  0   Die ersten i Adjektive des Objekts who.
+                 i <  0   Das -i. te Adjektiv des Objekts who.
+     int*    ->  ({ a, b }) Die a bis b. Adjektive des Objekts who.
+                 ({})       KEINE Adjektive
+
+
+  owner Besitzer des Objekts. Falls 0 wird es aus dem environment berechnet.
+        (nur fuer art == ART_SEIN bzw. ART_NUR_SEIN verwendet)
+
+Die Konstanten ART_..., FALL_..., OBJ_... werden in deklin.h definiert.
+
+Mit Hilfe von adjektiv koennen alle oder bestimmte Adjektive des Objekts
+oder ein fremdes Adjektiv in den Ergebnisstring zwischen Artikel/Pronom und
+Substantiv gestellt werden.
+(Adjektive eines Objekts setzt man mit set_adjektiv, siehe dort.)
+
+Alle Parameter sind optional.
+Defaultwerte sind dann
+   who:      this_object()
+   art:      0  (bestimmter Artikel)
+   fall:     0  (Nominativ)
+   adjektiv: 0  (alle Adjektive des Objekts who)
+   owner:    0  (auto owner search: living environment object)
+
+BEISPIELE:
+   who sei eine Person namens Anton
+     query_deklin(who);                   liefert: "Anton"
+   who sei ein Ork
+     query_deklin(who,ART_EIN,3,"boesen");      liefert: "einem boesen Ork"
+   what sei ein Auto und who eine weibliche Person
+     query_deklin(what,ART_SEIN,4,0,who);        liefert: "ihr Auto"
+
+
+query_deklin verwendet:
+   auto_owner_search
+   parse_deklin_object
+
+   query_pronom
+   query_deklin_adjektiv
+   query_deklin_name
+
+   query_personal
+   query_plural
+   query_eigen
+
+Die Verwendung von der, dem, den, ... anstelle von query_deklin
+wird empfohlen!!! Siehe dort.
+VERWEISE: wer, der, ihr, query_pronom, set_adjektiv
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: query_deklin_owner
+DEKLARATION: varargs string query_deklin_owner(object|mapping|int who, int art, int fall, string|<string|int|<string|int>*>*|int adjektiv, <object|mapping|int> owner, int oart, string|<string|int|<string|int>*>*|int oadjektiv)
+BESCHREIBUNG:
+Liefert die deklinierte Form eines Objektnamens. Dabei wird zusaetzlich
+der Besitzer des Objektes mit ausgegeben. Wird der Besitzer nicht
+explizit angegeben, so wird das naechst umgebende lebende Objekt
+herangezogen.
+
+Das Objekt selbst wird durch die Parameter: who, art, fall und adjektiv
+beschrieben. Diese Parameter werden so an query_deklin() weitergegeben.
+Siehe dort fuer die genaue Beschreibung der Parameter.
+
+Der Besitzer wird durch die Parameter owner, oart und oadjektiv
+beschrieben. query_deklin() wird mit diesen und FALL_GEN aufgerufen.
+
+VERWEISE: query_deklin, ihr
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: wer
+DEKLARATION: varargs string wer(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Nominativ deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat
+(query_personal()==1).
+
+  who   Das Objekt dessen deklinierte Form im Nominativ gewuenscht ist.
+
+	ODER eine virtuelles Objekt in der Form:
+	   ([ "name" : "...", "gender" : "..." ])
+	oder bei Plural
+	   ([ "name" : "...", "gender" : "...", "plural": 1 ])
+
+        ODER eine Zahl:
+           OBJ_TO  0   this_object()  (default)
+           OBJ_PO  1   previous_object()
+           OBJ_TP  2   this_player()
+           OBJ_OW  3   auto_owner_search  (sonst this_player())
+           OBJ_TI  4   this_interactive()
+
+  art
+     ART_EIN            unbest. Artikel    (ein) + Adjektive + Nomen
+     ART_DER            bestimmter Artikel (der) + Adjektive + Nomen
+     ART_DIESER         demonstrativ       (dieser)  + Adjektive + Nomen
+     ART_MEIN           possesiv 1.Person  (mein) + Adjektive + Nomen
+     ART_DEIN           possesiv 2.Person  (dein) + Adjektive + Nomen
+     ART_SEIN           possesiv 3.Person  (sein) + Adjektive + Nomen
+     ART_ICH            personal 1.Person  (ich)
+     ART_DU             personal 2.Person  (du)
+     ART_ER             personal 3.Person  (er)
+     ART_KEIN           negiert            (kein)
+     ART_JENER      \
+     ART_MANCHER     > Selbsterklaerend :)
+     ART_WELCHER    /
+     
+     ART_VIS            Zeigt die sichtbare Deklination, unabhaengig,
+                        ob das Objekt/Lebewsen sichtbar ist oder nicht.
+     ART_INVIS          Zeigt die unsichtbare Deklination.
+
+     ART_KEINS          Kein Artikel, nur die Adjektive und das Nomen.
+     ART_KEINS_BEST     Kein Artikel, nur die Adjektive und das Nomen.
+     ART_KEINS_UNBEST   Kein Artikel, nur Adjketive(unbestimmte Form) und
+                        das Nomen.
+     ART_NUR_EIN        nur unbest. Artikel      (keine Adj., kein Nomen)
+     ART_NUR_DER        nur bestimmter Artikel   (keine Adj., kein Nomen)
+     ART_NUR_DIESER     nur demonstr. Artikel (keine Adj., kein Nomen)
+     ART_NUR_MEIN       nur Possesivpronomen 1.P.(keine Adj., kein Nomen)
+     ART_NUR_DEIN       nur Possesivpronomen 2.P.(keine Adj., kein Nomen)
+     ART_NUR_SEIN       nur Possesivpronomen 3.P.(keine Adj., kein Nomen)
+     ART_NUR_KEIN       nur Negationspronomen kein (keine Adj., kein Nomen)
+     ART_CAPITALIZE     Im Fall eines Pronoms wird dieses grossgeschrieben
+                        im Falle einer pronomenlosen Konstruktion mit
+                        Adjektiven wird das erste Adjektiv gross geschrieben.
+
+     ART_AAA            Automatische Artikelauswahl (ein/der) + Adj + Nomen
+     ART_NUR_AAA        Nur Artikel nach automatischer Auswahl (k.Adj.,k.Nomen)
+                        (Je nach Anzahl gleicher Objekte in der Umgebung wird
+                         ein oder der benutzt.)
+
+  adjektiv
+     string  ->  Grundform eines Adjektivs
+                 ""         KEINE Adjektive
+     string* ->  ({ unregelm.Grundform, Deklinationsstamm }) eines Adjektivs
+                 ({ adjektiv1, adjektiv2, ...}) mehrere Adjektive
+     int i   ->  i == 0     ALLE Adjektive des Objekts who.
+                 i >  0     Die ersten i Adjektive des Objekts who.
+                 i <  0     Das -i. te Adjektiv des Objekts who.
+     int*    ->  ({ a, b }) Die a bis b. Adjektive des Objekts who.
+                 ({})       KEINE Adjektive
+
+  owner Besitzer des Objekts. Falls 0 wird es aus dem environment berechnet.
+        (nur fuer art == ART_SEIN bzw ART_NUR_SEIN verwendet)
+
+Die Konstanten ART_..., FALL_..., OBJ_... werden in deklin.h definiert.
+
+Mit Hilfe von adjektiv koennen alle oder bestimmte Adjektive des Objekts
+oder ein fremdes Adjektiv in den Ergebnisstring zwischen Artikel/Pronom und
+Substantiv gestellt werden.
+(Adjektive eines Objekts setzt man mit set_adjektiv, siehe dort.)
+
+Alle Parameter sind optional.
+Defaultwerte sind dann
+   who:      this_object()
+   art:      0  (bestimmter Artikel)
+   adjektiv: 0  (alle Adjektive des Objekts who)
+   owner:    0  (auto owner search: living environment object)
+
+
+Beispiele fuer wer, wem, wen
+   who  sei eine Person namens Anton
+   ork  sei ein Ork ohne Namen
+
+     Wer(who)+" zieht "+wem(ork,ART_EIN)+" einen Pullover an."
+        liefert:
+     "Anton zieht einem Ork einen Pullover an."
+
+     Wer(ork,ART_DIESER,"boese")+
+         " laesst sich das von "+wem(who)+" nicht gefallen."
+        liefert:
+     "Dieser boese Ork laesst sich das von Anton nicht gefallen."
+
+     Wer(ork)+" haette "+wen(who,ART_ER)+" am liebsten davongejagt."
+        liefert:
+     "Der Ork haette ihn am liebsten davongejagt."
+
+     Wer(ork)+" patscht "+wem(who)+" auf "+
+     wen((["name"  :"finger",
+	   "gender":"maennlich",
+	   "plural":1]), ART_SEIN, 0, who)+"."
+        liefert:
+     "Der Ork patscht Anton auf seine Finger."
+
+
+wer, wem, wen sind Spezialfaelle von query_deklin.
+
+ANSTELLE VON wer, wen, wem SOLLTEN DIE BEFEHLE:
+  der, dem, den, ein, einem, einen, dein, deinem, deinen,
+  sein, seinem, seinen, dieser, diesem, diesen, er, ihm, ihn, ihr,
+  Der, Dem, Den, Ein, Ihr, ...
+BENUTZT WERDEN!!!!!  (siehe dort)
+VERWEISE: der, query_pronom, query_deklin, set_adjektiv
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: wessen
+DEKLARATION: varargs string wessen(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Genitiv deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat.
+Weitere Beschreibung ->wer
+VERWEISE: wer, wen, wem
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: wem
+DEKLARATION: varargs string wem(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Dativ deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat.
+Weitere Beschreibung ->wer
+VERWEISE: wer, wen
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: wen
+DEKLARATION: varargs string wen(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Akkusativ deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat.
+Weitere Beschreibung ->wer
+VERWEISE: wer, wem
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: der
+DEKLARATION: varargs string der(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert im Nominativ deklinierte Form eines Objektnamens mit bestimmten Artikel
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat
+(query_personal()==1).
+
+  who   Das Objekt dessen deklinierte Form im Nominativ gewuenscht ist.
+
+	ODER eine virtuelles Objekt in der Form:
+	   ([ "name" : "...", "gender" : "..." ])
+	oder bei Plural
+	   ([ "name" : "...", "gender" : "...", "plural": 1 ])
+
+  adjektiv
+     string  ->  Grundform eines Adjektivs
+                 "" bedeutet kein Adjektiv
+     string* ->  ({ unregelm.Grundform, Deklinationsstamm }) eines Adjektivs
+                 ({ adjektiv1, adjektiv2, ...}) mehrere Adjektive
+     int i   ->  i == 0   Alle Adjektive des Objekts who.
+                 i >  0   Die ersten i Adjektive des Objekts who.
+                 i <  0   Das -i. te Adjektiv des Objekts who.
+     int*    ->  ({ a, b }) Die a bis b. Adjektive des Objekts who.
+
+Mit Hilfe von adjektiv koennen alle oder bestimmte Adjektive des Objekts
+oder ein fremdes Adjektiv in den Ergebnisstring zwischen Artikel und
+Substantiv gestellt werden.
+(Adjektive eines Objekts setzt man mit set_adjektiv, siehe dort.)
+
+Alle Parameter sind optional.
+Defaultwerte sind dann
+   who:      this_object()
+   adjektiv: 0  (alle Adjektive des Objekts who)
+
+BEISPIEL:
+   fuer  der, dem, den, einen, einem, einen, dein, deinem, deinen,
+         sein, seinem, seinen, dieser, diesem, diesen, er, ihm, ihn
+
+   object Spieler, Ork, Gegenstand;
+   Spieler    sei eine Person NAMENS Laura  (also mit personal_name)
+   Ork        sei ein Ork ohne Namen mit Adjektiv boese (ohne personal_name)
+   Gegenstand sei eine Jacke, die Laura bei sich traegt.
+
+   Der(Spieler)+" zieht "+einem(Ork)+" "+seinen(Gegenstand)+" an."
+      liefert:
+   "Laura zieht einem boesen Ork ihre Jacke an."
+
+   Dieser(Ork,"frech")+" laesst sich das von "+dem(Spieler)+" nicht gefallen."
+      liefert:
+   "Dieser freche Ork laesst sich das von Laura nicht gefallen."
+
+   Er(Ork)+" haette "+ihn(Spieler)+" am liebsten davongejagt."
+      liefert:
+   "Er haette sie am liebsten davongejagt."
+
+   Ein(Ork)+" schaut sich neugierig "+
+   seinen((["name":"ausruestung",
+	    "gender":"weiblich"]),"gut",Spieler)+" an."
+      liefert:
+   "Ein Ork schaut sich neugierig ihre gute Ausruestung an."
+
+HINWEIS:
+   Saemtliche Funktionen existieren nur in MAENNLICHER Form im
+   Singular.
+   Die Funktionen erzeugen daraus abhaengig vom Geschlecht und
+   Zahl des Objekts die RICHTIGE Form.
+   Die Funktionen existieren jeweils in Gross- und Kleinschrift.
+   ( der und Der, den und Den,... )
+ANMERKUNG:
+   Keine Diskriminierung beabsichtigt. Die maennlichen Deklinations-
+   formen sind die einzigen die sich im Nominativ und Akkusativ
+   voneinander unterscheiden, und nur darauf kommt's hier an. :-)
+
+Saemtliche aufgefuehrte Funktionen sind Spezialfaelle von
+   wer, wen, wem, Wer, Wen, Wem.
+
+
+VERWEISE: der, dem, den, einen, einem, einen, dein, deinem, deinen,
+          sein, seinem, seinen, dieser, diesem, diesen, er, ihn, ihm,
+          Der, Dem, Den, Einen, Einem, Einen, Dein, Deinem, Deinen,
+          Sein, Seinem, Seinen, Dieser, Diesem, Diesen, Er, Ihn, Ihm,
+          wer, wen, wem, Wer, Wen, Wem, ihr, ihren, ihrem, Ihr, Ihren,
+	  Ihrem, set_adjektiv
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: des
+DEKLARATION: varargs string des(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: dem
+DEKLARATION: varargs string dem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: den
+DEKLARATION: varargs string den(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ein
+DEKLARATION: varargs string ein(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: eines
+DEKLARATION: varargs string eines(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: einem
+DEKLARATION: varargs string einem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: einen
+DEKLARATION: varargs string einen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: dein
+DEKLARATION: varargs string dein(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: deines
+DEKLARATION: varargs string deines(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: deinem
+DEKLARATION: varargs string deinem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: deinen
+DEKLARATION: varargs string deinen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: sein
+DEKLARATION: varargs string sein(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: seines
+DEKLARATION: varargs string seines(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(eines/des) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: seinem
+DEKLARATION: varargs string seinem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(einem/dem) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: seinen
+DEKLARATION: varargs string seinen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(einen/den) umgeschaltet.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: dieser
+DEKLARATION: varargs string dieser(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: dieses
+DEKLARATION: varargs string dieses(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: diesem
+DEKLARATION: varargs string diesem(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: diesen
+DEKLARATION: varargs string diesen(object|mapping|int who, string|<string|int|<string|int>*>*|int adjektiv)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: er
+DEKLARATION: varargs string er(object|mapping|int who)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Anders als bei der fehlt der Parameter adjektiv, Personalpronomina
+haben keine Adjektive.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ihm
+DEKLARATION: varargs string ihm(object|mapping|int who)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Anders als bei der fehlt der Parameter adjektiv, Personalpronomina
+haben keine Adjektive.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ihn
+DEKLARATION: varargs string ihn(object|mapping|int who)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens.   siehe der
+Anders als bei der fehlt der Parameter adjektiv, Personalpronomina
+haben keine Adjektive.
+VERWEISE: der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ihr
+DEKLARATION: varargs string ihr(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Siehe der().
+
+Der zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+
+Zum eigentlichen Objekt who bzw. zum Besitzer owner kann man zusaetzlich
+noch Adjektive (who_adjektiv bzw. owner_adjektiv) angeben, die statt der
+tatsaechlich gesetzten Adjektive genommen werden. Ebenso kann man bei
+beiden die Auswahl der Pronomen mit who_art bzw. owner_art bestimmen
+(genaue Beschreibung siehe query_deklin).
+
+***WICHTIG***:
+ihr() liefert NICHT 'ihr Testobjekt' (das macht ja sein() schon automatisch),
+SONDERN 'Stellas Testobjekt'. Also NICHT das POSSESIVPRONOMEN, sondern
+den NAMEN des Besitzers selbst. Ist der Besitzer nicht 'personal', dann
+liefert ihr() beispielsweise: 'das Testobjekt des Orks'.
+
+VERWEISE: ihres, ihren, ihrem, der, sein, query_deklin
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ihres
+DEKLARATION: varargs string ihres(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Siehe ihr().
+VERWEISE: ihr, sein, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ihrem
+DEKLARATION: varargs string ihrem(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Siehe ihr().
+VERWEISE: ihr, sein, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ihren
+DEKLARATION: varargs string ihren(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Siehe ihr().
+VERWEISE: ihr, sein, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: plural
+DEKLARATION: varargs string plural(string einzahl_str, string plural_str, object|mapping|int ob, int art)
+BESCHREIBUNG:
+Liefert plural_str, wenn ob im Plural ist, sonst einzahl_str.
+ob kann hierbei ein v-item, ein Objekt sein oder OBJ_TO/PO/TP/OW/TI sein.
+Wenn ob nicht angegeben wird, wird this_object() angenommen.
+art hat die gleiche Bedeutung wie der zweite Parameter von query_deklin.
+BEISPIEL:
+Der(ob) + plural(" braucht"," brauchen",ob) + " nichts."
+VERWEISE: ist, query_deklin
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: ist
+DEKLARATION: varargs string ist(object|mapping|int ob, int spaces)
+BESCHREIBUNG:
+Liefert "sind", wenn ob im Plural ist, sonst "ist".
+ob kann hierbei ein v-item oder ein Objekt sein.
+Wenn ob nicht angegeben wird, wird this_object() angenommen.
+Diese Funktion ist ein Spezialfall der Funktion 'plural'
+Wenn spaces == IST_SPACE_BEFORE ist, wird ein Leerzeichen vorangestellt,
+bei spaces == IST_SPACE_AFTER angehaengt, und bei
+spaces == IST_SPACE_BEFORE|IST_SPACE_AFTER beides.
+Diese Konstanten sind in simul_efuns.h definiert.
+
+BEISPIEL:
+
+    Der(ob) + ist(ob, IST_SPACE_BEFORE) + " nicht zu gebrauchen."
+
+VERWEISE: plural
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: choose_by_gender
+DEKLARATION: mixed choose_by_gender(string gender|object ob|mapping vitem, mixed *values|mapping values|string str)
+BESCHREIBUNG:
+Diese Funktion waehlt entsprechend gender ("maennlich","weiblich" oder
+"saechlich") bzw. dem Geschlecht des Objektes ob oder des V-Items vitem
+einen Wert aus values aus. Man kann ebenfalls die Defines OBJ_TP und andere
+OBJ-Defines aus deklin.h nutzen.
+values kann entweder ein Array Groesse 3 sein (Reihenfolge
+"saechlich", "maennlich", "weiblich"), ein Mapping (die Geschlechter als
+Schluessel) oder einfach ein String (der wird dann nur zurueck gegeben).
+Wenn values als Array ein viertes Element oder als Mapping einen weiteren
+Eintrag "plural" hat, dann wird im Falle des Plurals dieser Eintrag genommen.
+
+Beispiel:
+
+       choose_by_gender(OBJ(croft), ({ "Erschaffendes",
+           "Erschaffender", "Erschaffende" })) -> "Erschaffende"
+
+       choose_by_gender((["gender":"weiblich"]), ([
+           "saechlich" : "Testendes",
+           "maennlich" : "Testender",
+           "weiblich"  : "Testende" ])) -> "Testende"
+	
+Oder in einer Pseudoclosure:
+
+	"Hallo, $choose_by_gender(OBJ_TP," // <- Achtung, kein Leerzeichen!
+	"([maennlich:Meister,weiblich:Meisterin,saechlich:Meisterliches]))!"
+
+VERWEISE: query_gender
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c
+FUNKTION: find_player
+DEKLARATION: object find_player(string name)
+BESCHREIBUNG:
+Findet den Spieler mit dem Namen 'name'
+Die Funktion liefert das Player-Objekt des Spielers.
+'name' muss dabei der Name sein, der mit set_living_name() gesetzt wurde.
+VERWEISE: set_living_name, find_living, find_object
+GRUPPEN: simul_efun, player, objekt
+SOURCE: /secure/simul_efun/living.inc
+FUNKTION: set_living_name
+DEKLARATION: void set_living_name(string name)
+BESCHREIBUNG:
+Mit dieser Funktion kann man den Namen eines Lebewesens setzen,
+so dass das Lebewesen spaeter mit find_living(name) gefunden werden
+kann. Der Name wird in einen Hash-Table eingetragen.
+Die Funktion kann nur auf Lebewesen angewandt werden, die mit
+enable_commands() als solche gekennzeichnet wurden.
+In /i/monster/monster und /obj/monster wird dies bei NPCs automatisch gemacht.
+
+Jedes Lebewesen kann nur einen Namen bekommen, der im Hash-Table
+eingetragen wird.
+Der Name sollte klein geschrieben sein, da es sonst zu Fehlern kommen kann.
+
+ACHTUNG: Nicht verwenden, sondern stattdessen set_npc_name() verwenden.
+
+VERWEISE: lfun::set_npc_name, find_living, enable_commands, find_player, query_living_name
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc
+FUNKTION: query_living_name
+DEKLARATION: string query_living_name(object ob)
+BESCHREIBUNG:
+Liefert den mit 'set_living_name' gesetzten Namen.
+
+ACHTUNG: Nicht verwenden, sondern stattdessen query_npc_name() verwenden.
+
+VERWEISE: query_npc_name, set_living_name, find_living, find_player, find_object
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc
+FUNKTION: find_living
+DEKLARATION: object find_living(string name)
+BESCHREIBUNG:
+Diese Funktion sucht das Lebewesen mit dem Namen 'name' und liefert
+dessen Objekt-Pointer. 'name' muss hierbei der Name sein,
+der mit set_living_name() gesetzt murde.
+
+Beispiel:
+  object ob;
+  ob = find_living("detlef");
+
+VERWEISE: set_living_name, find_player, find_object, query_living_name
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc
+FUNKTION: player_exists
+DEKLARATION: int player_exists(string name)
+BESCHREIBUNG:
+Schaut nach, ob es einen Spieler mit diesem Namen gibt.
+VERWEISE:
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/living.inc
+FUNKTION: query_livings
+DEKLARATION: object *query_livings()
+BESCHREIBUNG:
+Liefert alle Objekte, die einen Living-Namen haben.
+VERWEISE: set_living_name
+GRUPPEN: simul_efun, monster
+SOURCE: /secure/simul_efun/living.inc
+FUNKTION: log_file
+DEKLARATION: int log_file(string file_name, string message)
+BESCHREIBUNG:
+Haengt den String <message> an das File <file_name> an.
+Wenn man keinen vollstaendigen Filenamen angibt, wird in das File
+/log/<file_name> geschrieben.
+Ein vollstaendig angegebener Filename muss '.../log/...' beinhalten,
+sonst wird nicht gelogged.
+Man kann auch lokale Pfade angeben. Diese muessen aber mindestens
+einen '/' enthalten, sonst wird nach /log/<file_name> gelogged.
+Die Datei wird, wenn sie groesser als 50000 Bytes wird, nach <file_name>.old
+umbenannt.
+Ist fuer Debuggingzwecke oder zum Mitloggen.
+Rueckgabewert: 1 wenn das Schreiben geklappt hat, sonst 0
+
+Beispiele:
+    log_file("testlog","Meldung\n");	logged nach /log/testlog
+    log_file("/d/Doerrland/log/testlog","Meldung\n");
+    log_file("../log/testlog","Meldung\n");
+    log_file("log/testlog","Meldung\n");
+GRUPPEN: simul_efun, file
+VERWEISE: write_file
+SOURCE: /secure/simul_efun/log.inc
+FUNKTION: sys_log
+DEKLARATION: void sys_log(string file_name, string message)
+BESCHREIBUNG:
+Haengt den String 'message' an das file /log/sys/<file_name> an.
+Ist fuer Debuggingzwecke oder zum Mitloggen von Systemdaten.
+Steht nicht fuer normale Objekte zur Verfuegung.
+GRUPPEN: simul_efun, file
+VERWEISE: write_file, log_file
+SOURCE: /secure/simul_efun/log.inc
+FUNKTION: domain2map
+DEKLARATION: string domain2map(string file_name)
+BESCHREIBUNG:
+Ein Map-Raum innerhalb einer Domain ist durch seine lokalen
+Koordinaten gekennzeichnet:
+
+/d/Domain/mx_y
+/d/Domain/mitglied/mx_y
+/d/Domain/mitglied/bereich/mx_y
+
+Sobald sie in der Map geladen werden, bekommen sie einen File-Namen mit
+absoluten Koordinaten:
+
+/map/mx_y
+
+Mit dieser Routine kann der Map-File-Name eines Domain-Files erfragt werden.
+
+Beispiel:
+    domain2map("/d/Arktis/uluji/schelfweg/m0_4") --> "/map/m3_1024"
+
+GRUPPEN: simul_efun, map
+VERWEISE: map2domain
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: map2domain
+DEKLARATION: string map2domain(string file_name, int flag)
+BESCHREIBUNG:
+Ein Map-Raum innerhalb einer Domain ist durch seine lokalen
+Koordinaten gekennzeichnet:
+
+/d/Domain/mx_y
+/d/Domain/mitglied/mx_y
+/d/Domain/mitglied/bereich/mx_y
+
+Sobald sie in der Map geladen werden, bekommen sie einen File-Namen mit
+absoluten Koordinaten:
+
+/map/mx_y
+
+Mit dieser Routine kann der Domain-File-Name eines Map-Files erfragt werden.
+Gibt es die Datei nicht, so wird 0 zurueckgegeben, es sei denn flag==1, 
+dann wird naemlich der berechnete Dateiname zurueckgeliefert.
+
+Beginnt der Dateiname nicht mit einem /, so wird das Ergebnis auch nicht
+mit einem ebensolchen beginnen.
+
+Beispiel:
+    map2domain("/map/m3_1024")   --> "/d/Arktis/uluji/schelfweg/m0_4.c"
+    map2domain("map/m3_1024")    --> "d/Arktis/uluji/schelfweg/m0_4.c"
+    map2domain("/map/m3_1025")   --> 0
+    map2domain("/map/m3_1025",1) --> "/d/Arktis/m503_25.c"
+
+GRUPPEN: simul_efun, map
+VERWEISE: domain2map
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: map_object
+DEKLARATION: int map_object(string file_name)
+BESCHREIBUNG:
+Liefert 1, wenn es sich bei dem Raum 'file_name' um einen Map-Raum handelt.
+(z.B. bei /map/m1_1 oder auch bei /d/Doerrland/m0_0)
+GRUPPEN: simul_efun, map
+VERWEISE: 
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: touch
+DEKLARATION: object touch(string|object ob [,int flag] )
+BESCHREIBUNG:
+Laedt einen File und gibt bei Erfolg einen Pointer darauf zurueck,
+bei Misserfolg 0.
+
+Im Prinzip macht load_object(file) dasselbe, jedoch kann
+damit im Gegensatz zum touch() kein Map-Raum geladen werden!
+
+Folgende Flags sind in /sys/touch.h definiert und koennen
+mittels | (binaeres Oder) kombiniert werden:
+
+  NO_LOG     Es gibt keinen Eintrag in der FDB, wenn diese Datei
+             nicht geladen werden konnte.
+  NO_WRITE   Es gibt keine Meldung an this_player, wenn diese Datei
+             nicht geladen werden konnte.
+
+Beispiel:
+        touch("/d/Vaniorh/uluji/jetty");
+        touch("/map/m24_644");
+
+GRUPPEN: simul_efun, objekt
+VERWEISE: clone_object
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: expand_direction
+DEKLARATION: varargs string expand_direction(string dir, int flags)
+BESCHREIBUNG:
+Loest Abkuerzungen von Richtungen auf (z.B. expand_direction("no") liefert
+"nordosten".) Falls diese Abkuerzung unbekannt ist, wird 0 zurueckgeliefert.
+Der zweite Parameter flags kann eine Oder-Kombination aus folgenden
+Konstanten (definiert in simul_efuns.h) sein:
+
+    DIR_NUR_HIMMELSRICHTUNGEN   Nur Himmelsrichtungen erweitern.
+    DIR_ALS_DEFAULT             Wenn nichts gefunden wurde, dir zurueckliefern.
+				
+VERWEISE: is_direction, opposite_direction
+GRUPPEN: simul_efun, ausgaenge
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: is_direction
+DEKLARATION: varargs int is_direction(string dir, int flags)
+BESCHREIBUNG:
+Liefert 1, wenn der erste Parameter dir eine Richtung ist, sonst 0.
+Der zweite Parameter flags kann eine Oder-Kombination aus folgenden
+Konstanten (definiert in simul_efuns.h) sein:
+
+    DIR_NUR_HIMMELSRICHTUNGEN   Nur Himmelsrichtungen beachten
+				
+VERWEISE: expand_direction, opposite_direction
+GRUPPEN: simul_efun, ausgaenge
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: opposite_direction
+DEKLARATION: varargs string opposite_direction(string dir, int flags)
+BESCHREIBUNG:
+Liefert die Richtung, welcher der Richtung im ersten Parameter dir
+entgegengesetzt ist. Ist diese Richtung unbekannt, so wird 0 zurueckgeliefert.
+Der zweite Parameter flags kann eine Oder-Kombination aus folgenden
+Konstanten (definiert in simul_efuns.h) sein:
+
+    DIR_NUR_HIMMELSRICHTUNGEN   Nur bei Himmelsrichtungen beachten.
+    DIR_ALS_DEFAULT             Anstatt 0 dir zurueckliefern.
+				
+VERWEISE: expand_direction, is_direction
+GRUPPEN: simul_efun, ausgaenge
+SOURCE: /secure/simul_efun/map.inc
+FUNKTION: str2int
+DEKLARATION: int str2int(string str, int &value, int base = 10)
+BESCHREIBUNG:
+str2int wandelt einen String in einen Integer um, und liefert in der
+Referenz 'value' diesen Integerwert.
+Wenn ein Wert > 0 returned wird, konnte der String nicht vollstaendig
+umgewandelt werden wobei der Wert die Stelle anzeigt, an der der
+Fehler liegt (1. Buchstabe = 1).
+Bsp:
+   fehler=str2int("123", &i)    -> i==123; fehler==0;
+   fehler=str2int("123abc", &i) -> i==123; fehler==4;
+   fehler=str2int("abc", &i)    -> i==0;   fehler==1;
+Als Basis wird sofern nicht angegeben 10 genommen.
+VERWEISE: to_int, to_float, to_string
+GRUPPEN: simul_efun, typen
+SOURCE: /secure/simul_efun/math.inc
+FUNKTION: round
+DEKLARATION: int round(float op)
+BESCHREIBUNG:
+Rundet ein Float-Argument und gibt es als Integer zurueck.
+
+Beispiele:
+                round(36.8)             -->      37
+                round(-45.4)            -->     -45
+
+GRUPPEN: simul_efun, rechnen
+VERWEISE: abs
+SOURCE: /secure/simul_efun/math.inc
+FUNKTION: xy2pol
+DEKLARATION: int *xy2pol(int x, int y)
+BESCHREIBUNG:
+Transformiert kartesische Koordinaten in Polar-Koordinaten.
+Zurueckgegeben wird ein Feld mit zwei Elementen, die
+den Winkel und den Radius enthalten.
+
+Uebersteigt der Wert von   x*x+y*y   die Grenzen der Integer-Variablen,
+so wird statt einem Feld einfach nur 0 zurueckgeliefert !
+GRUPPEN: simul_efun, rechnen
+VERWEISE: pol2xy
+SOURCE: /secure/simul_efun/math.inc
+FUNKTION: pol2xy
+DEKLARATION: int *pol2xy(int grad, int dist)
+BESCHREIBUNG:
+Transformiert Polar-Koordinaten in kartesische Koordinaten.
+Der Nullpunkt fuer den Winkel ist hierbei die Nord-Richtung.
+
+Die Funktion gibt ein Feld mit zwei Elementen zurueck,
+die die X- und die Y-Koordinate enthalten.
+
+Ist der Radius kleiner Null bzw uebersteigt er den Werte-Bereich
+der Integer-Variablen, so wird statt einem Feld einfach der Wert 0
+zurueckgeliefert.
+GRUPPEN: simul_efun, rechnen
+VERWEISE: xy2pol
+SOURCE: /secure/simul_efun/math.inc
+FUNKTION: notify_fail
+DEKLARATION: varargs int notify_fail(mixed fail, int priority, int dont_overwrite)
+BESCHREIBUNG:
+Mit notify_fail() wird eine Fehlermeldung gesetzt, die der Spieler
+anstelle der Standardmeldung "Wie bitte?" bekommt, wenn die Ausfuehrung
+eines seiner Kommandos fehlschlaegt.
+
+Anstatt eines Strings kann auch eine Closure benutzt werden. Diese wird 
+ausgewertet, unmittelbar bevor der Spieler die Meldung erhaelt.
+Sie erhaelt den Befehlsgeber als Argument.
+
+In priority gibt man die Prioritaet der Meldung an. Dafuer gibt es folgende
+Konstanten in notify_fail.h:
+
+  FAIL_NOT_CMD:   Dieses Objekt definiert dieses Kommando eigentlich gar nicht,
+                  hat aus technischen Gruenden dies Aktion aber trotzdem oder
+                  will einfach nur dafuer sorgen, dass kein "Wie bitte?" kommt:
+                  Beispiel: "oeffne brot"
+
+  FAIL_NOT_OBJ:   Das Objekt definiert zwar dieses Kommando ist aber
+                  offensichtlich nicht gemeint. (Dies ist die Voreinstellung)
+                  Beispiel: "trink tee", wenn das Objekt aber Wein ist.
+
+  FAIL_WRONG_ARG: Das Objekt definiert dieses Kommando, koennte auch gemeint
+                  sein, die Argumente stimmen aber nicht.
+                  Beispiel: "schliesse tuer mit brot auf"
+
+  FAIL_INTERNAL:  Die Argumente stimmen, aber aus internen Gruenden
+                  funktioniert es nicht.
+                  Beispiel: "schliesse tuer mit schluessel auf", die Tuer
+                            ist aber schon offen.
+
+Es wird die zuletzt gesetzte Meldung mit der hoechsten Prioritaet ausgegeben.
+
+Nach Moeglichkeit sollte ein Kommando
+        notify_fail(meldung); return 0;
+    anstatt von
+        write(meldung); return 1;
+    benutzen, da dann andere Objekte das Kommando auch noch auswerten koennen.
+
+notify_fail() liefert immer 0 als Returnwert. Man kann also auch schreiben:
+    return notify_fail(meldung);
+
+Hinweis: Obwohl notify_fail mit notify_ anfaengt, ist es kein Controller.
+
+VERWEISE: add_action, query_verb, query_notify_fail
+GRUPPEN: simul_efun, grundlegendes, player
+SOURCE: /secure/simul_efun/notify_fail.inc
+FUNKTION: parse_com
+DEKLARATION: varargs mixed *parse_com(string command, mixed where, string *trenner, int flag)
+BESCHREIBUNG:
+parse_com sucht die in einem String angegebenen Gegenstaende in der
+Umgebung des aktuellen Spielers (this_player()) und in seinem Inventar.
+
+Beispiel:
+
+    #include <parse_com.h>
+    
+    int brutzle_fun(string str)
+    {
+        mixed parsed;
+	object ob;
+        
+        parsed = parse_com(str);
+        if(parse_com_error(parsed, "Was willst Du brutzeln?\n", 1))
+            return 0;
+	
+	ob = parsed[PARSE_OBS][0];
+	        
+        write(wrap("Du brutzelst "+den(ob)+"."));
+        
+        return 1;
+    }
+
+In den allermeisten Faellen braucht man parse_com nur den zu analysierenden
+String zu uebergeben und parse_com liefert das Ergebnis in einem mixed-Feld
+zurueck. parse_com beachtet dabei Artikel, Adjektive, Zahl-Angaben (1.)
+und Pronomen wie 'alle', 'meine', 'mich' etc.
+
+
+Bis auf den ersten Parameter sind alle weiteren optional. Folgende
+Parameter kann man uebergeben:
+
+    string command
+	Der zu analyisierende String, etwas wie "die gruene Tasche"
+
+    mixed where
+	Ein Container oder eine Liste von Containern, in denen
+	gesucht werden soll. Falls weggelassen (oder 0), so wird
+	in der Umgebung von this_player() und in this_player()
+	selbst gesucht.
+
+    string* trenner
+	Hier kann man Trennwoerter angeben, bis zu denen geparst
+	werden soll. Zum Beispiel beim Befehl 'brutzle A mit B'
+	kann ({"mit"}) als Trenner angegeben werden, so dass
+	parse_com zu "A mit B" spaetestens beim "mit" abbricht.
+	
+	Das gefundene Trennwort wird in parsed[PARSE_TRENNER]
+	gespeichert ("", wenn keines gefunden wurde), der
+	Text hinter dem Trennwort in parsed[PARSE_BEYOND_TRENNER].
+	Diesen Text kann man dann in einem zweiten parse_com-Aufruf
+	parsen.
+
+    int flag
+	Hier kann man Steuerflags angeben, die die Auswertung
+	von parse_com beeinflussen. Mehrere Flags werden durch Oder
+	(|-Operator) getrennt.
+	
+	PARSE_ALL_MATCHES
+		Ist im Kommando KEIN Zahlwort (1. oder 2.) angegeben,
+		werden statt nur dem ERSTEN Objekt ALLE darauf passenden
+		Objekte (welche sich im gleichen Container befinden)
+		zurueckgeliefert.
+
+        PARSE_NO_V_ITEMS
+                Verhindert, dass V_Items mitgeparsed werden, und somit
+                in parsed[PARSE_OBS] erscheinen.
+
+        PARSE_AFTER_TRENNER
+                Hiermit beginnt der Parser erst nach einem der gegebenen
+                Trenner zu parsen.
+
+        PARSE_NOT_WITHOUT_TRENNER
+                Das Parsing wird abgebrochen, falls keiner der angegeben
+                Trenner im String command zu finden ist.
+                Ist dies der Fall, wird PARSE_NOT_SEARCHED zurueckgegeben.
+
+	PARSE_DONT_SPLIT
+		Normalerweise zerteilt parse_com Count-Obs automatisch.
+		Dies kann mit diesem Flag unterbunden werden.
+    
+        PARSE_NOSHIMMER_INVIS
+		Beachtet auch invis-15-Dinge. (Nur fuer Goettertools!)
+
+
+parse_com liefert als Ergebnis ein Array mit folgenden Elementen zurueck:
+
+    parsed[PARSE_NUM_OBS]
+	Anzahl der gefundenen Objekte. Im Fehlerfalle ist dies 0.
+
+    parsed[PARSE_OBS]
+	Dies ist ein Array mit den gefundenen Objekten.
+
+    parsed[PARSE_REST]
+	Dies ist der Reststring, also der Text hinter den gefundenen
+	Gegenstaenden (z.B. "durch" bei "knuddle emma durch").
+
+    parsed[PARSE_RET_CODE]
+	Ein Code, der die Art eines Fehlers angibt. Folgende
+	Werte kann er annehmen:
+	    PARSE_OK		Alles klar (kein Fehler)
+	    PARSE_NO_ARG	Es wurde nichts uebergeben.
+	    PARSE_NO_OB		Objekt nicht gefunden.
+	    PARSE_NO_MY_OB	Objekt nicht gefunden, "mein" war angegeben.
+	    PARSE_NO_ALL_OB	Objekt nicht gefunden, "alle" war angegeben.
+	    PARSE_NO_ALL_MY_OB	Objekt nicht gefunden, "mein" und "alles"
+				war angegeben.
+	    PARSE_WRONG_ID	Syntaxfehler. Parse_com konnte nicht erkennen,
+				wo ein Gegenstand bezeichnet wurde.
+    	    PARSE_NOT_SEARCHED	Es sollte nach dem Trenner geparst werden,
+				dieser war allerdings nicht vorhanden.
+
+    parsed[PARSE_ID]
+	Die in dem Text gefundene ID (sowas wie "tasche", wenn nach
+	"eine gruene Tasche" gesucht wurde). Falls keine ID erkannt
+	wurde, so ist dies in leerer String.
+
+    parsed[PARSE_TRENNER]
+	Das Trennwort, welches gefunden wurde.
+
+    parsed[PARSE_BEYOND_TRENNER]
+	Alles, was nach dem gefundenen Trennwort im String steht.
+      
+
+Beispiel:
+parse_com("eine gruene Tasche umher") wuerde beispielsweise folgendes
+Ergebnis bringen:
+
+	parsed[PARSE_NUM_OBS]		1
+	parsed[PARSE_OBS]		({ OBJ(/obj/tasche#947270) })
+	parsed[PARSE_REST]		"umher"
+	parsed[PARSE_RET_CODE]		PARSE_OK
+	parsed[PARSE_ID]		"eine gruene tasche"
+	parsed[PARSE_TRENNER]           ""
+	parsed[PARSE_BEYOND_TRENNER]	""
+
+Die Auswertung von Fehlern kann die Routine parse_com_error() uebernehmen.
+(Siehe obiges Beispiel und die Dokumentation zu parse_com_error bzw.
+parse_com_error_string.)
+
+ACHTUNG: 
+  - Falls nicht mit PARSE_NO_V_ITEMS explizit angegeben, werden auch
+    virtuelle Objekte im Feld PARSE_OBS zurueckgegeben. Deshalb muss das
+    Programm in diesem Falle in der Lage sein, Mappings zu verarbeiten!
+  - Wird ein kurz vorher zerteiltes CountOb gefunden, so werden beide
+    Teile erstmal wiedervereinigt, bevor sie von parse_com genutzt
+    werden. Dies kann bei doppelten Aufrufen von parse_com ein ggf.
+    vorher gefundenes Objekt zerstoeren. Man entkommt dem, indem
+    das vorher gefundene Objekt wegbewegt wird.
+    
+VERWEISE: parse_com_error, present, deep_present
+GRUPPEN: simul_efun, string, player
+SOURCE: /secure/simul_efun/parse_com.c
+FUNKTION: parse_com_error_string
+DEKLARATION: string parse_com_error_string(mixed *parsed, string errormsg [, string only_one] )
+BESCHREIBUNG:
+parse_com_error_string dient der einfachen Behandlung von Fehlermeldungen.
+Liefert parse_com einen Fehler zurueck, kreiert parse_com_error_string eine
+entsprechende Fehlermeldung dazu und liefert sie zurueck. Falls kein
+Fehler auftrat, wird 0 geliefert.
+
+Parameter:
+
+    mixed *parsed
+	ist das Resultat eines vorhergehenden parse_com-Aufrufs.
+	
+    string errormsg
+	ist ein String, der dann genommen wird, wenn kein Objekt gefunden
+	wurde (z.B. ein Tippfehler im Kommando) und keine passendere
+	Fehlermeldung generiert werden kann. (Normalerweise wird z.B.
+	bei 'trete xy' eine Fehlermeldung "Xy nicht gefunden." erzeugt.)
+	Wurde keine solche Fehlermeldung angegeben, wird "" geliefert.
+
+    string only_one
+	Dieser Parameter ist optional. 
+	Findet parse_com mehr als nur ein Objekt, auf dass die Beschreibung
+	passt, funktioniert aber das eigene Programm nur mit EINEM Objekt,
+	so wird dieser String als Fehlermeldung ausgegeben. Ist only_one
+	0, so beklagt sich parse_com_error_string nicht darueber.
+	(Zum Beispiel bei "alle fackeln" koennen mehrere Objekte gefunden
+	werden. Sie werden dann alle in parsed[PARSE_OBS] aufgelistet.)
+
+VERWEISE: parse_com, parse_com_error
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/parse_com.c
+FUNKTION: parse_com_error
+DEKLARATION: int parse_com_error(mixed *parsed, string errormsg [, string only_one [, int dont_overwrite]] )
+BESCHREIBUNG:
+parse_com_error dient der einfachen Behandlung von Fehlermeldungen.
+Liefert parse_com einen Fehler zurueck, kreiert parse_com_error eine
+entsprechende Fehlermeldung dazu und setzt sie via notify_fail().
+parse_com_error() liefert in diesem Falle dann 1 zurueck, so dass
+in der eigentlichen Action daraufhin ein 'return 0' folgenden sollte,
+so dass die notify_fail()-Meldung aktiv wird.
+
+Parameter:
+
+    mixed *parsed
+	ist das Resultat eines vorhergehenden parse_com-Aufrufs.
+	
+    string errormsg
+	ist ein String, der dann genommen wird, wenn kein Objekt gefunden
+	wurde (z.B. ein Tippfehler im Kommando) und keine passendere
+	Fehlermeldung generiert werden kann. (Normalerweise wird z.B.
+	bei 'trete xy' eine Fehlermeldung "Xy nicht gefunden." erzeugt.)
+	Wurde keine solche Fehlermeldung angegeben, wird "" geliefert.
+
+    string only_one
+	Dieser Parameter ist optional. 
+	Findet parse_com mehr als nur ein Objekt, auf dass die Beschreibung
+	passt, funktioniert aber das eigene Programm nur mit EINEM Objekt,
+	so wird dieser String als Fehlermeldung ausgegeben. Ist only_one
+	0, so beklagt sich parse_com_error_string nicht darueber.
+	(Zum Beispiel bei "alle fackeln" koennen mehrere Objekte gefunden
+	werden. Sie werden dann alle in parsed[PARSE_OBS] aufgelistet.)
+
+Beispiel:
+
+    mixed *parsed;
+
+    parsed = parse_com(command);
+    if (parse_com_error(parsed,"Nimm was?\n", "Immer nur eines nehmen.\n"))
+	return 0;
+    nimm(parsed[PARSE_OBS][0]);
+
+VERWEISE: parse_com, parse_com_error_string
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/parse_com.c
+FUNKTION: file_path
+DEKLARATION: string file_path([object file])
+BESCHREIBUNG:
+file_path liefert das Directory zurueck, in dem das File von ob steht. Wenn
+ob nicht angegeben wird, dann wird this_object() genommen. Sollte ob ein 
+Raum einer Subdomain sein, wird der richtige Pfad der Subdomain errechnet.
+VERWEISE: object_name, abs_path
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc
+FUNKTION: abs_path
+DEKLARATION: string abs_path(string path, [string absolute_path])
+BESCHREIBUNG:
+abs_path liefert den absoluten Pfad zu dem relativen Pfad path, bezogen auf 
+den absoluten Pfad absolute_path zurueck. Hmmm, kompliziert ausgedrueckt...
+Wenn absolute_path nicht mit angegeben ist, wird der Pfad genommen, in dem
+this_object() steht.
+
+Beispiel: 
+    abs_path("../../obj") 
+	liefert "/d/Vaniorh/obj", wenn es von einem Objekt in 
+	/d/Vaniorh/monty/obj aufgerufen wird.
+    abs_path("../../obj","/w/monty/zeug/krempel")
+	liefert /w/monty/obj. Vorsicht, der relative Pfad darf nicht 
+	mit einem "/" anfangen, wenn abs_path etwas machen soll,
+    abs_path("/room/rathaus", "scheiss/egal/was")
+	liefert /room/rathaus!
+
+Es wird keinerlei Pruefung auf das Vorhandensein des Pfades gemacht!
+
+VERWEISE: file_path, object_name, search_file
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc
+FUNKTION: search_file
+DEKLARATION: varargs string search_file(string path[, string absolute[, string subdir[, string extension, [string *exclude]]]])
+BESCHREIBUNG:
+search_file sucht nach der im ersten Parameter 'path' angegebenen Datei.
+
+ - path kann ein absolute Dateiname sein. Dazu muss er mit einem
+   Schraegstrich beginnen.
+
+ - path kann ein relativer Dateiname sein. Hierbei sind '../' nur am
+   Anfang erlaubt.
+
+ - Beginnt path mit einem '%' so wird vom lokalen Verzeichnis ausgehend in
+   allen uebergeordneten Verzeichnissen nach dieser Datei gesucht. Wurde
+   der Parameter subdir angegeben, so muss diese Datei im Unterverzeichnis
+   subdir liegen.
+   
+Der Parameter absolute gibt das lokale Verzeichnis an. Wurde er weggelassen
+oder ist er 0, so wird das Verzeichnis des Objektes, welches diese simul-efun
+aufruft, genommen.
+Die Erweiterung extension wird sofern nicht schon in path vorhanden,
+automatisch angehaengt.
+
+In exclude kann man absolute Dateinamen (mit Endung) angeben, welche
+von der Suche ausgeschlossen werden.
+
+search_file liefert den gefundenen Dateinamen zurueck, sofern diese
+Datei wirklich existiert, ansonsten 0.
+
+Beispiele: 
+
+    search_file("../../../map.c")
+	liefert "/d/Vaniorh/map.c", wenn es von einem Objekt in 
+	/d/Vaniorh/Tadmor/Stadtwache/room aufgerufen wird.
+
+    search_file("../../../map", 0, 0, ".c")
+        liefert das gleiche wie oben, hier duerfte man nur das .c
+	im Dateinamen weglassen.
+
+    search_file("%map.c")
+        schaut ausgehend von /d/Vaniorh/Tadmor/Stadtwache/room nach folgenden
+	Dateien:
+	  /d/Vaniorh/Tadmor/Stadtwache/room/map.c
+	  /d/Vaniorh/Tadmor/Stadtwache/map.c
+	  /d/Vaniorh/Tadmor/map.c
+	  /d/Vaniorh/map.c
+	wo es schliesslich fuendig wird und letzteres zurueckliefert.
+
+    search_file("%master", "/d/Vaniorh/Tadmor/Stadtwache", "apps", ".c")
+        sucht nach folgenden Dateien:
+	  /d/Vaniorh/Tadmor/Stadtwache/apps/master.c
+	  /d/Vaniorh/Tadmor/apps/master.c
+	  /d/Vaniorh/apps/master.c
+	  /d/apps/master.c
+	  /apps/master.c
+	und liefert den ersten gefundenen Dateinamen oder 0.
+
+    search_file("/room/church.c","/scheiss/egal/was")
+        liefert /room/church.c
+
+VERWEISE: file_path, object_name, abs_path
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc
+FUNKTION: valid_file_name
+DEKLARATION: int valid_file_name(string name)
+BESCHREIBUNG:
+Liefert 1, wenn name ein gueltiger Dateiname ist, sonst 0.
+Dabei wird geprueft, ob dieser Name nur gueltige Zeichen enthaelt und ob
+das Verzeichnis, in welchem diese Datei sein sollte, existiert.
+VERWEISE: abs_path, search_file
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc
+FUNKTION: search_object
+DEKLARATION: mixed search_object(string objekt_string [,int flag] )
+BESCHREIBUNG:
+Sucht ein Objekt ueber den angegebenen Objektstring. Damit kann man in
+eigenen Goettertools, Plugins usw. die vom Zauberstab gewohnte Syntax
+zur Angabe von Objekten benutzen.
+
+Infos zum Objektstring siehe /doc/hilfe/goetter/zauberstab/objektstring.
+
+Mit dem optionalen Flag kann man beeinflussen, was wie gesucht wird:
+
+    SO_V_ITEM    (1)    Auch nach V-Items suchen
+    SO_DONT_LOAD (2)    Objekt in der Zauberstab-Markierung nicht laden
+    SO_ENV_FIRST (4)    Zuerst in der Umgebung suchen, dann im Player.
+                        (Diese Reihenfolge ist bei den Spielern ueblich.)
+
+Diese Flags kann man mit dem Operator | verknuepfen.
+Die Defines stammen aus /sys/simul_efuns.h
+GRUPPEN: simul_efun, objekt
+VERWEISE: 
+SOURCE: /secure/simul_efun/search_object.inc
+FUNKTION: liste
+DEKLARATION: string liste(string *str [, string pad])
+BESCHREIBUNG:
+Macht aus einem Stringarray eine normale Aufzaehlung:
+    liste(({"bla","schnack","sabbel"})) ->
+	"bla, schnack und sabbel"
+    liste() -> ""
+    liste(({"bla","schnack","sabbel"}), " oder ") ->
+	"bla, schnack oder sabbel"
+VERWEISE: unliste
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: unliste
+DEKLARATION: string * unliste(string str [, string pad, ...])
+BESCHREIBUNG:
+Versucht aus einer Aufzaehlung wieder ein String-Array zu machen.
+Es ist auch moeglich, mehrere pad anzugeben. Gibt man pad als 0
+an, so wird gar nicht erst nach einem solchen gesucht.
+
+    unliste("eins, zwei und drei")
+        -> ({"eins", "zwei", "drei"})
+
+    unliste("gruen, rot oder blau", " und ", " oder ")
+        -> ({"gruen", "rot", "blau"})
+VERWEISE: liste
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: wrap
+DEKLARATION: string wrap(string str [, int len [, int left]])
+BESCHREIBUNG:
+wrap bricht einen String um. Leere Strings werden nicht umgebrochen.
+
+<len> ist die Gesamtbreite des Textes. Wenn <len> nicht angegeben wird, wird
+auf 75 Zeichen ungebrochen. Der Text kann noch um <left> Zeichen eingerueckt
+werden; <len> bleibt dabei die Gesamtbreite inklusive dieser <left>
+eingerueckten Zeichen. Will man <left> angeben, ohne <len> anzugeben,
+so gibt man fuer <len> einfach 0 an.
+GRUPPEN: string, simul_efun
+VERWEISE: sprintf, copies, left, right, center, wrap_say
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: wrap_say
+DEKLARATION: string wrap_say(string str1, string str2 [, int len [, int left]])
+BESCHREIBUNG:
+wrap_say() erzeugt einen String, der etwa so aussieht:
+say(wrap_say("Monty sagt:","blablabla ....."));->
+
+Monty sagt: blablabla blablabla blablabla blablabla blablabla blablabla
+	blablabla blablabla blablabla blablabla blablabla blablabla
+	blablabla blablabla ...
+
+Der erste optionale Parameter bestimmt die Breite, auf die str2 umgebrochen
+werden soll.
+
+Der zweite optionale Parameter bestimmt, wie weit links eingerueckt werden
+soll. Standardwert ist 8 Zeichen. Aus Einheitlichkeitsgruenden sollte
+hier auch nur in Ausnahmefaellen was anderes angegeben werden.
+
+VERWEISE: sprintf, copies, left, right, center, wrap
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: copies
+DEKLARATION: string copies(string pattern, int times)
+BESCHREIBUNG:
+Gibt 'times' aneinandergesetzte Kopien von 'pattern' zurueck.
+
+Beispiele:
+        copies("*",10)          ->      "**********"
+        copies("hu",2)          ->      "huhu"
+        copies("tra",0)         ->      ""
+
+GRUPPEN: string, simul_efun
+VERWEISE: sprintf, wrap, left, right, center
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: center
+DEKLARATION: string center(string text, int len [,string pad] )
+BESCHREIBUNG:
+Gibt einen String der Breite len zurueck, in dem text zentriert wurde.
+Wenn noetig wird mit dem Zeichen pad aufgefuellt. Voreinstellung fuer
+pad ist das Leerzeichen.
+
+Beispiele:
+        center("abc",7)                 ->      "  abc  "
+        center("abc",8,"-")             ->      "--abc---"
+        center("Der blaue Himmel",7)    ->      "laue Hi"
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, left, right, wrap
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: left
+DEKLARATION: string left(string text, int len [,string pattern] )
+BESCHREIBUNG:
+Gibt einen String der Breite len zurueck, in dem text linksbuendig
+enthalten ist. Wenn noetig wird mit dem Zeichen pad aufgefuellt.
+Voreinstellung fuer pad ist das Leerzeichen.
+
+Beispiele:
+        left("abc d",8)         -->     "abc d   "
+        left("abc d",8,".")     -->     "abc d..."
+        left("abc  def",7)      -->     "abc  de"
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, center, right, wrap
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: right
+DEKLARATION: string right(string text, int len [,string pattern] )
+BESCHREIBUNG:
+Gibt einen String der Breite len zurueck, in dem text rechtsbuendig
+enthalten ist. Wenn noetig wird mit dem Zeichen pad aufgefuellt.
+Voreinstellung fuer pad ist das Leerzeichen.
+
+Beispiele:
+        right("abc d",8)        -->     "   abc d"
+        right("abc d",8,".")    -->     "...abc d"
+        right("abc  def",7)     -->     "bc  def"
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, center, right, wrap
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: substr
+DEKLARATION: string substr(string text, int n[, int len [,string pattern]] )
+BESCHREIBUNG:
+Gibt den Teil von text zurueck, der mit dem n'ten Zeichen beginnt
+und len lang ist. Wenn noetig wird mit dem Zeichen pad aufgefuellt.
+Voreinstellung fuer pad ist das Leerzeichen.
+Wird len nicht angegeben, so wird der Rest von text zurueckgegeben.
+
+Beispiele:
+        substr("abc",2)         -->     "bc"
+        substr("abc",2,4)       -->     "bc  "
+        substr("abc",2,6,".")   -->     "bc...."
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, center, right, wrap
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: strip
+DEKLARATION: string strip(string text)
+BESCHREIBUNG:
+Entfernt vorangestellte und nachfolgende Spaces und Tabs aus text.
+
+Beispiele:
+        strip("   abc   ")              -->     "abc"
+
+GRUPPEN: simul_efun, string
+VERWEISE: trim, sprintf, copies, center, left, right, wrap
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: space
+DEKLARATION: string space(string str [,int n [,string pad]] )
+BESCHREIBUNG:
+Loescht alle ueberschuessigen Spaces, und Tabs zwischen den Woertern
+und fuellt die Zwischenraeume durch den String <pad> auf
+
+Beispiele:
+        space("   hallo  wie gehts   ") -> "hallo wie gehts"
+        space("hallo  wie gehts",2)     -> "hallo  wie  gehts"
+        space("hallo  wie gehts",1,"")  -> "hallowiegehts"
+        space("hallo  wie gehts",3,"+") -> "hallo+++wie+++gehts"
+
+GRUPPEN: simul_efun, string
+VERWEISE: trim
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: add_dot_to_msg
+DEKLARATION: string add_dot_to_msg(string msg)
+BESCHREIBUNG:
+Haengt an <msg> einen Punkt an, wenn <msg> kein Satzzeichen !?.,;:
+am Ende enthaelt. Hat <msg> ein '$' am Ende, so wird dieses abgeschnitten.
+GRUPPEN: simul_efun, string
+VERWEISE:
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: convert_umlaute
+DEKLARATION: string convert_umlaute(string str)
+BESCHREIBUNG:
+Konvertiert alle (einbuchstabigen) Umlaute in die zweibuchstabige
+Darstellung ("o -> oe) und loescht alle Zeichen aus dem String, die
+nicht darstellbar sind (ASCII < 32 und ASCII > 126 (ausser \t und \n))
+GRUPPEN: simul_efun, string
+VERWEISE:
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: escape_string
+DEKLARATION: varargs string escape_string(string str, int mode)
+BESCHREIBUNG:
+Die Funktion fuegt Escape-Zeichen (\) nach verschiedenen Regeln in
+den Eingabestring 'str' ein und liefert das Ergebnis zurueck. Die
+verwendeten Regeln haengen von 'mode' ab.
+
+Mit dieser Funktion lassen sich beliebige Strings in Regular Expressions
+einbauen, auch wenn diese Sonderzeichen enthalten. Damit eignet sich diese
+Funktion zum Beispiel auch fuer beliebige Spielereingaben.
+
+Die Bestandteile des Bitflags 'mode' fuer Regular Expressions:
+
+   ESCAPE_REGEXP:       (Default)
+       Der zurueckgelieferte String ist ein regexp-Muster, das auf
+       den Eingabestring 'str' passt.
+
+   ESCAPE_PCRE:
+       Anstelle von ESCAPE_REGEXP fuer PCRE-kompatible Patterns.
+
+   ESCAPE_ANY:          (Default)
+       Das zurueckgelieferte Muster passt auf beliebige Teilstrings.
+
+   ESCAPE_EXACT:
+       Das zurueckgelieferte Muster muss auf den kompletten String passen.
+
+   ESCAPE_WORD:
+       Das zurueckgelieferte Muster muss auf ein Wort passen.
+
+   ESCAPE_CASE:         (Default)
+       Das zurueckgelieferte Muster beachtet Gross- und Kleinschreibung.
+
+   ESCAPE_NOCASE:
+       Das zurueckgelieferte Muster ignoriert Gross- und Kleinschreibung.
+
+   ESCAPE_LISTE:
+       Das zurueckgelieferte Muster beachtet durch Kommata getrennte Listen.
+       Wenn man sich selbst um die Trennung kuemmern moechte, kann man statt
+       einem String auch ein String-Array uebergeben.
+
+   ESCAPE_WILDCARD:
+       Das zurueckgelieferte Muster beachtet einfache Wildcards:
+
+           ?   steht fuer ein beliebiges einzelnes Zeichen
+           *   steht fuer beliebig viele (oder keine) Zeichen
+
+       Die Wildcards duerfen im Eingabestring selbst escaped werden.
+
+          \?   steht fuer ?
+          \*   steht fuer *
+
+Weitere Werte fuer 'mode', die nicht kombinierbar sind:
+
+   ESCAPE_REPLACE:
+       Es wird kein Muster, sondern ein Replacepattern zurueckgeliefert.
+       Damit setzt regreplace() genau den Eingabestring ein, auch wenn
+       dieser Sonderzeichen enthaelt.
+
+   ESCAPE_GETDIR:
+       Der zurueckgelieferte String matcht Dateien bei get_dir()
+       exakt der Eingabe, Wildcards und Escapes werden ignoriert.
+
+BEISPIELE:
+    escape_string("(foo|bar)")
+        -> Das Muster passt auf "(foo|bar)", "bla (foo|bar) bla"
+
+    escape_string("(foo|bar)", ESCAPE_PCRE)
+        -> Dasselbe, jedoch fuer PCRE.
+
+    escape_string("(foo|bar)", ESCAPE_EXACT)
+        -> Das Muster passt ausschliesslich auf "(foo|bar)".
+
+    escape_string("bla*", ESCAPE_WILDCARD)
+        -> Das Muster passt auf "bla", "blafasel", "/pfad/zum/blablubb"
+
+    escape_string("bla*", ESCAPE_WILDCARD|ESCAPE_EXACT)
+        -> Jetzt passt das Muster nicht mehr auf "/pfad/zum/blablubb"
+
+    escape_string("\\1&\\2&\\3", ESCAPE_REPLACE)
+        -> Als replacepattern verwendet, wird \1&\2&\3 eingesetzt.
+
+    escape_string("tisch, stuhl, sofa", ESCAPE_LISTE)
+        -> Das Muster passt auf tisch oder stuhl oder sofa,
+           aber auch auf holztisch, stuhlbein und ledersofa.
+
+    escape_string("tisch, stuhl, sofa", ESCAPE_LISTE|ESCAPE_CASE|ESCAPE_WORD)
+        -> Das Muster passt auf Tisch oder Stuhl oder Sofa,
+           jedoch nicht mehr auf Holztisch, Stuhlbein und dergleichen.
+           Zudem ist die Gross- und Kleinschreibung in diesem Beispiel egal.
+
+    escape_string("", ESCAPE_LISTE)
+    escape_string(" ", ESCAPE_LISTE)
+    escape_string(" , ,,,", ESCAPE_LISTE)
+        -> Es handelt sich um leere Listen, der Rueckgabewert ist 0.
+
+VERWEISE: regexp, regreplace, get_dir
+GRUPPEN: string, simul_efun
+SOURCE: /secure/simul_efun/string.inc
+FUNKTION: time_to_vtime
+DEKLARATION: int time_to_vtime(int time)
+BESCHREIBUNG:
+Rechnet Realzeit (time(), sec seit 1970) in Spielzeit (vtime(), sec seit 0) um.
+VERWEISE: vtime_to_time, time, vtime
+GRUPPEN: simul_efun, zeit
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: vtime_to_time
+DEKLARATION: int vtime_to_time(int vtime)
+BESCHREIBUNG:
+Rechnet Spielzeit (vtime(), sec seit 0) in Realzeit (time(), sec seit 1970) um.
+VERWEISE: time_to_vtime, time, vtime
+GRUPPEN: simul_efun, zeit
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: vtime
+DEKLARATION: int vtime()
+BESCHREIBUNG:
+Liefert die Anzahl der Sekunden seit dem UNItopia besteht.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, vtime_to_time, time_to_vtime
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: vtimestr
+DEKLARATION: varargs string vtimestr(int vtime, int only)
+BESCHREIBUNG:
+Liefert einen String der Form Mittwoch 31. Maerz 12 18:47:15
+in Spielzeit, das Analogon fuer Realzeit heisst timestr().
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird Uhrzeit und Datum geliefert. Diese Werte sind in simul_efuns.h definiert.
+GRUPPEN: simul_efun, zeit
+VERWEISE: vtime, strfvtime, timestr, ctime, time, vtimearray, array_to_vtime
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: shortvtimestr
+DEKLARATION: varargs string shortvtimestr(int spiel_zeit, int full_year, int only)
+BESCHREIBUNG:
+Liefert einen String mit dem Datum in der Form: TT.MM.JJ hh.mm.ss,
+spiel_zeit ist dabei die Anzahl der Sekunden seit 0, in Spielzeit (vtime()).
+Wenn full_year ungleich 0 ist, wird die Jahreszahl nicht auf zwei Ziffern
+gekuerzt.
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird beides geliefert. Diese Werte sind in simul_efuns.h definiert.
+Das Analogon fuer Realzeit ist shorttimestr().
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, vtime, vtimestr, strfvtime, shorttimestr
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: vclock
+DEKLARATION: int vclock()
+BESCHREIBUNG:
+Liefert einen Integer im Format: hhmmss mit der Spieluhrzeit
+GRUPPEN: simul_efun, zeit
+VERWEISE: clock, time, timestr, vtime, vtimestr
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: format_vseconds
+DEKLARATION: string format_vseconds(int seconds)
+BESCHREIBUNG:
+Liefert fuer seconds einen String der Form:
+'x Tage x Stunden x Minuten x Sekunden'
+wobei die Ausgabe in Spielzeit ist.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_seconds, short_format_seconds, short_format_vseconds
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: short_format_vseconds
+DEKLARATION: string short_format_vseconds(int seconds)
+BESCHREIBUNG:
+Liefert fuer seconds einen String der Form:
+'xd xh xm xs'
+wobei die Ausgabe in Spielzeit ist.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_seconds, short_format_seconds, format_vseconds
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: timestr
+DEKLARATION: varargs string timestr(int clock, int only)
+BESCHREIBUNG:
+Gibt einen deutschsprachigen String mit dem Datum und der Uhrzeit zurueck,
+welchem clock entspricht. Das Argument clock sollte die Anzahl an Sekunden
+seit dem 1. Januar 1970 00:00:00 sein (wird von time() geliefert). Das
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird Uhrzeit und Datum geliefert. Diese Werte sind in simul_efuns.h definiert.
+Analogon fuer Spielzeit ist vtimestr().
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, ctime, strftime, vtimestr, shorttimestr, timearray, array_to_time
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: shorttimestr
+DEKLARATION: varargs string shorttimestr(int clock, int full_year, int only)
+BESCHREIBUNG:
+Liefert einen String mit dem Datum in der Form: TT.MM.JJ hh.mm.ss
+clock ist dabei die Anzahl der Sekunden seit 1970 (time()).
+Wenn full_year ungleich 0 ist, wird die Jahreszahl nicht auf die letzten
+zwei Stellen gekuerzt.
+Wenn only == TIMESTR_ONLY_TIME, wird lediglich die Uhrzeit geliefert.
+Wenn only == TIMESTR_ONLY_DATE, wird nur das Datum geliefert.
+Mit only == TIMESTR_ALL oder wenn dieser Parameter weggelassen wird,
+wird beides geliefert. Diese Werte sind in simul_efuns.h definiert.
+Das Analogon fuer Spielzeit ist shortvtimestr().
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, timestr, strftime, vtime, vtimestr, shortvtimestr
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: clock
+DEKLARATION: int clock()
+BESCHREIBUNG:
+Liefert einen Integer im Format: hhmmss mit der Realuhrzeit
+GRUPPEN: simul_efun, zeit
+VERWEISE: vclock, time, timestr, vtime, vtimestr
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: format_seconds
+DEKLARATION: string format_seconds(int seconds)
+BESCHREIBUNG:
+Liefert einen String der Form:
+'x Tage x Stunden x Minuten x Sekunden'
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_vseconds, short_format_seconds, short_format_vseconds
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: short_format_seconds
+DEKLARATION: string short_format_seconds(int seconds)
+BESCHREIBUNG:
+Liefert einen String der Form:
+'xd xh xm xs'
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, format_vseconds, short_format_vseconds, format_seconds
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: real_time_diff
+DEKLARATION: int real_time_diff(int zeit_von, int zeit_bis)
+BESCHREIBUNG:
+Liefert aus zwei Spielzeiten (Format: hhmmss)
+die Differenz in realen Sekunden zurueck.
+Ist der zweite Parameter kleiner als der erste, so wird
+ein Spieltag (!) hinzuaddiert.
+Anwendung zB bei call_outs.
+
+Beispiel:
+       real_time_diff(11259,20011)  -->  314
+
+VERWEISE: vtime, vclock, clock
+GRUPPEN: simul_efun, zeit
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: file_time
+DEKLARATION: int file_time(string file)
+BESCHREIBUNG:
+Liefert das File-Datum des Files <file>
+VERWEISE: file_size, timestr, ctime
+GRUPPEN: simul_efun, zeit, file
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: query_up_time
+DEKLARATION: int query_up_time()
+BESCHREIBUNG:
+Gibt die Zeit in Sekunden seit dem letzten System-Start zurueck.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: timearray
+DEKLARATION: int* timearray(int clock)
+BESCHREIBUNG:
+Gibt das Datum und die Uhrzeit in einem Array zurueck, welche clock entspricht.
+Dabei ist clock die Zahl der Sekunden seit dem 1. Januar 1970 00:00:00 (wird
+durch time() geliefert). Das Array enthaelt folgende Elemente:
+
+    timearray(clock)[TM_SEC]:   Sekunden (0-59)
+    timearray(clock)[TM_MIN]:   Minuten (0-59)
+    timearray(clock)[TM_HOUR]:  Stunden (0-23)
+    timearray(clock)[TM_MDAY]:  Tag des Monats (1-31)
+    timearray(clock)[TM_MON]:   Monat (1-12)
+    timearray(clock)[TM_YEAR]:  Jahr
+    timearray(clock)[TM_WDAY]:  Tag in der Woche (Sonntag:0, Montag: 1,...)
+    timearray(clock)[TM_YDAY]:  Tag im Jahr (0-365)
+
+Diese Defines gibt es in time.h.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, timestr, strftime, array_to_time, vtimearray
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: vtimearray
+DEKLARATION: int* vtimearray(int clock)
+BESCHREIBUNG:
+Gibt das Datum und die Uhrzeit in einem Array zurueck, welche der in clock
+dargestellten Spielzeit entspricht. (clock wird durch vtime() geliefert.)
+Das Array enthaelt folgende Elemente:
+
+    vtimearray(clock)[TM_SEC]:   Sekunden (0-59)
+    vtimearray(clock)[TM_MIN]:   Minuten (0-59)
+    vtimearray(clock)[TM_HOUR]:  Stunden (0-23)
+    vtimearray(clock)[TM_MDAY]:  Tag des Monats (1-31)
+    vtimearray(clock)[TM_MON]:   Monat (1-12)
+    vtimearray(clock)[TM_YEAR]:  Jahr
+    vtimearray(clock)[TM_WDAY]:  Tag in der Woche (Sonntag:0, Montag: 1,...)
+    vtimearray(clock)[TM_YDAY]:  Tag im Jahr (0-365)
+
+Diese Defines gibt es in time.h.
+GRUPPEN: simul_efun, zeit
+VERWEISE: vtime, vtimestr, strfvtime, array_to_vtime, timearray
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: array_to_time
+DEKLARATION: int array_to_time(int* arr)
+BESCHREIBUNG:
+Liefert zu einem Array (wie es von timearray() geliefert wurde)
+die zugehoerige Anzahl an Sekunden seit 1970.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, timestr, timearray, array_to_vtime
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: array_to_vtime
+DEKLARATION: int array_to_vtime(int* arr)
+BESCHREIBUNG:
+Liefert zu einem Array (wie es von vtimearray() geliefert wurde)
+die zugehoerige Anzahl an Sekunden, seit UNItopia besteht.
+GRUPPEN: simul_efun, zeit
+VERWEISE: vtime, vtimestr, vtimearray, array_to_time
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: strfvtime
+DEKLARATION: string strftime([string fmt] [, int clock] [, int localized])
+BESCHREIBUNG:
+Liefert die Spielzeit als formatierten String zurueck. Das Format kann
+vom Benutzer mit Hilfe von Platzhaltern im Formatstring angegeben werden.
+clock ist dabei die Anzahl der Sekunden seit 0, in Spielzeit (vtime()).
+
+Alle moeglichen Platzhalter im Formatstring sind in der Hilfe zu
+strftime() dokumentiert.
+GRUPPEN: simul_efun, zeit
+VERWEISE: strftime, vtime, vtimestr, vtimearray, array_to_vtime
+SOURCE: /secure/simul_efun/time.inc
+FUNKTION: playerp
+DEKLARATION: int playerp(mixed ob)
+BESCHREIBUNG:
+Returned 1, wenn das ob ein Spieler/Engel/Gott ist, ansonsten 0.
+GRUPPEN: simul_efun, objekt, hlpp, wizp, query_real_player_level
+VERWEISE: clonep
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: wizardshellp
+DEKLARATION: int wizardshellp()
+BESCHREIBUNG:
+Gibt den Level des Wiz-Shell-Besitzers zurueck, FALLS es sich bei
+dem Objekt um eine Wizard - Shell handelt.
+GRUPPEN: simul_efun, objekt
+VERWEISE: playerp, clonep
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: get_align_string
+DEKLARATION: string get_align_string(int align)
+BESCHREIBUNG:
+Liefert einen String zurueck, welcher Gesinnung ein Lebewesen ist.
+(von "heilig" bis "daemonisch")
+GRUPPEN: simul_efun, player
+VERWEISE: 
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: shout
+DEKLARATION: void shout(string str)
+BESCHREIBUNG:
+Der Aufruf dieser Funktion erzeugt ein Ereignis im Kanal "Gebruell",
+welcher ueber den Kurier (EVENT_MASTER) verteilt wird.
+GRUPPEN: simul_efun
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: deep_present
+DEKLARATION: object deep_present(mixed was, object wo)
+BESCHREIBUNG:
+deep_present sucht im Objekt 'wo' und in allen darin enthaltenen Objekten
+nach 'was', wobei 'was' eine ID oder ein Objekt sein kann.
+
+deep_present wird wie present aufgerufen, benoetigt aber immer
+den zweiten Parameter.
+
+Dies und noch mehr kann cond_deep_present. Wenn es nur mit diesen beiden
+Parametern aufgerufen wird, verhaelt es sich genauso wie deep_present.
+
+VERWEISE: cond_deep_present, present
+GRUPPEN: simul_efun, objekt
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: cond_present
+DEKLARATION: object cond_present(string was, object wo, mixed fun, [ mixed args])
+BESCHREIBUNG:
+cond_present (conditional present) sucht im Objekt 'wo' nach dem ersten
+Objekt ob mit der id 'was', welches beim Aufruf von ob->fun(arg1, arg2, ...)
+einen Wert != 0 zurueckgibt.
+args koennen beliebig viele Parameter arg1, arg2, ... sein.
+fun kann auch eine Closure sein, die dann mit ob als erstem Parameter und
+arg1, arg2, ... als restliche Parameter aufgerufen wird.
+Ist fun weder ein String noch eine Closure, liefert es present(was, wo)
+zurueck.
+Ist die id 'was' 0 oder "", dann wird nicht auf die id geachtet.
+
+Anwendungsbeispiele:
+
+Eine Fackel im Fackelhalter, hidden_until_next_move
+Ist eine Fackel im Fackelhalter:
+   if (cond_present("fackel",this_object(),"query_invis"))
+(In den Raum gelegte sichtbare Fackeln stoeren so nicht.)
+Besser noch den Fackelhalter zum echten Container machen ...
+
+Hat der Spieler einen bestimmten Schutzmantel angezogen (!) gegen
+Hitze/Kaelte/Saeure ... ?
+   if (cond_present("schutzmantel",this_player(),"query_worn"))
+Inkorrekt ist das naheliegende
+   if ((mantel = present("schutzmantel", this_player())) &&
+	    mantel->query_worn())
+es koennte ja von zwei Maenteln erst der zweite angezogen sein.
+
+Hat ein Spieler ein reissfestes Seil aus Leder?
+   cond_present("seil", player, "material", "leder")
+
+Hat ein Spieler eine Waffe mit Wirkung gegen das Monster dabei?
+   cond_present("waffe", this_player(), "query_extra_damage", monster, player)
+
+Ist hier jemand oder etwas im Raum aggressiv ?
+   cond_present(0, room, "query_aggressive")
+
+Gibts ein Lebewesen im Raum?
+   cond_present(0, room, #'living)
+
+
+Dies und noch mehr kann cond_deep_present.
+cond_deep_present(was, wo, CDP_FLAT, fun, ...) verhaelt sich voellig identisch.
+
+VERWEISE: cond_deep_present, present
+GRUPPEN: simul_efun
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: cond_deep_present
+DEKLARATION: varargs object cond_deep_present(string was, object wo, int flags, mixed fun, varargs mixed args)
+BESCHREIBUNG:
+cond_deep_present (conditional deep present) sucht im Objekt 'wo' und in 
+allen darin enthaltenen Objekten nach dem ersten Objekt ob mit der id 'was',
+welches beim Aufruf von ob->fun(arg1, arg2, ...) einen Wert != 0 zurueckgibt.
+
+args koennen beliebig viele Parameter arg1, arg2, ... sein.
+fun kann auch eine Closure sein, die dann mit ob als erstem Parameter und
+arg1, arg2, ... als restliche Parameter aufgerufen wird.
+Ist fun weder ein String noch eine Closure, liefert es einfach das erste
+gefundene Objekt mit der id 'was' zurueck.
+Ist die id 'was' 0 oder "", dann wird nicht auf die id geachtet.
+
+In flags kann angegeben werden, in welcher Reihenfolge die Suche stattfinden
+soll (Defines in simul_efuns.h):
+
+	CDP_DEPTH_FIRST		Zuerst in die Tiefe gehen.
+	CDP_BREADTH_FIRST	Das Objekt mit der geringsten Tiefe nehmen.
+	CDP_FLAT                Nicht in die Tiefe gehen. (gleiche Verhalten
+	                        wie cond_present.)
+
+Wurde weder CDP_DEPTH_FIRST, CDP_BREADTH_FIRST noch CDP_FLAT gewaehlt, so wird
+der Suchalgorithmus von deep_present genutzt: Erst in allen Objekten innerhalb
+von 'wo' suchen, dann rekursiv in den einzelnen Containern von 'wo' suchen.
+
+VERWEISE: cond_present, present
+GRUPPEN: simul_efun
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: player_present
+DEKLARATION: varargs object player_present(object room, int flags)
+BESCHREIBUNG:
+Mit dieser Funktion kann man abfragen, ob ein (interaktiver) Spieler sich
+in einem Raum befindet.
+Wenn kein Argument uebergeben wird, wird this_object() genommen.
+Die Funktion liefert den 1. Spieler, der gefunden wird (ansonsten 0)
+Mit dem Parameter flags kann man die Menge der betroffenen Spieler
+eingrenzen oder erweitern. Es kann eine Kombination (Veroderung) aus den
+folgenden in simul_efuns.h definierten Konstanten sein:
+  PPRESENT_NO_WIZARDS   Goetter nicht beachten
+  PPRESENT_ONLY_LISTED	Spieler mit V_NOLIST-Unsichtbarkeit nicht beachten.
+  PPRESENT_NO_HIDDEN	Spieler mit V_HIDDEN-Unsichtbarkeit nicht beachten.
+  PPRESENT_NO_SHIMMER   Spieler mit V_SHIMMER-Unsichtbarkeit (z.B. Engel)
+                        nicht beachten
+  PPRESENT_NO_INVIS     Spieler mit V_INVIS-Unsichtbarkeit (meist Goetter)
+                        nicht beachten
+  PPRESENT_STATUES      Auch Statuen beachten.
+Standardmaessig werden alle interaktiven Spieler (keine Statuen) unabhaengig
+von ihrem Level und Sichtbarkeit beachtet.
+Das #include <simul_efuns.h> nicht vergessen.
+VERWEISE:
+GRUPPEN: simul_efun, player
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: Name
+DEKLARATION: string Name(object ob)
+BESCHREIBUNG:
+Liefert einen Cap-Namen des Objektes ob. (fuer Debugzwecke geeignet)
+Entweder query_real_name, oder query_name oder query_short,
+ansonsten den Filenamen des Objektes
+GRUPPEN: simul_efun, objekt
+VERWEISE:
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: arr_delete
+DEKLARATION: mixed *arr_delete(mixed *array, int index)
+BESCHREIBUNG:
+Loescht aus dem Array <array> das Feld mit dem Index <index> und
+returned das neue Array.
+VERWEISE: m_delete
+GRUPPEN: simul_efun, array
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: query_real_player_level
+DEKLARATION: int query_real_player_level(object player)
+BESCHREIBUNG:
+Liefert den Level eines Spielers (wenn 'ob' einer ist)
+ansosnten 0
+GRUPPEN: simul_efun, player
+VERWEISE: playerp
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: get_unique_string
+DEKLARATION: string get_unique_string()
+BESCHREIBUNG:
+Funktion liefert einen einmaligen String.
+Jeder spaetere Aufruf dieser Funktion liefert garantiert einen
+anderen String, auch nach Neustart des Systems.
+GRUPPEN: simul_efun
+VERWEISE:
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: call_proved
+DEKLARATION: mixed call_proved(string fn|object ob|object *ob, string fun|mapping fun|mixed *fun, varargs mixed *par)
+BESCHREIBUNG:
+call_proved ist eine Erweiterung von call_other, welche einen Fehler wirft,
+wenn die Funktion fun nicht aufrufbar ist (d.h. entweder existiert sie nicht
+oder ist static oder private, und ein Shadow mit dieser Funktion ist auch nicht
+uebergeworfen).
+
+Gegenueber call_other kann man als Funktion auch Mappings der Form:
+    ([
+        "funktion1": ({ arg1, arg2, ...}), // Bei mehreren Argumenten
+        "funktion2": arg1,                 // Bei einem nicht-Array-Parameter
+    ])
+oder Arrays der Form:
+    ({
+	({ "funktion1", arg1, arg2, ... }),
+	...
+    })
+uebergeben.
+
+Das Ergebnis fuer jedes Objekt ist ein Mapping ([ "funktionsname": ergebnis ])
+bzw. ein Array mit den Ergebnissen jeder Funktion.
+VERWEISE: call_other, call_resolved, call_with_this_player
+GRUPPEN: Objekt
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: QUERY
+DEKLARATION: mixed QUERY(string what, object ob|mapping vitem)
+BESCHREIBUNG:
+Fragt die Eigenschaft what des Objektes ob oder V-Items vitem ab.
+Beim Objekt wird ob->query_<what>() aufgerufen, beim V-Item wird
+vitem[what] ausgewertet. Falls letzteres eine Closure ist, so wird
+sie mit dem V-Item als 1. Parameter ausgefuehrt und dessen Ergebnis geliefert.
+VERWEISE: QUERY_PARS, query_v_item, parse_com
+GRUPPEN: virtuell
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: QUERY_PARS
+DEKLARATION: mixed QUERY_PARS(string what, object ob|mapping vitem, mixed *parameter)
+BESCHREIBUNG:
+Fragt die Eigenschaft what des Objektes ob oder V-Items vitem ab.
+Beim Objekt wird ob->query_<what>(parameter) aufgerufen, wobei die Elemente aus
+parameter als einzelne Parameter uebergeben werden. Beim V-Item wird
+vitem[what] ausgewertet. Falls letzteres eine Closure ist, so wird
+sie mit dem V-Item als 1. Parameter und den Elementen aus parameter als weitere
+Parameter ausgefuehrt und dessen Ergebnis geliefert.
+VERWEISE: QUERY, query_v_item, parse_com
+GRUPPEN: virtuell
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: HAS_ID
+DEKLARATION: int HAS_ID(object ob|mapping vitem, string id)
+BESCHREIBUNG:
+Liefert 1 zurueck, wenn das Objekt ob bzw. das V-Item vitem auf die ID id
+reagieren, ansonsten 0. Die als Objekt uebergebene Variable muss vom Typ
+mixed sein, ansonsten gibt es einen Compile-Fehler.
+VERWEISE: id, QUERY, QUERY_PARS, query_v_item, parse_com
+GRUPPEN: virtuell
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: call_with_this_player
+DEKLARATION: mixed call_with_this_player(string fun|closure cl, varargs mixed *args)
+BESCHREIBUNG:
+call_with_this_player ruft die Funktion 'fun' im aktuellen Objekt oder
+die Closure cl mit den angegebenen Parametern auf.
+Dabei wird fuer diesen Aufruf this_player() auf das aktuelle Objekt (falls
+es lebt) oder 0 (falls es nicht lebt) gesetzt.
+VERWEISE: call_other, call_proved, funcall, apply
+GRUPPEN: Monster
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: foldl
+DEKLARATION: mixed foldl(mixed *array, mixed startwert, closure funktion, ...)
+BESCHREIBUNG:
+
+Diese Funktion geht das Array von links nach rechts durch, ruft
+
+    funktion(startwert, element, ...)
+
+fuer jedes Element auf und uebernimmt das Ergebnis als Startwert fuer
+das naechste Element. Der letzte ermittelte Wert wird zurueckgeliefert.
+
+
+BEISPIEL: Um die Summe aller Gegenstaende in 'ob' zu ermitteln:
+
+    foldl(all_inventory(ob), 0, (: $1 + $2->query_weight() :))
+    
+Als Array werden alle Gegenstaende uebermittelt, Startwert ist 0, als
+neuer Wert wird immer das Gewicht das jeweiligen Gegenstands ermittelt.
+
+Hinweis:
+Bei foldr() wird das Array nicht nur in der Gegenrichtung durchlaufen,
+sondern auch die ersten beiden Parameter an die Closure vertauscht.
+VERWEISE: foldr, map, filter, funcall, apply
+GRUPPEN: simul_efun, array
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: foldr
+DEKLARATION: mixed foldr(mixed *array, mixed startwert, closure funktion, ...)
+BESCHREIBUNG:
+
+Diese Funktion geht das Array von rechts nach links durch, ruft
+
+    funktion(element, startwert, ...)
+
+fuer jedes Element auf und uebernimmt das Ergebnis als Startwert fuer
+das naechste Element. Der letzte ermittelte Wert wird zurueckgeliefert.
+
+
+BEISPIEL: Um die Summe aller Gegenstaende in 'ob' zu ermitteln:
+
+    foldr(all_inventory(ob), 0, (: $1->query_weight() + $2 :))
+    
+Als Array werden alle Gegenstaende uebermittelt, Startwert ist 0, als
+neuer Wert wird immer das Gewicht das jeweiligen Gegenstands ermittelt.
+
+Hinweis:
+Bei foldl() wird das Array nicht nur in der Gegenrichtung durchlaufen,               
+sondern auch die ersten beiden Parameter an die Closure vertauscht.
+VERWEISE: foldl, map, filter, funcall, apply
+GRUPPEN: simul_efun, array
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: read_bits
+DEKLARATION: int read_bits(string str, int start, int length)
+BESCHREIBUNG:
+Liest aus dem Bitstring eine Zahl ab Bitposition start aus.
+SOURCE: /secure/simul_efun/util.inc
+FUNKTION: write_bits
+DEKLARATION: string write_bits(string str, int start, int length, int number)
+BESCHREIBUNG:
+Schreibt die Zahl number in den Bitspring an Position start
+und liefert den neuen String zurueck.
+SOURCE: /secure/simul_efun/util.inc

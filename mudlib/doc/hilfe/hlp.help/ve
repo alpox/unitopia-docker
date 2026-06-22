@@ -1,0 +1,19 @@
+------------------------------------------------------------------------------
+
+Die Gabe der Verfolgung erlaubt es Dir einen Mitspieler zu verfolgen.
+Aber erwarte nicht, damit einem der Allmächtigen folgen zu können.
+Auch von Sterblichen sagt man, sie können sich mit etwas Geschick der
+Verfolgung entziehen.
+Doch habe vor Auge, dass Du damit Deine Mitspieler zu sehr belästigen 
+könntest. Verwende deshalb diese Gabe der Götter weise und klug.
+
+Syntax:
+   verfolge [<wen>]
+
+Der zu verfolgende muss ein Spieler und anwesend sein. Ohne Angabe von
+<wen> wird die Verfolgung eingestellt.
+
+Beispiel:
+   verfolge ean
+   verfolge
+------------------------------------------------------------------------------

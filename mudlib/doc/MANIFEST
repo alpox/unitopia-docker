@@ -1,0 +1,23 @@
+
+UNItopia Dokumentation
+----------------------
+
+	Die Dokumentation zu UNItopia besteht zur Zeit aus
+	UNItopia spezifischen Beschreibungen, größtenteils in
+
+	funktionsweisen/
+	richtlinien/
+	lfun/
+
+        und allgemeinen UNItopia unspezifischen driver Dokumentationen
+
+	efun/
+	applied/
+	concepts/
+	driver/
+	lpc/
+
+	Diese stammten zum Großteil aus driver-docs-3.2.1@120-96-02-11
+	Mittlerweile ist diese Doku aber in die LDMud-Driver-Distribution
+	gewandert und wird von Lard Duening gewartet.
+

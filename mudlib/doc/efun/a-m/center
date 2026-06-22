@@ -1,0 +1,15 @@
+FUNKTION: center
+DEKLARATION: string center(string text, int len [,string pad] )
+BESCHREIBUNG:
+Gibt einen String der Breite len zurueck, in dem text zentriert wurde.
+Wenn noetig wird mit dem Zeichen pad aufgefuellt. Voreinstellung fuer
+pad ist das Leerzeichen.
+
+Beispiele:
+        center("abc",7)                 ->      "  abc  "
+        center("abc",8,"-")             ->      "--abc---"
+        center("Der blaue Himmel",7)    ->      "laue Hi"
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, left, right, wrap
+SOURCE: /secure/simul_efun/string.inc

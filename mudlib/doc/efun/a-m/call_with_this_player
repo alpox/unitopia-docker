@@ -1,0 +1,10 @@
+FUNKTION: call_with_this_player
+DEKLARATION: mixed call_with_this_player(string fun|closure cl, varargs mixed *args)
+BESCHREIBUNG:
+call_with_this_player ruft die Funktion 'fun' im aktuellen Objekt oder
+die Closure cl mit den angegebenen Parametern auf.
+Dabei wird fuer diesen Aufruf this_player() auf das aktuelle Objekt (falls
+es lebt) oder 0 (falls es nicht lebt) gesetzt.
+VERWEISE: call_other, call_proved, funcall, apply
+GRUPPEN: Monster
+SOURCE: /secure/simul_efun/util.inc

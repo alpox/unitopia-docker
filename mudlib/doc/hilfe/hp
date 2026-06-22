@@ -1,0 +1,11 @@
+------------------------------------------------------------------------------
+ap                                       Kurze, knappe Zustandsanzeige
+hp
+zp
+kp                                       (nur Diebesgilde)
+mp                                       (nur Alchemistengilde)
+
+Es werden Deine Ausdauerpunkte und Zauber- bzw. Mentalpunkte angezeigt.
+
+siehe auch:   spielstand (sp), erfahrung
+------------------------------------------------------------------------------

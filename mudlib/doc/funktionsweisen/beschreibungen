@@ -1,0 +1,568 @@
+Einführung
+==========
+
+Via set_long, set_read, set_smell, set_noise und set_feel (und auch bei den
+korrespondieren Einträgen in V-Items) kann man nicht nur einfache Strings als
+Text setzen, sondern auch Aneinanderreihungen von einzelnen Textstuecken und
+Bedingungen. Die einzelnen Elemente werden dazu in einem Array zusammengefasst
+und übergeben:
+
+    set_long(
+        ({
+            "Du gehst duch einen kleinen Wald. ",
+
+            "Nach Osten geht ein Trampelpfad. ",
+        }));
+
+Als Textstuecke können auch Closures verwendet werden:
+
+    set_read(
+        ({
+            "Auf dem Zettel liest du folgende Worte: ",
+
+            #'query_words
+        }));
+
+Auch dürfen in einem solchen Array wiederum Arrays (zur Gruppierung von
+Texten) vorkommen.
+
+Soviel zum Vorwort. Der eigentliche Wahnsinn steckt in der Möglichkeit,
+solchen Textstuecken eine oder mehrere Bedingungen voranzustellen. Solche
+Bedingungen sind in <description.h> definiert und kann man in der Enzy unter
+T_LISTE nachlesen.
+
+    set_long(
+    ({
+        T_DAY_LIGHT,
+        ({      "Du gehst duch einen kleinen Wald. Nach Osten "
+                 "geht ein Trampelpfad. ",
+                 T_PRESENT("stamm"), "Hier liegt ein Baumstamm. ",
+        }),
+        T_ELSE, T_NIGHT_LIGHT,
+                "Du spazierst in dieser Nacht einen Pfad durch den "
+                "dunklen Wald entlang. ",
+        T_ELSE,
+                "Du befindest dich in einem schaurig dunklen Wald. "
+    }));
+
+In obigem Beispiel gibt es drei verschiedene Texte, je nachdem, ob es
+tagsüber und hell (T_DAY_LIGHT), nachts und hell (T_NIGHT_LIGHT) oder dunkel
+(T_ELSE, egal ob Tag oder Nacht) ist.
+
+Definition
+----------
+
+Eine Beschreibung kann also folgendes sein:
+
+ 1. Ein normaler Text (ein String). Dieser wird direkt in den Text
+    übernommen.
+
+        set_long("Du wanderst durch einen sehr kleinen Wald.");
+	
+ 2. Eine Closure. Die Closure wird ausgeführt und deren Ergebnis, ein String,
+    wird in den Text übernommen.
+    
+        set_long(#'wald_long);
+
+ 3. Ein Array mit solchen Beschreibungsteilen als weitere Elemente. Die
+    einzelnen Textstuecke werden zusammengefügt.
+    
+        set_long(
+	    ({
+	        "Du wanderst durch einen kleinen Wald. ",
+		#'baum_hinweis
+	    }));
+
+ 4. Spezielle Beschreibungsanweisungen, das sind T-Defines wie T_DARK oder
+    T_DAYTIME aus description.h. Es gibt mehrere Varianten solcher
+    Anweisungen:
+
+    a) Eine Bedingung, gefolgt von einem Beschreibungsteil. Der nachfolgende
+       Teil wird nur dann in die Beschreibung übernommen, wenn die Bedingung
+       wahr ist.
+
+           set_long(
+	       ({
+	           T_NEWBIE,
+		       "Du wanderst durch einen fürchterlich aussehenden "
+		       "Wald. Du willst umkehren.",
+		   T_ELSE,
+		       "Du wanderst durch einen niedlichen Wald."
+	       }));
+
+    b) Ein Filter, gefolgt von einem Beschreibungsteil. Der Filter erhält den
+       nachfolgenden Teil als Parameter und liefert einen veränderten Text
+       zur Übernahme in die Beschreibung zurück.
+       
+           schild->set_long(
+	       ({
+	            "Auf dem Schild erkennst Du:\n\n",
+		    
+		    T_RAHMEN(30), "Betreten verboten!"
+	       }));
+	
+        (Das T_RAHMEN(breite) gibt es noch nicht, aber so könnte ein Filter
+	den Text verändern, indem es einen Rahmen darum setzt.)
+	
+    c) Eine Textanweisung. Diese Anweisung liefert einfach einen Text für die
+       Beschreibung zurück.
+       
+           set_long(
+	       ({
+	            "Du wanderst durch den Wald.",
+		    T_DAYTIME
+	       }));
+	
+    d) Ein Marker, ein Tag. Dies ist ein Hinweis für die Auswertungsroutinen,
+       zum Beispiel darauf, dass der Text auch eine Beschreibung für die
+       Dunkelheit enthält.
+       
+           set_long(
+	       ({
+	           T_BLIND,
+		       "Du stolperst durchs Gebüsch.",
+		   T_ELSE,
+		       "Du wanderst durch einen Wald.",
+		
+		   T_HAS_BLINDTEXT
+		}));
+
+        Das T_HAS_BLINDTEXT gibt an, dass der Text eine extra Meldung für
+	erblindete Spieler enthält, so dass sich der Blindshadow nicht extra
+	darum kümmern muss. Das T_BLIND selbst setzt aber automatisch diesen
+	Marker, so dass man ihn eigentich nicht nochmal extra angeben braucht.
+
+Einsatzmöglichkeiten
+--------------------
+
+Diese Beschreibungen können via set_long, set_read, set_feel, set_noise und
+set_smell eingesetzt werden. In V-Items werden sie bei "long", "read", "feel",
+"noise" und "smell" unterstützt. Die Texte werden alle automatisch
+umgebrochen.
+
+Zudem ist es möglich in V-Items eine Bedingung (z.B. T_NIGHT) als "invis"
+anzugeben. (Achtung: Diese Bedingung gibt an, wann das V-Item *unsichtbar*
+wird. Ggf. muss man sie also mit T_NOT negieren.)
+
+
+
+Parameter beim Aufruf von Closures und Funktionen
+=================================================
+
+Es gibt die Möglichkeit, Closure- und Funktionsaufrufe in die Beschreibung
+einzubinden. Closures, die einen Text zurueckliefern, können einfach direkt
+in der Beschreibung angebenen werden:
+
+    set_long(
+        ({
+            "Du wanderst gemütlich durch die Grasebene. ",
+
+            #'zeige_position_des_forts,
+
+            (:
+                 if(!random(5))
+                      return "Ein Schmetterling fliegt gerade vorbei. "
+            :)
+
+        }));
+
+Für Funktionsaufrufe - sofern man sie nicht direkt via Closure aufrufen will
+- muss man aber das Define T_TEXT_FUNC oder T_TEXT_FUNCV nutzen, z.B.
+
+    T_TEXT_FUNC("zeige_position_des_forts")
+	statt
+    #'zeige_position_des_forts.
+    
+T_TEXT_FUNCV unterscheidet sich von T_TEXT_FUNC dadurch, dass es als zweiten
+Parameter ein Array mit Argumenten für den Funktionsaufruf erwartet.
+
+Closures und Funktionen können auch als Bedingungen oder Filter eingesetzt
+werden. Hierbei muss eine Closure mittels T_CL (fuer Bedingungen) bzw.
+T_FILTER_CL (fuer Filter) übergeben werden. Für Funktionsaufrufe gibt es
+dementsprechend T_FUNC bzw. T_FILTER_FUNC. Möchte man weitere Parameter
+übergeben, kann man T_CLV, T_FILTER_CLV, T_FUNCV bzw. T_FILTER_FUNCV nutzen.
+
+Für Funktionen und Closures gelten gleiche Aufrufkonventionen. Sie erhalten
+als erstes Argument ein Mapping mit weiteren Infos über das betrachtete
+Objekt und die Betrachtungsweise. Filter erhalten als zweites Argument den zu
+filternden Text. Wurde der Aufruf mit Hilfe der T_*_CLV- bzw.
+T_*_FUNCV-Defines durchgeführt, werden die Elemente des dort angegebenen
+Arrays dann noch als weitere Argumente übergeben. (Der Aufruf von
+T_CLV(closure, args) erfolgt also via apply(closure, info_mapping, args).)
+
+Eine entsprechende Funktionsdeklarationen sähen damit folgendermaßen aus:
+
+    string zeige_position_des_forts(mapping infos);        // Liefert Text
+    int wolf_in_der_naehe(mapping infos);                  // Eine Bedingung
+    string text_verschluesseln(mapping infos, string str); // Ein Filter 
+
+Das Mapping kann folgende Einträge enthalten (sie sind alle optional):
+
+    TI_VIEWER:	Der Betrachter (ein Objekt).
+    TI_ITEM:	Der betrachtete Gegenstand (ein Objekt oder V-Item).
+		Ist dieser Eintrag nicht vorhanden, wird der Raum betrachtet.
+    TI_OBJECT:  Falls ein V-Item betrachtet wurde, enthält dieser Eintrag
+		das Objekt, an dem das V-Item hängt.
+    TI_ROOM:	Der betrachtete Raum oder, falls ein Gegenstand betrachtet
+		wird, der Raum, in dem sich dieser Gegenstand befindet.
+    TI_DARK:	Dieser Wert ist != 0, wenn es für den Betrachter zu dunkel
+		ist.
+
+
+
+Eigene Bedingungen implementieren
+=================================
+
+Es gibt viele Möglichkeiten, eigene Bedingungen, Textfunktionen oder Filter
+z.B. in einem Domaininherit einzuführen.
+
+Implementation via T_FUNC, T_TEXT_FUNC oder T_FILTER_FUNC
+---------------------------------------------------------
+
+Mit den T_*_FUNC/T_*_FUNCV-Defines bekommt man eine Bedingung, welche nix
+anderes macht, als die angegebene Funktion aufzurufen und deren Ergebnis als
+Wahrheitswert (!=0, dann wahr) zu interpretieren. T_FUNC("regnet_es") ruft die
+Funktion regnet_es() im Objekt, welches diese Beschreibung trägt, auf. Daher
+kann man damit weitere Bedingungen z.B. wie folgt definieren:
+
+    #define T_REGEN T_FUNC("regnet_es")
+    #define T_JAHRESZEIT(jz) T_FUNCV("jahreszeit", ({jz}))
+
+Solche Funktionen müssen via call_other aufrufbar sein (d.h. weder static
+noch protected oder private sein):
+
+    int regnet_es(mapping info);
+    int jahreszeit(mapping info, string jahreszeitenname);
+
+Äquivalent kann man mit T_*_CL/T_*_CLV Closures nutzen. Dazu ist aber zu
+beachten, dass die von LFun-Closures referenzierten Funktionen in denjenigem
+Objekt vorhanden sein müssen, welches die Beschreibungen setzt. Dieses Objekt
+muss zudem mindestens genauso lange existieren, wie das Objekt, welches die
+Beschreibung erhielt. Es ist daher meist nur dann zu gebrauchen, wenn sich ein
+Objekt selbst die Beschreibung setzt.
+
+Implementation über eine eigene Funktion, welche von desc_condition,
+desc_filter oder desc_text aufgerufen wird
+---------------------------------------------------------------------
+
+Die meisten Bedingungen werden von der zentralen Funktion desc_condition
+ausgewertet. Kennt diese Funktion irgendeine Bedingung "foo" nicht, so ruft
+sie die Funktion desc_condition_foo auf, sofern diese existiert. Äquivalent
+verhält es sich mit Textfunktionen und Filtern zu desc_filter bzw.
+desc_text und desc_filter_foo bzw. desc_text_foo.
+
+Eine solche Bedingung ist ein Array
+    ({ T_ATOM_COND, "bedingungsname", weitere parameter... }).
+Dementsprechend kann man sie folgendermass definieren:
+
+    // Zuerst die Bedingungsnamen, wir nutzen später immer nur diese Defines
+    #define T_ATOM_REGEN      "regen"
+    #define T_ATOM_JAHRESZEIT "jahreszeit"
+
+    // Hier dann die Bedingungen
+    #define T_REGEN           ({ T_ATOM_COND, T_ATOM_REGEN})
+    // Die Jahreszeitbedingung hat einen zusätzlichen Parameter:
+    #define T_JAHRESZEIT(jz)  ({ T_ATOM_COND, T_ATOM_JAHRESZEIT, jz })
+
+Dazu benötigt man dann folgende Funktionen:
+
+    int desc_condition_regen(mixed info);
+    int desc_condition_jahreszeit(mixed info, string jahreszeitenname);
+
+Text- und Filterfunktionen sollten statt eines Integers einen String liefern.
+Filterfunktion erhalten zudem als zweiten Parameter (hinter info, vor den
+restlichen Parametern) den zu filternden Text.
+
+Überlagerung von desc_condition, desc_filter oder desc_text
+------------------------------------------------------------
+
+Man kann natürlich desc_condition, desc_filter bzw. desc_text auch direkt
+ueberlagen, sodass sie nicht den Aufruf an desc_condition_*/desc_text_*/
+desc_filter_*-Funktionen weiterreichen. Die T-Defines sehen dabei genauso
+aus, wie im vorherigen Abschnitt. Nur statt der zusätzlichen Funktionen
+überlagert man desc_condition & Co.:
+
+    protected mixed desc_condition(string name, mixed info, mixed* par)
+    {
+        switch(name)
+        {
+            case T_ATOM_JAHRESZEIT:
+                // Die zusätzlichen Parameter sind in par enthalten.
+                // par[0] ist also der Jahreszeitenname.
+                return haben_wir_gerade_jahreszeit(par[0]);
+            case T_ATOM_REGEN:
+                return regnet_es_gerade();
+        }
+    
+        // Haben wir nicht behandelt, also weiterreichen:
+        return ::desc_condition(name, info, par);
+    }
+
+
+
+Besonderheiten bei Long-Beschreibungen
+======================================
+
+Auswertung der Standardbeschreibung
+-----------------------------------
+
+query_long wertet die Beschreibungen in einem zweistufigen Prozess aus.
+Zuerst berechnet query_long_exec aus der Closure mithilfe des übergebenen
+Mappings die Grundbeschreibung. Diese Funktion kann man überlagern, um das
+Mapping mit weiteren Informationen zu versorgen oder um einen gänzlich
+anderen Beschreibungs-/Auswertungsmechanismus zu verwenden. Anschließend
+wird diese Grundbeschreibung von query_long_postprocess verarbeitet. Diese
+Funktion bricht den Text um und kann überlagert werden, um weitere Meldungen
+anzuhängen (in Räumen wird per Default die Tageszeitbeschreibung
+angehaengt).
+
+Desweiteren werden alle in der Beschreibung verwendeten Marker ("Tags")
+gespeichert. Tags sind Hinweise für die Auswertungsroutinen, zum Beispiel
+darauf, welche Bedingungen und Texte in der Beschreibung verwendet wurden.
+Somit kann man zum Beispiel feststellen, ob die Beschreibung auch einen Text
+für die Dunkelheit enthält. (T_DARK besteht daher in Wirklichkeit aus zwei
+Teilen: zum Einen dem Tag T_ATOM_TAG_DARKNESS, der angibt, dass auch ein
+Dunkelheitstext existiert, als auch die eigentliche Bedingung für die
+Dunkelheit.) Diese Tags kann man mit den Funktionen query_long_has_tag,
+query_long_tag_val und query_long_tags abfragen.
+
+Zusammenspiel mit den verschiedenen Arten von query_long
+--------------------------------------------------------
+
+ * query_long_dark verwendet den gleichen Mechanismus wie query_long mit
+   dem einzigen Unterschied, dass im info-Mapping der Eintrag TI_DARK auf 1
+   gesetzt wird.
+ * query_visible_in_the_dark liefert 1 zurück, wenn T_LIGHT oder T_DARK in
+   der Raumbeschreibung verwendet wurde.
+ * set_long_night, query_long_night und query_long_night_string arbeiten
+   wie bisher und unterstützen nicht diese Beschreibungsmöglichkeiten.
+   Man kann aber auf sie verzichten und in der eigentlichen Raumbeschreibung
+   diesen Text mittels T_NIGHT unterbringen.
+ * query_long_string funktioniert nicht mit diesen Beschreibungen. Sobald
+   ein Array bei set_long angegeben wurde, liefert es 0 zurück.
+
+Implementation von Zusatztexten
+-------------------------------
+
+Nehmen wir mal an, wir haben einen Golpsel, auf dem man rumbirxeln kann.
+Zuerst wollen wir anzeigen, wer alles schon draufrumbirxelt. Dazu sollte man
+query_long_postprocess überlagern:
+
+    protected string query_long_postprocess(string msg, mapping info)
+    {
+        msg = item::query_long_postprocess(msg, info);
+    
+        msg += wrap(query_birxel_text(info));
+    
+        return msg;
+    }
+
+Als Zweites wollen wir die Möglichkeit bieten, dass sich Objekte selbst um
+diese Zusatzbeschreibung kümmern. Dazu führen wir einen Marker ein, der in
+einer zugehörigen Include-Datei definiert wird:
+
+    #define T_ATOM_TAG_BIRXEL_TEXT  "birxel_text"
+
+    #define T_HAS_BIRXEL_TEXT       T_TAG(T_ATOM_TAG_BIRXEL_TEXT)
+
+Dabei sind T_ATOM-Defines nur für den internen Gebrauch und das
+T_HAS_BIRXEL_TEXT zur Nutzung in der Beschreibung. Kommt es dort vor, soll der
+Zusatztext nicht angehängt werden. Wir müssen also in query_long_postprocess
+diesen Marker abfragen:
+
+    protected string query_long_postprocess(string msg, mapping info)
+    {
+        msg = item::query_long_postprocess(msg, info);
+    
+        if(!query_long_has_tag(T_ATOM_TAG_BIRXEL_TEXT))
+            msg += wrap(query_birxel_text(info));
+    
+        return msg;
+    }
+
+Als Drittes und der Vollständigkeit halber bieten wir den Standardzusatztext
+als T-Baustein für die explizite Verwendung in eigenen Beschreibungen an.
+Dies geschieht wie weiter oben beschrieben. Allerdings mit einem kleinen
+Unterschied: Wenn dieser Baustein genutzt wird, soll automatisch der
+T_ATOM_TAG_BIRXEL_TEXT-Marker gesetzt werden, so dass der Zusatztext nicht
+nochmal darunter gesetzt wird.
+
+    #define T_BIRXEL_TEXT           ({ T_HAS_BIRXEL_TEXT, \
+                                       T_TEXT_FUNC("query_birxel_text") })
+
+Wir haben in weiser Voraussicht query_birxel_text bereits mit dem info-Mapping
+als ersten Parameter ausgestattet, so dass diese Funktion direkt mit
+T_TEXT_FUNC genutzt werden kann.
+
+
+
+Technische Details
+==================
+
+Aufbau des Arrays
+-----------------
+
+Es gibt zwei Arten von Defines, welche hier zur Anwendung kommen. Einerseits
+gibt es Defines zur Anwendung in Beschreibungen, andererseits interne Defines,
+welche nur zur Implementation von Bedingungen, Filtern und Textbausteinen
+gedacht sind. Letztere Sorte erkennt man daran, dass sie mit T_ATOM_ beginnen.
+Sie stellen größtenteils Bezeichner (Strings, ausschließlich in der Mudlib
+zum Teil auch Integers) zur eindeutigen Identifizierung von Bedingungen dar.
+
+Die zur externen Nutzung gedachten Defines werden normalerweise aus den
+internen aufgebaut. Sie sind Arrays, deren erstes Element eine Zahl ist.
+Anhand dieser Zahl wird erkannt, dass es sich um eine besondere Anweisung
+handelt und um welche es sich dabei handelt. Dieses Element kann eines der
+folgenden Defines sein:
+
+T_ATOM_COND (1)
+    Dieses Array ist eine Bedingung für den nachfolgenden Textblock.
+    Das zweite Element bezeichnet die Bedingung näher. Es kann eine
+    Zahl (nur zur Verwendung in der Mudlib), ein String oder eine Closure
+    sein. Als weitere Elemente sind zusätzliche Parameter erlaubt.
+    Ein T_PRESENT("fuchs") wird damit zu ({T_ATOM_COND,"present","fuchs"}).
+    Strings werden durch die Funktion desc_cond ausgewertet, Closures
+    direkt ausgeführt.
+
+T_ATOM_FILTER (2)
+    T_ATOM_FILTER-Arrays stellen einen Filter dar, welche den nachfolgenden
+    Textblock erhalten und verändern können. Das Array hat dabei den
+    gleichen Aufbau wie bei T_ATOM_COND. Durch Strings spezifizierte Filter
+    werden aber mittels desc_filter ausgewertet.
+
+T_ATOM_TEXT (3)
+    T_ATOM_TEXT stellt selbst einen Textbaustein dar (z.B. T_DAYTIME die
+    Tageszeitmeldung). T_ATOM_FILTER-Arrays haben den gleichen Aufbau wie
+    bei T_ATOM_COND. Durch Strings angebene Textbausteine werden mittels
+    desc_text ausgewertet.
+
+T_ATOM_TAG (4)
+    Tags (Marker) sind eine Möglichkeit, anzugeben, welche Eigenschaften
+    eine Beschreibung beachtet. Zum Beispiel sagt das Tag T_ATOM_TAG_DARKNESS
+    aus, dass die Beschreibung die Dunkelheit beachtet, also eine eigene
+    Dunkelmeldung erzeugt. Die Defines T_DARK und T_LIGHT setzen dieses Tag
+    automatisch. Das Rauminherit fragt dann dieses Tag ab, um zu entscheiden,
+    ob es die Standarddunkelmeldung bringen soll, oder die Beschreibung
+    auswerten soll. Tags werden also schon beim Parsen der Beschreibung
+    (im set_long-Aufruf) ausgewertet und nicht erst bei Abfrage der
+    Beschreibung. Die Funktion compile_desc liefert sie zurück und sie
+    lassen sich zum Beispiel mit query_long_tags() vom Raum abfragen.
+
+    Das T_ATOM_TAG-Array enthält als zweites Element den Namen des Tags und
+    als optionales drittes Element einen Wert, welches in das von compile_desc
+    zurückgelieferte Mapping eingetragen werden soll (anderenfalls wird 0 als
+    Wert eingetragen).
+
+T_ATOM_ELSE (5)
+    Stellt eine else-Anweisung dar. Der nachfolgende Textblock wird nur dann
+    ausgewertet, wenn die vorherige Bedingung falsch war. Das Array besitzt
+    keine weiteren Elemente.
+
+T_ATOM_AND (6)
+    Dies ist eine UND-Verknüpfung. Alle weiteren Elemente des Arrays sind
+    Bedingungen (T_ATOM_COND-Arrays). Der nachfolgende Textblock wird nur
+    dann ausgewertet, wenn alle diese Bedingungen wahr sind.
+
+T_ATOM_OR (7)
+    Dies ist eine ODER-Verknüpfung. Alle weiteren Elemente des Arrays sind
+    Bedingungen (T_ATOM_COND-Arrays). Der nachfolgende Textblock wird nur dann
+    ausgewertet, wenn eine dieser Bedingungen wahr sind.
+
+Verarbeitung des Arrays
+-----------------------
+
+Ein solches Array wird von der Funktion compile_desc des Inherits
+/i/tools/description_core in eine Lambda-Closure umgewandelt. Man kann der
+Funktion auch normale Strings oder Closures übergeben, die dann einfach als
+solche zurückgeliefert werden. compile_desc sucht das Array auch noch Tags
+ab und liefert sie im als zweiten Parameter übergebenen Mapping zurück.
+
+Aufruf der erstellen Lambda-Closure
+-----------------------------------
+
+Die erstellte Lambda-Closure erwartet nur einen einzigen Parameter, dessen Typ
+nicht näher bestimmt ist. Dieser Parameter wird den Routinen, welche die
+Bedingungen, Filter und Textanweisungen auswerten, zur Verfügung gestellt.
+Die Beschreibungen der Mudlib nutzen ein Mapping an dieser Stelle, welches
+oben erklärt wird.
+
+Auswertungsroutinen
+-------------------
+
+Bei ihrer Auswertung greift die erstellte Lambda-Closure auf eine Vielzahl von
+Routinen des Inherits /i/tools/description_core zurück, welche allesamt zur
+Anpassung überlagert werden können:
+
+desc_add
+    desc_add fügt zwei Teile des Beschreibungstextes zusammen. Normalerweise
+    werden dies zwei Strings sein, die Standardimplementation führt daher
+    nur eine Stringaddition durch. Man kann diese Funktion aber überlagern,
+    um andere Datentypen als Textteile zu unterstützen, zum Beispiel
+    Mappings, aus welchem per Zufall oder nach einem anderen Verfahren
+    bestimmte Elemente ausgewählt werden.
+
+desc_call_func
+    Diese Funktion übernimmt den Aufruf von Funktionen bei der T_FUNC-,
+    T_FILTER_FUNC- oder T_TEXT_FUNC-Anweisung. Die Standardimplementation
+    wickelt den Aufruf dabei aus Sicherheitsgründen den Closure-Container
+    ab. Man kann diese Funktion überlagern, um zum Beispiel andere
+    Aufrufkonventionen umzusetzen oder bestimmte Aufrufe auszuschließen.
+
+desc_call_cl
+    Äquivalent zu desc_call_func übernimmt desc_call_cl den Aufruf von
+    Closures. Die Standardimplementation ruft sie direkt auf.
+
+desc_condition
+    desc_condition wertet T_ATOM_COND-Bedingungen aus. Sie erhält u.A.
+    den Namen der Bedingung (zum Beispiel "present") und liefert einen
+    Wahrheitswert zurück. Die Standardimplementation ruft
+        "desc_condition_"+bedingungsname
+    (also im Beispiel desc_condition_present(mixed info, ...)) mit dem
+    Parameter der Lambda-Closure und allen weiteren Parametern des
+    T_ATOM_COND-Arrays auf. Man kann also eigene Bedingungen direkt durch
+    Überlagerung von desc_condition oder durch Schreiben einer
+    desc_condition_bedingungsname-Funktion implementieren.
+
+desc_filter
+    desc_filter wertet äquivalent zu desc_condition T_ATOM_FILTER-Arrays
+    aus und liefert dementsprechend einen Text zurück. Die Standard-
+    implementation ruft "desc_filter_"+filtername mit dem info-Parameter,
+    dem zu aendernen String und allen weiteren Parametern des
+    T_ATOM_FILTER-Arrays auf.
+
+desc_text
+    Ähnlich wie desc_condition wertet diese Funktionen T_ATOM_TEXT-Arrays
+    aus und liefert einen Text zurück. Die Standardimplementation ruft
+    "desc_text_"+textname auf.
+
+desc_number
+    Diese Funktion dient zur Auswertung von Eigenschaften, die in T_EQUAL-,
+    T_NOT_EQUAL-, T_GREATER-, T_LESSER-, T_GREATER_EQUAL- und
+    T_LESSER_EQUAL-Bedingungen genutzt werden. Sie sollte einen Wert liefern,
+    welcher dann zum Vergleich mit der im Array angegebenen Vergleichswert
+    herangezogen werden kann (meistens also eine Zahl). Die Standard-
+    implementation ruft "desc_number_"+eigenschaftsname auf.
+
+Nutzung in den Beschreibungen
+-----------------------------
+
+Die bisher beschriebene Implementation findet sich in
+/i/tools/description_core.c. Das Inherit /i/tools/description.c erweitert
+diese Implementationen um für Beschreibungen interessante Bedingungen und
+Textbausteine. Dazu wird der Aufrufparameter der Lambda-Closure als Mapping
+festgelegt, welcher Informationen über den betrachteten Gegenstand bzw. Raum
+und den Betrachter enthält. Die möglichen Einträge sind im Abschnitt
+"Parameter beim Aufruf von Closures und Funktionen" beschrieben.
+
+
+
+Kompatibilität
+==============
+
+Sobald diese Möglichkeiten eingesetzt werden (also wenn set_long nicht mit
+einem String als Parameter aufgerufen wird), funktioniert query_long_string
+nicht mehr. Es liefert dann nur noch 0 zurück. Man sollte sich also
+informieren, ob alle eingesetzten Inherits (z.B. Domainrauminherits) damit
+klarkommen. set/query_long_night sind ebenfalls inkompatibel dazu. Eine
+gesetzte long_night-Meldung überlagert ggf. enthaltene Nachtmeldungen der
+normalen Long-Beschreibung.

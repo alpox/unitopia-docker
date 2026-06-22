@@ -1,0 +1,28 @@
+Mit welchen Objekten kann man handeln ?
+
+Prinzipiell mit allen Objekten, die /i/value.c inheriten.
+
+Der Wert eines Objektes wird mit der Routine
+
+    void set_value(int wert)
+
+gesetzt und mit
+
+    int query_value()
+
+abgefragt. DER WERT BEZIEHT SICH AUF DIE BASIS-WÄHRUNG TALER.
+Die Läden verwenden die Routinen von /i/money/exchange, Währungen
+ineinander umzurechnen.
+
+ABER:
+Es gibt KEINEN einheitlichen Wechselkurs; jeder kann ihn sich nach
+Gutdünken selbst festlegen.
+
+Für Rätsel wichtige Objekte wie zB der Ork-Schlächter sollten
+nicht in einem Laden zu kaufen sein; solche Objekte können
+
+    void set_no_store(1)
+
+aufrufen, sie zerstören sich dann nach dem Verkaufen selbst !
+
+

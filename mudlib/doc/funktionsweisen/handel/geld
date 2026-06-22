@@ -1,0 +1,35 @@
+In der Welt dreht sich alles um Geld .... leider trifft dies auch für
+UNItopia zu.
+
+Damit es aber nicht allzu einseitig wird, kann man hier verschiedene
+Währungen einführen.
+
+Wie funktioniert das speziell in /obj/money.c ?
+
+Man kann ihm mit:
+
+     void set_valuta(string Waehrungs-Name-Einzahl)
+     void set_valutas(string Waehrungs-Name-Mehrzahl)
+
+eine Währungseinheit geben und mit:
+
+    void set_money(int wieviel)
+
+die Menge setzen. Mit:
+
+    void add_money(int wieviel)
+
+kann man auf die Menge was draufaddieren oder davon abziehen. Sinkt dabei
+die Menge unter Null, so ZERSTÖRT sich das Geld selbst.
+
+Für Götter hat das Geld noch ein paar Befehle mit add_action(..)
+definiert, nämlich:
+
+    geld valuta  <Waehrungs-Name-Einzahl>
+    geld valutas <Waehrungs-Name-Mehrzahl>
+    geld wert    <wieviel>
+
+Wird /obj/money irgendwo hineinbewegt, so schaut es erst einmal nach, ob
+bereits ein Geld-Objekt derselben Währung vorhanden ist. Wenn ja,
+addiert es dessen Wert zu dem eigenen und zerstört das alte Geldobjekt.
+

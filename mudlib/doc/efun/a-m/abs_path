@@ -1,0 +1,23 @@
+FUNKTION: abs_path
+DEKLARATION: string abs_path(string path, [string absolute_path])
+BESCHREIBUNG:
+abs_path liefert den absoluten Pfad zu dem relativen Pfad path, bezogen auf 
+den absoluten Pfad absolute_path zurueck. Hmmm, kompliziert ausgedrueckt...
+Wenn absolute_path nicht mit angegeben ist, wird der Pfad genommen, in dem
+this_object() steht.
+
+Beispiel: 
+    abs_path("../../obj") 
+	liefert "/d/Vaniorh/obj", wenn es von einem Objekt in 
+	/d/Vaniorh/monty/obj aufgerufen wird.
+    abs_path("../../obj","/w/monty/zeug/krempel")
+	liefert /w/monty/obj. Vorsicht, der relative Pfad darf nicht 
+	mit einem "/" anfangen, wenn abs_path etwas machen soll,
+    abs_path("/room/rathaus", "scheiss/egal/was")
+	liefert /room/rathaus!
+
+Es wird keinerlei Pruefung auf das Vorhandensein des Pfades gemacht!
+
+VERWEISE: file_path, object_name, search_file
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc

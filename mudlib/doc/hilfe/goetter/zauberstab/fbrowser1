@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Hier werden die Fehler-Zuständigkeitsbereiche für einen Gott angezeigt.
+Mögliche Befehle:
+
+    <nr>	Fehlerübersicht für den Bereich Nummer <nr> anzeigen.
+    n           Übersicht des ersten Bereichs mit neuen Fehlern anzeigen.
+    r 		Menü neu ausgeben.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u, b        Eine Seite hochblättern.
+    U, B / d, D Eine halbe Seite nach oben / nach unten blättern.
+    q, Q, e	Fehler-Browser verlassen.
+    ?		Diese Hilfe.
+-------------------------------------------------------------------------------

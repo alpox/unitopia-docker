@@ -1,0 +1,20 @@
+      Rollenverhalten von Monstern, Räumen und sonstigen Gegenständen
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Mit Rollen ist es möglich, Monstern, Räumen und Gegenständen ein Eigenleben
+zu verleiehen. Dabei wird ihnen eine Art "Drehbuch" vorgesetzt, so dass sie
+wie Schauspieler agieren. Im Vergleich zu parse_conversation ist dabei keine
+Aktion eines Spielers notwendig.
+
+Die Grundidee ist, dass jedes Rollen-Objekt einen Satz von Rollen (den Namen 
+eines oder mehrerer Directorys) kennt, unter denen es je nach Bedarf und 
+Gelegenheit, zB: Uhrzeit, Ort, Anwesenheit von Spielern/Monstern oder 
+ähnlichen Kriterien eine Rolle aussucht und startet. Verlangt die Rolle 
+mehrere Teilnemer, so fragt unser Objekt anwesende Monster, Gegenstände
+oder Räume, ob sie Lust hätten, mitzuspielen, und ob Sie für die Rolle
+geeignet sind (z.B. Geschlecht bei Monstern).
+
+Finden sich genug bereitwillige Mitspieler, fängt unser Objekt mit der Rolle 
+an. Hierbei übernimmt es die Position des "Souffleurs" oder "Regisseurs",
+da nur es selbst die Rolle kennt und zwingt den anderen Teilnehmern per
+exec_command(..) oder send_message(..) ihre Parts auf.

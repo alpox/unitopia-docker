@@ -1,0 +1,170 @@
+/obj/nahkampf_waffe.c
+/obj/wurf_waffe.c
+/obj/schuss_waffe.c
+/obj/defensiv_waffe.c
+
+Folgendes gilt für alle Waffen gemeinsam:
+
+1. Initialisieren der Waffen:
+
+    init_weapon(string kategorie, int max_schaden_in_prozent,
+		int min_schaden_in_prozent, int leben_in_prozent)
+
+	kategorie: Die Art der Waffe. Folgende Waffenarten gibt es:
+	
+		   Nahkampfwaffen: axt, degen, kurzschwert, keule,
+			langschwert, messer, peitsche, saebel, stock
+			
+		   Schusswaffen: armbrust, blasrohr, bogen, schleuder
+		   
+		   Wurfwaffen: speer, wurfmesser
+		   
+		   Defensivwaffen: grossschild, kleinschild
+		   
+	max_schaden_in_prozent: Welchen Schaden bzw. Schutz die Waffe in der
+		   Hand eines Experten anrichten/haben darf.
+		   100 steht dabei für eine durchschnittliche Waffe,
+		   200 das maximal Erlaubte für diese Waffenkategorie.
+		   
+	min_schaden_in_prozent: Den Schaden bzw. Schutz in der Hand eines
+		   Anfängers. (100: Durchschnitt in dieser Kategorie,
+		   200: Maximum bei dieser Kategorie.)
+		   
+	leben_in_prozent: Die Lebensdauer der Waffe. 100 steht auch hier
+		   für eine durchschnittliche Lebensdauer, 200 für
+		   das erlaubte Maximum.
+		   
+    Grundsätzlich sollte man Werte über 100 beim Schaden und Leben mit
+    seinen Domainlords absprechen.
+
+
+2. Setzen der für diese Waffe nötigen Fähigkeiten. Eine Fähigkeit kann
+   auch mehrmals auftauchen, sie wird dann entsprechend stärker bewertet.
+
+        void set_used_stats(int *stats)
+
+   Die Fähigkeiten sind im Include-File stats.h bereits definiert:
+
+        STAT_STR  =  Stärke
+        STAT_INT  =  Intelligenz
+        STAT_CON  =  Ausdauer
+        STAT_DEX  =  Geschicklichkeit
+
+   Voreinstellung:
+
+        set_used_stats( ({ STAT_STR, STAT_STR, STAT_DEX, STAT_CON }) );
+
+
+3. Setzen der Meldung, die erscheint, wenn die Waffe kaputtgeht:
+
+	void set_broken_message(string Meldung)
+
+    Am Ende der Meldung muss ein "\n" stehen !
+
+    Voreinstellung:
+
+        set_broken_mesage("PLING!!!!\n");
+
+
+4. Setzen des Wertes. 
+
+        void set_value(int Minimal, int Maximal)
+
+   Der aktuelle Wert wird anhand der noch vorhandenen Lebensdauer berechnet.
+   Im beschädigten Zustand besitzt sie nur den Wert Minimal, im neuwertigen
+   Zustand den Wert Maximal.
+
+   Voreinstellung:
+
+        set_value(0,0);
+
+
+5. Erweiterte Kurzbeschreibung:
+
+   Möchte man andere Adjektive für anstelle von 'gefuehrt' 
+   oder 'beschaedigt' verwenden, so kann man diese mit
+
+      set_wield_adjektiv(string adjektiv)    und 
+      set_broken_adjektiv(string adjektiv)
+
+   setzen.
+
+   Diese Adjektive werden bei Objekten, die kein short gesetzt
+   haben, als dekliniertes Adjektiv vor das Substantiv gestellt.
+
+
+-- Die folgenden Funktionen benötigt man im Normalfalle nicht, da --
+-- init_weapon bereits entsprechende Einstellungen vornimmt.       --
+
+
+6. Setzen des Schadens (bzw des Schutzes bei Defensiv-Waffen):
+
+   void set_damage(int anfänger, int experte)
+
+        anfänger: Mindest-Schaden(-Schutz) den ein Anfänger mit dieser Waffe
+                   erreichen kann.
+
+        experte:   Maximal-Schaden(-Schutz) den ein Experte mit dieser Waffe
+                   erreichen kann.
+
+   Voreinstellung:
+
+        set_damage(3,10);
+
+   In /doc/richtlinien/waffen/schlagkraft  findet man Richtlinien und
+   Grenzwerte für alle Waffen. Über die Grenzwerte hinausgehende Schäden
+   sind VORHER mit den Admins abzusprechen.
+
+
+7. Damit die Waffe ihren Schaden (Schutz) nicht nur in Abhängigkeit von den
+   Fähigkeiten und Erfahrungen des Besitzers sondern auch noch anderen
+   Eigenschaften (Zaubertalent, Ansehen etc) des Besitzers UND des Opfers
+   festlegen kann, ruft sie bei jedem Schlag folgende Routine 
+   (soweit sie existiert) auf und übergibt Objekt-Pointer auf den Besitzer
+   und den Feind:
+
+       int query_extra_damage(object Feind, object Besitzer)
+
+         Bei /obj/schuss_waffe.c wird diese Routine im Projektil aufgerufen,
+         bei den anderen Waffen in ihnen selbst.
+
+   Der Wert, den diese Routine zurueckliefert, wird auf den Schaden (Schutz)
+   aufaddiert, d.h. ein positiver Wert ergibt eine Verbesserung, ein
+   negativer Wert eine Verschlechterung.
+   
+   Achtung: Der für die Richtlinien berechnete Schaden/Schutz besteht aus
+   normalen Schaden und(!) extra_damage. Falls die Waffe mit init_weapon
+   initialisiert wurde, muss der Schaden also nach unten entsprechend
+   abgeändert werden.
+
+
+
+7. Setzen des Pfades für den Erfahrungs-Baum (skill).
+
+        void set_skill_path(string *pfad)
+
+   Voreinstellung:
+
+        set_skill_path( ({ "skill", "offensiv", "haende" }) );
+
+   Achtung: Alle vorgesehenen Pfade sind in /doc/richtlinien/waffen/skills
+            aufgeführt. Wenn ihr neue Pfade einführen wollt, redet zuerst
+            mit Freaky, Garthan, Monty oder Sissi.
+
+
+
+8. Setzen der Lebensdauer:
+
+        void set_life(int Anzahl_Schlaege)
+
+   Bei jedem Schlag wird das Lebensdauer um 1 verringert. Sinkt sie auf Null,
+   wird die Waffe als beschädigt markiert. Sie kann repariert werden, indem
+   man set_life(..) erneut aufruft (siehe /doc/richtlinien/waffen/reparatur).
+
+   Voreinstellung:
+
+        set_life(300);
+
+   In /doc/richtlinien/waffen/leben  findet man Richtlinien und
+   Grenzwerte für alle Waffen. Über die Grenzwerte hinausgehende
+   Werte sind VORHER mit den Admins abzusprechen.

@@ -1,0 +1,16 @@
+closurep
+floatp
+get_type_info
+intp
+mappingp
+objectp
+pointerp
+referencep
+stringp
+symbolp
+to_array
+to_float
+to_int
+to_object
+to_string
+typeof

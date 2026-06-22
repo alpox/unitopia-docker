@@ -1,0 +1,15 @@
+FUNKTION: right
+DEKLARATION: string right(string text, int len [,string pattern] )
+BESCHREIBUNG:
+Gibt einen String der Breite len zurueck, in dem text rechtsbuendig
+enthalten ist. Wenn noetig wird mit dem Zeichen pad aufgefuellt.
+Voreinstellung fuer pad ist das Leerzeichen.
+
+Beispiele:
+        right("abc d",8)        -->     "   abc d"
+        right("abc d",8,".")    -->     "...abc d"
+        right("abc  def",7)     -->     "bc  def"
+
+GRUPPEN: simul_efun, string
+VERWEISE: sprintf, copies, center, right, wrap
+SOURCE: /secure/simul_efun/string.inc

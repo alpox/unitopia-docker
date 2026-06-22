@@ -1,0 +1,9 @@
+FUNKTION: Name
+DEKLARATION: string Name(object ob)
+BESCHREIBUNG:
+Liefert einen Cap-Namen des Objektes ob. (fuer Debugzwecke geeignet)
+Entweder query_real_name, oder query_name oder query_short,
+ansonsten den Filenamen des Objektes
+GRUPPEN: simul_efun, objekt
+VERWEISE:
+SOURCE: /secure/simul_efun/util.inc

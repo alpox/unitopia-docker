@@ -1,0 +1,100 @@
+-------------------------------------------------------------------
+       GENERIERUNG VON MELDUNGEN FÜR MEHRERE EMPFÄNGER
+-------------------------------------------------------------------
+
+
+Was ist das Problem mit Meldungen?
+----------------------------------
+
+Wenn man Meldungen generiert, die mehrere Personen betreffen, wird es
+kompliziert. Nehmen wir ein einfaches Beispiel:
+
+    Der häßliche Ork haut den Troll.
+
+Von diesem Satz brauchen wir üblicherweise schonmal drei Varianten:
+
+  1. für den Ork:       Du haust den Troll.
+  2. für den Troll:     Der häßliche Ork haut dich.
+  3. für Außenstehende: Der häßliche Ork haut den Troll.
+
+Sobald mehr Teilnehmer dabei sind, wird es schnell unpraktisch.
+Dazu kommen übliche Komplikationen, die man gerne übersieht:
+ - Der Ork könnte eine Gruppe Orks sein, man braucht also das Verb im Plural.
+ - Wenn das Objekt kein Lebewesen, sondern ein Gegenstand ist, könnte dies
+   auch im Inventar sein, hier sollte man dann von "deinem/seinem Troll"
+   sprechen.
+
+
+Wie geht das einfacher?
+-----------------------
+
+Es gibt einen Datentyp 'deklin_message', mit welchem die Meldungen für alle
+Empfänger auf einmal generiert werden können. Dazu benötigt man folgendes
+Inherit:
+
+    inherit "%tools/deklin_message";
+
+Dieses Inherit ersetzt alle(!) Grammatikfunktionen durch eigene Versionen.
+Die originalen Grammatikfunktionen sind weiterhin mit dem Prefix sefun::
+zu erreichen (z.B: sefun::Der(...)). Statt eines Strings geben die neuen
+Funktionen nun ein deklin_message-Objekt zurück, z.B.:
+
+    object ork, troll;
+
+    deklin_message msg = Der(ork) + " " + verb("haut",ork) + " "
+                       + seinen(troll) + ".";
+
+'msg' enthält dadurch die Meldungen für ork, troll und andere gleichzeitig.
+Die so erstellte Meldungen kann man dann mit der send_to_room()-Funktion
+versenden:
+
+    msg.send_to_room(ork, environment(ork), MT_LOOK, MA_FIGHT);
+
+Die Parameter sind:
+  1. Der Verursacher der Meldung (Versender)
+  2. Der Raum, wo die Meldung ausgegeben wird.
+  3. Message-Typ
+  4. Message-Action
+
+Das wars.
+
+
+Wie kann ich die Message-Types beeinflussen?
+--------------------------------------------
+
+Im oberen Beispiel mag man vielleicht für den Ork und Troll noch zusätzliche
+Message-Typen angebeben:
+
+    msg.set_mt(([
+        ork:   MT_FEEL | MT_NOTIFY,
+        troll: MT_FEEL
+    ]));
+
+Diese Message-Typen werden zusätzlich zu den bei send_to_room() angegebenen
+verwendet. Der Troll bekommt dementsprechend MT_LOOK | MT_FEEL.
+
+
+Das verb() ist neu?
+-------------------
+
+Ja.
+
+Die Funktion liefert die passende konjugierte Verbform für das als zweiten
+Parameter angegebene Subjekt.
+
+    verb("haut", ork) liefert also "haust" für den Ork selbst,
+                                   "haut" für alle anderen.
+
+Da es bei Verben viele Ausnahmen (Lautverschiebungen) gibt, verwendet die
+Funktion eine interne Liste mit diesen Ausnahmen. Falls das eine oder andere
+Verb dort fehlen sollte und verb() daher inkorrekte Ergebnisse liefert,
+wende Dich bitte an einen Admin Deines Vertrauens, um die Liste zu ergänzen.
+
+
+Wie funktioniert das alles?
+---------------------------
+
+Der Datentyp deklin_message ist im Wesentlichen /lwo/deklin_message.c.
+Dieses LWO wird in ein Python-Objekt verpackt, um den Plus-Operator verwenden
+zu können (siehe https://github.com/unitopia-de/python-efuns/blob/master/
+deklin/ldmudefundeklin/deklin.py).

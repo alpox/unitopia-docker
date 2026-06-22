@@ -1,0 +1,474 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:        /room/bsp/bsp.4enzy
+// Description: Einfuehrungskurs alle Objekte als Quelcode-Beispiele
+// Author:      Myonara (26.11.2017)
+// Modified by: 
+
+
+/*
+BEISPIEL: raum_beispiel1
+// Aus /room/bsp/bsp1.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void create() 
+{
+    set_short("Beispielraum Nr. 1");
+    set_long("Langbeschreibung des Raums-1");
+    set_smell ("Hier riecht es nach Orangen.");
+    set_noise ("Du meinst, das Knabbern von Holzwuermern zu hoeren.");
+    set_feel ("Beim Umhertasten stellst Du fest, dass der Raum einen "
+        "Boden und vier Waende besitzt.");
+    set_exits( ({"bsp_eingang", "bsp2" }),
+               ({"sueden", "norden" }) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel2
+// Aus /room/bsp/bsp2.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset() 
+{
+    object fackel;
+    if(!present("fackel",this_object()))
+    {
+        fackel = clone_object("/obj/fackel");
+        fackel.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 2");
+    set_long("Langbeschreibung des Raums-2");
+    set_exits( ({"bsp3",   "bsp1"   }),
+              ({"norden", "sueden" }) );
+    add_v_item( ([
+      "name":   "sessel",
+      "gender": "maennlich",
+      "long":   "Ein kleiner behaglicher Sessel."
+            ]) );
+    add_v_item( ([
+      "name":   "glasvitrine",
+      "gender": "weiblich",
+      "id":     ({"glasvitrine", "vitrine"}),
+      "long":   "Eine leere Glasvitrine. Sie steht hier wohl nur als Beispiel."
+       ]) );
+    reset();
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel3
+// Aus /room/bsp/bsp3.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+#include <message.h>
+void create() 
+{
+    set_short("Beispielraum Nr. 3");
+    set_long("Langbeschreibung des Raums-3");
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    add_type(RT_KUNSTLICHT, 1);
+    set_own_light(1);
+    add_type(RT_KAEMPFEN_VERBOTEN,1);
+    set_exits( ({"bsp4", "bsp2" }), ({"norden","sueden"}) );
+}
+void init() 
+{
+    add_action("bloedlefunktion","bloedle");
+}
+int bloedlefunktion(string str) 
+{
+    if(!str) 
+    {
+        this_player().send_message(MT_LOOK,MA_EMOTE,
+            wrap(Der(this_player())+" bloedelt herum."),
+            "Ok, Du bloedelst herum.\n", this_player());
+        return 1;
+    }
+    notify_fail("Was willst Du herumbloedeln?\n");
+    return 0;
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel4
+// Aus /room/bsp/bsp4.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+#include <message.h>
+void create() 
+{
+    set_short("Beispielraum Nr. 4");
+    set_long("Langbeschreibung des Raums-4");
+    set_exits( ({"bsp5", "bsp3"}), ({"westen", "sueden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+
+int filter_westen(object who) 
+{
+    if(find_call_out("meldung") != -1) 
+    {
+        send_message_to(who,MT_NOISE, MA_COMM,
+            "Der Raum sagt: Warte doch mal auf den Call-Out!\n");
+        return 1;
+    }
+    return 0;
+}
+
+void init() 
+{
+    if(find_call_out("meldung") == -1)
+    {
+        call_out("meldung",8);
+    }
+}
+void meldung() 
+{
+    send_message(MT_NOTIFY, MA_UNKNOWN, "Hier kommt der Call-Out!\n");
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel5
+// Aus /room/bsp/bsp5.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#ifdef UNItopia
+#include "/d/Vaniorh/sys/vaniorh_exports.h"
+#endif
+#include <stats.h>
+#include <message.h>
+#include <monster.h>
+#include <room_types.h>
+void reset() 
+{
+    object mon;
+    if(!present("waschbaer",this_object()))
+    {
+        mon = clone_object("/obj/monster");
+        mon.initialize("tier", 20);
+        mon.set_name("waschbaer");
+        mon.set_gender("maennlich");
+        mon.set_id( ({"waschbaer","baer"}) );
+        mon.set_short("Ein kleiner Waschbaer");
+        mon.set_long(
+         "Ein kleiner quietschvergnuegter Waschbaer. Er "
+         "schaut Dich mit seinen dunklen grossen Augen an und schlaegt "
+         "ein paar unbeholfene Purzelbaeume. Das ist wirklich der "
+         "absolute Gipfel der Drolligkeit!");
+        mon.set_feel(
+          "Als Du den Waschbaeren beruehrst, zuckt er aengstlich zusammen, "
+          "er laeuft jedoch gluecklicherweise nicht davon. Er hat ein "
+          "weiches, wuschliges Fell.");
+        mon.set_one_stat(STAT_INT,200);
+        mon.set_aggressive(0);
+        mon.set_parse_conversation( this_object(),
+         ({ "hallo:     hi || guten && tag || hallo", PARSE_SAY|PARSE_CONTINUE,
+            "hallo:     <begruess>", PARSE_SOUL,
+            "befinden:  wie && geht", PARSE_SAY,
+            "emote:     <wuschel>", PARSE_SOUL }) );
+        mon.add_random_activities( ([
+            "!sage Ich bin ein sprechender Waschbaer." : 0,
+            "!sage Holla! Ich wasche so wahnsinnig gerne!" : 0,
+            "!echo $Der() schaut sich um." : 0,
+            "!echo $Der() waescht seine Pfoten im Bach." : 0,
+            "!nehme alles" : 0
+            ]) );
+        mon.set_activity(20);
+        mon.set_start_random(1);
+        mon.load_a_chat(50,
+        ({ "Der Waschbaer macht ein boeses Gesicht!",
+            "Der Waschbaer rubbelt Dich durch sein Waschbrett!",
+            "!nehme alles",
+            "Der Waschbaer spritzt Dir Seife in die Augen!" }) );
+        mon.add_v_item(
+         ([ "name":   "pfote",
+            "id":     ({"pfote","natural#weapon"}),
+            "gender": "weiblich",
+            "long":   "Eine niedliche, kleine Pfote, welche der Waschbaer "
+                    "da hat."
+            ]));
+        
+        mon.add_v_item(
+         ([ "name":   "pfote",
+            "id":     ({"pfote","natural#weapon"}),
+            "gender": "weiblich",
+            "long":   "Oh, noch eine zweite niedliche, kleine Pfote, welche "
+                    "der Waschbaer auch besitzt."
+           ]));
+        mon.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 5");
+    set_long(
+      "Du bist im Beispielraum Nr. 5 des Einfuehrungskurses fuer "
+      "Goetter. Mit dem Zauberstab-Kommando 'zmore hier' kannst Du den "
+      "Quellcode dieses Raumes anschauen. In diesem Raum wird ein Monster "
+      "erschaffen und vollstaendig initialisiert. Das Monster reagiert "
+      "auch auf Ansprache..."
+#ifdef UNItopia
+      "\nNach unten verzweigt ein Hilfekursabstecher zu Parsecs Talk-NPCs, "
+      "der Hauptkurs setzt sich im Sueden fort."
+#endif
+      );
+   set_exits( ({"bsp6",
+                "bsp4",
+#ifdef UNItopia
+            TALK_NPC_KURS,
+#endif
+            }),
+              ({"sueden","osten",
+#ifdef UNItopia
+            "runter",
+#endif
+            }) );
+
+    add_v_item(
+        ([ "name":   "baechlein",
+        "id":     ({"bach", "baechlein"}),
+        "gender": "saechlich",
+        "long":   "Ein kleines Baechlein, welches sich hier seinen "
+                "Weg durch den Beispielraum bahnt. Er plaetschert "
+                "lustig vor sich hin.",
+        "noise":  "Plaetscher, plaetscher, plaetscher.",
+        "feel":   "Ihhh, das ist ja nass.",
+        ]));
+    reset();
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+}
+void hallo(string str, string verb, object npc, object player, int flags) 
+{
+   npc.send_message(MT_LOOK, MA_EMOTE,
+                     "Der Waschbaer verneigt sich.\n");
+}
+void befinden(string str, string verb, object npc, object player, int flags) 
+{
+   npc.do_command("sage Mir gehts gut, danke!");
+}
+
+void emote(string str, string verb, object npc, object player, int flags) 
+{
+   npc.send_message(MT_LOOK, MA_EMOTE,
+                     wrap(Der(npc)+" strahlt "+den(player)+" verwuschelt an."),
+                     wrap(Der(npc)+" strahlt dich verwuschelt an."),
+                     player);
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel6
+// Aus /room/bsp/bsp6.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+#include <stats.h>
+void reset() 
+{
+    if(!present("kampfaxt",this_object()))
+    {
+        object axt;
+        axt = clone_object("/obj/nahkampf_waffe");
+        axt.set_name("Kampfaxt");
+        axt.set_gender("weiblich");
+        axt.set_id( ({"axt","kampfaxt"}) );
+        axt.set_adjektiv("handlich");
+        axt.set_long(
+            "Eine handliche Kampfaxt. Der blutverkrustete "
+            "Eisenkopf laesst ein paar eindeutige Rueckschluesse auf den "
+            "Verwendungszweck dieser Axt zu... zum Faellen von Baeumen "
+            "wurde sie jedenfalls nicht gemacht!");
+        axt.set_weight(2);
+        axt.set_damage(4, 9);
+        axt.set_used_stats( ({STAT_STR, STAT_STR, STAT_DEX}) );
+        axt.set_skill_path( ({"skill", "offensiv", "scharf", "axt"}) );
+        axt.set_life(350);
+        axt.set_broken_message("CRUNSCH!!!\n");
+        axt.set_value(40, 230);
+        axt.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 6");
+    set_long("Langbeschreibung des Raums-6");
+    set_exits( ({"bsp7", "bsp5"}) , ({"sueden" , "norden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel7
+// Aus /room/bsp/bsp7.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset()
+{
+    if(!present("brustpanzer",this_object()))
+    {
+        object panzer; 
+        panzer=clone_object("/obj/armour");
+        panzer.set_name("Brustpanzer");
+        panzer.set_id(({"panzer","brustpanzer"}));
+        panzer.set_gender("maennlich");
+        panzer.set_material("metall");
+        panzer.set_smell("Er riecht leicht nach Schweiss.\n");
+        panzer.set_long(
+            "Ein dicker, schwerer Brustpanzer aus Bronze. Ein "
+            "Loewe ziert die Oberflaeche der Vorderseite.");
+        panzer.init_armour_data(3,
+                    "oberkoerper",
+                    250,
+                    "SCRATSCH!! Dein Brust"
+                    "panzer hat nur noch Schrottwert!\n");
+        panzer.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 7");
+    set_long("Langbeschreibung des Raums-7");
+    set_exits( ({"bsp8","bsp6"}), 
+            ({"sueden", "norden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: raum_beispiel8
+// Aus /room/bsp/bsp8.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset() 
+{
+    if(!present("kissen",this_object()))
+    {
+        object kissen; 
+        kissen=clone_object("/room/bsp/obj/kissen");
+        kissen.move(this_object());
+    }
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 8");
+    set_long("Langbeschreibung des Raums-8");
+    set_exits( ({"bsp9","bsp7"}), 
+            ({"westen", "norden"}) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+*/
+
+/*
+BEISPIEL: kissen_beispiel8
+// aus /room/bsp/obj/kissen.c extrahiert:
+inherit "/i/item";
+inherit "/i/move";
+inherit "/i/value";
+#include <message.h>
+void create()
+{
+   set_name("kissen");
+   set_gender("saechlich");
+   set_adjektiv("bequem");
+   set_id("kissen");
+   set_weight(1);
+   set_value(10);
+   set_long(
+    "Ein bequemes Sitzkissen. Man kann sich darauf setzen mit 'sitz'.");
+}
+void init()
+{
+   add_action("sitz_funktion", "sitz");
+}
+int sitz_funktion(string str)
+{
+   this_player().send_message(MT_LOOK,MA_MOVE,
+     wrap(Der(this_player())+" setzt sich auf "+seinen()+"."));
+   this_player().send_message_to(this_player(), MT_LOOK, MA_MOVE,
+     wrap("Zum Testen: "+Der(this_player())+" setzt sich auf "+seinen()+"."));
+   this_player().send_message_to(this_player(), MT_LOOK|MT_NOTIFY, MA_MOVE,
+     wrap("Du setzt dich auf "+deinen()+"."));
+   return 1;
+}
+GRUPPEN: grundlegendes
+*/
+
+/*
+BEISPIEL: raum_beispiel9
+// Aus /room/bsp/bsp9.c als Kopiervorlage zum anpassen extrahiert:
+inherit "/i/room";
+#include <room_types.h>
+void reset() 
+{
+    object truhe, taler;
+    if (!present("francis#truhe",this_object()))
+    {
+      truhe = clone_object("/obj/truhe");
+      truhe.add_id("francis#truhe");
+      truhe.set_owner_name("francis");
+      truhe.move(this_object());
+      truhe.set_hidden_until_next_move();
+      taler = clone_object("/obj/money");
+      taler.init_money(200 + random(400), "krone");
+      taler.move(truhe);
+      truhe.close_con();
+    }
+}
+string busch_funktion(mapping v_item, object beobachter)
+{
+   object truhe;
+   truhe = present("francis#truhe",this_object());
+   if(truhe && truhe.query_invis())
+      return
+        "Der Busch hat lange spitze Dornen und dicke, "
+        "dunkelgruene Blaetter, aber\n"
+        "dein Blick wird sofort von einer im Busch"
+        " verborgenen Truhe gefesselt.\n";
+    return
+      "Der Busch hat lange spitze Dornen und dicke dunkelgruene Blaetter;\n"
+      "im Schatten seiner duerren Zweige gaehnt ein groesseres Loch.\n"
+      "Offensichtlich war hier etwas versteckt.\n";
+}
+void create() 
+{
+    set_short("Beispielraum Nr. 9");
+    set_long("Langbeschreibung des Raums-9");
+    set_exits(({ "bsp8" }), ({ "osten" })); 
+    add_v_item( (["name":"felsblock",
+            "id":({"felsen","fels", "felsblock" }),
+            "gender":"maennlich",
+            "long":
+                "Du siehst einen grossen Felsblock, "
+                "auf dem erstaunlicherweise ein "
+                "ebenfalls grosser Busch waechst."
+            ]) );
+    add_v_item( (["name":"busch",
+            "gender":"maennlich",
+            "id":({"busch","strauch"}),
+            "long":#'busch_funktion,
+            "look_msg":"$Der() untersucht den Busch",
+            "take":
+                "Du kannst den Busch beim besten Willen nicht entwurzeln.",
+            "take_msg":
+                "$Der() versucht vergeblich den Busch zu entwurzeln"
+            ]) );
+    add_type(RT_TELEPORT_REIN_VERBOTEN, 1);
+    reset();
+}
+GRUPPEN: raum
+*/

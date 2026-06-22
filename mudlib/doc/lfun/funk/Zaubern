@@ -1,0 +1,13 @@
+set_sp_name
+query_sp_name
+query_sp_short_name
+set_sp_short_name
+set_max_sp
+query_max_sp
+query_sp
+set_sp
+add_sp
+query_sum_sp
+add_sum_sp
+give_sp
+notify_sicht

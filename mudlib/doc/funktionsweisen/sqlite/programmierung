@@ -1,0 +1,68 @@
+
+Datenbank-Programmierung
+========================
+
+SQL-Befehle
+-----------
+SQL-Befehle werden mit der Efun sl_exec() durchgeführt.
+
+Als ersten Parameter bekommt diese den eigentlichen SQL-Befehl als String.
+Man sollte tunlichst vermeiden, in diesen String andere Werte einzubetten.
+Also Konstrukte wie:
+    sl_exec("SELECT id FROM players WHERE name = '" + str + "'");
+sind tabu! Einerseits ist das langsam, andererseits auch ein Sicherheits-
+risiko, denn 'str' kann ja auch SQL-Fragmente beinhalten.
+
+Stattdessen kann man in den SQL-Befehl Platzhalter einsetzen:
+    sl_exec("SELECT id FROM players WHERE name = ?", str);
+
+Die Fragezeichen werden dann durch die nachfolgenden Argumente ersetzt.
+Mit '?1', '?2' etc. kann man auch ein konkretes Argument ansprechen.
+
+Abfragebedingungen
+------------------
+Es gibt Operationen, die eine Datenbank nur schwer performant umsetzen kann.
+Auf diese sollte man möglichst verzichten.
+
+Zuallererst sei hier 'LIKE' genannt. 'LIKE' erlaubt keine schnellen Lookups
+via Index, stattdessen muß SQLite die komplette Tabelle durchsuchen. Daher
+sollte man darauf verzichten.
+
+Auch eine Verknüpfung von Bedingungen mit 'OR' können Datenbanken nicht gut
+optimieren. Ggf. sollte man die Datenbank anders strukturieren, damit man dies
+nicht benötigt.
+
+Schema-Updates
+--------------
+Mit der Zeit mag man vielleicht sein Datenbankschema verändern. Es ist
+hilfreich, dies gleich von Anfang an einzuplanen. Dazu kann man in der
+Datenbank eine Version setzen bzw. abfragen:
+
+    void init_database()
+    {
+        /* Wir fragen die 'user_version' ab, der Befehl liefert
+         * eine Zeile mit einem Integer-Wert.
+         */
+        switch (sl_exec("PRAGMA user_version")[0][0])
+        {
+            case 0: /* Leere Datenbank. */
+                sl_exec("CREATE TABLE ...");
+                sl_exec("CREATE INDEX ...");
+                /* ... */
+
+                /* Kein break, es geht weiter! */
+
+            case 1: /* Initiale Datenbank. */
+                sl_exec("ALTER TABLE ...");
+
+                /* Aktuelle Version setzen.
+                 * Wir sind jetzt auf Version 2.
+                 */
+                sl_exec("PRAGMA user_version = 2");
+        }
+    }
+
+Bei einer Änderung fügt man dann ein 'case' für die aktuelle Version ein
+(hier 2), und setzt die user_version am Ende auf die nächste Version
+(hier dann 3).
+

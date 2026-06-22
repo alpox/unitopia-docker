@@ -1,0 +1,80 @@
+
+    ON CONFLICT
+    
+      Konfliktklausel ::= ON CONFLICT Konfliktstrategie
+    
+    Konfliktstrategie ::= ROLLBACK
+                      ::= ABORT
+		      ::= FAIL
+		      ::= IGNORE
+		      ::= REPLACE
+
+    Die 'ON CONFLICT'-Klausel bzw. die Konfliktstrategie kann in anderen
+    SQL-Befehlen auftreten. Die Konfliktklausel wie oben angegeben kann
+    in 'CREATE TABLE'- oder 'CREATE INDEX'-Anweisungen vorkommen. In
+    INSERT- oder UPDATE-Befehlen wird statt 'ON CONFLICT' das Schlüssel-
+    wort 'OR' angegeben.
+
+    Diese Klausel gibt an, mit welcher Strategie Konflikte mit
+    festgelegten Bedingungen aufgelöst werden sollen. Es gibt
+    fünf Möglichkeiten: ROLLBACK, ABORT, FAIL, IGNORE und REPLACE.
+    Default ist ABORT. Hier steht, was sie bedeuten:
+    
+
+    ROLLBACK
+    
+	Wenn eine Bedingung verletzt wird, so wird sofort ein ROLLBACK
+	durchgeführt, so dass die aktuelle Transaktion abbricht.
+	Der aktuelle Befehl liefert eine Fehlermeldung zurück.
+	Falls keine explizite Transaktion im Gange ist, wirkt diese
+	Strategie genau wie ABORT.
+
+
+    ABORT
+
+	Wenn eine Bedingung verletzt wird, so werden alle Änderungen,
+	die dieser Befehl gemacht hat, rückgängig gemacht. Der Befehl
+	liefert eine Fehlermeldung zurück. Es wird jedoch kein ROLLBACK
+	ausgeführt, so dass die Änderungen anderer Befehle in dieser
+	Transaktion beibehalten werden. Dies ist das Standardverhalten.
+
+    FAIL
+    
+	Wenn eine Bedingung verletzt wird, so bricht der Befehl mit
+	einer Fehlermeldung ab. Alle Änderungen, die der Befehl
+	bis dahin gemacht hat, bleiben erhalten. Falls zum Beispiel
+	ein UPDATE-Befehl bei der hundersten Zeile eine Bedingung
+	verletzt, so bleiben die Updates der ersten 99 Zeilen
+	erhalten, es gibt jedoch keine Änderung an der hundersten
+	Zeile und denen dahinter.
+
+    IGNORE
+    
+	Wenn eine Bedingung verletzt wird, dann wird diese eine Zeile,
+	welche die Bedingung verletzt, nicht eingefügt oder geändert.
+	Aber der Befehl wird weiter normal ausgeführt. Die anderen
+	Zeilen davor und nach dieser Zeile werden ganz normal eingefügt
+	oder verändert. Es wird kein Fehler zurückgeliefert.
+
+    REPLACE
+    
+	Wenn eine UNIQUE-Bedingung verletzt wird, dann wird die bereits
+	existierende Zeile, welche diese Verletzung verursacht, vor
+	dem Einfügen oder der Änderung der aktuellen Zeile entfernt,
+	so dass also ein Einfügen oder eine Veränderung immer statt-
+	findet. Es wird kein Fehler zurückgeliefert.
+	
+	Falls eine 'NOT NULL'-Bedingung verletzt wird, so wird der
+	NULL-Wert durch den Standardwert dieser Spalte ersetzt. Falls
+	es keinen Standardwert gibt, so wird die ABORT-Strategie
+	genutzt.
+	
+	Wenn diese Strategie eine Zeile löscht, um eine UNIQUE-Bedingung
+	zu erfüllen, so wird derzeit kein DELETE-Trigger für diese
+	Zeile aufgerufen. Das kann sich in Zukunft aber ändern.
+
+    Die Strategien, welche in der OR-Klausel einer INSERT- oder UPDATE-
+    Anweisung angegeben wurden, haben Vorrang vor denen, die in einem
+    'CREATE TABLE'- oder 'CREATE INDEX'-Befehl angegeben wurden.
+    Falls nirgends eine Strategie spezifiziert wurde, wird ABORT genommen.
+

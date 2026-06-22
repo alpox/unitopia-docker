@@ -1,0 +1,7 @@
+FUNKTION: vtime
+DEKLARATION: int vtime()
+BESCHREIBUNG:
+Liefert die Anzahl der Sekunden seit dem UNItopia besteht.
+GRUPPEN: simul_efun, zeit
+VERWEISE: time, vtime_to_time, time_to_vtime
+SOURCE: /secure/simul_efun/time.inc

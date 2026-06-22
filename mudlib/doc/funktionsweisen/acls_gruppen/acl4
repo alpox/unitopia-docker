@@ -1,0 +1,80 @@
+4. Wie funktionieren Gruppen und wie werden sie verwaltet?
+
+Gruppen sind in der Regel hierarchisch aufgebaut, Gruppennamen setzen
+sich also nach dem Schema A:B:C... zusammen, mit A als Obergruppe, die
+dann immer mehr verfeinert werden kann.
+So kann die Gruppe Vaniorh die Untergruppe Tadmor haben, der Name
+dieser Untergruppe ist dann "Vaniorh:Tadmor". Diese Gruppe kann
+wiederum eine Untergruppe "Vaniorh:Tadmor:Hafenviertel" haben.
+Mitglieder der Gruppe "Vaniorh" sind dabei automatisch Mitglieder
+der Gruppe Vaniorh:Tadmor und Vaniorh:Tadmor:Hafenviertel.
+Noch ein Beispiel: Dörrland:Sarasande:Palast:Harem.
+
+Gruppen setzen sich aus Göttern und wiederum aus Gruppen zusammen.
+So kann die Gruppe Rätsel:Troja durchaus als Mitglieder auch die
+Gruppe Kokosinsel:DL beinhalten.
+Als Gruppen kann man im Prinzip alles anlegen, wozu man Lust hat.
+Bisher ist das so, dass es eben die Basisgruppen Rätsel, Spiele, P,
+Schiffe, Vaniorh, Midgard, Campus, Ebenen und so weiter gibt.
+Man könnte auch ohne weiteres eine Gruppe "Tiere:Ampibien:Krokodile"
+einführen (dass im Moment nur Admins eine Gruppe "Tiere" anlegen
+dürfen, ist dabei nur ein theoretisches Problem) und dann kann man
+dieser Gruppe Schreibrechte auf /d/Kokosinsel/Aga-aga-Suempfe geben.
+
+Gibt man der Gruppe A:B:C irgendwelche Rechte, so gelten diese
+Rechte für alle Mitglieder von A:B:C, für alle Mitglieder von
+A:B und für alle Mitglieder von A.
+
+Beispiel: Die Gruppe Rätsel kann überall da schreiben, wo die
+Gruppe Rätsel:Detlefkiller schreiben darf (umgekehrt natürlich nicht).
+
+
+Zu Gruppen gehören Administratoren, diese haben das Recht, neue Untergruppen
+anzulegen oder neue Mitglieder aufzunehmen oder Mitglieder aus Gruppen zu
+entfernen. Wer für eine Gruppe als Administrator eingetragen ist,
+kann die Gruppen verwalten.
+
+
+Gruppen verwalten kann man mit dem Befehl "zgruppe":
+
+    Eine neue Gruppe hinzufügen geht mit:
+        zgruppe Gruppenname +
+    Beispiel: Die Gruppe Vaniorh existiert, es sollen eine Untergruppe
+        "Tadmor" angelegt werden, die wiederum eine Gruppe "Stadtmauer"
+        beinhaltet:
+        zgruppe Vaniorh:Tadmor +
+        zgruppe Vaniorh:Tadmor:Stadtmauer +
+
+    Dieser Gruppe Mitglieder hinzufügen geht mit:
+        zgruppe <Gruppenname1> +/- <Name2>
+    Beispiel:
+        zgruppe Vaniorh:Tadmor:Stadtmauer + sissi
+
+    Der Gruppe eine andere Gruppe als Mitglied hinzufügen geht genauso:
+    Beispiel: Die bestehende Gruppe "Rätsel:Stadtmauer" soll der bestehenden
+        Gruppe "Vaniorh:Tadmor:Stadtmauer" hinzugefügt werden:
+        zgruppe Vaniorh:Tadmor:Stadtmauer + Rätsel:Stadtmauer
+
+    Löschen von Mitgliedern einer Gruppe oder von ganzen Gruppen geht
+    mit "-" statt "+".
+
+    Gruppendaten abfragen geht mit
+        zgruppe Gruppenname ?
+    Beispiel: zgruppe Vaniorh:Tadmor ?
+
+    In welchen Gruppen ist Sissi?
+        zgruppe ? sissi
+
+
+Gruppen anlegen hat aber nur Sinn, wenn die Mitgliedschaft in der
+Gruppe öfters wechselt und wenn diese Gruppe auf viele verschiedene
+Stellen Schreibrechte hat.
+
+So könnte es sinnvoll sein (seht das mal als Beispiel), eine Gruppe
+"Schiffe:Linienschiffe" anzulegen, welche auf alle Linienschiffe, die
+über alle Domains verteilt, irgendwo liegen, Schreibrechte bekommt.
+
+Nicht sinnvoll wäre es dagegen, eine Gruppe
+Vaniorh:Landschaft:Insel_des_Duesterwaldes anzulegen, nur um dann dort
+ein einziges Mitglied aufzunehmen und dann der Gruppe Schreibrecht
+auf /d/Vaniorh/Duesterwald/Insel zu geben.

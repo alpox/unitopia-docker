@@ -1,0 +1,267 @@
+Programmierung von Count-Objekten
+=================================
+
+1.) Der Count-Type: Gleich zu Gleich gesellt sich gern.
+-------------------------------------------------------
+
+Die Lfuns
+
+    void set_count_type(string str)
+    string query_count_type()
+
+setzen bzw. liefern den Count-Type eines Count-Objektes.
+
+Der Count-Type entscheidet darüber, ob zwei Count-Objekte zu einem
+verschmolzen werden, wenn eines in die Umgebung des anderen bewegt wird.
+Deshalb müssen Count-Types in UNItopia einmalig sein.
+
+Beispiel:
+Möchte man einen eigenen Pfeil mit einem Extra-Damage bauen, so darf man
+ihm nicht den Count-Type "pfeil" geben, sonst werden die guten Pfeile zu
+normalen oder umgekehrt, wenn man zwei entsprechende Pfeil-Haufen in einen
+Container legt.
+
+Man wähle einen möglichst eindeutigen Count-Type, es empfiehlt sich zB.
+der Pfad der Datei/Load-Name:
+
+    set_count_type(load_name());
+
+2.) Die Anzahl (Count)
+----------------------
+
+Die Lfuns
+
+    void set_count(int m)
+    void add_count(int m)
+    int query_count()
+
+setzen, verändern bzw. liefern die Anzahl eines Count-Objektes.
+
+Fällt der Wert dabei unter 1, so wird das Count-Objekt zerstört.
+
+3.) Der Name: Singular oder Plural?
+-----------------------------------
+
+Die Lfuns
+
+    void set_singular_name(string str)
+    void set_plural_name(string str)
+    string query_singular_name()
+    string query_plural_name()
+
+setzen bzw. liefern den Namen im Singular bzw. im Plural.
+
+Es wird je nach Anzahl der entsprechende Name verwendet.
+
+4.) Die ID: Singular und Plural!
+--------------------------------
+
+Die Lfuns
+
+    void set_plural_id(string plural_id | string *plural_ids)
+    void add_plural_id(string plural_id | string *plural_ids)
+    string *query_plural_id()
+
+setzen, ändern bzw. liefern die Plural-IDs.
+
+Es werden immer normale IDs und Plural-IDs ausgewertet.
+
+5.) Der Wert (value)
+--------------------
+
+Die Lfuns
+
+    void set_singular_value(int i)
+    int query_singular_value()
+
+setzen bzw. liefern den Wert, den das Multi-Objekt (/i/object/multiob) mit
+der Anzahl 1 hätte.
+
+set_value() geht auch, hierbei wird der Wert durch die Anzahl geteilt,
+abgerundet und mittels set_singular_value() gesetzt.
+
+6.) Das Gewicht
+---------------
+
+Das Gewicht ist fest vorgegeben und hängt nur von der Anzahl ab.
+
+Man kann aber die Lfun query_count_weight() überlagern, wenn man für sein
+Count-Objekt andere Gewichte haben möchte.
+
+7.) Welches Inherit als Basis: /i/Object/countob oder /i/object/multiob?
+------------------------------------------------------------------------
+
+Wenn man nicht eh schon Inherits gehobenen Standards wie /i/money/money
+oder /i/object/pfeil nimmt, dann stellt sich die Frage nach dem
+Basis-Inherit.
+
+Das Hauptproblem bei Count-Objekten ist die Weitergabe der Werte eines
+Count-Objektes an ein von ihm abgespaltenes Count-Objekt in split_object().
+Setzt man alle Werte im create() (alle außer der Anzahl!) oder managet die
+Weitergabe selber in split_object() und braucht zusätzlich keinen
+Mechanismus für den Wert (Value) oder managet auch das noch selber
+(eigentlich nur für das Geld (/i/money/money) sinnvoll), so nimmt man
+/i/object/countob. Ansonsten empfiehlt sich /i/object/multiob.
+
+/i/object/multiob gibt in split_object() folgende Werte des alten
+Count-Objektes an das neue weiter:
+
+    query_plural_name()
+    query_singular_name()
+    query_id()
+    query_gender()
+    query_adjektiv()
+    query_material()
+    query_noise()
+    query_smell()
+    query_plural_id()
+    query_count_type()
+    query_singular_value()
+
+Diese müssen also nicht im create() des Count-Objektes gesetzt werden.
+
+Viele Count-Objekte nutzen die Möglichkeit, nicht schon im create() diese
+Werte setzen zu müssen, zB. die Pfeile (/obj/pfeil) und das Geld
+(/obj/money), letzeres mit der Lfun init_money(). Allerdings basiert
+/obj/money nicht auf /i/object/multiob, sondern managet das selbst in
+split_object().
+
+8.) Werte in split_object() weitergeben
+---------------------------------------
+
+Möchte man einen Wert nicht schon im create() sondern erst später setzen,
+so muss man dafür sorgen, dass er in split_object() an das abgespaltene
+Count-Object weitergegeben wird.
+
+Dies lässt sich so realisieren:
+
+    object split_object(int i)
+    {
+        object ob;
+
+        if((ob=::split_object(i)) && ob!=this_object())
+        {
+            ob->set_mein_wert(query_mein_wert());
+            ...
+        }
+
+        return ob;
+    }
+
+Bei mehreren Inherits vor :: eventuell den Inherit-Namen angeben.
+
+Man beachte dabei aber, dass ein Wert konstant in bezug auf den Count-Type
+sein muss! Die Möglichkeit, Werte weiterzugeben, macht nur Sinn, wenn man
+eine Blaupause (/obj/money) für mehrere verschiedene Count-Types
+nutzen will, die dann verschiedene Werte haben. Bei /obj/money wären dies
+zB. unterschiedliche Werte für Namen, Geschlecht, ID etc. pp. bei Talern,
+Kronen, und Dukaten.
+
+9.) notify_countob_split_from()
+----------------------------
+
+    void notify_countob_split_from(object alt, object neu)
+
+Wird von einem Count-Objekt alt mittels split_object() ein Count-Onjekt neu
+abgespaltet, so wird anschließend im Count-Objekt alt
+
+    notify("countob_split_from", alt, neu)
+
+aufgerufen.
+
+In allen Objekten, die sich vorher mittels
+
+    alt->add_controller("notify_countob_split_from")
+
+im Count-Objekt alt als Controller für "notify_countob_split_from" angemeldet
+haben, wird dann
+
+    notify_countob_split_from(alt, neu)
+
+aufgerufen.
+
+Hinweis: Der Vorgang des Abspaltens ist in dem Moment, da
+notify_countob_split_from() aufgerufen wird, insofern noch nicht vollständig
+abgeschlossen, als noch nicht alle relevanten Werte des Count-Objektes alt
+im Count-Objekt neu gesetzt sein müssen.
+
+Damit können Controller auf die Abspaltung reagieren und sich im
+abgespaltenen Count-Objekt anmelden.
+
+10.) notify_joined_countob(), notify_incorporated_countob()
+-----------------------------------------------------------
+
+    void notify_joined_countob(object alt, object neu)
+    void notify_incorporated_countob(object alt, object neu)
+
+Wird ein Count-Objekt neu in die Umgebung eines zweiten Count-Objektes alt
+mit demselben Count-Type bewegt, so wird das nicht bewegte Count-Objekt
+alt zerstört und die Anzahl von neu entsprechend erhöht.
+
+Unmittelbar vor der Zerstörung des Count-Objektes alt wird
+
+    alt->notify("joined_countob", alt, neu)
+und
+    neu->notify("incorporated_countob", alt, neu)
+
+aufgerufen.
+
+In allen Objekten ob, die sich vorher mittels
+
+    alt->add_controller("notify_joined_countob", ob)
+bzw.
+    neu->add_controller("notify_incorporated_countob", ob)
+
+im Count-Objekt alt als Controller für "notify_joined_countob" bzw. 
+"notify_incorporated_countob" angemeldet haben, wird dann
+
+    notify_joined_countob(alt, neu)
+bzw.
+    notify_incorporated_countob(alt, neu)
+
+aufgerufen.
+
+Damit können Controller darauf reagieren, dass das überwachte
+Count-Objekt durch ein anderes ersetzt wird, und sich im ersetzenden
+Count-Objekt anmelden.
+
+11.) Beispiel: Orken-Ex, ein Bolzen für eine Armbrust mit Extra-Damage
+----------------------------------------------------------------------
+
+    inherit "/i/object/pfeil";
+
+    void create()
+    {
+        ::create();
+
+        // Das setzt schon viele Werte für einen Bolzen:
+        init_geschoss("bolzen");
+
+        // Ein eigener und EINDEUTIGER Count-Type:
+        set_count_type(load_name());
+
+        // Den Wert etwas erhöhen:
+        set_singular_value(2);
+
+        // Weitere IDs dazu:
+        add_id(({"orken-ex", "orkenex", }));
+        add_plural_id(({"orken-exe", "orkenexe", }));
+
+	// Ein nettes Adjektiv:
+        set_adjektiv("schwarz");
+
+        // Die durchschnittliche Lebensdauer ist etwas größer als
+        // Normal:
+        set_life(6);
+    }
+
+    int query_extra_damage(object feind, object besitzer, object schusswaffe)
+    {
+        if(feind->id("ork"))
+            return 1;
+    }
+
+    string query_long(object betrachter)
+    {
+        return wrap(Ein(this_object())+" der Marke \"Orken-Ex\".");
+    }

@@ -1,0 +1,30 @@
+Die Zugriffsrechte auf Dateien werden in UNItopia per ACLs verwaltet.
+ACL steht für Access Control List.
+
+
+
+1. WELCHE Rechte können per ACL vergeben werden?
+
+   - "create":   Anlegen einer neuen, nicht existierenden Datei
+   - "write":    Schreibrecht, Verändern einer existierenden Datei
+                 ("write" impliziert automatisch "debug")
+   - "remove":   Löschen einer besteheneden Datei
+   - "mkdir":    Anlegen eines Unterverzeichnisses
+   - "rmdir":    Löschen eines Unterverzeichnisses
+   - "save":     Ein Objekt darf sich selbst via save_object abspeichern
+   - "restore":  ein Objekt, welches sich via save_object abgespeichert
+                 hat, darf sich, wenn es dieses Recht hat, via
+                 restore_object laden.
+                 Achtung: Dies ist ein Leserecht und daher noch nicht
+                          implementiert.
+   - "debug":    Alle, die eine Datei schreiben können, sind automatisch
+                 Debugger. "write" impliziert also "debug".
+                 Zusätzlich zu diesen können mit diesem Eintrag auch
+                 Leute / Gruppen als Debugger eingetragen werden, die
+                 kein Schreibrecht besitzen.
+                 Treten bei einem Objekt Fehler auf, so erhält jemand,
+                 der das "debug" - Recht hat, ebenfalls die Fehlermeldung.
+                 Dies ist vor allem für MudLib - Objekte, auf die niemand
+                 direkt Schreibrecht bekommt, sinnvoll,
+   - "read":     Leserecht; genau wie "restore" ist auch dieses Leserecht
+                 noch nicht eingeführt.

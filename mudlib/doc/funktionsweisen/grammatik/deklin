@@ -1,0 +1,492 @@
+-------------------------------------------------------------------
+  DEKLINATION VON ARTIKELN, PRONOMEN, ADJEKTIVEN UND SUBSTANTIVEN
+-------------------------------------------------------------------
+
+
+Deklination, was ist das?
+-------------------------
+
+Auf deutsch Beugung, bezeichnet die Veränderung von Substantiven
+(Baum, Wald, Wiese) und Adjektiven (gruen, teuer, hell) in
+den vier verschieden Fällen in der deutschen Grammatik:
+Nominativ, Genitiv, Dativ, Akkusativ. (Wer-, Wessen-, Wem-, Wen-Fall)
+
+
+Artikel und Pronomen
+--------------------
+
+Damit das ganze nicht zu einfach wird hat man auch noch Artikel
+und Pronomina aller Art, die natürlich auch dekliniert sein
+möchten:
+   bestimmter Artikel:    der, die, das, dem, der, dem,...
+   unbestimmter Artikel:  ein, eine, eines, einem, einer, einem,...
+   Possesivpronomina: (besitzanzeigendes Fürwort :-)
+    in I. Person:         mein, meine, mein,...
+    in II. Person:        dein, deine, dein,...
+    in III. Person:       sein/ihr, seine/ihre, sein/ihr,...
+   Demonstrativpronomina: dieser, diese, dieses,...
+   Personalpronomina:
+    in I. Person:         ich, mir, mich
+    in II. Person:        du, dir, dich
+    in III. Person:       er/sie, ihm/ihr, ihn/sie
+    Negation:             kein...
+(Ich garantiere nicht für die korrekte Bezeichnung der 'Dinger',
+ sondern nenn sie einfach mal so...)
+
+
+Wozu das ganze?
+---------------
+
+- Um vernünftige deutsche Sätze zu bilden braucht man das eben :)
+- Da man beim Programmieren nicht immer explizit weiß, welches
+  Geschlecht und welche Anzahl (Singular/Plural) ein Objekt hat,
+  kann man auch die Adjektive, Substantive,... nicht explizit im
+  Programmtext deklinieren.
+
+Allerdings kann man sich aus den Eigenschaften der Objekte mit
+einigem Aufwand die korrekte Form berechnen, wenn man weiß
+in welchem Fall (Nom., Dat., Akk.) man das ganze braucht und
+welchen Artikel, bzw. welches Pronomen man haben will.
+
+Beispiel:
+   Dativ, bestimmter Artikel:
+          ... dem gelben Giftzwerg...
+   Nominativ, unbestimmt:
+          ... eine grüne Tasse...
+
+
+Und wie geht das ganze jetzt mit minimalem Aufwand für mich?
+-------------------------------------------------------------
+
+Gute Frage.
+Äh.
+Nun.
+Ganz ohne Aufwand geht's natürlich nicht.
+
+Damit das ganze funktioniert sollten die Objekte folgende
+Eigenschaften haben:
+
+-  Bezeichnung         name            "nervensäge", "schildkröte",...
+     oder
+   Persönlicher Name                   "Detlef", "Stella", "Garthan",...
+   (Der Name MUSS gesetzt sein, wenn die Deklinationsfunktionen benutzt werden.)
+
+     unterschieden durch
+-  Personalflag        personal        0, 1
+
+-  Geschlecht          gender          "maennlich", "weiblich", "saechlich"
+
+-  Anzahl              plural          0, 1
+
+-  Sichtbarkeit        invis           V_VIS (0), V_HIDDEN (1), V_INVIS (3)
+
+-  und optional
+   Adjektive           adjektiv        "nervend", "alt", "dekliniert",...
+
+-  Ein 'Griff' oder mehrere 'Griffe' zum Anfassen schaden auch nicht,
+   werden für die Deklination jedoch nicht benötigt:
+   Id                  id              ({"detlef,"nervensäge"}),...
+
+-  Eine Mengenangabe   menge           ({"wenig", 0}),
+   (freiwillig!)		       ({"zwei", PRON_NICHT_DEKLIN})
+				       (["name":"haufen", "gender:"maennlich"])
+
+(siehe set_name, set_gender, set_plural, set_personal,
+       set_invis, set_adjektiv, set_id und set_menge)
+
+
+So.
+Hat man nun ein paar von diesen hübschen Objekten mit obigen
+Eigenschaften, dann braucht man nur noch die 'object'-Variablen der
+Objekte und ein paar knifflige Funktionen, die die Arbeit übernehmen
+und schon hat man wunderschöne Satzteile...
+
+
+Und wie mach ich das jetzt genau?
+---------------------------------
+
+Man ruft einfach die richtige Funktion mit dem zu deklinierenden
+Objekt auf, die einem den deklinierten String zurueckliefert:
+
+BEISPIEL 1:
+   wolf sei eine object Variable die auf ein Objekt mit folgenden
+        Eigenschaften zeigt:
+           set_name("wolf");
+           set_gender("maennlich");
+           set_plural(0);
+           set_personal(0);
+           set_adjektiv(({"bös"}));
+
+   Ruft man jetzt die Funktion
+      der(wolf)
+   auf, so liefert das:
+      "der böse Wolf"
+
+   Analog:
+      ein(wolf) :   "ein böser Wolf"
+      dein(wolf):   "dein böser Wolf"
+      sein(wolf):   "sein böser Wolf" oder "ihr böser Wolf"
+                    (die Sache mit dem Besitzer wird später erklaert)
+      dieser(wolf): "dieser Wolf"
+      er(wolf)      "er"          (damit ist dann der Wolf gemeint)
+   das ganze gibt's dann auch noch in groß:
+      Ein(wolf):    "Ein böser Wolf"
+      ...
+
+   Ist wolf == this_object(), so kann man das 'wolf', bzw. this_object()
+   weglassen:
+     der(), ein(), dein(), sein(), dieser(), er(), Ein(),...
+
+ALLGEMEIN: Fehlt das Objekt (also das erste Argument), so wird
+           this_object() verwendet.
+
+           Außerdem gibt es weitere Abkürzungen für folgende Objekte
+           this_object()                 OBJ_TO     0
+           previous_object()             OBJ_PO     1
+           this_player()                 OBJ_TP     2
+           auto_owner von this_object()  OBJ_OW     3
+           this_interactive()            OBJ_TI     4
+           previous_object(i)                      -i
+
+           Die Konstanten sind in /sys/deklin.h definiert.
+
+
+Und wie ist das mit dem weiblichen/saechlichen Geschlecht?
+----------------------------------------------------------
+
+Nun. Genau so. Es gibt keine Extra-Funktionen für die weiblichen
+und sächlichen Formen.
+Man weiß ja oft nicht explizit, was für ein Geschlecht das
+Objekt hat, also darf es im Programm nur einen Satz von Funktionen
+geben, die die Deklination für alle Geschlechter bewältigen.
+
+BEISPIEL 2:
+   gegenstand  sei eine object Variable die auf ein Objekt mit folgenden
+        Eigenschaften zeigt:
+           set_name("tasche")
+           set_gender("weiblich");
+           set_plural(0);
+           set_personal(0);
+           set_adjektiv(({"voll"}));
+
+   Ruft man jetzt die Funktion
+      der(gegenstand)
+   auf, so liefert das
+      "die volle Tasche"
+
+   Analog:
+      ein(gegenstand) :   "eine volle Tasche"
+      dein(gegenstand):   "deine volle Tasche"
+      sein(gegenstand):   "seine volle Tasche" oder "ihre volle Tasche"
+                    (die Sache mit dem Besitzer wird später erklaert)
+      dieser(gegenstand): "diese volle Tasche"
+      er(gegenstand)      "sie"      (damit ist dann die Tasche gemeint)
+   das ganze gibt's dann auch noch in groß:
+      Der(gegenstand):    "Die volle Tasche"
+      ...
+
+Analog für ein Pluralobjekt, also ein Objekt, das mehrere Gegenstände
+repräsentiert:
+BEISPIEL 3:
+   gegenstand  sei eine object Variable die auf ein Objekt mit folgenden
+        Eigenschaften zeigt:
+           set_name("scherben");
+           set_gender("maennlich");
+           set_plural(1);
+           set_personal(0);
+           set_adjektiv( ({ }) );   (keins)
+
+   Ruft man jetzt die Funktion
+      der(gegenstand)
+   auf, so liefert das
+      "die Scherben"
+
+   Analog:
+      ein(gegenstand) :   "Scherben"
+      dein(gegenstand):   "deine Scherben"
+      sein(gegenstand):   "seine Scherben" oder "ihre Scherben"
+                    (die Sache mit dem Besitzer wird später erklaert)
+      dieser(gegenstand): "diese Scherben"
+      er(gegenstand)      "sie"      (damit sind dann die Scherben gemeint)
+   das ganze gibt's dann auch noch in groß:
+      Dein(gegenstand):    "Deine Scherben"
+      ...
+
+SSStttoopppp. Warum gerade die männlichen Formen?
+-------------------------------------------------
+
+Ganz einfach, weil bei den Pronomen/Artikeln, die hier als Funktions-
+namen verwendet werden, Nominativ und Akkusativ sich NUR in der
+männlichen Form unterscheiden. Und das ist hier wesentlich.
+
+Beispiel: DIE Blume ist schön. Sie nimmt DIE Blume.
+          DER Bauer schaut sich um. Das juckt DEN Bauer nicht.
+
+
+Wie funktioniert das mit den Adjektiven?
+----------------------------------------
+
+Wenn die Funktionen wie oben benutzt werden, werden alle Adjektive
+die das Objekt definiert hat angezeigt. ("Ein alter, morscher Baum").
+
+Man kann jedoch mit einem zusätzlichen Parameter beeinflussen,
+welche(s) Adjektiv(e) man haben will.
+
+   der(ob, 0)   -> alle Adjektive werden verwendet
+                   identisch mit  der(ob)
+
+   der(ob, 1);  -> nur das ERSTE Adjektiv wird verwendet.
+   der(ob, 2);  -> die ERSTEN ZWEI Adjektive werden verwendet.
+           3       die ERSTEN DREI ...
+
+   der(ob, -1);  -> NUR das ERSTE Adjektiv
+   der(ob, -2)      NUR das ZWEITE ...
+
+   der(ob, ({2,4}))  -> das zweite bis vierte Adjektiv
+   der(ob, ({-2,0})) -> das vorvorletzte bis letze Adjektiv
+
+   der(ob, ({}))     -> KEIN Adjektiv wird verwendet
+   der(ob, "")       -> KEIN Adjektiv wird verwendet
+
+   der(ob, "grün")   -> KEIN Adjektiv des Objekts wird verwendet,
+                        SONDERN das Adjektiv "grün"
+   der(ob, ({"lila","lilan"}))
+                     -> KEIN Adjektiv des Objekts wird verwendet,
+                        SONDERN das unregelmäßige Adjektiv "lila"
+
+Das funktioniert übrigens mit allen Deklinationsfunktionen, außer den
+Personalpronomen er(ob), ihn(ob), ihm(ob), sie können eh keine
+Adjektive haben.
+
+
+Was heißt da ALLE Deklinationsfunktionen?
+------------------------------------------
+
+Ok, hier die vollständige Liste:
+
+   der   (mixed who, mixed adjektiv)
+   des   (mixed who, mixed adjektiv)
+   dem   (mixed who, mixed adjektiv)
+   den   (mixed who, mixed adjektiv)
+
+   ein   (mixed who, mixed adjektiv)
+   eines (mixed who, mixed adjektiv)
+   einem (mixed who, mixed adjektiv)
+   einen (mixed who, mixed adjektiv)
+
+   dein  (mixed who, mixed adjektiv, object owner)
+   deines(mixed who, mixed adjektiv, object owner)
+   deinem(mixed who, mixed adjektiv, object owner)
+   deinen(mixed who, mixed adjektiv, object owner)
+
+   sein  (mixed who, mixed adjektiv, object owner)
+   seines(mixed who, mixed adjektiv, object owner)
+   seinem(mixed who, mixed adjektiv, object owner)
+   seinen(mixed who, mixed adjektiv, object owner)
+   -> siehe unten
+
+   ihr  (mixed who, mixed adjektiv, mixed owner, mixed owner_adjektiv, string name)
+   ihrem(mixed who, mixed adjektiv, mixed owner, mixed owner_adjektiv, string name)
+   ihren(mixed who, mixed adjektiv, mixed owner, mixed owner_adjektiv, string name)
+   -> siehe unten
+
+   dieser(mixed who, mixed adjektiv)
+   dieses(mixed who, mixed adjektiv)
+   diesem(mixed who, mixed adjektiv)
+   diesen(mixed who, mixed adjektiv)
+
+   er (mixed who)
+   ihm(mixed who)
+   ihn(mixed who)
+
+Alle obigen Funktionen sind vom Typ varargs string und existieren auch
+auch in einer Capitalize-Version: Der, Dem, Den,...
+Sie basieren alle auf den Grundfunktionen wer, wem, wen bzw. Wer, Wem, Wen,
+jeweils mit einem speziellen 'art' Argument aufgerufen.
+(Mit Ausnahme von ihr, ihrem, ihren; diese basieren auf query_deklin_owner)
+
+   varargs string wer(mixed who, int art, mixed adjektiv, object owner)
+   varargs string wem(mixed who, int art, mixed adjektiv, object owner)
+   varargs string wen(mixed who, int art, mixed adjektiv, object owner)
+   varargs string wessen(mixed who, int art, mixed adjektiv, object owner)
+
+Die Funktionen wer, wem, wen, Wer, Wem, Wen basieren schließlich alle
+auf der 'alles managenden' Funktion query_deklin, die mit speziellen
+Argumenten für art und fall aufgerufen wird.
+
+   varargs string query_deklin(mixed who, int art, int fall, mixed adjektiv, mixed owner)
+
+
+Wie funktioniert das mit dem Besitzer bei sein, seinem, seinen, dein, ...?
+--------------------------------------------------------------------------
+
+Die Funktionen sein, seinem, seinen KÖNNEN mit einem dritten Argument
+versehen werden:
+   sein  (mixed ob, mixed adjektiv, object owner)
+   seinem(mixed ob, mixed adjektiv, object owner)
+   seinen(mixed ob, mixed adjektiv, object owner)
+
+BEISPIEL 4:
+
+   Sei  ob  ein Objekt mit folgenden Eigenschaften:
+       set_name("tasche");
+       set_gender("weiblich");
+
+   Sei  owner  ein Objekt mit folgenden Eigenschaften:
+       set_gender("maennlich");
+
+   Dann liefert
+      sein(ob, "schön", owner);
+   folgendes:
+      "seine schöne Tasche"
+
+Das Geschlecht von  owner  entscheidet darüber, ob es ihre oder
+seine Tasche heißt.
+
+Ist kein  owner gegeben, oder owner == 0, dann wird das
+Geschlecht des 'naechstaeusseren' lebenden Environments verwendet.
+(sprich desjenigen, der das Objekt ob mit sich herumtraegt).
+
+Gibt es kein living environment, weil das Objekt bsp.weise in einem
+Raum liegt, dann wird nicht sein oder ihre geliefert, sondern
+einfach der bestimmte Artikel, wenn es als einziger seiner Art
+herumliegt, sonst der unbestimmte Artikel.
+
+Das gilt auch für die Funktionen dein, deines, deinem, deinen.
+Ansonsten wird der Wert owner von bei dein,... nicht weiter
+verwendet.
+
+
+Wo zu die Funktionen ihr, ihrem, ihren?
+---------------------------------------
+
+Diese Funktionen dienen NICHT dazu die Worte ihr, ihren, ihrem
+zu erzeugen, denn das machen ja schon die Funktionen sein, seines,
+seinem und seinen, wenn das Geschlecht des Owners weiblich ist,
+SONDERN erzeugen zusätzlich den Besitzernamen im Genitiv, der
+ja nach set_personal() vor oder nachgestellt wird.
+
+
+BEISPIEL 5:
+    Sei  ob  ein Gegenstand mit folgenden Eigenschaften:
+       set_name("tasche");
+       set_gender("weiblich");
+       set_adjektiv(({"voll"}));
+
+    Sei  er  ein Person mit folgenden Eigenschaften:
+       set_name("francis");
+       set_gender("maennlich");
+       set_personal(1);
+
+    Sei  sie  ein Person mit folgenden Eigenschaften:
+       set_name("stella");
+       set_gender("weiblich");
+       set_personal(1);
+
+    Sei  ork  Monster mit folgenden Eigenschaften:
+       set_name("ork");
+       set_gender("maennlich");
+
+
+   Dann liefert
+      ihr(ob ,0, er)
+      "Francis' volle Tasche"
+
+      ihr(ob, 0, sie)
+      "Stellas volle Tasche"
+
+      ihr(ob, 0, ork)
+      "die volle Tasche des Orks"
+
+
+Wie funktioniert das ganze, wenn das Objekt NICHT als object-Variable
+vorliegt, sondern lediglich irgendwo im Text auftaucht?
+----------------------------------------------------------------------
+
+Man verwendet in dem Fall ein vereinfachtes virtuelles Objekt, 
+welches nur "name" und "gender" besitzt.
+
+WICHTIG: Bei dieser Aufrufart darf der Owner nicht weggelassen werden!!!
+         (Er kann ja nicht automatisch berechnet werden.)
+
+BEISPIEL 6:
+
+   Man möchte folgenden Text erzeugen:
+      "Er schaut seine Hand an."
+
+   "Er" sei das Personalpronmen zum Objekt 'who', aber "Hand" liegt
+   nicht als Objekt vor, sondern soll nur so im Text erscheinen.
+   Wie erzeugt man jetzt das "seine Hand"?
+   Es könnte schließlich auch "ihre Hand" heißen, wenn 'who' weiblich wäre.
+
+   Lösung:
+      Er(who)+" schaut "+
+      seinen((["name":"hand", "gender":"weiblich"]),0,who)+" an."
+
+Man übergibt an Stelle des herkömmlichen Objektes also ein 
+virtuelles Objekt, in der Form eines Mappings.
+
+BEISPIEL 7:
+   Man möchte folgenden Text erzeugen:
+      "Er schaut seine wunden Finger an."
+   Lösung:  (Finger ist hier Plural!)
+      Er(who)+" schaut "+
+      seinen((["name": "finger",           //  Virtuelles Objekt 
+	       "plural": 1,                //  aus name, gender und plural
+	       "gender": "maennlich"]),    //
+	     "wund",
+	     who)+
+      " an."
+
+BEISPIEL 8:
+   Man möchte folgenden Text erzeugen:
+      "Er schaut die stinkende Leiche des bösen Orks an."
+   Lösung:
+      Er(who)+"schaut"+
+      ihren((["name": "leiche",
+	      "gender": "weiblich"]),
+	    0,
+	    ork,
+	    "bös")+
+      " an."
+
+Wie ist das mit unsichtbaren Objekten?
+--------------------------------------
+
+Die Deklinationsfunktionen liefern immer etwas zurück, auch wenn das
+Objekt unsichtbar ist. Man muss also vorher query_invis
+abfragen, wenn man gar nichts ausgeben will.
+
+
+BEISPIEL 9:
+    Das Objekt  tarakaja  habe folgende Eigenschaften:
+       set_name("tarakaja");
+       set_invis(V_INVIS);
+       living(tarakaja)==1
+
+    Das Objekt  seele  habe folgende Eigenschaften:
+       set_name("seele");
+       set_invis(V_INVIS);
+       living(seele)==0   /* Darüber kann man sich streiten ;-) */
+
+    Dann liefert:
+       Der(tarakaja)+" schnuppert an "+dem(seele)+" herum ."
+
+       "Jemand schnuppert an etwas herum."
+
+
+Die Funktionen wer, wessen, wem, wen und Wer, Wessen, Wem, Wen
+--------------------------------------------------------------
+
+Diese Funktionen können zusätzlich zu den obigen Fällen auch
+folgende Spezialfälle erzeugen:
+
+  - Nur der Artikel / das Pronom wird zurückgegeben, ohne Adjektive
+    und Substantiv.               (ART_NUR_...)
+  - Nur die Adjektive und das Substantiv werden zurückgegeben,
+    kein Artikel / kein Pronom.   (ART_KEINS)
+  - Automatische Artikel Auswahl: (ART_AAA)
+       Wenn mehrer gleiche Objekte im Raum: -> ein
+       sonst                                -> der
+
+Näheres siehe Doku zu wer, wessen, wem, wen.

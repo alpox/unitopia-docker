@@ -1,0 +1,13 @@
+-----------------------------------------------------------------------------
+Die Zauberfähigkeiten eines normalen Spielers sind nicht sehr ausgeprägt.
+Aber mit wachsender Erfahrung steigt auch die Erfolgsquote der Zauber-
+sprüche. Je nach Mächtigkeit des Spruchs kostet er mehr oder weniger
+Zauberpunkte.
+
+Je nach Gildenzugehörigkeit können den einzelnen Spielern auch noch
+weitere Zaubersprüche zur Verfügung stehen.
+
+Folgende Standardsprüche stehen zur Verfügung:
+
+	rede, brülle, licht, sicht, aura, sinn, bewerte, mustere.
+-----------------------------------------------------------------------------

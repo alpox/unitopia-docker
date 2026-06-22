@@ -1,0 +1,8 @@
+FUNKTION: get_align_string
+DEKLARATION: string get_align_string(int align)
+BESCHREIBUNG:
+Liefert einen String zurueck, welcher Gesinnung ein Lebewesen ist.
+(von "heilig" bis "daemonisch")
+GRUPPEN: simul_efun, player
+VERWEISE: 
+SOURCE: /secure/simul_efun/util.inc

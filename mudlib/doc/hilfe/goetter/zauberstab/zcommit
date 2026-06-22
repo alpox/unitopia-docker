@@ -1,0 +1,27 @@
+-------------------------------------------------------------------------------
+zcommit [-f] [-m "Meldung"] [<Dateien oder Verzeichnisse>]
+
+        Zeigt eine Liste aller von Dir geänderten Dateien an.
+
+        Wenn ein Verzeichnis angegeben wurde, so werden nur Dateien aus
+        diesem Verzeichnis angezeigt. Es können mehrere Dateien oder
+        Verzeichnisse durch Leerzeichen oder Komma getrennt angegeben werden.
+
+        In der Dateiliste können einzelne Dateien abgewählt werden, der
+        Rest wird committet. Sofern keine Meldung angegeben wurde, öffnet
+        sich ein Editor zur Eingabe der Änderungsmeldung.
+
+        Achtung: Es können stets nur Dateien committet werden, keine
+        (leeren) Verzeichnisse.
+
+        Optionen:
+
+          -f    Es werden die offenen Änderungen aller Götter angezeigt.
+                Sollte kein Verzeichnis angegeben sein, so ist die Anzeige auf
+                das aktuelle Verzeichnis beschränkt.
+
+          -m    Hiermit kann man die Änderungsmeldung angeben. Wenn diese
+                Option fehlt, wird ein Editor dafür geöffnet.
+
+Siehe auch: zlog
+-------------------------------------------------------------------------------

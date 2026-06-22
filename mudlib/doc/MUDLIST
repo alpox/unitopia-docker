@@ -1,0 +1,992 @@
+The Totally Unofficial List of Internet Muds
+14 November 1993  Volume 6  Issue 8
+
+Compiled by Scott Goehring (scott@glia.biostr.washington.edu)
+Copyright (C) 1993 by Scott Goehring.  All rights reserved.
+
+**** PLEASE DO NOT REPOST THIS LIST TO ANY NEWSGROUP ****
+
+CORRECTIONS and ADMINISTRIVIA:  mudlist@glia.biostr.washington.edu
+
+SUBSCRIPTIONS (.uk addresses only): pjc@computer-science.manchester.ac.uk
+SUBSCRIPTIONS (rest of world):      mudlist@glia.biostr.washington.edu
+
+BACK ISSUES: ftp to caisr2.caisr.cwru.edu in /pub/mud
+
+Is there anyone in Australia who could act as a forwarder for the
+list?  I currently have 34 .au recipients and would like to reduce the
+overseas link load by only sending one copy.  Someone willing to pick
+up Sweden, Norway and Finland (together) might be good too (49
+recipients total).
+
+
+-------------------------------------------------------------------------------
+                 MUDWHO servers (6)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+??               dancer.ethz.ch          129.132.57.66    6889  up
+ACTLab           actlab.rtf.utexas.edu   128.83.194.11    6889  R*
+AFserv           af.itd.com              128.160.24.249   6889  TO
+                 pa.itd.com
+Amber            amber.ecst.csuchico.edu 132.241.1.43     6889  up
+Nova             nova.tat.physik.uni-tuebingen.de         6889  up
+                                         134.2.62.161
+okwho            riemann.math.okstate.edu                 6889  up
+                                         139.78.1.15
+-------------------------------------------------------------------------------
+                 AberMUDs (15)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Askerbulkum      minsk.docs.uu.se        130.238.9.30     6715  up           1
+DIRT             alkymene.uio.no         129.240.21.60    6715  R            2
+DragonMud        fermina.informatik.rwth-aachen.de        ??    up
+                                         137.226.224.20
+Eclipse MUD      uhs-2.bsd.uchicago.edu  128.135.90.202   6715  up           3
+Infinity         anubis.nmt.edu          129.138.13.11    6715  up           4
+Kender's Kove    marx.esu.edu            192.147.113.92   5000  R
+Longhorn         games.cs.utexas.edu     128.83.143.16    6715  up
+                 jaguar.cs.utexas.edu
+Mirage           agean.nmt.edu           129.138.19.196   6715  up
+Mustang          mustang.us.dell.com     143.166.224.42   9173  up
+Northern Lights  aber.ludd.luth.se       130.240.16.18    6715  up           5
+                 father.ludd.luth.se
+SilverMUD        silver.exide.com        198.85.1.2       6715  up
+Sleepless Nights cs3.brookes.ac.uk       161.73.1.2       6789  up           6
+Tempest          asylum.async.vt.edu     128.173.18.201   5000  up
+Terradome        cmsserver.brookes.ac.uk 161.73.101.20    8888  up
+                 cms.brookes.ac.uk
+Tyrann II        muselab.ac.runet.edu    137.45.33.100    6715  up
+                 muselab-gw.runet.edu    137.45.128.10
+-------------------------------------------------------------------------------
+                 bsxs (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Regenesis        bsxmud.lysator.liu.se   130.236.254.159  7475  up           7
+                 birka.lysator.liu.se
+                 regenesis.lysator.liu.se
+-------------------------------------------------------------------------------
+                 cools (2)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+CoolMud Groan    groan.berkeley.edu      128.32.123.20    8888  up
+Wierd Science    amber.ecst.csuchico.edu 132.241.1.43     4201  R*
+-------------------------------------------------------------------------------
+                 dgds (2)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Albion Mud       veda.is                 193.4.230.1      4000  up
+Pattern, The     epsilon.me.chalmers.se  129.16.50.30     6047  up
+-------------------------------------------------------------------------------
+                 DikuMUDs (90)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+4th Realm        marble.bu.edu           128.197.10.75    4000  up
+ACME mud         mud.cc.geneseo.edu      137.238.1.14     9000  up
+AbsolutMUD       b63740.cwru.edu         129.22.248.252   4000  TO
+                 b63740.student.cwru.edu
+Abyss II         helpmac.its.mcw.edu     141.106.64.52    8888  up
+Aldara           thrash.isca.uiowa.edu   128.255.21.235   4000  up
+                                         128.255.40.205
+AlexMUD          marcel.stacken.kth.se   130.237.234.17   4000  up
+                 mud.stacken.kth.se
+AnotherMUD       bubba.clark.net         198.17.243.6     4000  up           8
+Apocalypse IV    peabrain.humgen.upenn.edu                4000  up
+                                         128.91.3.204
+Arctic           hobbes.linfield.edu     192.147.171.2    2700  up        9,10
+Armageddon       carie.mcs.mu.edu        134.48.4.162     4444  up          11
+                 studsys.mscs.mu.edu     134.48.17.10
+Asgard/TNGMud    asgard.cs.bsu.edu       147.226.112.94   6969  TO*      12,13
+AustinMud        aufs.imv.aau.dk         129.142.28.2     4000  R
+BurningDIKU      next5.cas.muohio.edu    134.53.14.115    4000  up          14
+Campaign Mud     **                      **               **    TO*         15
+Chomestoru       mccool.cbi.msstate.edu  130.18.104.2     4000  R
+Copper Diku      copper.denver.colorado.edu               4000  up          16
+                                         132.194.10.1
+Crimson          gpx.lis.uiuc.edu        128.174.4.40     4000  up
+Crystal Shard    wagner.musicnet.ua.edu  130.160.156.75   9000  up
+CthulhuMUD       zen.btc.uwe.ac.uk       164.11.2.18      4000  up          17
+CyberMUDE        **                      **               **    R*       18,19
+Dark Castle      cscns.com               192.156.196.1    6666  up
+                 cns.cscns.com
+Dark Knight's Realm                      132.170.223.1    4000  up          20
+                 sun1.cstore.ucf.edu
+Dark Shadow's DikuMUD                    162.148.251.252  6666  up          21
+                 jericho.connected.com
+Dark Sun         **                      **               **    up          22
+Death's Domain   wizard.ece.miami.edu    192.88.124.22    9000  up       23,24
+                 wizard.ece.miami.edu
+Devilmud         cyberspace.com          198.145.8.11     6669  up
+DikuMud II       marcel.stacken.kth.se   130.237.234.17   4242  up          25
+                 mud.stacken.kth.se
+Dragon Mud       eve.assumption.edu      192.80.61.5      5000  up
+Dutch Mountains  jurix.rechten.rug.nl    129.125.134.4    9000  up
+Empire           einstein.physics.drexel.edu              4000  R        26,27
+                                         129.25.1.120
+Epic             **                      128.52.46.11     6666  R*
+                                                          9000
+Fenris MUD       wolfen.fiu.edu          131.94.64.120    4000  TO**        28
+FieryMud         fiery.eushc.org         163.246.5.109    4000  up          29
+                 mud.eushc.org
+Forbidden Lands  queen.mcs.drexel.edu    129.25.7.100     4000  up          30
+Formosa          **                      140.115.65.10    4000  up       31,32
+                                                          4001
+FredMUD          fred.indstate.edu       139.102.12.14    2150  up
+FuskerMud        wombat.nexagen.com      192.153.215.103  4000  up          33
+Generic MUD      matrix.mit.edu          18.80.1.97       4000  up          34
+Gods of War      shadow.acc.iit.edu      192.41.245.143   8000  up
+                                                          9000
+                                                          4000
+                                                          5000
+Gothic Dikumud   henson.cc.wwu.edu       140.160.240.12   6969  R
+GrimneMUD        gytje.pvv.unit.no       129.241.36.229   4000  up
+HEFTmud          needmore.cs.utexas.edu  128.83.138.120   2150  R
+                 muleshoe.cs.utexas.edu  128.83.138.122
+HelgaMUD         maple.cs.virginia.edu   128.143.8.68     4000  up          35
+Hercules MUD     sunshine.eushc.org      163.246.32.110   3000  up
+Hidden Worlds    cns.cscns.com           192.156.196.1    4000  up
+Highlands        yodababy.cis.temple.edu 155.247.16.177   9000  up
+HypeNet          falcon.depaul.edu       140.192.1.7      4000  up
+                 oldhawk.depaul.edu      140.192.1.10
+Imperial         supergirl.cs.hut.fi     130.233.40.52    6971  R           36
+                                                          6969
+                                                          6970
+                                                          6972
+JediMUD          stimpy.psy.jhu.edu      128.220.27.102   4000  R           37
+KIT-Mud          jinsil.kaist.ac.kr      143.248.11.171   4000  up
+                                         137.68.17.5
+KallistiMud      mud.csos.orst.edu       128.193.40.23    4000  up          38
+                 jadzia.csos.orst.edu
+Konichiwa        **                      **               **    R**
+Land, The        nora.gih.no             128.39.140.150   4000  up
+Last Outpost     inxt.umd.edu            129.2.9.72       4000  up
+                 awards.umd.edu          129.2.8.61
+Legend of the Winds                      140.113.17.168   4040  up          39
+                 ccsun44.csie.nctu.edu.tw
+MUME             lbdsun4.epfl.ch         128.178.77.5     4000  up
+                 disun8.epfl.ch          128.178.79.56
+Mayhem           thrash.isca.uiowa.edu   128.255.21.235   1234  up
+                                         128.255.40.205
+Meat MUD         dopey.cc.utexas.edu     128.83.135.19    2800  up       40,41
+                 dewey.cc.utexas.edu     128.83.135.23
+                 thumper.cc.utexas.edu   128.83.135.3
+                 dumbo.cc.utexas.edu     128.83.135.10
+Medievia Cyberspace                      129.32.32.98     4000  up
+                 bigboy.cis.temple.edu
+Mortal Realms    krypton.ee.utulsa.edu   129.244.45.43    4444  up          42
+Mozart           csci1.uark.edu          130.184.71.148   4000  up
+Mud Dry          eichstatt.cs.csbsju.edu 152.65.167.12    4000  up
+Mud Lite         next2.haas.berkeley.edu 128.32.162.107   4000  R
+                 next.haas.berkeley.edu
+Mudde Pathetique flysex.berkeley.edu     128.32.128.36    2999  up
+NA-VIE           hermes.acm.rpi.edu      128.213.5.14     4001  up          43
+NOTS             nots.colorado.edu       128.138.239.10   4000  up
+Nameless Mud     dorothy.ibmpcug.co.uk   192.68.174.69    2150  TO*
+                                         192.68.174.240   2000
+NexusMUD         disun35.epfl.ch         128.178.79.108   4000  up
+                 disun13.epfl.ch         128.178.79.61
+Northern Crossroads                      128.100.13.63    9000  up
+                 ugsparc13.eecg.toronto.edu
+Perilous Realms  crl2.crl.com            165.113.1.13     2150  up
+                 mud.crl.com             165.113.1.30
+PosMud           turtle.postech.ac.kr    141.223.90.96    4000  TO
+                                         141.223.13.32
+                                         141.223.90.131
+Realms of Wind II                        140.113.17.168   1234  up          39
+                 ccsun44.csie.nctu.edu.tw
+Renegade Outpost louie.cc.utexas.edu     128.83.135.4     9998  up
+                                                          9999
+Rivers of Mud    cie-2.uoregon.edu       128.223.36.161   9000  up
+RockyMud         hermes.dna.mci.com      162.54.125.146   4000  up
+SNM mud          maxwell.bethel.edu      140.88.1.76      3000  R**
+Shadow MUD       against.ugcs.caltech.edu                 4000  TO**
+                                         131.215.128.222  4040
+Shadowdale       dale.hsc.unt.edu        129.120.107.70   7777  up
+                 dale.hst.unt.edu
+Silicon Realms   sampan.ee.fit.edu       163.118.30.9     4000  up       44,45
+SillyMud         beach.cis.ufl.edu       128.227.176.6    4000  up
+                 silly.cis.ufl.edu       128.227.224.6    4001
+Sloth MUD        sleepy.cc.utexas.edu    128.83.135.5     2113  up
+                 sneezy.cc.utexas.edu    128.83.135.8     3333
+                 daisy.cc.utexas.edu     128.83.135.15
+Snebo-land       thrash.isca.uiowa.edu   128.255.40.205   2477  up
+                                         128.255.21.235
+SneezyMUD        **                      128.162.84.19    7900  up          46
+StackMUD         marcel.stacken.kth.se   130.237.234.17   8000  up
+                 mud.stacken.kth.se
+ThunderDome      cyberspace.com          198.145.8.11     4444  up
+URTH             groucho.sonoma.edu      130.157.2.19     4000  up
+Vego             screech.alfred.edu      149.84.33.3      4000  up          47
+                                                          9000
+WISNEY WORLD     levant.cs.ohiou.edu     132.235.1.100    5000  up       48,49
+WizzyMud         euston.city.ac.uk       138.40.41.1      1992  R        50,51
+Worm MUD         mud.cc.geneseo.edu      137.238.1.14     4000  up
+-------------------------------------------------------------------------------
+                 DUMs (3)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+CanDUM II        cheetah.vlsi.uwaterloo.ca                2001  up
+                 cheetah.vlsi-cheetahnet.uwaterloo.ca
+                                         129.97.94.45
+                                         129.97.180.1
+DUM II           elektra.ling.umu.se     130.239.24.66    2001  up
+FranDUM II       mousson.enst.fr         137.194.160.48   2001  up
+-------------------------------------------------------------------------------
+                 Havens (2)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Hotel California sachs.cs.colostate.edu  129.82.102.98    2525  up
+Tenelia's Sanctuary                      138.67.1.3       3333  up
+                 slate.mines.colorado.edu
+-------------------------------------------------------------------------------
+                 LPmuds (184)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+3-Kingdoms       marble.bu.edu           128.197.10.75    5000  up          52
+5th Dimension    gauss.ifm.liu.se        130.236.50.9     3000  up          53
+                 fifth.ifm.liu.se
+AH's Bad Find Me Phaedrus                146.186.78.131   2000  up
+                 wbrt.wb.psu.edu
+Nuclearwar       discovery.astrakan.hgs.se                4080  up
+AbacusMUD                                130.238.206.10
+Abnermud         abner.cs.iastate.edu    129.186.3.55     3456  TO*
+                                                          6000
+Actuator         actlab.rtf.utexas.edu   128.83.194.11    4000  up
+Ads              lincoln.ecn.uoknor.edu  129.15.20.12     3000  up
+Akropolis        cssun5.vassar.edu       143.229.1.25     6666  R**         54
+Alpha            gal4.ge.uiuc.edu        128.174.127.51   4444  R
+Ancient Anguish  dancer.ethz.ch          129.132.57.66    2222  up
+Angalon          wilbur.eng.auburn.edu   131.204.110.10   3000  up          55
+Asteroth (LPSwat)                        129.186.140.6    2020  up          56
+                 lpmud.iastate.edu
+                 aviator.cc.iastate.edu
+Aurora           trono.etsiig.uniovi.es  156.35.41.20     3000  up       57,58
+                 aurora.etsiig.uniovi.es
+BatMUD           bat.cs.hut.fi           130.233.40.180   23    up       59,60
+Beyond Belief    cook.brunel.ac.uk       134.83.128.246   4444  R**
+Body Double      kendall.ccs.neu.edu     129.10.11.53     1863  R*
+Callandor        warns.et.tudelft.nl     130.161.147.41   5555  R
+                                                          4242
+Chaos            pulsar.hsc.edu          192.135.84.5     6969  up
+Charlotte        rtp.vnet.net            198.180.33.8     4444  up
+Chatter          hawking.u.washington.edu                 6000  up
+                                         140.142.58.99
+Clootie          clootie.demon.co.uk     158.152.6.194    4444  up
+                                         158.152.6.65
+Cosmos           robots.eece.maine.edu   130.111.113.2    3000  up          61
+Crossed Swords   shsibm.shh.fi           128.214.44.251   3000  up          62
+Crystal Towers   marvin.macc.wisc.edu    144.92.30.207    3754  up 63,64,65,66
+Cwlib            acme.etsu.edu           192.43.199.22    3000  R           67
+Dark Castle      apollo.njit.edu         128.235.38.8     2000  R
+                 newark.njit.edu         128.235.36.1
+Darker Realms    worf.tamu.edu           128.194.116.25   2000  up
+Dartmud          fermat.dartmouth.edu    129.170.28.31    2525  up          68
+Deeper Trouble   mud.iesd.auc.dk         130.225.48.46    4242  up       69,70
+                 alk.iesd.auc.dk
+Dimensional Rifts                        152.1.43.9       6000  up
+                 hobbes.catt.ncsu.edu
+Dirtymud         bsu-cs.bsu.edu          147.226.112.102  5555  up
+                 hopper.cs.bsu.edu       147.226.112.101  5454
+Discworld        cix.compulink.co.uk     193.112.185.3    4242  up          71
+                 tom.compulink.co.uk     146.101.64.2
+                 mud.compulink.co.uk     192.188.69.2
+Doom of Lost Kingdoms                    140.113.23.32    4000  up          72
+                 cissun12.cis.nctu.edu.tw
+Dragon's Den     oyster01.mcs.drexel.edu 129.25.7.111     2222  up       73,64
+Dragonfire       bigben.umsl.edu         128.59.40.155    3000  up
+DragonFire       mhoro.cc.columbia.edu   134.124.42.246
+                                         134.124.42.247
+DreamShadow      jericho.connected.com   162.148.251.252  3333  up          68
+Dud              sunrayce.solar.umn.edu  128.101.236.6    7680  up
+Dune             des1.u-strasbg.fr       130.79.6.60      8888  up          74
+EXOMS            aic.wu-wien.ac.at       137.208.15.103   4000  up
+Earthmud         lanai.cs.ucla.edu       131.179.128.13   2222  up          75
+Eastern Stories  cissun12.cis.nctu.edu.tw                 8000  up
+                                         140.113.23.32
+Elements of Paradox                      192.41.245.90    6996  TO          76
+                 elof.acc.iit.edu
+Enertron         srl05.cacs.usl.edu      130.70.41.27     1234  R
+                 srl03.cacs.usl.edu      130.70.41.29
+Enigma           ??                      202.14.102.1     6000  R**
+Etheria          csgi60.leeds.ac.uk      129.11.144.190   7777  up
+Evolution        popgen.biology.umt.edu  150.131.200.1    4445  up
+Exposure         crux.csir.co.za         146.64.10.153    2010  R
+Final Realms     hp825.bih.no            129.177.230.3    2001  up
+Forbidden        lestat.shv.hb.se        130.241.246.10   7000  R
+Galactic         ug1.plk.af.mil          129.238.20.32    2029  R*
+Gamingroom       sun4b.plk.af.mil        129.238.48.13    2027  R*
+GateWay          idiot.alfred.edu        149.84.4.1       6969  up
+Genesis          hamal2.cs.chalmers.se   129.16.79.12     3011  up
+                 hamal2-ether.cs.chalmers.se              2000
+                 milou.cd.chalmers.se    129.16.226.142
+                                         129.16.225.242
+Genocide         pip.shsu.edu            192.92.115.7     2222  R           77
+Genocide-2       scrooge.shsu.edu        192.92.115.10
+Gilgamesh        shiner.st.usm.edu       131.95.110.4     3742  up
+                 gilgamesh.usm.edu       131.95.115.131
+Glens            **                      **               **    R*
+Godshome         krynn.solace.mh.se      130.239.220.2    3000  up          78
+                                         130.239.216.6
+Gothic           jericho.connected.com   162.148.251.252  5000  up
+Haven            idrz07.ethz.ch          129.132.76.8     1999  up
+Hero             hph.engin.umich.edu     141.212.106.47   2000  R**
+Highlands        sauron.ecst.csuchico.edu                 2000  up
+                 pip.shsu.edu            132.241.4.202
+                                         192.92.115.10
+Hmimud           dcon1.hmi.de            134.30.15.99     3000  R**
+Hole             apollo.cs.swt.edu       147.26.101.20    4444  up
+                 sugar.neosoft.com       198.64.6.1       4441
+Holy Mission     mud.edvz.uni-linz.ac.at 140.78.3.1       4242  up
+                 alijku05.edvz.uni-linz.ac.at
+Igor             ny.mtek.chalmers.se     129.16.60.9      1701  up
+Infinity         **                      **               **    up          79
+Insanity         litchi.cs.scarolina.edu 129.252.131.16   3333  up       80,81
+                                                          3000
+Ivory Tower      marvin.macc.wisc.edu    144.92.30.207    2000  up
+Jaymud           homejay.dme.nt.gov.au   155.205.13.1     9876  up
+Kains Estate     cognac.informatik.uni-kl.de              2000  up          77
+                                         131.246.8.96
+Kerovnia         screech.alfred.edu      149.84.33.3      1984  up
+Khavoria         lab13.math.orst.edu     128.193.80.113   3000  up          56
+Kingdoms         khamul.dd.chalmers.se   129.16.117.21    1812  up
+                 moderato.fy.chalmers.se 129.16.117.17
+                 kili.dd.chalmers.se     129.16.117.29
+                 gwaihir.dd.chalmers.se
+KoBra            duteca4.et.tudelft.nl   130.161.144.22   8888  up
+LOST MUD         **                      128.83.138.119   6666  R
+LPC-Centre       victoria.city.ac.uk     138.40.11.1      6999  TO          82
+Landslide        bnext.soceco.uci.edu    128.200.17.3     6000  R*
+Loch Ness        lochness.i1mp.ch        157.161.1.12     2222  up
+                 indigo.imp.ch
+LooneyMud        mud.cp.tn.tudelft.nl    192.31.126.2     8888  up          83
+                 sirius.cp.tn.tudelft.nl
+Loran            netport.neosoft.com     198.64.6.13      7575  up
+Lost Souls       ux.tcs.uh.edu           129.7.2.110      3000  up
+LurkMud          **                      **               **    up
+LustyMud         lusty.tamu.edu          128.194.9.199    2000  up
+Marches of Antan sdchemg.ucsd.edu        132.239.68.7     3000  up
+                 chemg.ucsd.edu
+Mathmud          medusa.math.fu-berlin.de                 3000  up       84,85
+                                         130.133.4.4
+Midian           algiers.ece.arizona.edu 128.196.28.8     3456  up
+Midnight Ecstacy sun3140r.ccs.northeastern.edu            3000  R**
+                 toltec.ccs.neu.edu      129.10.14.19
+Midnight Sun     holly.ludd.luth.se      130.240.16.23    3000  TO
+                 midnight-sun.ludd.luth.se
+Moonstar         tweety.spc.uchicago.edu 192.135.84.5     4321  up
+                 pulsar.hsc.edu          128.135.84.5
+Moral Decay      **                      131.247.1.12     2002  up
+                                         134.3.33.68
+MorgenGrauen     mud.uni-muenster.de     128.176.121.56   4711  up          86
+                 pascal.uni-muenster.de
+Chrome Shadows   lead.engin.umich.edu    141.212.128.38   4004  up
+Mud              oxygen.engin.umich.edu  141.212.128.44
+                 silicon.engin.umich.edu 141.212.128.45
+                 gold.engin.umich.edu    141.212.128.40
+Muddy_waters     hot.caltech.edu         131.215.9.49     3000  up
+Mulberry Mud     mango.wustl.edu         128.252.121.25   2000  up 87,88,89,90
+Mythos           **                      **               **    up
+Nameless         complex.is              193.4.210.1      2000  TO
+NannyMUD         birka.lysator.liu.se    130.236.254.159  2000  up
+                 mud.lysator.liu.se
+Nanvaent         oban.cc.strath.ac.uk    130.159.220.8    3000  up
+                 corrour.cc.strath.ac.uk 130.159.220.2
+NeXT Mud         odysseus.uncg.edu       152.13.37.8      3000  R
+Nemesis          dszenger9.informatik.tu-muenchen.de      2000  up          91
+                                         131.159.8.67
+New Moon         **                      **               **    up
+NightFall        nova.tat.physik.uni-tuebingen.de         4242  up          92
+                                         134.2.62.161
+Nightmare        jericho.connected.com   162.148.251.252  6000  up          93
+                 nightmare.connected.com 162.148.251.220  4000
+Nirvana          elof.iit.edu            192.41.245.90    3500  up
+                 elof.acc.iit.edu
+No Name          cisdec1.cis.nctu.edu.tw 140.113.23.71    4000  TO**
+Norristown       sun4b.plk.af.mil        129.238.48.13    3333  R*
+NyxMud           nyx.cs.du.edu           130.253.192.68   2000  TO
+ORDER mud        sylvester.cc.utexas.edu 128.83.135.63    3779  up
+Overdrive        eng3.sequent.com        138.95.7.14      5195  up
+PaderMUD         mud.uni-paderborn.de    131.234.2.42     3000  up
+                 padermud.uni-paderborn.de
+Panacea          eng3.sequent.com        138.95.7.14      3000  R*
+Pangaeamud       phoenix.aps.muohio.edu  134.53.3.230     3000  R
+Paradox          adl.uncc.edu            128.109.143.15   10478 up       94,95
+                                         152.15.10.137
+Perspective      comet.rice.edu          128.42.65.2      4444  R
+Phoenix          albert.bu.edu           128.197.74.10    3500  TO       96,97
+Pkyipe           barf.ecst.csuchico.edu  132.241.7.3      9876  up
+Powermud         elf.etsu.edu            192.43.199.27    4567  up
+Prime Time       prime.mdata.fi          192.98.43.2      3000  up
+Prisonermud      **                      **               **    up
+Prydein          spock.austin.apple.com  17.127.4.14      4567  up
+Psycho-thriller  atlantis.jvnc.net       192.67.238.48    3000  up
+                 atlantis.edu
+Pyromud          elektra.cc.edu          140.104.1.100    2222  up
+Pyrosphere       **                      **               **    up   98,99,100
+                                                                       101,102
+QUOVADIS         nemesis.imp.ch          157.161.1.10     2345  up
+                 mud.imp.ch
+Rasterburn       cubetech.com            192.246.51.1     4000  up
+Realms           jive.rahul.net          192.160.13.4     2500  up
+Realms of the Dragon                     141.215.69.7     3000  up
+                 cw-u04.umd.umich.edu
+Regula           rrzc8.rz.uni-regensburg.de               3000  R
+                                         132.199.30.8
+Revenge of the End of the Line           36.21.0.99       2010  up         103
+                 mud.stanford.edu
+                 aus.stanford.edu
+Rhovanian        **                      **               **    up
+Rhovania
+Rift             vader.cc.emory.edu      128.140.94.33    5000  up
+Round Table      **                      152.17.20.15     2222  up         104
+SALib            lestat.shv.hb.se        130.241.246.10   5555  R          105
+STYX             dreamtime.nmsu.edu      128.123.1.55     3000  TO
+Samsara          pobre.ucsc.edu          128.114.162.39   5555  up
+Sands of Time    ??                      139.86.224.20    6666  up
+Savage Garden    red.cs.tcu.edu          138.237.7.8      9999  up     106,107
+Screwit          apollo.cs.swt.edu       147.26.101.20    5555  R*
+Shadow's Edge    was.chem.psu.edu        192.195.202.199  4000  up
+                                         128.118.30.101
+Shattered Worlds **                      **               **    up
+Squint           amri.cisco.com          198.92.29.50     2222  HD*
+Starmud          krynn.solace.mh.se      130.239.216.6    7373  up
+                 krynn.solace.hsh.se     130.239.220.2
+Stellar Genesis  jericho.connected.com   162.148.251.252  4040  up     108,109
+StickMUD         stickmud.jyu.fi         130.234.40.2     7680  up     110,111
+                 kalikka.jyu.fi
+SvenskMUD        svenskmud.mud.lysator.liu.se             2043  up     112,113
+                 bodil.lysator.liu.se    130.236.254.152  2046
+                 svmud.lysator.liu.se
+Swmud            server-gw.phy.cornell.edu                6666  up
+                                         128.253.60.138
+Synergy          eng3.sequent.com        138.95.7.14      2000  up
+T'mud            wave.st.usm.edu         131.95.119.2     2222  up         114
+TMI-2            kendall.ccs.neu.edu     129.10.11.53     5555  up     115,116
+                 tmi.ccs.neu.edu
+Realms of Tabor  penquin.tamucc.edu      165.95.2.123     9999  up 117,118,119
+Tabor            penguin.tamucc.edu      165.95.7.123
+Test             trantor.emba.uvm.edu    132.198.5.1      2994  up
+The Farside      **                      137.44.3.46      2500  up         120
+Tickle           banana.wustl.edu        128.252.121.21   1973  up
+Tirgoviste       volcans.cis.umassd.edu  134.88.14.65     4000  up         121
+Tower of Darkness                        129.252.22.36    3000  up
+                 alice.ece.scarolina.edu
+Tsunami          castor.acs.oakland.edu  141.210.10.109   2779  up
+Tsunami IV       castor.acs.oakland.edu  141.210.10.109   2777  up         122
+TubMUD           morgen.cs.tu-berlin.de  130.149.19.20    7680  up
+Turnipmud        ??                      143.117.30.21    6000  R
+Twenty-Ten       **                      164.11.2.18      2001  R**    123,124
+UNITOPIA         UNItopia.uni-stuttgart.de                3333  up         125
+                                         129.69.221.130
+Ultimate         rkw-risc.cs.up.ac.za    137.215.18.10    1984  up         126
+Ultimud          cxc1.cl.msu.edu         35.8.7.5         5150  R*
+                                                          5000
+Universal Mud    chuck.ecst.csuchico.edu 132.241.7.10     9676  up     127,101
+Universe         bubba.clark.net         198.17.243.6     2000  R*
+Valhalla         valhalla.com            192.187.153.1    2444  up     128,129
+                 midgard.valhalla.com
+VikingMUD        bigblue.pvv.unit.no     129.241.36.232   2001  up     130,131
+Virtual Realities                        128.252.136.100  3019  TO         132
+                 coyote.wustl.edu
+WanderingMUD     ewok.ecn.purdue.edu     128.46.130.89    1234  up
+                                         128.46.185.89
+Whatmud          qe2.declab.cs.qub.ac.uk 143.117.5.31     6000  up
+Wibble           kendall.ccs.neu.edu     129.10.11.53     6666  up
+Wonderland       gorina3.hsr.no          152.94.1.43      3287  up
+                 mudsrv.hsr.no
+Wonderland       amanda.bbb.no           192.124.156.35   3000  R*
+Woodstock        darwin.clas.virginia.edu                 1969  R**
+                                         128.143.44.137
+Woodstock        atlantis.jvnc.net       192.67.238.48    1969  up     133,119
+Xanth            nyx.cs.du.edu           130.253.192.68   7777  TO
+Xanth            summit-rs6000.stanford.edu               6000  R
+                                         36.73.0.68
+Xanth            summit-rs6000.stanford.edu               7777  up 134,135,136
+                                         36.73.0.68                        137
+Xenocide         tauon-gw.ph.unimelb.edu.au               2000  up
+                                         128.250.54.1
+Xenocide         tauon.ph.unimelb.edu.au 128.250.50.2     2000  up
+YAM              coma.huji.ac.il         132.64.128.3     3333  up
+Yipe             vomit.ecst.csuchico.edu 132.241.7.9      9876  R
+flame            mackerel.gu.uwa.edu.au  130.95.100.3     4242  up
+Å×½ºÆ®           world.kaist.ac.kr       143.248.12.82    4444  R
+-------------------------------------------------------------------------------
+                 mares (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+WindsMARE        musenet.bbn.com         128.89.2.137     7348  up     138,139
+-------------------------------------------------------------------------------
+                 MOOs (10)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Diversity University                     155.31.1.1       8888  up     140,141
+                 erau.db.erau.edu
+DragonsFire      eskinews.eskimo.com     162.148.13.44    7777  up     142,143
+Harper's Tale MOO                        147.31.1.51      8888  up         143
+                 netman.widener.edu
+InfernoMOO       **                      129.238.20.32    2001  R*         144
+JaysHouseMOO     **                      **               **    R* 145,146,147
+LambdaMOO        lambda.parc.xerox.com   13.2.116.36      8888  up
+MagicMOO         panama.aston.ac.uk      134.151.18.12    7777  up         148
+OpalMOO          cc.brynmawr.edu         165.106.1.2      7777  up
+Scrabble MOO     phoenix.aps.muohio.edu  134.53.3.230     7777  R*
+ZenMOO           cheshire.oxy.edu        134.69.1.253     7777  up     149,150
+-------------------------------------------------------------------------------
+                 TinyMUCKs (16)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+AfterFive        pa.itd.com              128.160.24.249   9999  TO  151,64,152
+                 af.itd.com
+AnimeMUCK        anime.tcp.com           128.95.10.106    2035  up 153,154,155
+                                                                           156
+Brazillian Dreams                        137.190.16.16    6969  up         157
+                 cs.weber.edu
+CaveMUCK         cave.tcp.com            128.95.10.106    2283  up     158,159
+Divination Web   minerva.library.cmu.edu 128.2.35.146     9393  up     160,161
+DruidMuck        freedom.nmsu.edu        128.123.1.14     4201  up
+                 scf.nmsu.edu
+FurryMUCK        **                      138.74.0.10      8888  up         162
+HoloMuck         collatz.mcrcim.mcgill.edu                5757  up         163
+                                         132.206.78.1
+Incarnations     zippy.sonoma.edu        130.157.2.99     4201  up
+NAILS            flounder.rutgers.edu    128.6.128.5      5150  up 164,165,166
+NonSense MUCK    rigel.dsif.fee.unicamp.br                4201  up     167,168
+                                         143.106.8.131
+Pegasus          l_eld08.icaen.uiowa.edu 128.255.21.78    4242  up
+Quartz Paradise  quartz.rutgers.edu      128.6.60.6       9999  up 169,170,171
+Qwest            qwest.tcp.com           128.95.10.119    9999  up
+                 betz.biostr.washington.edu
+RealmsMUCK       realms.tcp.com          128.95.10.106    7765  up         172
+                 cave.tcp.com
+Tapestries MUCK  tapestries.tcp.com      128.95.10.106    2069  up 173,174,175
+-------------------------------------------------------------------------------
+                 MUGs (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+UglyMUG          els.ee.man.ac.uk        130.88.241.5     6239  up     176,177
+-------------------------------------------------------------------------------
+                 TinyMUSEs (13)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+AntiMicroMuse    b62713.student.cwru.edu 129.22.244.249   4201  R
+BTech3056        pox.dvrd.cdc.gov        158.111.39.107   3056  up         178
+BattleTech       von-neumann.info.polymtl.ca              3026  up     179,180
+                                         132.207.4.4
+                                         132.207.12.1
+CyberSpace       cyberspace.com          198.145.8.11     4201  up         181
+DarkZone         oscar.uwrl.usu.edu      129.123.9.3      2001  up 182,183,184
+EarthseaMUSE     kernighan.cba.csuohio.edu                8826  R      185,186
+                 hopper.cba.csuohio.edu  137.148.20.5
+                                         137.148.20.6
+FlatEarth        cray.cba.csuohio.edu    137.148.20.11    7719  up 187,188,189
+                 nauer.cba.csuohio.edu   137.148.20.7
+MicroMUSE        chezmoto.ai.mit.edu     18.43.0.102      4201  up 190,191,192
+Rhostshyl        rhostshyl.cit.cornell.edu                4201  up
+                                         128.253.180.15
+TOS TrekMuse     siher.stanford.edu      36.109.0.64      1701  up
+                 ed-ce-034.stanford.edu
+TimeMuse         murren.ai.mit.edu       18.43.0.179      4201  up         193
+TrekMUSE         laurel.cnidr.org        128.109.178.37   1701  up     194,195
+                 grimmy.cnidr.org
+VegaMUSE 2       galileo.sos.clarkson.edu                 2095  up         196
+                                         128.153.32.11
+-------------------------------------------------------------------------------
+                 TinyMUSHes (43)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+ApexMUSH         apex.ccs.yorku.ca       130.63.237.12    4201  up
+CamelotMUSH      elena.phy.tufts.edu     130.64.13.2      4201  R  197,198,199
+ChivalryMUSH     cadman.cc.buffalo.edu   ??               5440  up**       200
+City of Darkness rdf010.cs.man.ac.uk     130.88.13.50     1908  up 201,202,203
+CrystalMUSH      moink.nmsu.edu          128.123.1.46     6886  TO     204,205
+Dragon Dawn      elof.acc.iit.edu        192.41.245.90    2508  TO     206,207
+DragonPrince     adamwest.ins.cwru.edu   129.22.8.52      4201  up 208,209,210
+Dreamlands       eskinews.eskimo.com     162.148.13.44    12057 R
+DuneMUSH         cogsci.berkeley.edu     128.32.211.5     4201  up         211
+EleniumMUSH      clayton.ru.ac.za        146.231.128.89   4201  up         212
+Elysium MUSH     kyriath.cygnus.com      140.174.1.69     1963  up
+                 elysium.cygnus.com
+Garou            kyriath.cygnus.com      140.174.1.69     7000  up     213,214
+Global MUSH      lancelot.cif.rochester.edu               4201  up
+                                         128.151.220.22
+Hemlock MUSH     ballad.cc.purdue.edu    128.210.15.35    1973  R**
+ImagECastle      fogey.stanford.edu      36.22.0.31       4201  up
+LOTRmush         foxtrot.cac.washington.edu               4201  up 215,216,217
+                                         140.142.113.151
+LegionMUSH       **                      **               **    up 218,219,220
+                                                                           221
+Masquerade       hydra.unm.edu           129.24.8.19      4444  up     222,223
+                 hydra.umn.edu
+NarniaMush       argo.unm.edu            129.24.9.24      6250  up     224,225
+Pandemonium      liberty.uc.wlu.edu      137.113.10.35    6666  up         226
+                 wlu.edu
+PernMUSH         cesium.clock.org        130.43.2.43      4201  up         143
+PosseMUSH        bohr.sos.clarkson.edu   749546023        4201  up
+                                         128.153.32.5
+Robotech MUSH    csa.bu.edu              128.197.12.202   4201  up     227,228
+                                         128.197.10.202
+Shadowrun MUSH   yacht.slip.andrew.cmu.edu                4201  TO         229
+                                         128.2.116.75
+Shards           **                      **               **    up 230,231,232
+SillyMush        access.cs.uwindsor.ca   137.207.224.3    1919  R**
+                 zaphod.cs.uwindsor.ca
+SouCon           kyriath.cygnus.com      140.174.1.69     4201  up         143
+                 soucon.cygnus.com
+Space Madness    a.cs.okstate.edu        139.78.9.1       6250  up     233,234
+                 muds.okstate.edu
+Sprawl Prime     **                      130.39.129.221   6250  up
+Star Wars MUSH   durrance.colorado.edu   128.138.253.120  4402  up         235
+SwordsMUSH       world.std.com           192.74.137.5     4201  up 236,237,238
+Tela Magica      mailgate.omnigroup.com  198.151.161.7    6250  up         239
+                 tela.wizards.com
+Temalantuk Island                        36.217.0.88      4201  up
+                 elaine40.stanford.edu
+The NeverEnding Story                    131.252.21.12    9999  up         240
+                 jove.cs.pdx.edu
+TinyCWRU         caisr2.caisr.cwru.edu   129.22.24.22     4201  up
+TinyTIM          yay.mdc.com             129.200.149.200  5440  up
+TolkienMUSH      ghost.cse.nau.edu       134.114.64.6     6969  up     241,242
+TooMUSH ][       lodestar.gb.nrao.edu    192.33.116.108   4201  up         243
+ToonMUSH         hobbes.catt.ncsu.edu    152.1.43.9       3000  R**
+ToonMUSH II      nimitz.mit.edu          18.80.0.161      1941  up
+TrippyMush       newton.sos.clarkson.edu 128.153.32.6     7567  up
+                                         128.153.16.131
+Two Moons        nelson.colorado.edu     128.138.253.110  4201  up     244,245
+XanthMUSH        **                      **               **    up     246,135
+-------------------------------------------------------------------------------
+                 oxmuds (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Island           teaching4.physics.ox.ac.uk               2092  up     247,248
+                                         129.67.15.204    2093
+-------------------------------------------------------------------------------
+                 talkers (4)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Foothills        marble.bu.edu           128.197.10.75    2010  R
+Hectic House     indigo.lut.ac.uk        131.231.19.20    4000  R**    249,250
+                                         158.125.102.4
+Nilex Talker     lt7.cs.rhbnc.ac.uk      134.219.97.17    5000  up         251
+Virtual Campus   indigo.lut.ac.uk        158.125.102.4    5000  up
+-------------------------------------------------------------------------------
+                 TeenyMUDs (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+(EVIL!)Mud       cyber.gate.net          198.80.2.35      4201  up
+                 cyber1.gate.net
+-------------------------------------------------------------------------------
+                 TinyMUDs (2)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+DragonMUD        ghost.cse.nau.edu       134.114.64.6     4201  up         252
+PRISM            lister.cc.ic.ac.uk      129.31.80.167    4201  up
+-------------------------------------------------------------------------------
+                 UberMUDs (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Land of Drogon   **                      192.131.108.55   6123  up         253
+-------------------------------------------------------------------------------
+                 unknowns (2)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+CyberEden        rivendel.slip.umd.edu   192.68.186.6     5000  up
+                 draco.lnec.pt           128.8.11.201
+                 rivendel.slip.umd.edu
+Nemesis          dsm.fordham.edu         150.108.64.2     4000  up 254,255,256
+-------------------------------------------------------------------------------
+                 UriMUDs (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+Darkest Domain   spew.ecst.csuchico.edu  132.241.7.8      2030  up     257,258
+                                                          2040
+-------------------------------------------------------------------------------
+                 YAMUDs (1)
+Name             Address                 Numeric Address  Port  Status   Notes
+-------------------------------------------------------------------------------
+GooLand III      **                      129.22.112.28    6715  up
+------------------------------------------------------------------------------
+				Notes
+------------------------------------------------------------------------------
+Status field:
+*  = last successful connection was more than 7 days ago
+** = last successful connection was more than 30 days ago
+R  = connection refused
+TO = connection timed out
+HD = host down or unreachable
+ND = network down or unreachable
+NA = insufficient address information available
+
+"**" in address field: information suppressed by administrator request
+"??" in address field: information unknown at publication time
+1    hours are 00-07,17-24(MTWRFSU) GMT
+2    hours are 00-05,15-24(MTWRF) 00-24(SU) GMT
+3    administrator is mudmaint@uhs.bsd.uchicago.edu
+4    administrator is grant@sphinx.nmt.edu
+5    administrators are aber@ludd.luth.se anna@ludd.luth.se
+6    hours are 00-08,19-24(MTWRF) 00-24(SU) GMT
+7    features graphics
+8    administrator is mud@bubba.clark.net
+9    administrator is arctic@hobbes.linfield.edu
+10   restricted theme: DragonLance (Weis & Hickman)
+11   administrator is brumleve@atropa.stat.uiuc.edu
+12   administrator is mondays@bsu-cs.bsu.edu
+13   in need of a site
+14   send mail to burning@nextsrv.cas.muohio.edu to register
+15   administrator is campaign-mud@soda.berkeley.edu
+16   administrator is l1ngo@copper.denver.colorado.edu
+17   restricted theme: Cthulhu
+18   administrator is msegur@colorado.edu
+19   restricted theme: cyberpunk
+20   administrator is mud@sun1.cstore.ucf.edu
+21   restricted theme: Dragonlance (Weis & Hickman)
+22   administrator is mhaldrik@darksun.spc.edu
+23   administrator is ddlist-owner@hercules.miami.edu
+24   FAQ list available; mail ddlist-request@hercules.miami.edu with subject
+     "faq"
+25   version 2 of the original dikumud
+26   administrator is mud@einstein.physics.drexel.edu
+27   in testing/development only
+28   hours are 00-13.30,22-24(MTWRF) 00-24(SU) GMT
+29   administrator is cmc@mud.eushc.org
+30   administrators are mpfluge@nyx.cs.du.edu monte@ccit.arizona.edu
+31   administrator is formosa@irix.me.ncu.edu.tw
+32   looking for playtesters
+33   administrators are guess@unicorn.aau.dk guess@wombat.nexagen.com
+34   administrator is cass@netcom.com
+35   hours are 00-13,22-24(MTWRF) 00-24(SU) GMT
+36   hours are 00-05,18-24(MTWRF) 00-24(SU) GMT
+37   administrator is jedi@stimpy.psy.jhu.edu
+38   administrator is mud@csos.orst.edu
+39   bilingual: Chinese/English
+40   administrator is jazz@ccwf.cc.utexas.edu
+41   looking for code help
+42   vt100 support available
+43   player's guide available for ftp from 137.208.91.6 in
+     ~ftp:pub/diku/incoming/newguide.mud
+44   administrators are mudacct@ee.fit.edu mudacct@ee.fit.edu
+45   requires VT100-compatible terminal
+46   administrator is jackie.russel@cdc.com
+47   reportedly down for the summer
+48   building open to anyone
+49   open for building
+50   administrator is wizzyadm@city.ac.uk
+51   not open to the public
+52   administrators are erik@marble.bu.edu dell@marble.bu.edu
+53   opens for beta testing 10-Oct-1993
+54   restricted theme: unspecified (contact administrator)
+55   restricted theme: medieval fantasy
+56   open to wizards only
+57   administrator is aurora@etsiig.uniovi.es
+58   not open for players
+59   administrator is batmud@jyu.fi
+60   hours are 00-06,15-24(MTWRF) 00-24(SU) GMT
+61   open for player testing
+62   not yet open to public
+63   administrator is crystal@marvin.macc.wisc.edu
+64   hours are 00-14,23-24(MTWRF) 00-24(SU) GMT
+65   open for beta testing winter 1994
+66   open for players summer 1994
+67   development site only
+68   open for playtesting
+69   administrator is claus@iesd.auc.dk
+70   restricted theme: Tolkienesque
+71   restricted theme: Discworld series (Terry Pratchett)
+72   appears to be in Chinese
+73   administrator is tlpmud@mcs.drexel.edu
+74   restricted theme: Dune series (Frank Herbert)
+75   opens for players around 16-Nov-93
+76   administrator is eop@elof.acc.iit.edu
+77   dedicated to player killing
+78   in beta test
+79   administrator is infinity@ccs.neu.edu
+80   under construction
+81   open for testing
+82   administrators are sisquach@cs.city.ac.uk garion@selway.umt.edu
+83   looking for players
+84   administrator is rene@math.fu-berlin.de
+85   test site for PaderMUD
+86   german-language only
+87   administrator is loney@map.wustl.edu
+88   hours are 00-15,23-24(MTWRF) 00-24(SU) GMT
+89   hours do not apply to wizards
+90   looking for a new site; mail admin if you have one
+91   administrator is nemesis@dszenger9.informatik.tu-muenchen.de
+92   administrator is gamesmgr@tat.physik.uni-tuebingen.de
+93   administrator is locutus@hebron.connected.com
+94   hours are 00-14,22-24(MTWRF) 00-24(SU) GMT
+95   wizards only 1400-2200 GMT MTWRF
+96   administrator is phoenix-admins@jennifer.umd.edu
+97   restricted theme: medieval
+98   administrator is pag@cix.compulink.co.uk
+99   send mail to pag@cix.compulink.co.uk to register
+100  closing down
+101  in beta testing
+102  open for builders
+103  open for beta testing
+104  administrator is ahn@ac.wfunet.wfu.edu
+105  mudlib development site
+106  administrator is marius@iastate.edu
+107  restricted theme: scavenger hunt
+108  administrator is stellar@jericho.connected.com
+109  open for play testing (in stages)
+110  administrator is stickmud@jyu.fi
+111  hours are 00-08,14-24(MTWRF) 00-24(SU) GMT
+112  Swedish-language mud
+113  use port 2046 for iso-8859-1 characters
+114  send mail to mud2@wave.st.usm.edu to register
+115  no gaming
+116  MudOS development only
+117  administrator is tabor@penguin.tamucc.edu
+118  looking for builders
+119  not open to players
+120  hours are 00-08,18-24(MTWRFSU) GMT
+121  hours are 00-14,22-24(MWTRF) 00-24(SU) GMT
+122  send mail to mud@castor.acs.oakland.edu to register
+123  administrators are s5511011@oxford-brookes.ac.uk, ac_gavin@pat.uwe.ac.uk
+     and ad_bibby@pat.uwe.ac.uk
+124  mudlib and domain work available
+125  German-language only
+126  administrator is mvwyk@rkw-risc.cs.up.ac.za
+127  administrator is kirk@chuck.ecst.csuchico.edu
+128  administrator is register@midgard.valhalla.com
+129  send mail to register@midgard.valhalla.com to register
+130  administrator is viking@bigblue.pvv.unit.no
+131  restricted theme: Medieval with Norse elements
+132  administrator is jessy@maria.wustl.edu
+133  administrator is woodstock@atlantis.edu
+134  administrator is ivan@summit-rs6000.stanford.edu
+135  restricted theme: Xanth series (Piers Anthony)
+136  scheduled to open 22-Nov-1993
+137  not yet open
+138  administrator is cc776@cleveland.freenet.edu
+139  optional ANSI color support
+140  Character creation limited to teachers and programmers who want to help
+     in development
+141  Educational system, using MOO to build online classrooms
+142  administrator is dfwizzes@u.washington.edu
+143  restricted theme: Pern (Anne McCaffrey)
+144  restricted theme: Dante's Inferno
+145  administrator is nop@ccs.neu.edu
+146  restricted theme: Research
+147  WWW server at http://jh.ccs.neu.edu:7043
+148  send mail to vaughaog@sun.aston.ac.uk to register
+149  administrator is t_pascal@oxy.edu
+150  restricted theme: meditation
+151  administrator is howard@pa.it.com
+152  send mail to pf@pa.it.com to register
+153  administrators are rpenner@ucsd.edu kai@glia.biostr.washington.edu
+154  restricted theme: Japanese Animation
+155  check mud for registration information
+156  theme not rigidly enforced
+157  restricted theme: Environmental/Furry
+158  administrator is wizards@cave.tcp.com
+159  send mail to jingoro@cave.tcp.com to register
+160  administrators are sknight@ptero.soar.cs.cmu.edu
+     tyagi@houseofkaos.abyss.com
+161  restricted theme: Mystical/Occult
+162  send mail to fmadmin@sncils.snc.edu to register
+163  send mail to jrw@cyberspace.com to register
+164  send mail to speno@clam.rutgers.edu to register
+165  optional ANSI color supported
+166  Star Wars-based combat system available
+167  hours are 22-24,00-12(MTWRF) 00-24(SU) GMT
+168  bilingual (Portuguese & English)
+169  send mail to bbs@quartz.rutgers.edu to register
+170  no pennies
+171  no building
+172  send mail to realms@cave.tcp.com to register
+173  administrator is tapestries-wizards@glia.biostr.washington.edu
+174  send mail to tap-chars@glia.biostr.washington.edu to register
+175  restricted theme: "furries"
+176  administrator is pcrowther@cs.man.ac.uk
+177  experimental
+178  restricted theme: BattleTech (FASA)
+179  restricted theme: BattleTech
+180  down for code upgrades
+181  send mail to power@cyberspace.com to register
+182  send mail to majere@michael.ai.mit.edu to register
+183  restricted theme: science fiction
+184  features MUSE-Space(c) v1.1 astrophysics package
+185  hours are 00-10.30(MTWRFSU) GMT
+186  restricted theme: Earthsea tetrology (Ursula K. LeGuin)
+187  administrator is rkolter@babbage.cba.csuohio.edu
+188  restricted theme: Middle Ages & folklore
+189  optional combat system
+190  send mail to mr@michael.ai.mit.edu,
+     micromuse-registration@michael.ai.mit.edu or mr@chezmoto.ai.mit.edu to
+     register
+191  charter available for ftp from chezmoto.ai.mit.edu:muse/info/charter
+192  educational theme
+193  send mail to manda@altdorf.ai.mit.edu to register
+194  send mail to register@grimmy.cnidr.org to register
+195  no feature characters
+196  restricted theme: science fiction & fantasy
+197  administrator is burk_k@paun01.pa.msu.edu
+198  send mail to burk_k@paun01.pa.msu.edu amandafb@paun01.pa.msu.edu to
+     register
+199  restricted theme: Malory characters in Camelot
+200  administrators are dmorgan@acsu.buffalo.edu jowens@acsu.buffalo.edu
+201  administrator is endless@els.ee.man.ac.uk
+202  send mail to endless@els.ee.man.ac.uk to register
+203  restricted theme: contemporary/horror
+204  administrators are eog@mace.cc.purdue.edu, amolitor@nmsu.edu and
+     cag@empros.com
+205  restricted theme: Crystal Singer series (Anne McCaffrey)
+206  administrator is mush@elof.acc.iit.edu
+207  restricted theme: Dragonriders of Pern series (Anne McCaffrey)
+208  restricted theme: Dragon Prince series (Melanie Rawn)
+209  builders still welcome
+210  open for players
+211  restricted theme: Dune (Frank Herbert)
+212  restricted theme: the Elenium series (David Eddings)
+213  send mail to jhp5s@faraday.clas.virginia.edu to register
+214  restricted theme: Werewolf: The Apocalyse, White Wolf Games
+215  send mail to roland@u.washington.edu to register
+216  restricted theme: Lord of the Rings (J. R. R. Tolkien)
+217  WWW service at http://foxtrot.cac.washington.edu/lotr/lotrmush.html
+218  administrator is legionmush@math.okstate.edu
+219  send mail to morpheus@sandman.caltech.edu to register
+220  restricted theme: Legion of Superheroes/Legionnaires comics series
+221  applications required for feature or superpowered characters
+222  administrator is lnewby@quasar.unm.edu
+223  supernatural characters should apply to apps@quasar.unm.edu; slots are
+     limited
+224  administrator is jsbell@acs.ucalgary.ca
+225  restricted theme: the Chronicles of Narnia (C.S. Lewis)
+226  restricted theme: Paradise Lost (Milton)
+227  send mail to lwl@csa.bu.edu to register
+228  restricted theme: Robotech: Macross Saga
+229  send mail to chars+@yacht.slip.andrew.cmu.edu to register
+230  send mail to verwey@acs.ucalgary.ca to register
+231  restricted theme: 7th Pass Pern
+232  open 31-Oct-1993
+233  administrators are russ@math.okstate.edu jds@math.okstate.edu
+234  send mail to jds@math.okstate.edu to register
+235  administrator is strwrs@durrance.colorado.edu
+236  administrator is melryn@world.std.com
+237  restricted theme: The Book(s) of Swords (Fred Saberhagen)
+238  mailing list: SwordsMUSH[-request]@world.std.com
+239  restricted theme: Ars Magica game (White Wolf, Inc.)
+240  restricted theme: NeverEnding Story
+241  administrator is cmqueale@cayley.uwaterloo.ca
+242  restricted theme: Tolkien
+243  administrator is emeinfel@sadira.gb.nrao.edu
+244  administrator is twomoons@nelson.colorado.edu
+245  restricted theme: ElfQuest
+246  administrator is xanthmush@sunshine.ps.atl.sita.int
+247  administrator is islandad@teaching.physics.ox.ac.uk
+248  port 2093 for dumb links
+249  administrator is conjgr@lut.ac.uk
+250  send mail to conjgr@lut.ac.uk to register
+251  administrator is christ@dcs.rhbnc.ac.uk
+252  administrator is dragon@ghost.cse.nau.edu
+253  administrator is drogon@meiko.co.uk
+254  administrator is huie@netcom.com
+255  hours are 00-10,23-24(MTWR) 00-10(F) 05-24(S) 00-24(U) GMT
+256  looking for play testers
+257  administrator is urimud@netcom.com
+258  mudlib under construction
+-- 
+rec.games.mud.announce submissions: rgm-announce@glia.biostr.washington.edu
+other stuff related to that group:  rgm-announce-request@glia...
+mudlist-related mail:		    mudlist@glia.biostr.washington.edu
+other mail of a personal nature:    scott@glia...

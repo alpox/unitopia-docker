@@ -1,0 +1,25 @@
+FUNKTION: mixed_to_closure
+DEKLARATION: varargs closure mixed_to_closure(closure|mixed*|string mix, symbol* symbols, int tp_flag, int|symbol use_tp, mapping functions)
+BESCHREIBUNG:
+
+Eine vollstaendige Dokumentation dazu ist /doc/funktionsweisen/pseudoclosures.
+
+Diese Funktion verhaelt sich je nach mix unterschiedlich: 
+ - Ist mix bereits eine Closure, so wird diese einfach zurueckgeliefert.
+ - Ist mix ein Array, so wird angenommen, dass seine Elemente entweder
+   Strings (welche dann als Pseudoclosures behandelt werden) oder
+   Lambda-Ausdruecke (also die Sachen, die man lambda als 2. Parameter gibt)
+   sind. Die Ergebnisclosure addiert dann im Endeffekt die Ergebnisse der
+   einzelnen Array-Elemente zusammen und liefert den Gesamttext zurueck.
+ - Ist mix ein String, so wird dieser als Pseudoclosure behandelt und von
+   string_parser in einen Lambda-Ausdruck umgewandelt.
+		  
+Die Parameter tp_flag, use_tp und functions werden direkt an string_parser
+weitergegeben. Der zurueckgelieferte Lambda-Ausdruck wird in eine ungebundene
+Lambda-Closure mit symbols als Parameter der Closure in der angegebenen
+Reihenfolge (symbols ist ein Array von Symbolen) umgewandelt und
+zurueckgeliefert.
+		  
+VERWEISE: closure_to_string, string_parser
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

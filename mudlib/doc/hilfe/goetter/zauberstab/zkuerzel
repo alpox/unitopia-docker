@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+zkü[rzel] <spieler> <kuerzel>
+        Zeigt an, ob derjenige Spieler ein Kürzel mit diesem
+	Namen besitzt. Funktioniert auch bei ausgeloggten Spielern.
+
+-------------------------------------------------------------------------------

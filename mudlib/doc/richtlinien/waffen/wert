@@ -1,0 +1,46 @@
+Folgende Richtwerte sollten nicht unterschritten werden, die Grenzwerte
+dürfen nicht unterschritten werden.
+
+Zu zahlender Preis (z.B. beim Schmied, im Laden) >= 100 * Leben / Teiler
+Mit set_value() zu setzender Wert >= 50 * Leben / Teiler
+
+ maximaler Schaden                 Teiler
+(incl. extra-damage)    Richtlinie        Grenze
+        1                 20000            40000
+        2                 12000            24000
+        3                  7200            14400
+        4                  4300             8600
+        5                  2600             5000
+        6                  1500             2800
+        7                   900             1650
+        8                   510              900
+        9                   280              500
+       10                   160              280
+       11                   110              190
+       12                    76              130
+       13                    59              100
+       14                    49               82
+       15                    43               71
+       16                    39               63
+       17                    35               57
+       18                    31               50
+       19                    28               44
+       20                    25               39
+
+       >20  Solche Waffen dürfen nicht verkauft werden.
+            Folgende Werte sind nur für die Berechnung der Reparaturkosten.
+
+       21                    22               34
+       22                    18               27
+       23                    14               21
+       24                    11               16 
+       25                     8               12
+       26                     6                9
+       27                     5                7 
+       28                     4                6
+       29                     3                4
+       30                     2                3
+
+Waffen, die nicht wiederverkauft werden und nicht reparierbar sind,
+dürfen auch einen bedeutend geringeren Wert gesetzt bekommen
+(solange sie nur zum normalen Preis verkauft werden).

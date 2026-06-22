@@ -1,0 +1,19 @@
+Der Mindest-Wert sollte anhand folgender Beispiele gesetzt werden:
+
+Oberkörper:
+
+    Leben     Schutz     Gewicht      Wert
+    1500         1          1          100
+    1500         1          2           50
+    1000         2          2          250
+    1000         2          3          150
+     750         3          3          500
+     750         3          2          650
+     600         4          4         1000
+     600         4          3         1300
+     500         5          6         1500
+     500         5          5         2200
+     500         5          4         3500
+
+Schilder: Werte von Oberkörper / 1.5 + 10
+

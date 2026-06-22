@@ -1,0 +1,10 @@
+set_tied_to_ob
+query_tied_to_ob
+query_seil
+set_seil
+concerned_tie_rope
+concerned_untie_rope
+notify_tied_rope
+notify_tied_rope_to
+notify_untied_rope
+notify_untied_rope_from

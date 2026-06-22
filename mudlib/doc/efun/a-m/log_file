@@ -1,0 +1,23 @@
+FUNKTION: log_file
+DEKLARATION: int log_file(string file_name, string message)
+BESCHREIBUNG:
+Haengt den String <message> an das File <file_name> an.
+Wenn man keinen vollstaendigen Filenamen angibt, wird in das File
+/log/<file_name> geschrieben.
+Ein vollstaendig angegebener Filename muss '.../log/...' beinhalten,
+sonst wird nicht gelogged.
+Man kann auch lokale Pfade angeben. Diese muessen aber mindestens
+einen '/' enthalten, sonst wird nach /log/<file_name> gelogged.
+Die Datei wird, wenn sie groesser als 50000 Bytes wird, nach <file_name>.old
+umbenannt.
+Ist fuer Debuggingzwecke oder zum Mitloggen.
+Rueckgabewert: 1 wenn das Schreiben geklappt hat, sonst 0
+
+Beispiele:
+    log_file("testlog","Meldung\n");	logged nach /log/testlog
+    log_file("/d/Doerrland/log/testlog","Meldung\n");
+    log_file("../log/testlog","Meldung\n");
+    log_file("log/testlog","Meldung\n");
+GRUPPEN: simul_efun, file
+VERWEISE: write_file
+SOURCE: /secure/simul_efun/log.inc

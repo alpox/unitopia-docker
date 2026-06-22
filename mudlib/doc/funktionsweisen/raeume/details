@@ -1,0 +1,39 @@
+Folgende Routinen gibt es zur Beschreibung von Details in Räumen:
+
+    add_v_item(mapping item [, mixed *pfad ] )
+    delete_v_item(mixed *pfad)
+    change_v_item(mapping map, mixed *pfad)
+
+Beispiel:
+
+    add_v_item( (["name":"tür",
+		  "gender":"weiblich",
+		  "adjektiv":({"geschlossen"}),
+		  "long":"Die Tür ist zu.\n"
+		]) );
+    add_v_item( (["name":"fenster",
+		  "gender":"saechlich",
+		  "long":
+		  "Vor dem Fenster siehst du einen hübschen Kräutergarten.",
+		  "look_msg":"$Der() schaut durch das Fenster"
+		]) );
+    add_v_item( (["name":"wände",
+		  "gender":"weiblich",
+		  "plural":1,
+		  "long":"Die Wände sind mit einer hübschen Tapete beklebt.",
+		  "id":({"wand","wände"})
+		]) );
+
+    Diese Beschreibung kann nachträglich auch geändert werden:
+
+	change_v_item( (["long":"Die Tür ist offen.",
+			 "adjektiv":({"offen"})
+		       ]),
+		       ({"tür"}) );
+
+	bei dieser Anweisung wird die Langbeschreibung und das Adjektiv
+	geändert.
+
+    oder auch gelöscht werden:
+
+	delete_v_item( ({"fenster"}) );

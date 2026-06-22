@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Dies ist die Detailanzeige für einen Bereich.
+Mögliche Befehle:  (Angaben in [ ] sind optional.)
+  b               Eine Seite runterblättern.
+  u               Eine Seite hochblättern.
+  < / >           Zur ersten / letzten Seite des Fehlers springen.
+  M               schickt DIR die Fehlerzusammenfassung als Mail, 
+                  so dass du darauf antworten kannst.
+  w <datei>       aktuelle Fehlerzusammenfassung in eine Datei schreiben.
+  z               Zurück zur Übersicht
+  q / ?           Browser Beenden / Diese Hilfe.
+-------------------------------------------------------------------------------

@@ -1,0 +1,29 @@
+-------------------------------------------------------------------------------
+Um von Dir eingegebene Umlaute korrekt verarbeiten und Dir Umlaute richtig
+anzeigen zu können, muss der Zeichensatz Deines Clients bekannt sein.
+Bei einigen Clients wird es automatisch erkannt, bei anderen musst Du es
+manuell einstellen.
+
+Gehe dazu in das Einstellungsmenü (Befehl #einst), in die Rubrik 'MUD-Client
+und E-Mail', dort die Option 'Zeichensatz' (Taste c). Es werden mehrere
+Möglichkeiten angezeigt, aus denen Du wählen kannst.
+
+Alternativ geht das ohne Menü mit den Befehlen:
+    #einst client zeichensatz liste
+    #einst client zeichensatz <zeichensatz>
+
+Hinweise zu einzelnen MUD-Clients:
+
+    MushClient:
+        Die Unicode-Unterstützung gibt es in MushClient nur halbseitig
+        (Ausgabe funktioniert, Eingabe jedoch nicht) und ist damit für
+        UNItopia ungeeignet. Daher sollte die in den World-Einstellungen
+        unter 'Appearance/Output" der Haken bei 'UTF-8' nicht gesetzt sein.
+        Stattdessen sollte im MUD 'Windows-1252' eingetragen werden
+        (#einst client zeichensatz Windows-1252).
+
+    TinyFugue:
+        Das originale TF unterstützt keine anderen Zeichensätze außer ASCII.
+        TF Rebirth (https://github.com/ingwarsw/tinyfugue) unterstützt Umlaute
+        automatisch ohne weitere Einstellungen.
+-------------------------------------------------------------------------------

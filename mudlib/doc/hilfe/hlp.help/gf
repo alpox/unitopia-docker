@@ -1,0 +1,16 @@
+------------------------------------------------------------------------------
+
+Diese Gabe erlaubt Dir, Dir ein eigenes Anfühlen zu verpassen, welches dann
+mit "befühle Freaky" oder "betaste Garthan" erfühlt werden kann.
+
+Syntax:
+   anfühlen [<Text>]
+
+Fehlt <Text>, so wird Dein Anfühlen gelöscht.
+
+Beispiel:
+   anfühlen Patsch patsch... ah, ein Gesicht... mit zwei Ohren dran, usw.
+
+(Zeilenumbruch durch \n moeglich)
+
+------------------------------------------------------------------------------

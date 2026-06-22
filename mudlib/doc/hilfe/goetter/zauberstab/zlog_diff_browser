@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Das sind die Änderungen als Diff im vereinheitlichten Format.
+
+Die Zeilen, die gelöscht wurden, werden mit einem vorangestellten Minus und
+hinzugefügte Zeilen mit einem Plus angezeigt. Zeilen, die sich nicht
+geändert haben, beginnen mit einem Leerzeichen.
+
+Ein Block von Änderungen wird mit '@@' und der Position (Zeilennummer) in
+der ursprünglichen bzw. geänderten Datei eingeleitet.
+
+Folgende Befehle stehen hier zur Verfügung:
+    r:         Diese Änderung rückgängig machen
+    w <Datei>: Die vollständige Datei rausschreiben.
+-------------------------------------------------------------------------------

@@ -1,0 +1,15 @@
+FUNKTION: pol2xy
+DEKLARATION: int *pol2xy(int grad, int dist)
+BESCHREIBUNG:
+Transformiert Polar-Koordinaten in kartesische Koordinaten.
+Der Nullpunkt fuer den Winkel ist hierbei die Nord-Richtung.
+
+Die Funktion gibt ein Feld mit zwei Elementen zurueck,
+die die X- und die Y-Koordinate enthalten.
+
+Ist der Radius kleiner Null bzw uebersteigt er den Werte-Bereich
+der Integer-Variablen, so wird statt einem Feld einfach der Wert 0
+zurueckgeliefert.
+GRUPPEN: simul_efun, rechnen
+VERWEISE: xy2pol
+SOURCE: /secure/simul_efun/math.inc

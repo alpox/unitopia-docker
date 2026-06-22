@@ -1,0 +1,6 @@
+
+        DIESE FUNKTION IST VERALTET UND SOLLTE NICHT MEHR GENUTZT WERDEN.
+	Stattdessen gibt es die LFun send_message, welche in this_player()
+	aufgerufen dieselbe Funktionalität bietet. (Ein Array von Strings
+	muss notfalls durch implode geschickt werden.)
+

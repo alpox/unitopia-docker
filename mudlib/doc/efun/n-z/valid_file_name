@@ -1,0 +1,9 @@
+FUNKTION: valid_file_name
+DEKLARATION: int valid_file_name(string name)
+BESCHREIBUNG:
+Liefert 1, wenn name ein gueltiger Dateiname ist, sonst 0.
+Dabei wird geprueft, ob dieser Name nur gueltige Zeichen enthaelt und ob
+das Verzeichnis, in welchem diese Datei sein sollte, existiert.
+VERWEISE: abs_path, search_file
+GRUPPEN: simul_efun, file
+SOURCE: /secure/simul_efun/paths.inc

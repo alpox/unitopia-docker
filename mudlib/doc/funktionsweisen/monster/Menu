@@ -1,0 +1,10 @@
+beschreibung	Das allgemeine Aussehen des Monsters, Titel, Name usw.
+design		Die Fähigkeiten des Monsters (Stats, Panzerung usw.)
+kommunikation	Wie mache ich ein Monster, das antwortet?
+erschaffen	Wie macht man ein Monster und wie bringt man es ins Spiel?
+kampagnen	Programmgesteuerte Monster
+rollen		Das Monster als Schauspieler...
+stats		Das neue Stat-System
+befehle         Spezielle Befehle der Monster
+@lfun_gruppe:monster Alle (oder zumindest die meisten) Lfuns für Monster
+@efun_gruppe:monster Wichtige Efuns für Monster

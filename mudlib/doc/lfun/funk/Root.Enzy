@@ -1,0 +1,12 @@
+read_dir
+read_file_unlimited
+query_efuns
+query_efun_hilfetext
+query_driver_hilfetext
+query_efun_deklaration
+query_efun_gruppen
+query_efun_gruppen_funktionen
+query_lfun_deklarationen
+query_beispiele
+query_bsp_texte
+query_lfun_texte

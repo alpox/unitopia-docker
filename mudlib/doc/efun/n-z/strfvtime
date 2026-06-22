@@ -1,0 +1,12 @@
+FUNKTION: strfvtime
+DEKLARATION: string strftime([string fmt] [, int clock] [, int localized])
+BESCHREIBUNG:
+Liefert die Spielzeit als formatierten String zurueck. Das Format kann
+vom Benutzer mit Hilfe von Platzhaltern im Formatstring angegeben werden.
+clock ist dabei die Anzahl der Sekunden seit 0, in Spielzeit (vtime()).
+
+Alle moeglichen Platzhalter im Formatstring sind in der Hilfe zu
+strftime() dokumentiert.
+GRUPPEN: simul_efun, zeit
+VERWEISE: strftime, vtime, vtimestr, vtimearray, array_to_vtime
+SOURCE: /secure/simul_efun/time.inc

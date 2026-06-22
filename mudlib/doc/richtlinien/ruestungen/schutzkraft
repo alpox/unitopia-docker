@@ -1,0 +1,19 @@
+Jede Rüstung gehört zu einer bestimmten Klasse und hat eine gewisse
+Schutzwirkung. Der Schutz gibt an, wieviel die Rüstung von einem
+Schlag eines Gegners maximal an Wirkung abzieht. Die Klasse gibt an,
+welcher Körperteil geschützt wird. (Pro Klasse kann jeweils nur ein
+Objekt angezogen werden)
+
+  Rüstungsklasse    Schutz
+     Kopf            1 - 2
+     Oberkoerper     1 - 5
+     Haende          1 - 2
+     Beine           1 - 2
+     Fuesse          1 - 2
+Hinzu kommen folgende zusätzliche Rüstungen die keinen Körperteil 
+direkt schützen, sondern einen allgemeinen Schutz bieten:
+(Ein Schild ist eine Defensiv-Waffe mit zugehörigem Skill)
+     Magie           1 - 2
+     Schild          1 - 5
+
+Hieraus folgt, dass ein Spieler einen maximalen Schutz von 20 erreichen kann.

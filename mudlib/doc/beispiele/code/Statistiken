@@ -1,0 +1,37 @@
+forbidden_move 0 615 grundlegendes
+talk_npc 615 1429 grundlegendes
+filestruktur 2044 507 filestruktur
+filestruktur 2551 851 filestruktur
+tuer 3402 739 tuer
+v_item 4141 239 virtuell
+v_item1 4380 955 virtuell
+read_v_item_cl 5335 402 virtuell
+take_v_item_cl 5737 525 virtuell
+set_standard_conversation 6262 2956 verkaeufer handel monster
+move_or_remove 9218 214 move
+move_messages 9432 374 move
+move_normal 9806 207 move
+drink_is_me 10013 401 getraenke
+menu_dynamic_browse 10414 814 dynamic_browse
+renewal 11228 165 grundlegendes
+action 11393 1040 misc_action vitem
+action 12433 733 misc_action vitem
+action 13166 2220 misc_action vitem
+action 15386 413 misc_action vitem
+action 15799 939 misc_action vitem
+do_stellen 16738 1195 raumausstattung spezialobjekte
+ecp_split_text 17933 281 text
+push_into 18214 1041 misc_action vitem
+push_into 19255 1011 misc_action vitem
+put_into 20266 1039 misc_action vitem
+put_into 21305 1009 misc_action vitem
+raum_beispiel1 22314 641 raum
+raum_beispiel2 22955 948 raum
+raum_beispiel3 23903 872 raum
+raum_beispiel4 24775 829 raum
+raum_beispiel5 25604 4522 raum
+raum_beispiel6 30126 1329 raum
+raum_beispiel7 31455 1169 raum
+raum_beispiel8 32624 593 raum
+kissen_beispiel8 33217 920 grundlegendes
+raum_beispiel9 34137 2126 raum

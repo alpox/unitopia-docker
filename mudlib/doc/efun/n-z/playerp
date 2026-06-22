@@ -1,0 +1,7 @@
+FUNKTION: playerp
+DEKLARATION: int playerp(mixed ob)
+BESCHREIBUNG:
+Returned 1, wenn das ob ein Spieler/Engel/Gott ist, ansonsten 0.
+GRUPPEN: simul_efun, objekt, hlpp, wizp, query_real_player_level
+VERWEISE: clonep
+SOURCE: /secure/simul_efun/util.inc

@@ -1,0 +1,7 @@
+FUNKTION: file_time
+DEKLARATION: int file_time(string file)
+BESCHREIBUNG:
+Liefert das File-Datum des Files <file>
+VERWEISE: file_size, timestr, ctime
+GRUPPEN: simul_efun, zeit, file
+SOURCE: /secure/simul_efun/time.inc

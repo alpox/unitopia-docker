@@ -1,0 +1,25 @@
+FUNKTION: ihr
+DEKLARATION: varargs string ihr(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Siehe der().
+
+Der zusaetzlicher Parameter owner gibt den Besitzer von who an.
+Fehlt owner, dann wird das naechste living environment von who genommen.
+Hat who kein living environment, so wird auf automatische Artikelauswahl
+(ein/der) umgeschaltet.
+
+Zum eigentlichen Objekt who bzw. zum Besitzer owner kann man zusaetzlich
+noch Adjektive (who_adjektiv bzw. owner_adjektiv) angeben, die statt der
+tatsaechlich gesetzten Adjektive genommen werden. Ebenso kann man bei
+beiden die Auswahl der Pronomen mit who_art bzw. owner_art bestimmen
+(genaue Beschreibung siehe query_deklin).
+
+***WICHTIG***:
+ihr() liefert NICHT 'ihr Testobjekt' (das macht ja sein() schon automatisch),
+SONDERN 'Stellas Testobjekt'. Also NICHT das POSSESIVPRONOMEN, sondern
+den NAMEN des Besitzers selbst. Ist der Besitzer nicht 'personal', dann
+liefert ihr() beispielsweise: 'das Testobjekt des Orks'.
+
+VERWEISE: ihres, ihren, ihrem, der, sein, query_deklin
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

@@ -1,0 +1,72 @@
+
+Das Goetterkonzept:
+
+   Jeder Spieler muss 3 Stunden Engel sein, bevor man in den Rang
+   eines Lehrlings (Level 20) aufsteigen kann.
+   Um in den Rang des Lehrlings aufzusteigen muss man sich einen 
+   Lehrmeister suchen.
+   Ein Lehrmeister ist ein Gott, der den Status eines Vogts (Level 25)
+   erreicht und von einem Lord die Lehrerlaubnis erhalten hat.
+   Der Lehrmeister muss folgende Aufgaben übernehmen:
+     - Dem Lehrling erklären, wie man sich in UNItopia als Gott verhält
+     - Wo die Doku steht, und was man wo findet
+     - Auf Fragen des Lehrlings antworten
+     - Dem Lehrling Einführungen in die Mudlib geben
+     - Dem Lehrling erklären, wie die Gegenden in UNItopia gestaltet sind
+       und was nicht nach UNItopia gehört.
+   Der Lehrmeister ist der 1. Ansprechpartner des Lehrlings.
+
+   Wenn ein Lehrling einen Halben Tag gelernt hat, kann er Geselle 
+   (Level 21) werden und zu Programmieren anfangen.
+   Dazu muss er sich aber einen weiteren Ansprechpartner suchen
+   (wieder einen Vogt (Level 25) mit Lehrerlaubnis).
+   Damit hat der Geselle 2 Götter, an die er sich wenden kann.
+   Diese zwei Götter müssen dem Gesellen erklären:
+     - wie er mit dem Editor umgeht,
+     - wie er MTP oder FTP machen kann,
+     - worauf man beim Programmieren achten muss, und
+     - mit ihm zusammen Fehler suchen und verbessern.
+   
+   Wenn ein Geselle genug Erfahrung im Programmieren gesammelt hat und 
+   sein Gesellenstück voellendet hat, kann er sich einen 3. Lehrmeister
+   suchen, der das Gesellenstück abnimmt und einbaut. Dieser 3. Lehr-
+   meister ist meistens ein Lord in dem Bereich, in den das Gesellenstück
+   gehört.
+   Oft sucht man sich den 3. Lehrmeister bereits mit Beginn des Gesellen-
+   stücks, sobald klar wird, wo es hin soll. Weiterhin bleiben aber die 
+   ersten 2 Lehrmeister die 1. Ansprechpartner für alle Fragen. Zu Fragen 
+   der Domain betreffen ist natürlich der Domainlord zuständig.
+
+Charakterisierungen:
+   Lehrling: (Level 20) Ein Lehrling ist ein Gott, der keine 
+      Schreib- oder Programmierfaehigkeiten hat.
+      Der Lehrling sollte sich in seiner Lehrzeit die Dokumentation,
+      die Beispielräume, die Mudlib und die internen Konzepte
+      UNItopias anschauen.
+   Geselle: (Level 21) Ein Geselle ist im Prinzip ein vollwertiger
+      Programmierer, d.h. er hat ein Working-Directory und bekommt die 
+      Schreib- und Programmierfaehigkeiten.
+      Ab jetzt sollte sich ein neuer Geselle daranmachen, einfache
+      Objekte und Räume (OHNE Raum-Builder oder aehnliches) zu erstellen.
+      Er sollte dabei lernen, worauf man beim Programmieren achten muss,
+      und was die einzelnen Fehlermeldungen bedeuten, und wie man sie
+      dann behebt.
+   Vogt: (Level 25) Sobald ein Geselle genug Erfahrung im Programmieren 
+      gesammelt hat und sein Gesellenstück vollendet hat, kann er Vogt 
+      werden und in eine Domain eintreten. Damit gelten für ihn 
+      ZUSÄTZLICH die Programmier-Richtlinien der Domain, in die er 
+      eingetreten ist.
+
+
+Gründe für diese Konzept:
+   Bisher ist das größte Problem neuer Götter, dass sie keinen
+   direkten Ansprechpartner haben, an den sie sich wenden können,
+   wenn sie Probleme haben.
+   Deswegen sollte sich jeder Lehrling einen Lehrmeister suchen.
+   Damit ist geklärt, wer sich um den neuen Lehrling kümmert, und
+   andere Götter (Domainlords und Admins) haben mehr Zeit für
+   ihre Aufgaben und Projekte.
+
+   Der 2. Lehrmeister ist notwendig, da beim Programmieren meist noch
+   sehr viel mehr Fragen kommen, als beim Doku lesen.
+

@@ -1,0 +1,5 @@
+
+        Zur Ausgabe des Prompts für die Eingabe ist die Moeglickeit
+	via INPUT_PROMPT jeder anderen Ausgabe (z.B. durch send_message)
+	vorzuziehen. Als Prompt kann auch eine Closure angegeben werden.
+

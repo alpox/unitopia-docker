@@ -1,0 +1,13 @@
+------------------------------------------------------------------------------
+lade <objekt>
+        Das angegebene Objekt, entweder ein absoluter oder relativer Pfad
+       	wird, sofern es noch nicht im Hauptspeicher residiert, geladen.
+
+        Im Unterschied zu zerschaffe wird allerdings keine Kopie davon
+       	angelegt.
+
+        Lade wird also für Objekte wie z.B Räume angewendet, von denen
+        man keine Kopie benötigt.
+
+Siehe auch: zerschaffe, zzerstoere, zerneuere
+------------------------------------------------------------------------------

@@ -1,0 +1,29 @@
+Folgende Kriterien sollen bei der Auswahl der Gegenstände hilfreich sein:
+- Trophaen und einmalige Erinnerungsstücke
+- Ausrüstung, die insbesondere nach Armageddon immer rar ist.
+- Gute Ausrüstung, die viel Vorbereitung braucht.
+- Keine Lebewesen. Nahrung und Getränke nur in besonderen Ausnahmen.
+- Trotz intensiver Bemühungen kann es trotzdem Objekte geben, die sich nicht
+  einlagern lassen.
+
+Alte Gegenstände sind nicht einlagerbar und liefern daher auch kein 
+zutreffendes Testergebnis. 
+
+Programmierhilfen/Richtlinien zum Einlagern:
+Einfache Objekte (ohne eigene Daten, von einlagerfähigen Inherits abhängig)
+ein clear_initial_conservation_data(); ans Ende vom Create
+- also nach allen v_items und Controller.
+- Sollten vitems oder Controller später hinzugefügt oder gelöscht werden,
+  so kann das Einlagern trotzdem schief gehen. => Mit Myonara prüfen.
+Optional kann die Gegenstandsmiete mit float query_conservation_item_rent()
+festgelegt werden (Taler).
+
+Wenn es zu speichernde Daten hat, folgende Routinen implementieren: 
+mixed* query_conservation_arg()
+void init_conservation_arg(mixed m)
+
+Nach der erfolgreichen Freigabe (allgemein evtl mit no_store) ist es ratsam,
+eins nach unten zu gehen und das ein und auslagern auszutesten.
+
+Komplizierte Fälle bedürfen der Beratung durch Myonara 
+(oder sehr viel RTFS... ;-).

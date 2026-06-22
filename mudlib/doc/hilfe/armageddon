@@ -1,0 +1,46 @@
+------------------------------------------------------------------------------
+UNItopia ist eine sehr komplexe Ansammlung von Programmen.
+Hin und wieder kommt es dabei zu Problemen, Bugs treten auf. Manche sind in
+UNItopia selbst begründet, dies merkt man an Löchern im Raum - Zeit -
+Gefüge, manche liegen im Mud - Treiber ("Game Driver") und äußern sich auf
+unterschiedlichste Art und Weise. Manchmal merkt man sie gar nicht, manchmal
+ist irgendetwas "komisch" oder "unerklärlich", und manchmal stürzt der
+Treiber einfach ab und reißt UNItopia unbeabsichtigt und ungeplant mit sich
+in die ewigen Jagdgründe. Dies wird oft fälschlicherweise "Armageddon"
+genannt, eigentlich war es ein Absturz, neudeutsch "Crash", des Mud Treibers.
+Solch ein Absturz äußert sich darin, dass man plötzlich ohne Vorwarnung
+aus UNItopia rausfliegt, man ein paar Minuten lang nicht wieder reinkommt und
+einem, wenn man dann UNItopia wieder betritt, Armageddon mitteilt, dass er
+einem Geld aufs Bankkonto als kleine Entschädigung eingezahlt hat (und das,
+obwohl er gar nicht schuld an dem Absturz war).
+
+Neben diesen Abstürzen, diesen "unechten" Armageddons, gibt es selten auch
+noch geplante, gewollte, "echte" Armageddons. Gründe hierfür können massive
+Probleme im Spiel sein, Einbau neuer Hardware oder Einspielen neuer Software.
+Bei ersteren hat man eine Vorwarnzeit von mindestens 5 Minuten (siehe auch
+unten), bei letzteren wird Armageddon langfristig (in der Regel mehrere Tage
+vorher) angekündigt.
+
+Zusätzlich gibt es noch "automatische" Armageddons, bei welchen der Treiber
+das Mud selbständig herunterfaehrt. Dies ist beispielsweise dann der Fall,
+wenn der Arbeitsspeicher so knapp wird, dass eine weitere korrekte
+Funktionsweise des Muds nicht mehr gewährleistet ist.
+
+Sowohl bei automatischen als auch bei geplanten Armageddons warnt Armageddon
+vorher und bietet eine Transportmöglichkeit in den Laden und zur Bank an,
+damit Du Dein Hab und Gut in Geld umwandeln und dies auf die Bank bringen
+kannst. Während bei automatischen Armageddons die Vorwarnzeit in der Regel
+10 Minuten beträgt und damit recht kurz ist - wenn der Speicher knapp wird
+kann das Mud nunmal nicht mehr ewig weiterlaufen - ist sie bei geplanten
+Armageddons normalerweise deutlich länger.
+
+Wie auch im Fall des ungeplanten, unbeabsichtigten Absturzes zahlt auch
+beim geplanten, gewollten Armageddon Armageddon an alle Spieler, die ihr Hab
+und Gut nicht mehr verkaufen konnten, eine kleine Entschädigung auf ihr Konto
+ein.
+
+Auf alle Fälle gilt: Für verlorengegangene Gegenstände oder Zeit, die
+beispielsweise in ein Rätsel investiert wurde, kann keinerlei Ersatz geleistet
+werden und aus einem Crash oder Armageddon können keine Ansprüche an die
+Götter abgeleitet werden.
+------------------------------------------------------------------------------

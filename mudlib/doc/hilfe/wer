@@ -1,0 +1,24 @@
+------------------------------------------------------------------------------
+#wer             Sortierte Liste aller derzeit in UNItopia eingeloggten Spieler
+#wer -k 	 Kurzliste
+#wer -e          Einrückung, sodass Spielernamen untereinander stehen
+#wer -i          Liste mit zusätzlichen Idle - Informationen
+#wer -I          Liste mit ausführlicheren Idle - Informationen
+#wer -n          Liste ohne more ausgeben
+
+Sofern sinnvoll, sind obige Parameter kombinierbar.
+
+Beispiele: #wer -eI
+
+------------------------------------------------------------------------------
+#wer <Mud>	Anzeigen aller Spieler in einem anderen Mud
+#wer -k <Mud>	Kurzliste
+#wer -l <Mud>	Einige Muds arbeiten mit Leveln; hiermit kann man eine
+		Sortierung nach Leveln erhalten.
+
+Ob die Optionen bei anderen Muds funktionieren hängt von dem entsprechenden
+Mud ab; derzeit werden sie nur von wenigen Muds unterstützt.
+
+#muds           Liste aller derzeit erreichbarer Muds
+#muds -l        Ausführliche Liste
+------------------------------------------------------------------------------

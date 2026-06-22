@@ -1,0 +1,10 @@
+Falls Du Deinen Zeichensatz nicht kennst, so kannst Du ihn anhand
+folgender Beispiele auswaehlen. Waehle bitte jenen, wo Du einen
+A-Umlaut und das Euro-Zeichen oder das 1/2-Zeichen siehst:
+
+    UTF-8:          Ã„ â‚¬
+    ISO8859-1:      Ä ½
+    ISO8859-15:     Ä ¤
+    Windows-1252:   Ä €    (Vorrang vor ISO8859-1, wenn es passt)
+    MacIntosh:      € Û
+

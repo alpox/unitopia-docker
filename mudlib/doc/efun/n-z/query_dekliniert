@@ -1,0 +1,62 @@
+FUNKTION: query_dekliniert
+DEKLARATION: string query_dekliniert(int fall, object interessent, int flags)
+BESCHREIBUNG:
+Die Grammatik-Funktionen rufen bei der Deklination des Namens eines
+Objektes in dem Objekt diese Funktion auf.
+
+Ist der Rueckgabewert ungleich 0, so wird dieser Wert als deklinierte Form
+des Namens verwendet; ist der Rueckgabewert 0, so wird auf herkoemmlichem
+Wege versucht, den Namen zu deklinieren.
+
+Diese Funktion hat Vorrang vor den Einzelfall-Funktionen query_genitiv(),
+query_dativ und query_akkusativ.
+
+Die Defines fuer fall stehen in /sys/deklin.h (sind 1-4 fuer
+Nominativ-Akkusativ), das Objekt interessent ist das Objekt, welches die
+Grammatikfunktion aufgerufen hat, die den Namen dekliniert haben will.
+
+flags gibt an, in welchem Kontext der Name verwendet werden soll:
+    DEKL_BESTIMMT       Dem Namen wird ein bestimmter Artikel vorangestellt
+    DEKL_UNBESTIMMT     Dem Namen wird ein unbestimmter Artikel vorangestellt
+    DEKL_BLANK          Dem Namen wird kein Artikel vorangestellt
+Obige Defines sind keine Bitflags, d.h. eine Abfrage sollte aehnlich wie
+(flags&DEKL_ART_MASK)==DEKL_BESTIMMT aussehen.
+
+Diese Funktion ist fuer Problemfaelle der Deklination gedacht; im
+Allgemeinen duerften die Einzelfall-Funktionen ausreichen.
+
+Bei V-Items mit einer Closure als Eintrag fuer "dekliniert" wird als
+1. Parameter das V-Item selber uebergeben und danach die Parameter
+wie bei query_dekliniert.
+
+BEISPIELE:
+
+    string query_dekliniert(int fall, object interessent, int flags)
+    {
+        return
+            ({ "Atlas",
+               "Atlasses",
+               "Atlasse",
+               "Atlas",
+            }) [fall-1];
+    }
+
+// Fuer adjektivaehnliche Namen (z.B. Reisender) kann man auf
+// Grammatikfunktionen zurueckgreifen:
+// (DEKL_2_ADJ_ART uebernimmt hierbei die Umrechung des Flags in den
+// 2. Parameter von query_deklin. Es entspricht einem ART_NUR_ADJEKTIV
+// mit ART_DER, ART_EIN bzw. ART_BLANK.)
+
+    string query_dekliniert(int fall, object interessent, int flags)
+    {
+	return query_deklin(
+	    ([
+		"adjektiv": ({"Reisend"}),
+		"gender":"maennlich"
+	    ]), DEKL_2_ADJ_ART(flags), fall);
+    }
+
+VERWEISE: query_genitiv, query_dativ, query_akkusativ, query_deklin_name,
+          query_dekliniert
+GRUPPEN: grammatik
+SOURCE: /secure/simul_efun/deklin.c

@@ -1,0 +1,28 @@
+Hier kannst Du einstellen, ob Du bestimmte Spieler ignorieren möchtest.
+Bei jedem Spieler kannst Du einstellen, welche Meldungen Du nicht mehr
+sehen willst. Du kannst maximal neun Spieler ignorieren.
+Es können auch Spieler in anderen Muds (spieler@mud), Spieler in allen
+anderen Muds (spieler@) oder alle Spieler eines Muds (@mud) ignoriert werden.
+
+   H: Hinzufügen
+      Damit kannst Du einen weiteren Spieler zu Deiner Liste hinzufügen.
+      In einem weiteren Menü kannst Du dann die zu ignorierenden
+      Meldungen auswählen.
+      
+   L: Löschen
+      Entfernt einen Spieler von der Liste.
+      Mit 'l 1' bis 'l 9' kannst Du direkt angeben, wen Du nicht mehr
+      ignorieren willst.
+
+   1-9: Spieler
+      Wenn Du einen Spieler direkt anwählst, kommst Du in ein Menü,
+      wo Du die zu ignorierenden Meldungsarten auswählen kannst.
+         
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

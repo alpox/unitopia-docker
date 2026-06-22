@@ -1,0 +1,24 @@
+Property-Master
+---------------
+
+Damit man in einer Eigenschaft auch Pseudoclosures oder Descriptions
+verwenden kann, muss irgendwo hinterlegt sein, wie die Werte einer Property
+zu interpretieren sind. Wir haben hier daher ein Register für Properties.
+Dieses Register ist hierarchisch organisiert. /apps/properties ist
+das Hauptregister, dieses lädt ggf. vorhandene Register der Domains
+(/d/Domain/apps/properties), der Gouverneursbereiche
+(/z/Gebiet/apps/properties) und aus dem P (/p/Apps/properties).
+
+Die dort definierten Properties erhalten alle einen Prefix. Dadurch wird
+z.B. aus einem ggf. vorhandenen "dimtor_ausgang" ein "Ebenen:dimtor_ausgang".
+Beim Aufruf der set/query/add/delete-Funktionen muss der vollständige
+Name angegeben werden. Legt daher bitte Defines dafür an.
+
+Bei den Controllern, wo der Attributname im Controllernamen steckt,
+wird aber nur der Basisname im Controllernamen verwendet (also
+notify_set_dimtor_ausgang). Die Controller werden übrigens auch in den
+Mastern aufgerufen (sofern diese /i/item/control erben).
+
+Die lokalen Master dürfen genauso wie der Root-Master weitere
+Master anmelden, so dass eine Hierarchie entsteht (z.B. dann
+"Ebenen:Okeanos:Unterwasserwelt:luftmenge"). 

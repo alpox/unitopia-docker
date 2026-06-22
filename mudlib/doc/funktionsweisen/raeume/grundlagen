@@ -1,0 +1,36 @@
+Was ist ein Raum ?
+==================
+
+Grundsätzlich muss in jedem Raum der File /i/room inherited werden !
+
+Dies ist notwendig, um über die hier erläuterten Basis-Funktionen
+hinaus noch Features wie Tag-Nacht, sich automatisch ladende Objekte,
+variables Sperren von Ein- und Ausgängen, Beschreibung von Raum-Details
+etc zu erhalten.
+
+
+Ein Raum ist prinzipiell ein Behälter, der folgende Eigenschaften
+besitzen sollte:
+
+
+1. eine Kurzbeschreibung durch: 	string query_short()
+   ohne "\n" am Ende !
+
+   z.B.:  query_short() -> "Hafen-Straße"
+
+   Dies wird in der Regel mit einem set_short() im create() des Raums
+   erreicht.
+
+2. eine ausführliche Beschreibung:     varargs string query_long()
+   mit "\n" am Ende !
+
+   z.B.: query_long() -> "In der Hafen-Strassse.\n"
+
+   Dies wird in der Regel mit einem set_long() im create() des Raums
+   erreicht.
+
+3. Verpointerung mit anderen Räumen:   string query_one_exit(string cmd)
+   
+   z.B: query_one_exit("norden") -> "/d/Vaniorh/uluji/market_place"
+	query_one_exit("süden") -> 0
+

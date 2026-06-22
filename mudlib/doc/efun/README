@@ -1,0 +1,9 @@
+
+ Was sind Efuns ?
+
+Efuns (externe Funktionen) sind Funktionen, die von überall her aufrufbar
+sind.  Sie sind im Driver des Muds (einem C-Programm) eingebaut.
+
+Wird allerdings in einem Objekt eine Funktion gleichen Namens definiert,
+so überlagert sie die entsprechende Efun.
+

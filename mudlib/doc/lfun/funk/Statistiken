@@ -1,0 +1,2001 @@
+notify_midnight 0 688 Zeit
+notify_highnoon 688 684 Zeit
+notify_begin_daylight 1372 714 Zeit
+notify_begin_darkness 2086 717 Zeit
+notify_mudcrash 2803 740 grundlegendes
+add_job 3543 688 Zeit
+delete_job 4231 438 Zeit
+konjugiere 4669 345 grammatik
+query_domains 5014 181 domain map
+domain_member 5195 246 domain map
+domain_lord 5441 247 domain map
+domain_helfer 5688 253 domain map
+query_domain_lords 5941 279 domain map
+query_domain_helfer 6220 260 domain map
+query_domain_members 6480 263 domain map
+query_domains_of 6743 274 domain map
+query_memberships_of 7017 269 domain map
+query_domainhelfer_of 7286 268 domain map
+query_error_header 7554 317 fehlerdatenbank
+query_error_data 7871 333 fehlerdatenbank
+query_error 8204 273 fehlerdatenbank
+valid_debugger 8477 237 fehlerdatenbank
+_delete_error 8714 299 fehlerdatenbank
+query_wiz_errors 9013 490 fehlerdatenbank
+query_wiz_projects 9503 609 fehlerdatenbank
+precheck_responsible 10112 388 fehlerdatenbank
+precheck_add_debugger 10500 340 fehlerdatenbank
+exec_change_error_type 10840 342 fehlerdatenbank
+exec_add_debugger 11182 273 fehlerdatenbank
+exec_hide_debugger 11455 266 fehlerdatenbank
+exec_reassign_file 11721 251 fehlerdatenbank
+exec_delete_error 11972 513 fehlerdatenbank
+query_group_list 12485 2113 fehlerdatenbank
+query_main_groups 14598 597 fehlerdatenbank
+query_wiedervorlage 15195 443 fehlerdatenbank
+query_error_list 15638 1258 fehlerdatenbank
+add_group_member 16896 460 acl
+delete_group_member 17356 303 acl
+add_group 17659 278 acl
+rename_group 17937 339 acl
+delete_group 18276 245 acl
+add_group_admin 18521 223 acl
+delete_group_admin 18744 378 acl
+is_group_member 19122 201 acl
+query_group_info 19323 307 acl
+query_subgroups 19630 252 acl
+query_full_group_info 19882 364 acl
+query_wiz_infos 20246 221 acl
+query_fdb_groups 20467 600 acl
+query_all_wiz_group_members_of 21067 560 acl
+adjust_group_case 21627 360 acl
+query_maingroups 21987 152 acl
+expand_groups 22139 603 acl
+read_dir 22742 298 Root:Enzy
+read_file_unlimited 23040 260 Root:Enzy
+query_efuns 23300 239 Root:Enzy
+query_efun_hilfetext 23539 313 Root:Enzy
+query_driver_hilfetext 23852 337 Root:Enzy
+query_efun_deklaration 24189 195 Root:Enzy
+query_efun_gruppen 24384 164 Root:Enzy
+query_efun_gruppen_funktionen 24548 335 Root:Enzy
+query_lfun_deklarationen 24883 558 Root:Enzy
+query_beispiele 25441 249 Root:Enzy
+query_bsp_texte 25690 350 Root:Enzy
+query_lfun_texte 26040 354 Root:Enzy
+get_cartesian_coordinates 26394 1088 kompass raum map
+get_polar_coordinates 27482 1057 kompass raum map
+query_schatzkisten 28539 750 raum
+add_schatzkiste 29289 666 raum
+get_schatzkiste 29955 746 raum
+has_schatzkiste 30701 266 raum
+query_money_info 30967 1723 handel
+query_money_description 32690 362 handel
+check_conservation 33052 1072 armageddon
+all_check_conservation 34124 1140 armageddon
+get_owner_stored_file_count 35264 310 handel
+get_conservation_item_rent 35574 441 armageddon
+create 36015 947 applied grundlegendes
+reset 36962 955 applied grundlegendes
+init 37917 3653 applied grundlegendes
+virtual_compiler 41570 1656 grundlegendes virtual_compiler
+heart_beat 43226 800 grundlegendes monster
+setup_renamed_object 44026 387 grundlegendes virtual_compiler
+setup_renamed_object 44413 349 grundlegendes virtual_compiler
+real_filename 44762 476 grundlegendes virtual_compiler
+query_armour 45238 232 ruestung
+notify_armour_fail 45470 874 ruestung
+set_life 46344 322 ruestung kampf
+add_life 46666 357 ruestung kampf
+query_life 47023 225 ruestung kampf
+query_max_life 47248 255 waffen kampf
+set_armour_class 47503 348 ruestung
+query_armour_class 47851 325 ruestung
+armour_class 48176 267 ruestung
+set_armour_protection 48443 368 ruestung
+query_armour_protection 48811 292 ruestung
+query_extra_armour_protection 49103 597 ruestung
+query_min_value 49700 295 ruestung
+query_max_value 49995 267 ruestung
+init_armour_data 50262 560 ruestung
+init_armour 50822 2222 ruestung
+set_first_msg 53044 321 ruestung
+query_first_msg 53365 302 ruestung
+set_magic_protection_time 53667 457 ruestung
+query_magic_protection_time 54124 330 ruestung
+query_remaining_magic_protection_time 54454 372 ruestung
+set_no_door 54826 355 taschen
+query_no_door 55181 235 taschen
+set_no_lock 55416 365 taschen
+query_no_lock 55781 293 taschen
+set_locked 56074 428 taschen
+query_locked 56502 283 taschen
+notify_open 56785 611 taschen
+notify_close 57396 617 taschen
+forbidden_open 58013 729 taschen
+forbidden_close 58742 739 taschen
+lock_con 59481 711 taschen
+notify_lock 60192 667 taschen
+notify_unlock 60859 678 taschen
+forbidden_lock 61537 808 taschen
+forbidden_unlock 62345 815 taschen
+notify_lock_key 63160 576 taschen
+notify_unlock_key 63736 589 taschen
+forbidden_lock_key 64325 683 taschen
+forbidden_unlock_key 65008 698 taschen
+set_keys 65706 251 taschen
+query_keys 65957 252 taschen
+set_crack 66209 434 taschen
+query_crack 66643 306 taschen
+query_collapsible 66949 397 taschen
+set_collapsible 67346 542 taschen
+notify_crack 67888 735 taschen
+forbidden_crack 68623 847 taschen
+crack 69470 509 taschen
+query_tasche 69979 286 taschen
+T_LISTE 70265 370 taschen
+set_worn_adjektiv 70635 427 kleidung
+query_worn_adjektiv 71062 369 kleidung
+do_wear 71431 224 kleidung
+do_remove 71655 227 kleidung
+already_worn 71882 688 kleidung
+set_wear_msg 72570 443 kleidung
+query_wear_msg 73013 346 kleidung
+set_wear_msg_other 73359 481 kleidung
+query_wear_msg_other 73840 389 kleidung
+set_remove_msg 74229 450 kleidung
+query_remove_msg 74679 351 kleidung
+set_remove_msg_other 75030 488 kleidung
+query_remove_msg_other 75518 394 kleidung
+query_worn 75912 191 kleidung
+set_schutz 76103 420 kleidung
+set_typ 76523 336 kleidung
+query_schutz 76859 199 kleidung
+query_typ 77058 189 kleidung
+query_cloth 77247 240 kleidung
+T_LISTE 77487 377 kleidung
+set_long_owner_when_worn 77864 696 kleidung
+query_long_owner_when_worn 78560 452 kleidung
+set_long_other_when_worn 79012 643 kleidung
+set_look_msg_when_worn 79655 724 kleidung
+forbidden_wear 80379 1097 kleidung
+forbidden_wear_me 81476 1091 kleidung
+forbidden_wear_here 82567 1066 kleidung
+notify_wear 83633 673 spieler monster haende waffen
+notify_wear_me 84306 772 spieler monster haende waffen
+notify_wear_here 85078 767 spieler monster haende waffen
+forbidden_undress 85845 1109 kleidung
+forbidden_undress_me 86954 1101 kleidung
+forbidden_undress_here 88055 1093 kleidung
+notify_undress 89148 736 spieler monster haende waffen
+notify_undress_me 89884 809 spieler monster haende waffen
+notify_undress_here 90693 790 spieler monster haende waffen
+query_content_visible_when_worn 91483 348 kleidung
+set_content_visible_when_worn 91831 356 kleidung
+set_min_weight 92187 606 taschen
+query_min_weight 92793 325 taschen
+set_max_weight 93118 606 taschen
+query_max_weight 93724 325 taschen
+set_max_internal_encumbrance 94049 503 taschen
+query_max_internal_encumbrance 94552 367 taschen
+query_internal_encumbrance 94919 461 taschen
+query_container 95380 192 taschen
+query_con_close 95572 217 taschen
+open_con 95789 184 taschen
+close_con 95973 187 taschen
+add_encumbrance 96160 1116 taschen
+test_add_encumbrance 97276 1275 taschen
+set_transparent 98551 289 taschen
+query_transparent 98840 284 taschen
+set_content_message 99124 301 taschen
+query_content_message 99425 277 taschen
+allow_only 99702 802 taschen
+query_allow_only 100504 352 taschen
+let_not_in 100856 710 move
+let_not_out 101566 719 move
+moved_in 102285 417 move
+moved_out 102702 424 move
+set_take_prepos 103126 336 taschen
+query_take_prepos 103462 332 taschen
+set_put_prepos 103794 347 taschen
+query_put_prepos 104141 343 taschen
+set_put_verb 104484 645 taschen
+query_put_verb 105129 374 taschen
+set_put_verb_case 105503 483 taschen
+query_put_verb_case 105986 310 taschen
+set_message_filter 106296 551 message
+query_message_filter 106847 228 message
+propagate_message_to_env 107075 535 message
+setup_room 107610 909 map domain
+query_room_file 108519 622 map domain
+query_member 109141 322 map domain
+add_karte 109463 276 map domain
+query_karten 109739 325 map domain
+query_room_icon 110064 227 map domain
+query_member_info 110291 414 map domain
+query_member_map 110705 276 map domain
+setup_room 110981 980 map domain
+map_create 111961 307 map raum
+set_adjektiv 112268 1489 grammatik
+add_adjektiv 113757 368 grammatik
+query_adjektiv 114125 658 grammatik
+query_adjektiv_grundform 114783 692 grammatik
+query_adjektiv_stamm 115475 680 grammatik
+adjektiv 116155 1234 grammatik
+delete_adjektiv 117389 634 grammatik
+add_setter_conservation 118023 599 armageddon
+delete_seq_conservation 118622 338 armageddon
+set_conservation_constraint 118960 476 armageddon
+clear_initial_conservation_data 119436 720 armageddon
+query_conservation_data 120156 312 armageddon
+query_conservation_constraint 120468 315 armageddon
+query_conservation_constraints 120783 276 armageddon
+is_controller 121059 620 controller
+add_controller 121679 2165 controller
+delete_controller 123844 814 controller
+query_controller 124658 1284 controller
+forbidden 125942 1908 controller
+allowed 127850 1861 controller
+notify 129711 1299 controller
+modify 131010 1473 controller
+concerned 132483 2996 controller
+do_notifies 135479 1611 controller
+do_forbiddens 137090 1822 controller
+set_short 138912 240 grundlegendes
+query_short 139152 592 grundlegendes
+set_long 139744 789 grundlegendes
+add_long 140533 319 grundlegendes
+query_long 140852 786 grundlegendes
+query_long_exec 141638 912 beschreibung
+query_long_postprocess 142550 862 beschreibung
+query_long_shadow 143412 522 beschreibung
+query_long_tags 143934 330 beschreibung
+query_long_has_tag 144264 309 beschreibung
+query_long_tag_val 144573 368 beschreibung
+add_long_tag 144941 352 beschreibung
+delete_long_tag 145293 253 beschreibung
+set_long_night 145546 430 grundlegendes
+query_long_night 145976 315 grundlegendes
+query_short_string 146291 424 grundlegendes
+query_long_string 146715 736 grundlegendes
+query_long_night_string 147451 411 grundlegendes
+query_debug_info 147862 379 master
+set_feel 148241 339 grundlegendes
+query_feel 148580 201 grundlegendes
+set_gender 148781 279 grundlegendes
+query_gender 149060 221 grundlegendes
+query_real_gender 149281 273 grundlegendes
+set_plural 149554 239 grundlegendes
+query_plural 149793 222 grundlegendes
+set_plural_id 150015 378 grundlegendes
+query_plural_id 150393 271 grundlegendes
+add_plural_id 150664 400 grundlegendes
+delete_plural_id 151064 396 grundlegendes
+plural_id 151460 319 grundlegendes
+set_id 151779 591 grundlegendes
+add_id 152370 313 grundlegendes
+query_id 152683 222 grundlegendes
+delete_id 152905 304 grundlegendes
+id 153209 284 grundlegendes
+id 153493 288 grundlegendes
+set_class_id 153781 356 grundlegendes
+query_class_id 154137 247 grundlegendes
+me 154384 1201 grundlegendes
+query_own_light 155585 256 licht
+set_own_light 155841 307 licht
+add_own_light 156148 358 licht
+query_light 156506 262 licht
+query_inner_light 156768 725 licht
+query_outer_light 157493 539 licht
+set_material 158032 424 grundlegendes
+add_material 158456 386 grundlegendes
+query_material 158842 301 grundlegendes
+material 159143 317 grundlegendes
+delete_material 159460 366 grundlegendes
+MT_LISTE 159826 1194 message
+MA_LISTE 161020 1595 message
+MSG_ATTRIBUTES 162615 2860 message
+send_message_to 165475 492 message
+send_message 165967 1068 message
+send_message_in 167035 1096 message
+receive_message 168131 666 message
+closure_to_string 168797 261 grundlegendes
+set_invis 169058 926 grundlegendes
+notify_invis_self 169984 653 grundlegendes
+query_invis 170637 254 grundlegendes
+set_name 170891 273 grundlegendes
+query_name 171164 219 grundlegendes
+query_cap_name 171383 298 grundlegendes
+set_cap_name 171681 740 grundlegendes
+set_personal 172421 820 grundlegendes grammatik
+query_personal 173241 809 grundlegendes grammatik
+set_personal_title 174050 1079 grundlegendes grammatik
+query_personal_title 175129 308 grundlegendes grammatik
+set_eigen 175437 1051 grundlegendes grammatik
+query_eigen 176488 1046 grundlegendes grammatik
+set_menge 177534 1443 grundlegendes grammatik
+query_menge 178977 1432 grundlegendes grammatik
+notify_invis 180409 833 grundlegendes
+set_noise 181242 454 grundlegendes
+query_noise 181696 205 grundlegendes
+query 181901 448 properties
+set 182349 233 properties
+add 182582 434 properties
+delete 183016 511 properties
+query_property_info 183527 562 properties
+query_property_names 184089 281 properties
+query_property_infos 184370 530 properties
+save_properties 184900 381 properties
+restore_properties 185281 358 properties
+set_read 185639 390 grundlegendes
+query_read 186029 553 grundlegendes
+set_smell 186582 330 grundlegendes
+query_smell 186912 177 grundlegendes
+activate_sound_profile 187089 522 grundlegendes
+add_v_item 187611 958 virtuell
+query_all_v_items 188569 697 virtuell
+delete_v_item 189266 325 virtuell
+query_v_item 189591 1435 virtuell
+query_full_v_items 191026 721 virtuell
+change_v_item 191747 431 virtuell
+query_v_item_property 192178 642 properties
+set_v_item_property 192820 314 properties
+add_v_item_property 193134 487 properties
+delete_v_item_property 193621 564 properties
+here 194185 1748 virtuell
+set_v_item_master 195933 3406 virtuell
+query_v_item_master 199339 201 virtuell
+add_v_item_master 199540 292 virtuell
+delete_v_item_master 199832 296 virtuell
+set_share_v_items 200128 748 virtuell
+query_share_v_items 200876 223 virtuell
+modify_set_v_item_property 201099 696 properties
+forbidden_set_v_item_property 201795 831 properties
+notify_set_v_item_property 202626 617 properties
+modify_query_v_item_property 203243 710 properties
+modify_add_v_item_property 203953 912 properties
+forbidden_add_v_item_property 204865 1055 properties
+notify_add_v_item_property 205920 844 properties
+forbidden_delete_v_item_property 206764 855 properties
+notify_delete_v_item_property 207619 756 properties
+set_koerperform 208375 736 monster
+query_koerperform 209111 247 monster
+set_koerpergroesse 209358 704 monster
+query_koerpergroesse 210062 250 monster
+set_abilities 210312 550 monster
+query_abilities 210862 197 monster
+set_race 211059 336 monster
+query_race 211395 191 monster
+exec_command 211586 2539 monster
+notify_killed 214125 791 spieler monster
+notify_died 214916 675 spieler monster
+query_corpse 215591 732 spieler monster
+die 216323 338 spieler monster
+set_no_resurrection 216661 634 spieler monster
+query_no_resurrection 217295 413 spieler monster
+query_hear_msg 217708 400 grundlegendes
+P_SOUND_ACTIONS 218108 396 grundlegendes
+forbidden_hear 218504 966 spieler monster nase
+forbidden_hear_me 219470 957 spieler monster nase
+forbidden_hear_here 220427 1030 spieler monster nase
+notify_hear 221457 660 spieler monster nase
+notify_hear_me 222117 647 spieler monster nase
+notify_hear_here 222764 715 spieler monster nase
+query_eye_level 223479 438 licht monster spieler augen
+set_eye_level 223917 441 licht monster spieler augen
+query_visible_in_the_dark 224358 364 licht monster spieler augen
+can_see 224722 337 licht monster spieler augen
+cannot_see 225059 331 licht monster spieler augen
+query_room_description 225390 2402 licht monster spieler augen
+query_additional_room_description 227792 508 spieler monster augen
+describe_room 228300 570 licht spieler monster augen
+describe_current_room 228870 520 licht spieler monster augen
+query_contents 229390 881 spieler monster augen
+query_object_description 230271 1114 spieler monster augen
+examine_object 231385 1460 spieler monster augen
+query_read_msg 232845 374 grundlegendes
+query_look_msg 233219 478 grundlegendes
+query_look_msg_night 233697 458 grundlegendes
+query_obvious 234155 541 monster spieler augen
+notify_look 234696 362 spieler monster augen
+notify_look_me 235058 369 spieler monster augen
+notify_look_here 235427 380 spieler monster augen
+notify_read 235807 360 spieler monster augen
+notify_read_me 236167 367 spieler monster augen
+notify_read_here 236534 378 spieler monster augen
+forbidden_look 236912 584 spieler monster augen
+forbidden_look_me 237496 591 spieler monster augen
+forbidden_look_here 238087 602 spieler monster augen
+forbidden_read 238689 567 spieler monster augen
+forbidden_read_me 239256 574 spieler monster augen
+forbidden_read_here 239830 585 spieler monster augen
+query_hp_string 240415 271 spieler monster
+T_LISTE 240686 890 spieler monster
+extra_look 241576 889 spieler monster augen
+query_extra_look 242465 629 spieler monster augen
+query_align_title 243094 257 spieler
+set_align_title 243351 255 spieler
+query_show_align_title 243606 274 spieler
+set_show_align_title 243880 297 spieler
+query_align 244177 261 spieler monster
+query_real_align 244438 290 spieler monster
+add_align 244728 276 spieler monster
+set_align 245004 272 spieler monster
+notify_alignment_change 245276 715 spieler monster
+set_title 245991 193 spieler monster
+query_title 246184 189 spieler monster
+query_magic_disguise 246373 359 spieler monster
+query_max_hp 246732 242 spieler monster kampf
+query_hp 246974 249 spieler monster kampf
+set_hp_view 247223 541 spieler haende kampf
+query_hp_view 247764 322 spieler haende kampf
+set_extended_hp_view 248086 310 spieler haende kampf
+query_extended_hp_view 248396 256 spieler haende kampf
+query_num_hands 248652 236 spieler monster kampf
+set_num_hands 248888 253 spieler monster kampf
+set_min_damage 249141 309 spieler monster kampf haende
+set_max_damage 249450 311 spieler monster kampf haende
+query_min_damage 249761 272 spieler monster kampf haende
+query_max_damage 250033 272 spieler monster kampf haende
+set_whimpy 250305 309 spieler monster kampf
+set_reattack 250614 537 spieler monster kampf
+query_whimpy 251151 249 spieler monster kampf
+query_reattack 251400 263 spieler monster kampf
+set_wants_to_get_attacked_by_monsters 251663 315 spieler monster kampf
+query_wants_to_get_attacked_by_monsters 251978 313 spieler monster kampf
+query_damage_percentages 252291 281 monster kampf
+add_damage_percentages 252572 342 monster kampf
+set_damage_percentages 252914 893 monster kampf
+set_fight_options 253807 323 monster kampf
+add_fight_option 254130 1117 monster kampf
+query_fight_option 255247 313 monster kampf
+query_fight_options 255560 293 monster kampf
+free_hand 255853 263 spieler monster haende
+free_fight 256116 368 spieler monster kampf haende
+query_hand_objects 256484 368 spieler monster haende
+query_num_free_hands 256852 219 spieler monster haende
+query_hand_enemies 257071 206 spieler monster kampf
+query_hand_hits 257277 193 spieler monster kampf
+delete_enemy 257470 195 spieler monster kampf
+add_gone_ob 257665 268 spieler monster kampf
+delete_gone_ob 257933 232 spieler monster kampf
+query_gone_ob 258165 235 spieler monster kampf
+query_in_fight 258400 336 spieler monster kampf
+query_wielded_object 258736 222 spieler monster haende kampf
+no_take 258958 1493 spieler monster haende
+take 260451 330 monster spieler haende
+query_take_messages 260781 1647 monster spieler haende
+forbidden_take 262428 1044 spieler monster haende
+forbidden_take_me 263472 1058 spieler monster haende
+forbidden_take_from 264530 1071 spieler monster haende
+notify_take 265601 745 spieler monster haende
+notify_take_me 266346 755 spieler monster haende
+notify_take_from 267101 769 spieler monster haende
+concerned_take 267870 894 spieler monster haende
+concerned_take_me 268764 909 spieler monster haende
+concerned_take_from 269673 918 spieler monster haende
+do_take_from 270591 540 spieler monster haende
+do_take_me 271131 570 spieler monster haende
+do_take 271701 527 spieler monster haende
+display_messages_take 272228 567 spieler monster haende
+display_messages_take_me 272795 571 spieler monster haende
+display_messages_take_from 273366 574 spieler monster haende
+take_all 273940 270 spieler monster haende
+no_put 274210 1300 spieler monster haende
+query_put_messages 275510 641 monster spieler haende
+allowed_put_living 276151 895 monster haende
+put 277046 341 spieler monster haende
+forbidden_put 277387 1038 spieler monster haende
+forbidden_put_me 278425 1052 spieler monster haende
+forbidden_put_into 279477 1065 spieler monster haende
+notify_put 280542 730 spieler monster haende
+notify_put_me 281272 740 spieler monster haende
+notify_put_into 282012 754 spieler monster haende
+put_all 282766 266 spieler monster haende
+allowed_empty_living 283032 638 monster haende
+forbidden_empty_container 283670 766 spieler monster haende
+forbidden_empty_container_me 284436 775 spieler monster haende
+forbidden_empty_container_into 285211 781 spieler monster haende
+notify_empty_container 285992 529 spieler monster haende
+notify_empty_container_me 286521 535 spieler monster haende
+notify_empty_container_into 287056 539 spieler monster haende
+notify_shown 287595 632 monster
+show_command 288227 343 spieler monster haende
+forbidden_show 288570 1125 spieler monster haende
+forbidden_show_me 289695 1130 spieler monster haende
+forbidden_show_whom 290825 1136 spieler monster haende
+forbidden_show_here 291961 613 spieler monster haende
+notify_show 292574 825 spieler monster haende
+notify_show_me 293399 853 spieler monster haende
+notify_show_whom 294252 832 spieler monster haende
+notify_show_here 295084 554 spieler monster haende
+concerned_show 295638 753 spieler monster haende
+concerned_show_me 296391 767 spieler monster haende
+concerned_show_whom 297158 773 spieler monster haende
+do_show_whom 297931 504 spieler monster haende
+do_show_me 298435 498 spieler monster haende
+do_show 298933 489 spieler monster haende
+no_push 299422 1009 spieler monster haende
+forbidden_push 300431 1023 spieler monster haende
+forbidden_push_me 301454 1038 spieler monster haende
+forbidden_push_here 302492 1121 spieler monster haende
+notify_push 303613 737 spieler monster haende
+notify_push_me 304350 759 spieler monster haende
+notify_push_here 305109 725 spieler monster haende
+query_feel_msg 305834 397 grundlegendes
+forbidden_feel 306231 1140 spieler monster haende
+forbidden_feel_me 307371 1158 spieler monster haende
+forbidden_feel_here 308529 1181 spieler monster haende
+notify_feel 309710 688 spieler monster haende
+notify_feel_me 310398 702 spieler monster haende
+notify_feel_here 311100 723 spieler monster haende
+attack 311823 506 spieler monster kampf
+no_attack 312329 1427 spieler monster haende kampf
+is_attack_forbidden 313756 872 spieler monster haende kampf
+query_extra_damage 314628 528 monster kampf haende
+modify_hit 315156 653 monster spieler kampf
+modify_hit_weapon 315809 692 monster spieler kampf
+modify_hit_me 316501 701 monster spieler kampf
+notify_before_hit 317202 1174 spieler monster kampf
+notify_before_hit_weapon 318376 1204 spieler monster kampf
+notify_before_hit_me 319580 1181 spieler monster kampf
+notify_after_hit 320761 1217 spieler monster kampf
+notify_after_hit_weapon 321978 1247 spieler monster kampf
+notify_after_hit_me 323225 1224 spieler monster kampf
+stop_all_fights 324449 317 spieler monster kampf
+no_wield 324766 595 spieler monster kampf haende
+wield 325361 411 spieler monster kampf haende
+forbidden_wield 325772 1254 spieler monster haende waffen
+forbidden_wield_me 327026 1202 spieler monster haende waffen
+notify_wield 328228 704 spieler monster haende waffen
+notify_wield_me 328932 715 spieler monster haende waffen
+unwield 329647 342 spieler monster kampf haende
+forbidden_unwield 329989 1040 spieler monster haende waffen
+forbidden_unwield_me 331029 1135 spieler monster haende waffen
+notify_unwield 332164 716 spieler monster haende waffen
+notify_unwield_me 332880 727 spieler monster haende waffen
+set_max_hp 333607 241 spieler monster kampf
+set_hp 333848 279 monster spieler kampf
+get_combat_message 334127 428 kampf
+add_hp 334555 8277 monster spieler kampf
+modify_damage 342832 694 monster spieler kampf
+modify_healing 343526 674 monster spieler kampf
+notify_damage 344200 658 monster spieler kampf
+notify_healing 344858 599 monster spieler kampf
+query_protectee 345457 463 monster spieler kampf
+forbidden_protect 345920 867 monster spieler kampf
+forbidden_protect_me 346787 882 monster spieler kampf
+forbidden_protect_here 347669 893 monster spieler kampf
+notify_protect 348562 607 monster spieler kampf
+notify_protect_me 349169 622 monster spieler kampf
+notify_protect_here 349791 640 monster spieler kampf
+notify_unprotect 350431 630 monster spieler kampf
+notify_unprotect_me 351061 645 monster spieler kampf
+notify_unprotect_here 351706 664 monster spieler kampf
+notify_schutzengel 352370 803 spieler monster
+notify_death 353173 711 spieler monster
+set_probability_for_guardian_angel 353884 478 spieler kampf
+query_probability_for_guardian_angel 354362 416 spieler kampf
+forbidden_attack 354778 1151 spieler monster haende kampf
+notify_attack 355929 757 spieler monster haende kampf
+forbidden_attack_here 356686 1171 spieler monster haende kampf
+notify_attack_here 357857 737 spieler monster haende kampf
+forbidden_my_attack 358594 1157 spieler monster haende kampf
+notify_my_attack 359751 775 spieler monster haende kampf
+forbidden_use 360526 1070 kampf waffen
+notify_use 361596 673 kampf waffen
+query_schwimmhilfe 362269 310 spieler
+allowed_ghost_pass 362579 858 spieler
+random_move 363437 624 spieler monster
+runaway 364061 308 spieler monster
+forbidden_enter 364369 818 spieler monster
+forbidden_enter_me 365187 943 spieler monster
+forbidden_enter_here 366130 861 spieler monster
+notify_enter 366991 618 spieler monster
+notify_enter_me 367609 719 spieler monster
+notify_enter_here 368328 632 spieler monster
+forbidden_smell 368960 954 spieler monster nase
+forbidden_smell_me 369914 971 spieler monster nase
+forbidden_smell_here 370885 1045 spieler monster nase
+notify_smell 371930 740 spieler monster nase
+notify_smell_me 372670 657 spieler monster nase
+notify_smell_here 373327 726 spieler monster nase
+query_smell_msg 374053 616 grundlegendes nase
+set_sp_name 374669 316 spieler monster zaubern
+query_sp_name 374985 360 spieler monster zaubern
+query_sp_short_name 375345 344 spieler monster zaubern
+set_sp_short_name 375689 332 spieler monster zaubern
+set_max_sp 376021 297 spieler monster zaubern
+query_max_sp 376318 285 spieler monster zaubern
+query_sp 376603 262 spieler monster zaubern
+set_sp 376865 382 spieler monster zaubern
+add_sp 377247 442 spieler monster zaubern
+query_sum_sp 377689 291 spieler monster zaubern skill
+add_sum_sp 377980 372 spieler monster zaubern skill
+update_stat_dependencies 378352 527 spieler monster skill
+set_one_stat 378879 511 spieler monster skill
+query_stat 379390 1470 spieler monster skill
+query_real_stat 380860 1073 spieler monster skill
+query_real_stats 381933 1021 spieler monster skill
+query_is_in_team 382954 221 spieler kampf gruppen team
+query_is_team_leader 383175 246 spieler kampf gruppen team
+query_team_autofollow 383421 256 spieler kampf gruppen team
+query_team_name 383677 255 spieler kampf gruppen team
+forbidden_team_follow 383932 555 spieler kampf gruppen team
+forbidden_team_follow_out 384487 576 spieler kampf gruppen team
+forbidden_team_follow_in 385063 570 spieler kampf gruppen team
+notify_team_before_follow 385633 393 spieler kampf gruppen team
+notify_team_before_follow_out 386026 402 spieler kampf gruppen team
+notify_team_after_follow 386428 389 spieler kampf gruppen team
+notify_team_after_follow_in 386817 395 spieler kampf gruppen team
+query_team_members 387212 246 spieler kampf gruppen team
+notify_join_team_me 387458 348 spieler kampf gruppen team
+notify_join_team_here 387806 370 spieler kampf gruppen team
+notify_join_team 388176 349 spieler kampf gruppen team
+forbidden_team_order 388525 647 spieler kampf gruppen team
+modify_comm 389172 2235 seele spieler monster
+do_change_comm 391407 828 seele spieler monster
+set_away 392235 251 spieler monster
+query_away 392486 267 spieler monster
+wrap_string 392753 1159 spieler monster
+notify_tell_me 393912 552 Spieler Monster
+message 394464 531 message spieler monster
+set_kosten 394995 532 bank handel
+set_sorten 395527 2059 bank handel
+bewegung 397586 452 handel bank
+query_kontostand 398038 399 handel bank
+set_valuta 398437 257 handel bank
+set_valutas 398694 254 handel bank
+set_zins_zeitraum 398948 318 handel bank
+set_zins 399266 262 handel bank
+set_kredit_zins 399528 270 handel bank
+set_kosten_einzahlung 399798 237 handel bank
+set_kosten_auszahlung 400035 237 handel bank
+set_kosten_kontostand 400272 242 handel bank
+set_kosten_fuehrung 400514 286 handel bank
+convert 400800 743 handel
+convert_rounded 401543 402 handel
+query_valuta_tafel 401945 343 handel
+query_valutas_tafel 402288 355 handel
+query_kurs_tafel 402643 372 handel
+set_valuta_tafel 403015 451 handel
+set_valutas_tafel 403466 464 handel
+set_kurs_tafel 403930 485 handel
+query_accepted_valutas 404415 297 handel
+query_accepted_valuta 404712 298 handel
+set_max_value 405010 288 handel
+query_max_value 405298 228 handel
+set_max_factor 405526 366 handel
+query_max_factor 405892 323 handel
+notify_ankauf 406215 511 handel
+forbidden_ankauf 406726 645 handel
+notify_wert 407371 394 handel
+forbidden_wert 407765 472 handel
+forbidden_verkauf 408237 761 handel
+notify_verkauf 408998 628 handel
+query_lager 409626 183 handel
+set_extra_long 409809 289 handel
+query_extra_long 410098 215 handel
+set_valutas 410313 345 handel
+set_valuta 410658 484 handel
+query_valuta 411142 328 handel
+query_valutas 411470 274 handel
+set_money 411744 246 handel
+add_money 411990 248 handel
+query_money 412238 414 handel
+set_money_flags 412652 357 handel bank
+query_money_flags 413009 246 handel bank
+query_transaction_value 413255 549 handel
+init_money 413804 595 handel
+get_schliessfach_max_faecher 414399 442 armageddon
+get_schliessfach_miete 414841 738 armageddon
+init_schliessfaecher 415579 740 armageddon
+set_designs 416319 1296 armageddon
+object2storagemapping 417615 435 armageddon
+storagemapping2object 418050 438 armageddon
+set_valuta 418488 293 verkaeufer handel
+query_valuta 418781 267 verkaeufer handel
+query_valutas 419048 290 verkaeufer handel monster
+set_lagerraum 419338 381 verkaeufer handel monster
+query_lagerraum 419719 305 verkaeufer handel monster
+set_dont_serve_murderers 420024 692 verkaeufer handel monster
+query_dont_serve_murderers 420716 377 verkaeufer handel monster
+set_roman 421093 365 verkaeufer handel monster
+query_roman 421458 247 verkaeufer handel monster
+set_accept_tip 421705 836 verkaeufer handel monster
+set_standard_conversation 422541 1178 verkaeufer handel monster
+query_standard_conversation 423719 367 verkaeufer handel monster
+change_standard_conversation 424086 687 verkaeufer handel monster
+query_kunde 424773 250 verkaeufer handel monster
+want 425023 449 verkaeufer handel monster
+want_while_serving 425472 1035 verkaeufer handel monster
+deliver 426507 617 verkaeufer handel monster
+given 427124 635 verkaeufer handel monster
+query_current_working_data 427759 281 verkaeufer handel monster
+add_to_filter 428040 326 verkaeufer handel monster
+delete_from_filter 428366 329 verkaeufer handel monster
+query_filter 428695 290 verkaeufer handel monster
+set_filter 428985 302 verkaeufer handel monster
+add_react_on 429287 322 verkaeufer handel monster
+delete_react_on 429609 323 verkaeufer handel monster
+query_react_on 429932 289 verkaeufer handel monster
+set_react_on 430221 301 verkaeufer handel monster
+notify_sold 430522 431 verkaeufer handel
+notify_sold_here 430953 364 verkaeufer handel
+notify_sold_me 431317 354 verkaeufer handel
+notify_sold_what 431671 358 verkaeufer handel
+notify_sold_whom 432029 358 verkaeufer handel
+set_accept_objects 432387 3842 monster
+give_object 436229 637 monster
+accept 436866 251 monster
+accept_from_void 437117 251 monster
+accept_invis 437368 247 monster
+refuse 437615 268 monster
+set_start_parse_conversation 437883 505 monster
+query_start_parse_conversation 438388 533 monster
+set_parse_conversation 438921 6637 monster
+add_parse_conversation 445558 424 monster
+set_only_parse_players 445982 496 monster
+query_only_parse_players 446478 351 monster
+query_rules 446829 368 monster
+query_kampagne 447197 380 monster
+in_kampagne 447577 361 monster
+stop_kampagne 447938 405 monster
+kampagne_waits 448343 525 monster
+resume_kampagne 448868 444 monster
+starte_kampagne 449312 418 monster
+breche_kampagne_ab 449730 350 monster
+set_npc_name 450080 427 monster
+query_npc_name 450507 274 monster
+init_monster 450781 510 monster
+initialize 451291 623 monster
+give_hp 451914 407 monster kampf
+give_sp 452321 399 monster zaubern
+give_hands 452720 432 monster kampf
+give_weapon_level 453152 293 monster kampf
+give_armour_level 453445 395 monster kampf
+query_natural_weapon 453840 796 spieler monster haende kampf
+do_command 454636 501 monster
+set_turn_heart_beat_off 455137 349 monster kampf
+query_turn_heart_beat_off 455486 332 monster kampf
+set_notify_soul_ob 455818 582 monster
+query_notify_soul_ob_file 456400 502 monster
+monster_died 456902 454 monster kampf
+set_dead_ob 457356 561 monster kampf
+design_corpse 457917 391 monster kampf
+compute_kill_skill 458308 241 monster kampf spieler
+query_dead_ob_file 458549 298 monster kampf
+test_aggression 458847 717 monster kampf
+test_all_aggressions 459564 394 monster kampf
+set_aggressive 459958 560 monster kampf
+query_aggressive 460518 346 monster kampf
+set_attack_delay 460864 549 monster kampf
+query_attack_delay 461413 369 monster kampf
+set_erf_tod_message 461782 1003 monster kampf
+set_init_ob 462785 626 monster
+set_random_pick 463411 739 monster
+query_random_pick 464150 264 monster
+query_random_pick_modus 464414 286 monster
+set_attack_list 464700 340 monster kampf
+query_attack_list 465040 309 monster kampf
+add_attack_list 465349 346 monster kampf
+delete_attack_list 465695 338 monster kampf
+set_no_attack_list 466033 271 monster kampf
+query_armour_level 466304 235 monster kampf
+new_inv 466539 382 monster
+set_eatable_corpse 466921 749 monster nahrung
+query_eatable_corpse 467670 707 monster nahrung
+query_commander 468377 298 monster
+query_random_activities 468675 1084 monster
+add_random_activities 469759 2932 monster
+query_current_vtime 472691 320 monster
+set_random_activities 473011 2938 monster
+query_activity 475949 295 monster
+set_activity 476244 1685 monster
+set_start_random 477929 450 monster
+query_start_random 478379 404 monster
+set_random_modus 478783 1051 monster
+query_random_modus 479834 318 monster
+set_activity_delay 480152 734 monster
+query_activity_delay 480886 291 monster
+set_weight 481177 532 move grundlegendes
+query_weight 481709 239 move grundlegendes
+query_weight_description 481948 386 augen
+move 482334 7313 move grundlegendes
+move_or_remove 489647 421 move grundlegendes
+allowed_take_living 490068 839 monster haende
+remove 490907 478 move grundlegendes
+query_first_room 491385 332 move grundlegendes
+query_real_first_room 491717 273 move grundlegendes
+query_first_player 491990 340 move grundlegendes
+query_real_first_player 492330 330 move grundlegendes
+query_last_player 492660 225 move grundlegendes
+query_creator 492885 410 move grundlegendes
+query_real_creator 493295 315 move grundlegendes
+query_enable_cleanup 493610 650 raum
+query_prevent_cleanup 494260 237 raum
+set_prevent_cleanup 494497 291 raum
+set_enable_cleanup 494788 345 raum
+set_hidden_until_next_move 495133 430 move grundlegendes
+query_hidden_until_next_move 495563 305 move grundlegendes
+set_no_move 495868 343 bewegen
+query_no_move 496211 331 bewegen
+set_no_move_reason 496542 1004 bewegen
+query_no_move_reason 497546 262 bewegen
+set_not_moved_reason 497808 1046 bewegen
+query_not_moved_reason 498854 445 bewegen
+just_moved 499299 263 move
+move_return 499562 1509 move
+return_to 501071 493 move
+notify_moved 501564 1625 move
+modify_move 503189 2012 move
+modify_move_out 505201 395 move
+modify_move_in 505596 389 move
+forbidden_move 505985 595 move
+forbidden_move_out 506580 590 move
+forbidden_move_in 507170 585 move
+notify_move_out 507755 508 move
+notify_move 508263 501 move
+notify_move_in 508764 503 move
+notify_moved_out 509267 380 move
+notify_moved_in 509647 374 move
+notify_move_failed 510021 427 move
+notify_remove 510448 415 grundlegendes
+buch 510863 276 buch
+query_max_page 511139 197 buch
+set_max_page 511336 318 buch
+query_current_page 511654 548 buch
+query_verzeichnis 512202 814 buch
+query_page_names 513016 524 buch
+set_wizard_book 513540 363 buch
+set_hlp_book 513903 371 buch
+query_wizard_book 514274 228 buch
+query_hlp_book 514502 220 buch
+set_open_close 514722 367 buch
+query_open_close 515089 220 buch
+set_searchable 515309 417 buch
+query_searchable 515726 195 buch
+set_status_line 515921 623 buch
+query_status_line 516544 288 buch
+set_seiten_desc 516832 3162 buch
+query_seiten_desc 519994 211 buch
+set_page_mode 520205 618 buch
+query_page_mode 520823 196 buch
+set_current_page 521019 409 buch
+set_verzeichnis 521428 667 buch
+set_page_names 522095 802 buch
+query_verzeichnis_inhalt 522897 630 buch
+query_page_inhalt 523527 648 buch
+book_action 524175 1073 buch
+book_help 525248 594 buch
+continue_read 525842 350 buch
+forbidden_read 526192 746 buch
+forbidden_read_me 526938 760 buch
+query_book 527698 148 buch
+set_plural_name 527846 261 countob
+query_plural_name 528107 259 countob
+set_singular_name 528366 267 countob
+query_singular_name 528633 265 countob
+set_count_type 528898 864 countob
+query_count_type 529762 273 countob
+query_count_weight 530035 408 countob
+set_count 530443 317 countob
+add_count 530760 329 countob
+query_count 531089 438 countob
+query_transaction_count 531527 519 countob
+query_ancestor 532046 241 countob
+forbidden_join_countob 532287 415 countob
+notify_joined_countob 532702 953 countob
+notify_incorporated_countob 533655 1003 countob
+split_object 534658 490 countob
+notify_countob_split_from 535148 1216 countob
+notify_countob_split_into 536364 1388 countob
+set_units 537752 1120 countob
+query_abbrennzeit 538872 419 feuer
+query_fire_shadow 539291 230 feuer
+query_burn_time 539521 265 feuer
+set_success_message 539786 631 nahrung getraenke
+set_other_success_message 540417 695 nahrung getraenke
+set_failure_message 541112 799 nahrung getraenke
+set_other_failure_message 541911 673 nahrung getraenke
+set_healing 542584 370 nahrung getraenke
+set_strength 542954 250 getraenke
+set_amount 543204 330 nahrung getraenke
+query_healing 543534 331 nahrung getraenke
+query_strength 543865 257 nahrung getraenke
+query_amount 544122 335 nahrung getraenke
+set_failure_remove 544457 532 nahrung getraenke
+query_failure_remove 544989 364 nahrung getraenke
+drink_is_me 545353 521 getraenke
+set_stay_in_pub 545874 349 getraenke
+query_stay_in_pub 546223 374 getraenke
+query_getraenk 546597 166 getraenke
+query_getraenk_messages 546763 219 getraenke
+forbidden_drink 546982 1088 getraenke
+forbidden_drink_me 548070 892 getraenke
+notify_drink 548962 694 getraenke
+notify_drink_me 549656 603 getraenke
+notify_drink_failure 550259 698 getraenke
+notify_drink_failure_self 550957 735 getraenke
+query_entry 551692 319 spieler gilde
+player_died 552011 349 spieler gilde
+player_murdered 552360 516 spieler gilde
+leave_gilde 552876 257 spieler gilde
+enter_gilde 553133 256 spieler gilde
+player_new_rang 553389 304 spieler gilde
+player_suicid 553693 355 spieler gilde
+notify_login 554048 863 spieler gilde
+notify_quit 554911 921 spieler gilde
+notify_net_dead 555832 352 spieler
+query_erf_gilde_available 556184 432 spieler gilde
+query_erf_gilde 556616 626 spieler gilde
+query_erf_gilde_options 557242 516 spieler gilde
+query_key 557758 166 taschen
+set_time_of_death 557924 287 spieler monster
+query_murderer 558211 223 spieler monster
+set_murderer 558434 223 spieler monster
+query_resurrection_info 558657 337 spieler monster
+query_not_extinguishable 558994 294 leuchte
+set_not_extinguishable 559288 299 leuchte
+query_destruct_at_out_of_fuel 559587 321 leuchte
+set_destruct_at_out_of_fuel 559908 315 leuchte
+set_fuel 560223 314 leuchte
+add_fuel 560537 386 leuchte
+query_max_fuel 560923 343 leuchte
+set_power 561266 223 leuchte
+query_power 561489 191 leuchte
+set_light_adjektiv 561680 318 leuchte
+query_light_adjektiv 561998 303 leuchte
+set_light_verb 562301 351 leuchte
+query_light_verb 562652 370 leuchte
+set_extinguish_verb 563022 382 leuchte
+query_extinguish_verb 563404 389 leuchte
+set_burn_under_water 563793 262 leuchte
+query_burn_under_water 564055 235 leuchte
+query_is_lighted 564290 259 leuchte
+forbidden_burn 564549 948 leuchte
+allowed_burn 565497 791 leuchte
+an 566288 296 leuchte
+notify_light 566584 653 leuchte licht
+light_on 567237 377 leuchte
+aus 567614 216 leuchte
+notify_extinguish 567830 695 leuchte licht
+light_off 568525 222 leuchte
+notify_burn 568747 692 leuchte
+notify_burned_out 569439 669 leuchte licht
+query_fuel 570108 281 leuchte
+set_value 570389 233 leuchte
+query_lamp 570622 199 leuchte
+T_LISTE 570821 291 leuchte
+set_solved_msg 571112 527 
+set_singular_value 571639 277 countob handel
+query_singular_value 571916 277 countob handel
+T_LISTE 572193 643 nahrung
+query_nahrung_messages 572836 684 nahrung
+set_angeknabbert_adjektiv 573520 321 nahrung
+query_angeknabbert_adjektiv 573841 276 nahrung
+query_success_message 574117 581 nahrung
+query_other_success_message 574698 629 nahrung
+query_failure_message 575327 904 nahrung
+query_other_failure_message 576231 648 nahrung
+set_start_chew_message 576879 583 nahrung
+query_start_chew_message 577462 577 nahrung
+set_other_start_chew_message 578039 635 nahrung
+query_other_start_chew_message 578674 683 nahrung
+set_chew_message 579357 566 nahrung
+query_chew_message 579923 593 nahrung
+set_other_chew_message 580516 605 nahrung
+query_other_chew_message 581121 570 nahrung
+set_dauer 581691 527 nahrung
+query_dauer 582218 252 nahrung
+query_vamp_nahrung 582470 357 nahrung
+set_vamp_nahrung 582827 335 nahrung
+query_eating 583162 207 nahrung
+stop_eating 583369 322 nahrung
+query_nahrung 583691 171 nahrung
+notify_eaten 583862 662 nahrung
+notify_eaten_self 584524 691 nahrung
+notify_eat_failure 585215 722 nahrung
+notify_eat_failure_self 585937 754 nahrung
+notify_eat 586691 643 nahrung
+notify_eat_self 587334 677 nahrung
+notify_bite 588011 716 nahrung
+notify_bite_self 588727 746 nahrung
+forbidden_eat 589473 900 nahrung
+forbidden_eat_self 590373 924 nahrung
+set_life 591297 510 waffen
+add_life 591807 475 waffen
+query_life 592282 222 waffen
+check_life 592504 252 waffen
+query_damage_type 592756 330 waffen kampf
+set_damage_type 593086 350 waffen kampf
+init_geschoss 593436 473 waffen geschoss
+query_extra_damage 593909 367 waffen
+real_lost_hp 594276 390 waffen
+query_geschoss 594666 429 waffen
+set_portal_name 595095 232 Portal
+set_tied_to_ob 595327 527 seil
+query_tied_to_ob 595854 600 seil
+query_seil 596454 536 seil
+set_seil 596990 240 seil
+concerned_tie_rope 597230 1172 seil
+concerned_untie_rope 598402 1173 seil
+notify_tied_rope 599575 661 seil
+notify_tied_rope_to 600236 780 seil
+notify_untied_rope 601016 680 seil
+notify_untied_rope_from 601696 795 seil
+forbidden_dig 602491 783 graben grundlegendes
+concerned_dig 603274 1373 graben grundlegendes
+do_dig 604647 1398 graben grundlegendes
+notify_dig 606045 695 graben grundlegendes
+query_skelett_no_remove 606740 223 Monster Player
+set_skelett_no_remove 606963 391 Monster Player
+is_skelett 607354 171 Monster Player
+set_door_open_message 607525 577 tuer
+set_door_close_message 608102 580 tuer
+set_door_locked_message 608682 593 tuer
+set_door_unlocked_message 609275 603 tuer
+set_door_opens_message 609878 752 tuer
+set_door_closes_message 610630 759 tuer
+set_door_lock_messages 611389 785 tuer
+set_door_unlock_messages 612174 789 tuer
+set_knock_messages 612963 872 tuer
+set_key_does_not_fit_message 613835 1177 tuer
+set_open_cmd 615012 381 tuer
+set_close_cmd 615393 388 tuer
+set_unlock_cmd 615781 393 tuer
+set_lock_cmd 616174 388 tuer
+set_knock_cmd 616562 384 tuer
+set_open_words 616946 432 tuer
+set_close_words 617378 438 tuer
+set_unlock_words 617816 444 tuer
+set_lock_words 618260 444 tuer
+set_knock_words 618704 440 tuer
+set_door_height 619144 536 tuer monster body
+set_door_is_too_small_msg 619680 562 tuer monster body move
+set_door_is_closed_msgs 620242 472 tuer
+set_no_exit_msg 620714 255 tuer raum
+set_door_exit 620969 494 tuer
+set_door_exit_category 621463 330 tuer
+set_pass_cmd 621793 337 tuer
+set_keys 622130 718 tuer
+set_door_is_open 622848 526 tuer
+set_door_is_locked 623374 565 tuer
+set_crack 623939 359 tuer
+set_no_lock 624298 306 tuer
+set_no_lock_messages 624604 353 tuer
+query_no_lock 624957 213 tuer
+query_door_height 625170 450 tuer monster body
+query_door_messages 625620 196 tuer
+query_door_exit 625816 251 tuer
+query_pass_cmd 626067 285 tuer
+query_crack 626352 223 tuer
+query_keys 626575 234 tuer
+query_door_is_open 626809 260 tuer
+query_door_is_locked 627069 248 tuer
+door_kicked 627317 745 tuer
+other_door 628062 271 tuer
+present_other_door 628333 334 tuer
+init_door 628667 519 tuer
+add_directions 629186 330 tuer
+open_door 629516 1049 tuer
+close_door 630565 992 tuer
+unlock_door 631557 679 tuer
+lock_door 632236 676 tuer
+crack_door 632912 508 tuer
+forbidden_crack_door 633420 1401 tuer
+notify_crack_door 634821 1377 tuer
+crack 636198 355 tuer
+forbidden_open_door 636553 1401 tuer
+notify_open_door 637954 1045 tuer
+forbidden_close_door 638999 1443 tuer
+notify_close_door 640442 1040 tuer
+forbidden_pass_door 641482 1576 tuer
+notify_pass_door 643058 1065 tuer
+forbidden_lock_door 644123 1828 tuer
+notify_lock_door 645951 604 tuer
+forbidden_unlock_door 646555 1834 tuer
+notify_unlock_door 648389 1434 tuer
+forbidden_knock_door 649823 1278 tuer
+notify_knock_door 651101 1128 tuer
+T_LISTE 652229 430 tuer
+P_SOUND_ACTIONS 652659 604 tuer
+activate_sound_profile 653263 271 tuer
+query_door 653534 164 tuer
+query_vehikel 653698 773 vehikel
+set_vehikel 654471 274 vehikel
+query_enter_room 654745 715 vehikel
+set_enter_room 655460 458 vehikel
+query_enter_messages 655918 595 vehikel
+set_enter_messages 656513 558 vehikel
+query_vehikel_sloppy 657071 247 vehikel
+set_vehikel_sloppy 657318 473 vehikel
+fahre 657791 420 vehikel
+do_delayed_action 658211 3834 spieler
+stop_delayed_action 662045 330 spieler
+query_delayed_action_time 662375 298 spieler
+in_delayed_action 662673 257 spieler
+edit 662930 3793 Dateien
+in_edit 666723 209 Dateien
+query_echomode 666932 243 spieler
+add_to_rede_puffer 667175 664 spieler
+set_keine_gummigoettchen 667839 282 spieler
+query_keine_gummigoettchen 668121 266 spieler
+compose_path 668387 1223 spieler
+query_path_aliases 669610 258 spieler
+uses_gmcp_edit 669868 203 editor
+gmcp_start_edit 670071 940 editor
+set_eye_option 671011 1124 spieler augen
+query_eye_option 672135 367 spieler augen
+query_inventory_category 672502 765 spieler augen
+query_inventory_flags 673267 554 spieler augen
+query_gilden_info 673821 1537 spieler
+query_gilde 675358 231 spieler
+query_rang 675589 224 spieler
+query_gilden_data 675813 208 spieler
+set_gilden_data 676021 212 spieler
+query_letzte_gilden 676233 413 spieler
+query_hlp_data 676646 222 spieler
+set_hlp_data 676868 227 spieler
+query_real_name 677095 243 spieler
+query_real_cap_name 677338 418 grundlegendes
+query_current_wiz_owner 677756 223 spieler
+query_auto_load_parameter 677979 418 spieler
+query_auto_load 678397 461 spieler
+init_arg 678858 403 spieler
+query_auto_load_shadow 679261 938 spieler
+init_arg_shadow 680199 458 spieler
+get_object_state 680657 349 spieler
+init_object_state 681006 369 spieler
+notify_net_dead 681375 764 spieler
+notify_login 682139 1209 spieler
+query_statue_time 683348 322 spieler
+set_kein_verbrauch 683670 312 spieler nahrung
+query_kein_verbrauch 683982 236 spieler nahrung
+query_headache 684218 207 spieler nahrung
+add_headache 684425 317 spieler nahrung
+query_alc 684742 224 spieler nahrung
+query_max_alc 684966 224 spieler nahrung
+has_enough_alc 685190 395 spieler nahrung
+add_alc 685585 358 spieler nahrung
+query_fp 685943 240 spieler nahrung
+query_wp 686183 241 spieler nahrung
+has_enough_wp 686424 374 spieler nahrung
+add_wp 686798 340 spieler nahrung
+has_enough_fp 687138 371 spieler nahrung
+add_fp 687509 322 spieler nahrung
+add_temperatur_schutz 687831 248 spieler kleidung
+query_temperatur_schutz 688079 245 spieler kleidung
+set_fp 688324 203 spieler nahrung
+set_wp 688527 204 spieler nahrung
+set_alc 688731 293 spieler nahrung
+set_headache 689024 238 spieler nahrung
+more 689262 2870 Dateien
+query_more_chunk 692132 235 Dateien
+set_more_chunk 692367 241 Dateien
+query_in_more 692608 186 Dateien
+add_options_menue 692794 1272 spieler
+delete_options_menue 694066 253 spieler
+add_options_action 694319 1139 spieler
+delete_options_action 695458 281 spieler
+print_options_help 695739 1732 spieler
+start_options_menue 697471 453 spieler
+print_color_options 697924 883 spieler
+query_age 698807 161 spieler
+notify_birth 698968 387 spieler
+filter_message 699355 812 message spieler monster
+query_client_width 700167 255 spieler
+query_client_height 700422 424 spieler
+query_messages_filter 700846 515 message spieler
+query_no_retain 701361 1429 spieler
+notify_quit 702790 1347 spieler
+query_start_room 704137 456 spieler
+set_start_room 704593 539 spieler
+query_additional_condition_string 705132 537 spieler
+query_scar_description 705669 252 spieler
+query_scar 705921 378 spieler
+make_scar 706299 214 spieler
+delete_scar 706513 339 spieler
+become_aggression_victim 706852 899 spieler kampf
+ist_notwehr 707751 550 Root:Player:Tod
+query_erf_tod_message 708301 714 spieler kampf
+query_ghost 709015 286 spieler
+query_kirche 709301 305 spieler
+add_ghost 709606 247 spieler
+set_ghost 709853 243 spieler
+query_konto 710096 242 spieler handel
+set_konto 710338 252 spieler handel
+add_konto 710590 255 spieler handel
+query_konto_age 710845 328 spieler handel
+set_konto_age 711173 342 spieler handel
+query_opfer 711515 259 spieler kampf
+query_one_opfer 711774 268 spieler kampf
+query_moerder 712042 297 spieler kampf
+set_home_msg 712339 458 spieler
+query_home_msg 712797 233 spieler
+set_clone_msg 713030 473 spieler
+query_clone_msg 713503 236 spieler
+set_destruct_msg 713739 620 spieler
+query_destruct_msg 714359 245 spieler
+query_no_wer 714604 211 spieler
+set_no_wer 714815 442 spieler
+query_description 715257 236 spieler
+query_one_description 715493 642 spieler
+set_one_description_source 716135 506 spieler
+set_no_airport 716641 259 spieler
+query_no_airport 716900 225 spieler
+add_init_ob 717125 608 spieler monster
+delete_init_ob 717733 429 spieler monster
+player_init 718162 548 spieler
+monster_init 718710 514 monster
+add_temporal_adjektiv 719224 772 spieler grammatik
+query_no_ascii_art 719996 417 spieler
+set_no_ascii_art 720413 396 spieler
+query_quest_count 720809 175 spieler
+query_game_count 720984 172 spieler
+add_skill_points 721156 484 spieler skill
+query_skill_structure 721640 249 spieler skill
+get_one_skill 721889 626 spieler skill
+query_sum_skill 722515 212 spieler skill
+query_experience_promille 722727 292 spieler skill
+set_other_skill 723019 1091 spieler skill
+query_other_skill_data 724110 381 spieler skill
+query_other_skill_text 724491 364 spieler skill
+set_gesehen 724855 468 spieler
+set_handeln 725323 491 spieler
+add_sum_comm 725814 228 spieler skill
+add_sum_feel 726042 219 spieler skill
+add_sum_move 726261 215 spieler skill
+add_sum_weight 726476 235 spieler skill
+query_sum_comm 726711 207 spieler skill
+query_sum_feel 726918 198 spieler skill
+query_sum_move 727116 194 spieler skill
+query_sum_weight 727310 210 spieler skill
+query_kills_by_name 727520 324 Kampf Skill
+query_kills_by_race 727844 350 Kampf Skill
+query_kills_of_name 728194 317 Kampf Skill
+query_kills_of_race 728511 317 Kampf Skill
+notify_sicht 728828 378 zaubern
+set_callback 729206 1572 telnet
+set_telnet 730778 604 telnet
+has_unicode 731382 215 spieler
+has_only_ascii 731597 251 spieler
+query_doing 731848 207 spieler
+query_aliases 732055 242 spieler
+set_prompt_string 732297 230 spieler
+query_prompt_string 732527 220 spieler
+in_mini_ed 732747 209 Dateien
+is_editing 732956 223 Dateien
+mini_ed 733179 2819 Dateien
+query_mark 735998 367 grundlegendes
+query_marks 736365 379 grundlegendes
+set_mark 736744 370 grundlegendes
+query_command_list 737114 682 raum
+query_exit_list 737796 548 raum
+query_flag_list 738344 545 raum
+query_category_list 738889 457 raum
+query_exit_category 739346 308 raum
+set_exit_category 739654 479 raum
+query_one_exit 740133 682 raum
+query_exit_command 740815 630 raum
+delete_exit 741445 472 raum
+delete_exits 741917 490 raum
+add_exit 742407 617 raum
+add_exits 743024 592 raum
+set_exit 743616 672 raum
+set_exits 744288 669 raum
+filter_xxx 744957 2037 raum move
+add_exit_flag 746994 1510 raum
+query_exit_flag 748504 1210 raum
+show_exit 749714 604 raum
+nolist_exit 750318 649 raum
+hide_exit 750967 563 raum
+query_lock_reason 751530 384 raum
+query_lock_reason_other 751914 412 raum
+lock_exit 752326 1000 raum
+unlock_exit 753326 551 raum
+set_msg 753877 1350 raum
+set_dir_prep_in 755227 317 raum
+set_dir_prep_out 755544 319 raum
+set_dir_prep 755863 341 raum
+query_dir_prep_in 756204 227 raum
+query_dir_prep_out 756431 231 raum
+set_exit_msg 756662 1106 raum
+set_dir_msg 757768 425 raum
+add_type 758193 851 raum
+query_type 759044 377 raum
+query_types 759421 370 raum
+query_room 759791 137 raum
+query_room_environment 759928 878 raum
+query_room_domain 760806 582 raum
+set_room_domain 761388 331 raum
+query_daylight 761719 463 raum licht
+query_visitors 762182 937 raum
+query_traces 763119 993 raum
+query_schwimmfaehig 764112 266 move
+clean_up 764378 1716 raum
+query_map_pos 766094 214 raum domain
+query_long_dark 766308 436 raum
+concerned_drift 766744 1063 raum
+concerned_sink 767807 1054 raum
+query_no_idle_logout 768861 465 raum spieler
+set_random_clone_mode 769326 400 contents
+query_random_clone_mode 769726 180 contents
+add_object 769906 2232 contents
+delete_object 772138 295 contents
+query_object 772433 274 contents
+query_all_objects 772707 296 contents
+query_present_objects 773003 484 contents
+query_later_objects 773487 465 contents
+set_max_objects 773952 270 contents
+set_min_objects 774222 270 contents
+do_clone_now 774492 298 contents
+set_kirche 774790 206 spieler
+query_kirche 774996 268 spieler
+query_shadow_creator 775264 293 shadow
+destruct_shadow 775557 329 shadow
+query_prevent_shadow 775886 565 shadow
+init_shadow 776451 1171 shadow
+remove_shadow 777622 532 shadow
+query_shadow 778154 254 shadow
+query_shadow_owner 778408 243 shadow
+query_shadow_object 778651 230 shadow
+unshadow_shadow 778881 317 shadow
+forbidden_shadow 779198 904 shadow
+notify_shadow 780102 569 shadow
+notify_unshadow 780671 566 shadow
+shadow_create_action 781237 617 shadow
+shadow_remove_action 781854 628 shadow
+search_adjektiv 782482 332 grammatik
+browse 782814 463 browser
+get_initial_more_info 783277 2387 browser
+get_back_more_info 785664 643 browser
+get_next_more_info 786307 663 browser
+get_prev_more_info 786970 668 browser
+get_menue_more_info 787638 601 browser
+browse_action 788239 648 browser
+browse_end 788887 261 browser
+get_continued_more_info 789148 632 browser
+continue_browse 789780 392 browser
+build_table 790172 3000 tool text
+add_chats 793172 363 monster
+add_a_chats 793535 375 monster
+load_chat 793910 4008 monster
+load_a_chat 797918 2215 monster
+set_chance 800133 656 monster
+set_a_chance 800789 635 monster
+set_chat_delay 801424 622 monster
+set_a_chat_delay 802046 641 monster
+set_start_chat 802687 299 monster
+query_start_chat 802986 269 monster
+pause_chat 803255 549 monster
+query_chat_paused 803804 321 monster
+pause_a_chat 804125 559 monster
+query_a_chat_paused 804684 335 monster
+check_save 805019 207 grundlegendes
+query_chest 805226 291 graben
+bury_chest 805517 658 graben
+init_chest 806175 361 graben
+colour_to_ansi 806536 519 farben
+colours_to_ansi_colours 807055 293 farben
+colour_to_string 807348 326 farben
+string_to_colour 807674 455 farben
+read_config 808129 1220 Parser
+sleep 809349 238 coroutinen
+get_input 809587 345 coroutinen
+ensure_eval 809932 347 coroutinen
+range 810279 424 coroutinen
+enumerate 810703 464 coroutinen
+reversed 811167 316 coroutinen
+latch 811483 502 coroutinen
+for_any 811985 556 coroutinen
+for_all 812541 451 coroutinen
+read_bytes_async 812992 278 coroutinen
+read_lines 813270 426 coroutinen
+query_database_description 813696 343 database
+init_database 814039 856 database
+query_db_error 814895 283 database
+db_close 815178 210 database
+db_open 815388 226 database
+db_query 815614 408 database
+db_rollback 816022 232 database
+db_commit 816254 296 database
+db_begin 816550 229 database
+db_query_err 816779 381 database
+db_escape_string 817160 600 database
+convert_array_to_sql_list 817760 527 database
+convert_array_to_insert_list 818287 398 database
+get_one_int 818685 247 database
+get_one_string 818932 235 database
+check_sl_rc 819167 205 database
+select_value 819372 246 database
+select_row 819618 251 database
+select_column 819869 253 database
+db_check_table 820122 334 database
+db_debug 820456 1083 database
+query_all_dbg_messages 821539 418 database
+query_dbg_messages 821957 658 database
+setup_counter 822615 391 database
+increment_counter 823006 335 database
+get_db_info 823341 244 database
+set_db_info 823585 346 database
+get_db_version 823931 227 database
+set_db_version 824158 233 database
+check_debuggers 824391 403 database
+send_to_debuggers 824794 670 database
+validate_debugger 825464 349 database
+get_debuggers 825813 270 database
+update_debugger 826083 776 database
+flush_explain_plans 826859 217 database
+init_debuglog 827076 1076 database
+debuglog 828152 463 database
+get_debuglog_menue 828615 244 database
+start_debuglog_menue 828859 307 database
+debuglog_get_kategorien 829166 386 database
+debuglog_get_filtered_messages 829552 1210 database
+tell_emote 830762 853 monster spieler seele
+parse_emote 831615 1249 monster spieler seele
+query_emote_case 832864 708 monster spieler seele
+verb 833572 402 grammatik
+TI_LISTE 833974 901 beschreibung
+query_light_description 834875 373 raum licht
+desc_add 835248 389 beschreibung
+desc_call_other_func 835637 561 beschreibung
+desc_call_func 836198 544 beschreibung
+desc_call_cl 836742 610 beschreibung
+desc_condition 837352 589 beschreibung
+desc_filter 837941 646 beschreibung
+desc_text 838587 566 beschreibung
+desc_number 839153 624 beschreibung
+desc_compile 839777 694 beschreibung
+compile_desc 840471 2388 beschreibung
+compile_cond 842859 319 beschreibung
+dynamic_browse 843178 5667 dynamic_browse
+browse_write_line 848845 335 dynamic_browse
+push_menue 849180 375 dynamic_browse
+pop_menue 849555 286 dynamic_browse
+update_menue 849841 400 dynamic_browse
+query_menue_path 850241 225 dynamic_browse
+restore_menue_path 850466 271 dynamic_browse
+notify_dyn_browse_data 850737 343 dynamic_browse
+dynamicmore 851080 261 dynamic_browse
+dynamicmore 851341 282 dynamic_browse
+staticmore_display 851623 327 dynamic_browse
+getopt 851950 5027 tool
+query_is_brennbar 856977 243 feuer
+query_clothes_info 857220 966 kleidung
+query_armour_info 858186 332 kleidung
+determine_obvious_clothes 858518 319 kleidung
+add_parser 858837 595 Parser
+delete_parser 859432 305 Parser
+query_parser 859737 240 Parser
+add_makro 859977 571 Parser
+delete_makro 860548 502 Parser
+query_makro 861050 506 Parser
+is_makro 861556 438 Parser
+query_makros 861994 407 Parser
+clear_makros 862401 233 Parser
+add_konstante 862634 588 Parser
+delete_konstante 863222 450 Parser
+query_konstante 863672 446 Parser
+is_konstante 864118 473 Parser
+query_konstanten 864591 453 Parser
+clear_konstanten 865044 258 Parser
+add_define 865302 606 Parser
+delete_define 865908 408 Parser
+is_define 866316 412 Parser
+query_defines 866728 394 Parser
+clear_defines 867122 219 Parser
+parser_defined 867341 385 Parser
+parser_efun_defined 867726 311 Parser
+allowed_char 868037 205 Parser
+parse_value 868242 835 Parser
+parse_expr 869077 1122 Parser
+get_lines_from_file 870199 346 Parser
+delete_comments 870545 261 Parser
+preprocess_include_lines 870806 422 Parser
+process_pragma 871228 514 Parser
+handle_preprocessor_symbols 871742 892 Parser
+process_one_include_line 872634 312 Parser
+process_include_lines 872946 415 Parser
+read_include 873361 763 Parser
+mapil_forbidden 874124 4144 grundlegendes mapil
+mapil_notify 878268 2674 grundlegendes mapil
+notify_magie 880942 636 grundlegendes mapil
+forbidden_magie 881578 721 grundlegendes mapil
+notify_handwerk 882299 631 grundlegendes mapil
+forbidden_handwerk 882930 637 grundlegendes mapil
+set_msg_in 883567 395 spieler monster move
+set_msg_out 883962 400 spieler monster move
+set_mmsg_in 884362 421 spieler monster move
+set_mmsg_out 884783 422 spieler monster move
+set_msg_invis 885205 374 spieler monster move
+set_msg_vis 885579 363 spieler monster move
+query_msg_in 885942 271 spieler monster move
+query_msg_out 886213 272 spieler monster move
+query_mmsg_in 886485 272 spieler monster move
+query_mmsg_out 886757 275 spieler monster move
+query_msg_invis 887032 264 spieler monster move
+query_msg_vis 887296 262 spieler monster move
+query_plugin_commands 887558 225 plugin
+add_plugin_command 887783 2268 plugin
+Msg 890051 324 plugin
+Msg_To 890375 307 plugin
+W 890682 205 plugin
+WLN 890887 261 plugin
+query_plugin_commander 891148 243 plugin
+query_plugin_vars 891391 241 plugin
+set_plugin_vars 891632 246 plugin
+query_plugin_info 891878 259 plugin
+query_plugin_help 892137 263 plugin
+plugin_initialize 892400 306 plugin
+plugin_remove 892706 296 plugin
+print_plugin_options 893002 1000 plugin
+create_plugin_callback 894002 567 plugin
+modify_set 894569 564 properties
+forbidden_set 895133 667 properties
+notify_set 895800 485 properties
+modify_query 896285 610 properties
+modify_add 896895 781 properties
+forbidden_add 897676 892 properties
+notify_add 898568 713 properties
+forbidden_delete 899281 740 properties
+notify_delete 900021 641 properties
+add_property_master 900662 528 properties
+delete_property_master 901190 426 properties
+is_property_master 901616 402 properties
+query_property_master 902018 353 properties
+query_property_prefixes 902371 316 properties
+set_property_info 902687 7524 properties
+set_pseudoclosure 910211 368 properties
+get_pseudoclosure 910579 368 properties
+set_description 910947 378 properties
+get_description 911325 380 properties
+set_vitem_pseudoclosure 911705 407 properties
+get_vitem_pseudoclosure 912112 407 properties
+set_vitem_description 912519 417 properties
+get_vitem_description 912936 419 properties
+invalid_set 913355 336 properties
+invalid_get 913691 443 properties
+invalid_add 914134 347 properties
+invalid_del 914481 334 properties
+set_rollen_debugger 914815 505 Rollen
+query_rollen_debugger 915320 270 Rollen
+debug_rolle 915590 432 Rollen
+set_macht_bei_rollen_mit 916022 345 Rollen
+query_macht_bei_rollen_mit 916367 233 Rollen
+query_rolle 916600 500 Rollen
+query_rollen_status 917100 414 Rollen
+in_rolle 917514 294 Rollen
+stop_rolle 917808 604 Rollen
+forbidden_rollenstop 918412 968 Rollen
+notify_rollenstop 919380 807 Rollen
+restart_rolle 920187 629 Rollen
+forbidden_rollenrestart 920816 940 Rollen
+notify_rollenrestart 921756 783 Rollen
+notify_rollenende 922539 856 Rollen
+rolle_beendet 923395 278 Rollen
+debug_rolle2 923673 503 Rollen
+set_standard_msg_params 924176 304 Rollen
+query_standard_msg_params 924480 261 Rollen
+prepare_exec 924741 767 Rollen
+beginne_rolle 925508 789 Rollen
+forbidden_rollenstart 926297 918 Rollen
+notify_rollenstart 927215 764 Rollen
+spiele_rolle_mit 927979 731 Rollen
+starte_rolle 928710 942 Rollen
+breche_rolle_ab 929652 408 Rollen
+set_this_player_in_rolle 930060 732 Rollen
+query_this_player_in_rolle 930792 328 Rollen
+query_rollen_partner 931120 368 Rollen
+set_rollen_dirs 931488 503 Rollen
+query_rollen_dirs 931991 229 Rollen
+query_innenraum 932220 369 raum
+query_im_wasser 932589 350 raum
+query_hat_boden 932939 303 raum
+get_environment 933242 272 raum
+get_displayed_domain 933514 237 raum
+add_security_condition 933751 1257 Sicherheit
+check_security 935008 900 Sicherheit
+init_security_for_actions 935908 924 Sicherheit
+init_security_trust_mudlib 936832 464 Sicherheit
+notify_seele 937296 3189 seele
+allowed_seele 940485 747 seele
+forbidden_seele 941232 2719 seele
+notify_comm 943951 736 seele
+forbidden_comm 944687 1035 seele
+seele_AKTION 945722 981 seele
+forbidden_msg_soul_action_partner_notify 946703 1421 seele
+forbidden_msg_soul_action_notify 948124 1090 seele
+conv_akt 949214 443 seele
+plus_adv 949657 1876 seele
+soul_plus_adv 951533 3042 seele
+soul_parser 954575 2553 seele
+parse_text 957128 1343 seele
+adv_part 958471 2251 seele
+soul_adv_part 960722 3538 seele
+notify_soul 964260 1405 seele
+soul_command 965665 1795 seele
+get_top_info 967460 655 Statistik
+update_actions 968115 441 shadow
+set_value 968556 228 handel
+query_value 968784 195 handel
+set_no_store 968979 274 handel
+query_no_store 969253 269 handel
+just_sold 969522 268 handel
+query_sellable 969790 179 handel
+set_success_message 969969 794 wasser
+set_other_success_message 970763 820 wasser
+set_failure_message 971583 857 wasser
+set_other_failure_message 972440 863 wasser
+set_fill_message 973303 471 wasser
+set_other_fill_message 973774 499 wasser
+query_success_message 974273 703 wasser
+query_other_success_message 974976 729 wasser
+query_failure_message 975705 722 wasser
+query_other_failure_message 976427 746 wasser
+query_fill_message 977173 337 wasser
+query_other_fill_message 977510 357 wasser
+message 977867 342 wasser
+set_water_file 978209 340 wasser
+set_design_function 978549 566 wasser
+clone_water 979115 449 wasser
+query_water 979564 341 wasser
+water_me 979905 380 wasser
+get_water 980285 844 wasser
+drink_action 981129 755 wasser
+drink_command 981884 381 wasser
+setup_well 982265 326 wasser
+is_well 982591 184 wasser
+set_content 982775 267 wasser
+query_content 983042 251 wasser
+set_max_content 983293 279 wasser
+query_max_content 983572 277 wasser
+set_water 983849 483 wasser
+query_water 984332 340 wasser
+transfer_content 984672 243 wasser
+water_me 984915 396 wasser
+set_success_message 985311 800 wasser
+set_other_success_message 986111 828 wasser
+set_failure_message 986939 863 wasser
+set_other_failure_message 987802 869 wasser
+set_empty_message 988671 451 wasser
+set_other_empty_message 989122 474 wasser
+query_success_message 989596 707 wasser
+query_other_success_message 990303 734 wasser
+query_failure_message 991037 728 wasser
+query_other_failure_message 991765 755 wasser
+query_fill_message 992520 895 wasser
+query_other_fill_message 993415 931 wasser
+query_no_fill_reason 994346 483 wasser
+query_empty_message 994829 373 wasser
+query_other_empty_message 995202 391 wasser
+message 995593 345 wasser
+parse_error 995938 377 wasser
+drink_action 996315 758 wasser
+notify_bottle_empty 997073 617 wasser
+drink_command 997690 383 wasser
+fill_from_object 998073 1000 wasser
+fill_from_vitem 999073 1296 wasser
+notify_bottle_full 1000369 800 wasser
+forbidden_fill_water 1001169 1177 wasser
+forbidden_fill_water_well 1002346 1386 wasser
+forbidden_fill_water_self 1003732 1274 wasser
+forbidden_fill_water_bottle 1005006 1213 wasser
+fill_command 1006219 800 wasser
+empty_action 1007019 645 wasser
+empty_command 1007664 607 wasser
+vacate_command 1008271 553 wasser
+pour_command 1008824 575 wasser
+is_bottle 1009399 187 wasser
+query_success_message 1009586 677 wasser
+query_other_success_message 1010263 702 wasser
+query_failure_message 1010965 576 wasser
+query_other_failure_message 1011541 607 wasser
+query_no_drink_reason 1012148 475 wasser
+heal_player 1012623 231 wasser
+drink_action 1012854 856 wasser
+drink_command 1013710 526 wasser
+set_virus_infection_chance 1014236 478 wasser
+query_virus_infection_chance 1014714 471 wasser
+set_virus_infection_message 1015185 827 wasser
+set_virus_other_infection_message 1016012 860 wasser
+query_virus_infection_message 1016872 607 wasser
+query_virus_other_infection_message 1017479 632 wasser
+set_healing 1018111 249 wasser
+set_strength 1018360 246 wasser
+set_amount 1018606 254 wasser
+query_healing 1018860 247 wasser
+query_strength 1019107 244 wasser
+query_amount 1019351 252 wasser
+set_success_message 1019603 401 wasser
+set_other_success_message 1020004 416 wasser
+set_failure_message 1020420 444 wasser
+set_other_failure_message 1020864 459 wasser
+query_success_message 1021323 610 wasser
+query_other_success_message 1021933 634 wasser
+query_failure_message 1022567 659 wasser
+query_other_failure_message 1023226 689 wasser
+heal_player 1023915 232 wasser
+drink_action 1024147 704 wasser
+is_water 1024851 184 wasser
+notify_drink_water 1025035 1030 wasser
+notify_drink_water_well 1026065 1108 wasser
+notify_drink_water_self 1027173 1162 wasser
+forbidden_drink_water 1028335 1210 wasser
+forbidden_drink_water_well 1029545 1281 wasser
+forbidden_drink_water_self 1030826 1333 wasser
+init_weapon 1032159 1642 waffen
+set_current_pfeil_id 1033801 247 waffen
+query_current_pfeil_id 1034048 243 waffen
+set_reload_message 1034291 269 waffen
+query_reload_message 1034560 275 waffen
+set_reload_time 1034835 225 waffen
+query_reload_time 1035060 205 waffen
+query_koecher_id 1035265 251 waffen
+query_pfeil_id 1035516 251 waffen
+query_schuss_messages 1035767 218 waffen
+set_koecher_id 1035985 449 waffen
+set_pfeil_id 1036434 367 waffen
+set_no_arrow_message 1036801 344 waffen
+set_owner_message 1037145 402 waffen
+set_enemy_message 1037547 417 waffen
+set_others_message 1037964 425 waffen
+query_destroy_pfeil 1038389 348 waffen
+set_destroy_pfeil 1038737 267 waffen
+present_pfeil 1039004 675 waffen kampf
+set_wield_msg 1039679 445 waffen
+query_wield_msg 1040124 294 waffen
+set_wield_msg_other 1040418 495 waffen
+query_wield_msg_other 1040913 338 waffen
+set_unwield_msg 1041251 450 waffen
+query_unwield_msg 1041701 297 waffen
+set_unwield_msg_other 1041998 500 waffen
+query_unwield_msg_other 1042498 341 waffen
+set_broken_adjektiv 1042839 429 waffen ruestung kampf
+set_wield_adjektiv 1043268 314 waffen kampf
+query_broken_adjektiv 1043582 383 waffen ruestung kampf
+query_wield_adjektiv 1043965 265 waffen kampf
+query_used_stats 1044230 285 waffen kampf
+set_weapon_class 1044515 371 waffen kampf
+query_weapon_class 1044886 429 waffen kampf
+query_wield 1045315 207 waffen kampf
+do_wield 1045522 370 waffen kampf
+do_remove 1045892 423 waffen kampf
+do_break 1046315 658 waffen ruestung kampf
+notify_weapon_fail 1046973 785 waffen
+query_repairable 1047758 288 waffen ruestung kampf
+do_repair 1048046 707 waffen ruestung kampf
+query_repair_cost 1048753 512 waffen ruestung kampf
+set_damage 1049265 500 waffen kampf
+set_learning_type 1049765 900 waffen kampf
+set_skill_path 1050665 290 waffen kampf
+set_used_stats 1050955 370 waffen kampf
+set_broken_message 1051325 394 waffen ruestung kampf
+query_broken_message 1051719 335 waffen ruestung kampf
+set_life 1052054 366 waffen kampf
+add_life 1052420 399 waffen kampf
+query_skill_path 1052819 206 waffen kampf
+query_max_damage 1053025 244 waffen kampf
+query_min_damage 1053269 245 waffen kampf
+query_life 1053514 267 waffen kampf
+query_max_life 1053781 229 waffen kampf
+query_broken 1054010 258 waffen ruestung kampf
+compute_damage 1054268 519 spieler monster kampf
+T_LISTE 1054787 748 waffen ruestung kampf
+set_value 1055535 304 waffen
+query_max_value 1055839 273 waffen
+query_min_value 1056112 316 waffen
+query_weapon 1056428 163 waffen
+query_extra_damage 1056591 644 waffen kampf
+query_damage_type 1057235 289 waffen kampf
+set_damage_type 1057524 314 waffen kampf
+query_num_free_hands_to_wield 1057838 274 kampf haende waffen
+query_info 1058112 1032 grundlegendes
+prepare_renewal 1059144 440 grundlegendes
+abort_renewal 1059584 388 grundlegendes
+finish_renewal 1059972 351 grundlegendes
+query_file_name 1060323 496 grundlegendes virtual_compiler
+query_text 1060819 385 
+query_text_other 1061204 191 
+add 1061395 284 
+set_mt 1061679 381 
+send_to_room 1062060 471 
+query_domain 1062531 410 map
+query_domain_info 1062941 360 map
+query_domain_coords 1063301 349 map
+query_domain_center 1063650 305 map
+query_map_file_name 1063955 370 map
+get_map_file_name 1064325 454 map
+concerned_hlpitem_falls 1064779 868 level
+do_hlpitem_falls 1065647 465 level
+forbidden_hlp_gabe 1066112 706 level
+forbidden_hlp_gabe_here 1066818 745 level
+forbidden_spy_here 1067563 978 level
+query_bretter 1068541 265 news
+set_bretter 1068806 550 news
+set_brett_name 1069356 1265 news
+query_brett_name 1070621 256 news
+query_gruppen_name 1070877 259 news
+query_newsreader_active 1071136 224 news
+is_reading 1071360 215 news
+zahl2str 1071575 236 Root:Tools:Newsreader
+query_player_container 1071811 290 spieler
+query_streichholz 1072101 238 feuer
+query_burning 1072339 276 feuer
+query_burned_out 1072615 414 feuer
+query_anzuender 1073029 521 feuer
+allowed_strike 1073550 920 feuer
+prepare_strike 1074470 977 feuer
+strike_done 1075447 1082 feuer
+do_notifying 1076529 429 feuer
+concerned_strike 1076958 776 feuer grundlegendes
+do_strike 1077734 1089 feuer grundlegendes
+notify_strike 1078823 825 feuer grundlegendes
+set_add_hp_infos 1079648 418 virus
+query_add_hp_infos 1080066 350 virus
+set_virus_verursacher 1080416 329 virus
+query_virus_verursacher 1080745 205 virus
+set_virus_shadow_path 1080950 561 virus
+query_virus_shadow_path 1081511 276 virus
+query_virus_shadow 1081787 286 virus
+query_virus_look 1082073 202 virus
+set_virus_look 1082275 862 virus
+set_immun_time 1083137 272 virus
+query_immun_time 1083409 205 virus
+set_virus_messages 1083614 1209 virus
+query_virus_messages 1084823 196 virus
+query_virus 1085019 162 virus
+query_virus_type 1085181 275 virus
+set_virus_type 1085456 503 virus
+add_virus_str 1085959 285 virus
+set_virus_str 1086244 291 virus
+query_virus_str 1086535 219 virus
+set_virus_dur 1086754 616 virus
+query_virus_dur 1087370 212 virus
+add_virus_dur 1087582 225 virus
+query_infected_since 1087807 239 virus
+set_vanishing_virus 1088046 219 virus
+query_virus_name 1088265 172 virus
+set_virus_name 1088437 264 virus
+query_virus_gender 1088701 199 virus
+set_virus_gender 1088900 229 virus
+query_virus_min 1089129 283 virus
+set_virus_min 1089412 427 virus
+set_virus_chance 1089839 463 virus
+query_virus_chance 1090302 244 virus
+set_virus_heal_msg 1090546 316 virus
+query_virus_heal_msg 1090862 226 virus
+init_virus 1091088 2060 virus
+query_virus_healed 1093148 336 virus
+do_virus_shadow_action 1093484 703 virus
+set_virus_additional_data 1094187 472 virus
+query_virus_additional_data 1094659 346 virus
+heal_virus 1095005 296 virus
+forbidden_virus_infection 1095301 1053 virus
+notify_virus_infection 1096354 739 virus
+notify_virus_cure 1097093 596 virus
+query_conservation_arg 1097689 383 armageddon
+init_conservation_arg 1098072 348 armageddon
+query_conservation_arg_sh 1098420 1023 armageddon
+init_conservation_shadow_arg 1099443 451 armageddon
+precheck_conservation 1099894 1040 armageddon
+precheck_conservation 1100934 750 armageddon
+get_conservation_data 1101684 694 armageddon
+get_conservation_object 1102378 848 armageddon
+query_conservation_item_rent 1103226 278 armageddon
+query_conservation_item_rent 1103504 382 armageddon
+prepare_conservation 1103886 284 armageddon
+abort_conservation 1104170 287 armageddon
+done_conservation 1104457 226 armageddon
+finish_conservation 1104683 274 armageddon
+get_death_message 1104957 277 spieler
+install_srw_plakat 1105234 314 move grundlegendes
+event 1105548 621 grundlegendes
+add_acl_entry 1106169 492 master acl
+delete_acl_entry 1106661 449 master acl
+delete_acl_dir 1107110 353 master acl
+dump_acl_entries 1107463 499 master acl
+query_access 1107962 555 master acl
+query_acl_entry 1108517 538 master acl
+query_debugger_acl 1109055 451 master acl
+notify_delete_player 1109506 504 spieler
+query 1110010 815 spieler
+query_guests 1110825 162 Portal
+query_guest 1110987 171 Portal
+portal_exists 1111158 250 Portal
+is_homemud 1111408 220 Portal
+query_portal_room 1111628 283 Portal
+enter_portal 1111911 191 Portal
+send_command 1112102 217 Portal
+send_message 1112319 208 Portal
+send_savedata 1112527 216 Portal
+send_quit 1112743 204 Portal
+query_finger_info_text 1112947 618 monster
+MAY_WRITE 1113565 280 master acl
+AHD_LISTE 1113845 1292 monster spieler kampf
+DEBUG 1115137 584 debugging
+DEBUGX 1115721 1772 debugging
+DEBUGTX 1117493 1030 debugging
+T_LISTE 1118523 1880 beschreibung
+T_ELSE 1120403 247 beschreibung
+T_AND 1120650 278 beschreibung
+T_OR 1120928 291 beschreibung
+T_GREATER 1121219 457 beschreibung
+T_LESSER 1121676 454 beschreibung
+T_EQUAL 1122130 447 beschreibung
+T_NOT_EQUAL 1122577 457 beschreibung
+T_GREATER_EQUAL 1123034 470 beschreibung
+T_LESSER_EQUAL 1123504 474 beschreibung
+T_GT 1123978 216 beschreibung
+T_LT 1124194 214 beschreibung
+T_EQ 1124408 212 beschreibung
+T_NE 1124620 220 beschreibung
+T_GE 1124840 228 beschreibung
+T_LE 1125068 226 beschreibung
+T_FUNC 1125294 453 beschreibung
+T_FUNCV 1125747 520 beschreibung
+T_CALL_OTHER 1126267 486 beschreibung
+T_CALL_OTHERV 1126753 553 beschreibung
+T_CL 1127306 453 beschreibung
+T_CLV 1127759 526 beschreibung
+T_FILTER_FUNC 1128285 431 beschreibung
+T_FILTER_FUNCV 1128716 491 beschreibung
+T_FILTER_CALL_OTHER 1129207 464 beschreibung
+T_FILTER_CALL_OTHERV 1129671 523 beschreibung
+T_FILTER_CL 1130194 506 beschreibung
+T_FILTER_CLV 1130700 566 beschreibung
+T_TEXT_FUNC 1131266 335 beschreibung
+T_TEXT_FUNCV 1131601 386 beschreibung
+T_TEXT_CALL_OTHER 1131987 368 beschreibung
+T_TEXT_CALL_OTHERV 1132355 419 beschreibung
+T_TEXT_CL 1132774 454 beschreibung
+T_TEXT_CLV 1133228 527 beschreibung
+T_TAG 1133755 283 beschreibung
+T_TAGVAL 1134038 310 beschreibung
+T_TAG_COND 1134348 378 beschreibung
+T_TAGVAL_COND 1134726 397 beschreibung
+T_LISTE 1135123 4087 beschreibung raum
+do_error 1139210 715 master
+do_my_error 1139925 469 master
+do_error2 1140394 598 master
+do_error3 1140992 735 master
+do_warning 1141727 494 master
+do_my_warning 1142221 477 master
+do_warning2 1142698 602 master
+do_warning3 1143300 739 master
+do_idee 1144039 312 master
+do_fehler 1144351 321 master
+FAIL_GHOST 1144672 540 befehle
+FAIL_FREE_HANDS 1145212 672 befehle haende
+FAIL_NOT_ME 1145884 620 befehle
+FAIL_NOT_IN_TP 1146504 630 befehle
+FAIL_CANNOT_SEE 1147134 581 befehle
+FAIL_FAR 1147715 773 befehle
+GABE 1148488 559 level
+GABE2 1149047 323 level
+newbiep 1149370 445 level
+hlpp 1149815 345 level
+wizp 1150160 370 level
+wizplayerp 1150530 385 level
+guestp 1150915 325 level
+learnerp 1151240 375 level
+gesellep 1151615 389 level
+vogtp 1152004 377 level
+lordp 1152381 377 level
+adminp 1152758 325 level
+testplayerp 1153083 551 level
+spielerratp 1153634 401 level
+ACTION_SOUND_ITEM 1154035 325 message
+ACTION_SOUND_OB 1154360 299 message
+ACTION_SOUND_TO 1154659 282 message
+MOVE_TYPE_LISTE 1154941 819 move
+EQUAL_SKILL_PATHS 1155760 261 skill
+SP_LISTE 1156021 2306 skill
+SR_WAHLRAUM 1158327 344 wahl spielerrat
+SR_WAHLPLAKAT_HIER 1158671 215 
+ROUND_STAT 1158886 390 spieler monster skill
+PRINT_STAT 1159276 352 spieler monster skill
+IS_NIGHT 1159628 212 zeit
+IS_DAY 1159840 206 zeit
+ueberfall 1160046 790 kampf

@@ -1,0 +1,10 @@
+Hier kannst Du eine Farbe aus einer Auswahl von 256 Farben auswählen.
+Jede Zahl sollte in der dazugehörigen Farbe angezeigt werden, aber
+nicht jeder Client unterstützt diese Farben. 
+
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum vorherigen Menü zurückkehren
+   ?: Diese Hilfe anzeigen.
+

@@ -1,0 +1,8 @@
+FUNKTION: mixed2str
+DEKLARATION: string mixed2str(mixed arr)
+BESCHREIBUNG:
+Wandelt einen beliebigen Datentyp in einen String um.
+Gut fuer Debuggingzwecke.
+GRUPPEN: simul_efun, array, string
+VERWEISE: to_string, to_int, to_float
+SOURCE: /secure/simul_efun/convert.inc

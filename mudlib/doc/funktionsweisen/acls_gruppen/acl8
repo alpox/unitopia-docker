@@ -1,0 +1,39 @@
+Beim Umbenennen von Dateien gibts ein "großes Problem": Es ist für
+den Master beim umbenennen einer Datei / eines Verzeichnisses x in
+eine Datei / Verzeichnis y NICHT feststellbar, welches die Ausgangs-
+und welches die Zieldatei ist. Das ist übel, aber nur durch
+Änderungen am Driver behebbar.
+
+Das führt zu dem Problem, dass der Master die exakten ACLs nicht
+immer 100%ig treffen KANN. Besteht eine Datei, so ist es denkbar,
+dass es die Ausgangsdatei ist, es könnte aber genausogut auch die
+Zieldatei sei. Er muss daher an dieser Stelle die Rechte fordern, die
+für beide Fälle nötig sind. Besteht eine Datei nicht, dann weiß
+er, dass es die Zieldatei ist.
+
+Im Detail sieht das daher jetzt wie folgt aus:
+
+Ein Objekt, das eine Datei x in eine nicht bestehende Datei y
+umbenennen will, braucht
+- auf x die Rechte DELETE und WRITE (aus obigem Grund ist nicht
+  feststellbar, ob die Datei überschrieben oder gelöscht werden soll;
+  daher sind beide Rechte noetig),
+- auf y das Recht CREATE.
+
+Ein Objekt, das eine Datei x in eine bestehende Datei y umbenennen
+will, braucht
+- auf x die Rechte DELETE und WRITE (wie oben),
+- auf y das Recht WRITE.
+
+Ein Objekt, das ein Verzeichnis x in ein nicht bestehendes
+Verzeichnis y umbenennen will, braucht
+- auf x das Recht RMDIR und MKDIR (auch wieder aus obigen Gruenden)
+- auf y das Recht MKDIR,
+
+Ein Objekt, das ein Verzeichnis x in ein bestehendes Verzeichnis y
+umbenennen will, wird feststellen, dass das nicht geht und
+stattdessen das Verzeichnis x in das Verzeichnis y verschieben.
+Dazu braucht es:
+- auf x das Recht RMDIR und MKDIR (hmm, RMDIR ist absolut logisch,
+  braucht man wegen (*),
+- auf y das Recht MKDIR.

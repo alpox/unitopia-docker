@@ -1,0 +1,5 @@
+
+        Diese Funktion sollte nur im Notfall (Bei der Fehlerbehandlung
+	oder aehnlichem) genutzt werden. Stattdessen gibt es die Lfun
+	remove().
+

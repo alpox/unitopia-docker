@@ -1,0 +1,7 @@
+
+        Interaktiv ist ein Spieler-Objekt nur dann, wenn eine Internet-
+        verbindung besteht. Das gilt z.B. für Statuen nicht (wobei ein
+        Spieler erst ein paar Sekunden nach Verlust der Verbindung zu
+        zu einer Statue im MUD wird). Um abzufragen, ob ein Objekt
+        überhaupt ein Spieler ist, gibt es playerp().
+

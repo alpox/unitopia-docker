@@ -1,0 +1,42 @@
+Generell gilt: Für einen AP oder SP muss man 5 Taler zahlen.
+
+Folgende Preise sollten nicht unterschritten werden:
+
+Alkoholische Getränke:
+
+  Einmalige     Anzahl der Heart-beat
+Heilung in hp   Heilungen (=Strength)    Preis in Taler   
+       1                1                      5
+       5                5                     25
+      10               10                     50
+      25               12                    150
+
+Nichtalkoholische Heilmittel:
+
+  Einmalige
+Heilung in hp     Preis in Taler  Einschränkungen an Mengen
+       1                3              unbeschränkt
+       5               20              20 pro reset
+      10               50              15 pro reset
+      20              120              10 pro reset
+      50              400               2 pro reset
+     100             1000               1 pro reset
+
+Größere Heilung sollte vermieden werden, um den Spielcharakter zu erhalten.
+
+Die Beschränkungen können vielleicht auch gelockert weren, wenn dafür
+größere Vorleistungen (zB. Rätsel lösen, um Mitglied in einer Gilde
+zu werden etc) erbracht werden müssen.
+
+Die Mitnahme von Heilmitteln in Flaschen,Ampullen etc soll folgendermaßen
+eingeschränkt werden:
+
+      Inhalt des Behälters
+        in hp Heilung                     Gewicht
+
+             1                               1
+             5                               2
+            10                               3
+            20                               5
+            50                               8
+           100                              12

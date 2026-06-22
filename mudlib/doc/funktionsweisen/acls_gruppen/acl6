@@ -1,0 +1,133 @@
+6. Technische Informationen zur ACL - Verwaltung
+
+
+Datei: /secure/master/acl.inc
+
+Zielgruppe: Admins und interessierte Götter.
+
+
+DATEN:
+~~~~~
+
+Alle ACLs werden in einem großen Mapping verwaltet, Variablenname ACL.
+Jeder Mappingeintrag entspricht einem kompletten Verzeichnis. Außer
+den Rechten, die für dieses Verzeichnis vergeben werden, enthält
+er Verweise auf Einträge für Unterverzeichnisse, die wiederum eigenen
+Mappingeintraegen entsprechen.
+ACL[0] entspricht dabei / (root).
+
+Jeder einzelne Mappingeintrag besteht aus einem Array, welches wiederum
+aus Arrays besteht. Diese Arrays bestehen aus 2 oder 3 Elementen.
+- Der erste Eintrag ist der Dateiname,
+- der zweite Eintrag ist die dazugehörige ACL - Liste,
+  die ACL - Liste besteht aus zweielementigen Arrays, dessen erstes
+  Element angibt, für wen die ACL-Einträge gelten, das zweite Element
+  gibt an, welche Zugriffsrechte die Leute haben sollen,
+- der dritte Eintrag existiert, wenn es Unterverzeichnisse dieses
+  Verzeichnisses gibt, zu denen es ACLs gibt. Diese Zahl x gibt an, welcher
+  ACL[x] - Eintrag die Rechte dieses Unterverzeichnisses beinhaltet.
+
+Umständlich beschrieben? Hmmm, ok, machen wir ein Beispiel.
+
+ACL[0] (root):
+       ({({"d",0,1}),({"z",0,3})})
+ACL[1] (/d):
+       ({({"Vaniorh",({({"Vaniorh:DL",63}),({"Vaniorh:DH",62})}),2})})
+ACL[2] (/d/Vaniorh):
+       ({({"sissi",({({"sissi",62})})}),
+         ({"mozart",({({"mozart",62})}),5})})
+ACL[3] (/z):
+       ({({"Gilden",({({"Gilden",63})}),4})})
+ACL[4] (/z/Gilden):
+       ({({"Sehergilde",({({"Gilden:Sehergilde",62})})})})
+ACL[5] (/d/Vaniorh/mozart): 
+       ({({"theater",0,6})})
+ACL[6] (/d/Vaniorh/mozart/theater): 
+       ({({"db",0,7})})
+ACL[7] (/d/Vaniorh/mozart/theater/db):
+       ({({"emma",({({"/d/Vaniorh/mozart/theater/npc/emma",192})})})})
+
+Beispiel zu kompliziert? Jaja, ich erklaers:
+
+Nun, ACL[0] ist relativ einfach, im / - Verzeichnis gibt es die
+Verzeichnisse /d und /z. Weder für /d noch für /z gibts ACLs. Die ACLs
+für die Unterverzeichnisse stehen in ACL[1], die für /z stehen in ACL[3].
+
+ACL[1] sind die ACLs für /d. /d hat das Unterverichnis Vaniorh, hierfür
+gibts nun erstmalig eine ACL - Liste:
+({({"Vaniorh:DL",63}),({"Vaniorh:DH",62})})
+
+Die Gruppe Vaniorh:DL hat die Rechte 63, die Gruppe Vaniorh:DH hat die
+Rechte 62. 63 ergibt sich (siehe /sys/acl.inc) aus:
+ACL_ADMIN | ACL_WRITE | ACL_CREATE | ACL_REMOVE | ACL_MKDIR | ACL_RMDIR
+Den DHs fehlt das Recht ACL_ADMIN.
+Für die einzelnen ACLs siehe Beschreibung der ACLs.
+
+ACL[2] für /d/Vaniorh:
+       ({({"sissi",({({"sissi",62})})}),
+         ({"mozart",({({"mozart",62})}),5})})
+Im Verzeichnis "sissi" hat "sissi" die Rechte 62.
+Weitere Rechte unterhalb von /d/Vaniorh/sissi gibt es nicht.
+Bei Mozart ist das anders: Unterhalb des Verzeichnisses
+"/d/Vaniorh/mozart" gibt es noch weitere, die sind laut unterem
+Eintrag in ACL[5] zu finden.
+
+Verfolgt man das weiter, so findet man schließlich in ACL[7] die Rechte
+für /d/Vaniorh/mozart/theater/db:
+ACL[7] (/d/Vaniorh/mozart/theater/db):
+       ({({"emma",({({"/d/Vaniorh/mozart/theater/npc/emma",192})})})})
+Dort hat auf die Datei "emma" die Datei "/d/Vaniorh/mozart/theater/npc/emma"
+die Rechte 192 (das sind save- und restore-object).
+
+Die anderen obigen ACLs dürften nun klar sein:
+Im Verzeichnis /z/Gilden hat die Gruppe "Gilden" das Recht 63.
+Weiter gehts in ACL[4], dort findet man, dass die Gruppe "Gilden:Sehergilde"
+das Recht 62 im Verzeichnis /z/Gilden/Sehergilde hat:
+ACL[3] (/z):
+       ({({"Gilden",({({"Gilden",63})}),4})})
+ACL[4] (/z/Gilden):
+       ({({"Sehergilde",({({"Gilden:Sehergilde",62})})})})
+
+
+
+FUNKTIONEN:
+~~~~~~~~~~
+
+Die Funktion add_acl_entry fügt einen neuen ACL-Eintrag hinzu. Dabei wird
+(natuerlich) überprüft, ob der this interactive das überhaupt darf.
+Dazu muss der this interactive auf dem Pfad dahin, wo die ACLs gesetzt
+werden sollen, das ACL_ADMIN Recht haben (also entweder ausdrücklich
+selbst bekommen oder aber in einer Gruppe sein, die das darf).
+
+Außer save object und restore object werden alle Rechte an Götter oder
+Gruppen vergeben, bei Göttern wird überprüft, ob sie Götter sind, bei
+Gruppen, ob sie existieren.
+Wichtig ist hierbei Groß / kleinschreibung; Götter müssen klein
+geschrieben werden, Gruppen groß. Hier werden Götter automatisch
+kleingeschrieben, der Gruppenmaster (siehe dort) erlaubt nur
+großgeschriebene Gruppen.
+Die ACL-Rechte restore- und save object können nur an Dateien vergeben
+werden (die existieren muessen).
+
+Die Funktion delete_acl_entry entfernt ACL-Einträge wieder. Dabei fallen
+die meisten Überprüfungen einfach weg, denn um ACLs zu entfernen,
+genügt es, zu überprüfen, ob sie existieren. Will man für eine nicht
+existierende Gruppe ACLs entfernen, so kann das gar nicht gehen, weil man
+für eine nicht existierende Gruppe die niemals zuvor hat setzen können.
+Hat eine Gruppe hingegen lediglich aufgehört, zu existieren, so muss
+man natürlich diese ACLs löschen können.
+
+Die Funktion dump_acl_entries und Hilfsfunktionen zeigen die ACLs nun
+an, und gehen dabei eben auch rekursiv in Unterverzeichnisse.
+
+Die Funktion query_access ist nun die Schnittstelle für valid_write,
+hier wird ganz einfach geprüft, ob <wizorfile> (Wizard oder eine Datei
+im Falle von save/restore-Object) auf eine Datei / ein Verzeichnis <pfad>
+ganz bestimmte Zugriffsrechte <aclmask> besitzt.
+    int query_access(string *pfad, string wizorfile, int aclmask)
+Auffallen hierbei mag, dass der Pfad bereits als Stringarray übergeben
+wird, das liegt daran, dass valid_write dies bereits so vorliegen hat,
+also verwende ichs hier auch so.
+
+Für Debug - Zwecke gibts noch eine Funktion query_acl_dump, die naja,
+das ACL - Mapping eben so, wie es ist, "dumpt".

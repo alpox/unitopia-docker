@@ -1,0 +1,91 @@
+Hier kannst Du allgemeine Einstellungen zu Deiner Person und Deinem
+Charakter vornehmen:
+
+ Einstellungen zum Charakter:
+
+   P: Passwort
+      Damit kannst Du Dein Passwort ändern. Dieser Änderungen kannst Du
+      beliebig oft vornehmen, Du wirst aber zuerst aufgefordert, Dein
+      altes Passwort einzugeben und musst danach das neue zur Bestätigung
+      zweimal eingeben.
+
+   N: Namensschreibweise
+      Hiermit kannst Du eine neue Schreibweise Deines Namens eintragen.
+      Diese kann sich von Deiner alten Schreibweise durch beliebige Groß-
+      und Kleinschreibweisen der Buchstaben unterscheiden, muss aber
+      natürlich denselben Namen ergeben.
+      
+ Einstellungen zum Spieler:
+
+   E: E-Mail-Adresse
+      Hiermit kannst Du Deine eingetragene e-Mail-Adresse ändern.
+      Diese E-Mail-Adresse kann nur von den Admins des Muds eingesehen
+      werden und dient z.B. zum Beweis der Authentizität, falls Du
+      mal Dein Passwort vergessen hast und die Admins um ein neues bitten
+      musst. (Und nein, wir verschicken keine Werbe- oder Kettenbriefe
+      und verkaufen Deine Adresse nicht an die werbende Zunft.)
+      
+   W: WWW-Adresse:
+      Damit kannst Du Deine WWW-Homepage eintragen. Diese Homepageangabe
+      wird dazu genutzt, eine Liste von Spielerhomepages zu erstellen,
+      welche dann auf dem WWW-Server des Muds abgerufen werden kann.
+      (Seiten mit kommerziellem Inhalt sind nicht erwünscht, ebenso
+      Homepages, die es für nötig halten, Komplettlösungen von
+      Rätseln oder Spielen dazustellen.)
+      
+   T: Twitter
+      Du kannst in diesem Untermenü Einstellungen vornehmen, um
+      Erfolgsmeldungen via Twitter zu verkünden.
+      
+ Kampf: Diverse Einstellungen zum Verhalten Deines Charakters im Kampf
+
+   A: Verteidigungsmodus aus
+      Wenn Dich jemand angreift, so schlägst Du nicht automatisch zurück.
+      
+   O: Nur bei Notwehr verteidigen
+      Du schlägst nur dann automatisch zurück, wenn Dein Gegner den Kampf
+      begonnen hat, es sich um Rache handelt oder Dein Gegner kein
+      Spieler ist.
+      
+   V: Immer verteidigen
+      Du greifst automatisch denjenigen an, der Dich angegeriffen hat.
+      Damit riskierst Du, zum Mörder zu werden, weil Du dann auch
+      ohne Notwehrrecht (z.B. beim Beschuetzen) zurückschlägst.
+      
+   K: Kurze Kampfmeldungen
+      Damit werden im Kampf nur die eigentlichen Schlagmeldungen angezeigt.
+      Meldungen über Schilder oder Rüstungen werden ausgelassen.
+   
+   F: Fluchtmodus
+      Damit kannst Du den Fluchtmodus ab einer bestimmten Anzahl von
+      Ausdauerpunkten einschalten. Falls dann im Kampf Deine Ausdauer-
+      punkte unter diesen Wert fallen, flüchtest Du automatisch in
+      eine zufällige Richtung. Die gewählte Fluchtrichtung bringt
+      Dich aber nicht notwendigerweise aus dem Schlamassel heraus,
+      es ist halt eine Panikreaktion.
+
+   U: Überfallkanal
+      Wenn ein anderer Spieler Dich angreift, ohne dass Du ihn zuvor
+      angegriffen hast, so wird dies auf dem Überfallkanal (Kurierkanal 15)
+      gemeldet, damit andere Spieler davon Kenntnis erlangen und ggf.
+      helfen können. Mit dieser Option kannst Du die Meldungen bei Angriffen
+      auf Dich abschalten. (Um selbst die Meldungen anderer auf dem Kanal zu
+      hören oder nicht mehr zu hören, muss man den Kanal in den Kurier-
+      einstellungen (de-)aktivieren.)
+
+ Sonstiges: Alles, was sonst nirgends reinpasst
+
+   R: Tue Trenner
+      Beim Tue-Befehl werden die einzelnen Befehle mit einem Trennzeichen
+      getrennt, standardmäßig ist dies das Komma. Du kannst hier aber
+      auch alles andere einstellen, der Trenner kann auch aus mehreren
+      Zeichen bestehen.
+
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

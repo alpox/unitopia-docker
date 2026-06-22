@@ -1,0 +1,148 @@
+// This file is part of UNItopia Mudlib.
+// ----------------------------------------------------------------
+// File:        /apps/faild.c
+// Description: Verwaltet fehlerhafte Logins
+// Author:      Garthan	(06.03.95)
+
+// UID: Apps
+
+// mapping fails = ([ name : fail, ... ])
+
+// mixed *fail = ({ ({ where1,.... }), ({ when1, ... }) })
+
+#include <config.h>
+#include <level.h>
+#include <message.h>
+
+#define SAVEFILE "/var/spool/faild"
+#define HALFYEAR 15552000 // 3600*24*30*6
+
+mapping fails = ([]);
+static int modified;
+
+#define FL_WHERE 0
+#define FL_WHEN 1
+
+void create()
+{
+   int i, *times, now;
+   string *idxs;
+   mixed *fail;
+
+   restore_object(SAVEFILE);
+
+   for(now = time(), i = sizeof(idxs = m_indices(fails)); i--;)
+      if((sizeof(fail = fails[idxs[i]]) != 2) ||
+         !sizeof(times = fail[FL_WHEN]) ||
+         now - times[<1] > HALFYEAR)
+      {
+         m_delete(fails, idxs[i]);
+         modified = 1;
+      }
+}
+
+private void save()
+{
+   if(modified)
+   {
+      save_object(SAVEFILE);
+      modified = 0;
+   }
+}
+
+private int secure()
+{
+   if(previous_object() && !strstr(object_name(previous_object()), LOGIN_OB))
+      return 1;
+}
+
+void reset()
+{
+   save();
+}
+
+int remove()
+{
+   save();
+   destruct(this_object());
+   return 1;
+}
+
+int add_fail(string name,  string location)
+{
+   mixed *entry;
+   object ob;
+   if(!secure())
+      return 0;
+   if(!(entry = fails[name]))
+      entry = ({({}),({})});
+   entry[FL_WHERE] += ({ location });
+   entry[FL_WHEN] += ({ time() });
+   fails[name] = entry;
+   modified = 1;
+   save();
+   
+   if((ob=find_player(name)) && interactive(ob))
+      ob->send_message_to(ob, MT_NOTIFY, MA_UNKNOWN,
+        "ACHTUNG!\n"+
+	wrap("Fehlgeschlagener Loginversuch zu Deinem Charakter von "+location+"!"));
+   
+   if (sizeof(entry[FL_WHERE])>5)
+       EVENT_MASTER->event ("FaildLogin",name,"Info: Failed Login: "
+           +wrap(capitalize(name)+" von "+location),0);
+   return 1;
+}
+
+static mixed *query_fails(string name)
+{
+   mixed *entry;
+
+   entry = fails[name];
+   return entry ? ({}) + entry : 0;
+}
+
+string query_fail_and_update(string name)
+{
+   int i;
+   string ret;
+   mixed *entry;
+
+   if(!secure() || !(entry = fails[name]))
+      return 0;
+   ret = "Nicht erfolgreiche Loginversuche seit dem letzten Mal:\n";
+   for(i = sizeof(entry[FL_WHEN]); i--;)
+      ret += "   "+shorttimestr(entry[FL_WHEN][i])+": "+entry[FL_WHERE][i]+"\n";
+   m_delete(fails, name);
+   modified = 1;
+   return ret;
+}
+
+static mixed *query_fail_indices()
+{
+    if (fails)
+        return m_indices (fails);
+    return 0;
+}
+
+int query_time_of_last_but_two_fail (string name)
+{
+    mixed *entry;
+    entry = fails[name];
+    return entry && sizeof (entry[FL_WHEN])>2
+        ? entry[FL_WHEN] [<3]
+        : 0;
+}
+
+void remove_fails(string name)
+{
+    // Diese Funktion ist dafür gedacht, dass ein Admin sie per zcall
+    // aufruft, nachdem er einem Spieler das Passwort zurückgesetzt
+    // hat.
+    if (!adminp(this_interactive())
+        || (getuid(previous_object()) != getuid(this_interactive())))
+        return;
+
+    m_delete(fails, name);
+    modified = 1;
+    save();
+}

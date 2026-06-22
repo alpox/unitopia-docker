@@ -1,0 +1,8 @@
+FUNKTION: array_to_vtime
+DEKLARATION: int array_to_vtime(int* arr)
+BESCHREIBUNG:
+Liefert zu einem Array (wie es von vtimearray() geliefert wurde)
+die zugehoerige Anzahl an Sekunden, seit UNItopia besteht.
+GRUPPEN: simul_efun, zeit
+VERWEISE: vtime, vtimestr, vtimearray, array_to_time
+SOURCE: /secure/simul_efun/time.inc

@@ -1,0 +1,7 @@
+FUNKTION: ihrem
+DEKLARATION: varargs string ihrem(<object|mapping|int> who, <string|string*|int|int*> who_adjektiv, <object|mapping|int> owner, <string|string*|int|int*> owner_adjektiv, int who_art, int owner_art)
+BESCHREIBUNG:
+Liefert deklinierte Form eines Objektnamens. Siehe ihr().
+VERWEISE: ihr, sein, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

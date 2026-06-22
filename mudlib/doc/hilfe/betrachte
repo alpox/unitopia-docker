@@ -1,0 +1,22 @@
+------------------------------------------------------------------------------
+betrachte                 Liefert eine Beschreibung der Umgebung.
+
+betrachte <etwas>         Liefert ein Beschreibung von <etwas>,
+                          soweit möglich.
+                          <etwas> kann dabei folgendermaßen aussehen:
+                                  uhr, 2. buch, mein buch, meine 2. tasche
+                                  betrachte den knauf an dem schwert
+
+                          An Präpositionen gehen nur: auf, von, an;
+                          nicht aber: vom und am.
+
+b                         'b' ist ein Kürzel für 'betrachte'
+
+mustere <jemand>          Zauberspruch, um bei einem Lebewesen näher zu
+                          untersuchen, was es alles bei sich trägt.
+                          Dieser Zauberspruch kostet Zauberpunkte.
+
+beäuge <etwas>            Liefert die Kurzbeschreibung von <etwas>.
+
+siehe auch:   schau, rieche, horche, (be)fuehle
+------------------------------------------------------------------------------

@@ -1,0 +1,14 @@
+FUNKTION: expand_direction
+DEKLARATION: varargs string expand_direction(string dir, int flags)
+BESCHREIBUNG:
+Loest Abkuerzungen von Richtungen auf (z.B. expand_direction("no") liefert
+"nordosten".) Falls diese Abkuerzung unbekannt ist, wird 0 zurueckgeliefert.
+Der zweite Parameter flags kann eine Oder-Kombination aus folgenden
+Konstanten (definiert in simul_efuns.h) sein:
+
+    DIR_NUR_HIMMELSRICHTUNGEN   Nur Himmelsrichtungen erweitern.
+    DIR_ALS_DEFAULT             Wenn nichts gefunden wurde, dir zurueckliefern.
+				
+VERWEISE: is_direction, opposite_direction
+GRUPPEN: simul_efun, ausgaenge
+SOURCE: /secure/simul_efun/map.inc

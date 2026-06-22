@@ -1,0 +1,73 @@
+Mudweite Mailaliases
+--------------------
+
+Standardmäßig sind im Mailreader folgende Mailaliase definiert:
+
+   adm            gov            l.Kokosinsel   m.Doerrland    mud
+   admin          l.Arktis       l.Midgard      m.Ebenen       mudadm
+   faehren        l.Campus       l.Vaniorh      m.Gallien      newsadm
+   gilden         l.Doerrland    lords          m.Kokosinsel   raetsel
+   gouv           l.Ebenen       m.Arktis       m.Midgard      spiele
+   gouverneure    l.Gallien      m.Campus       m.Vaniorh      vorstand
+
+Die aktuelle Liste kannst Du im Mailreader mit dem Befehl I abrufen.
+
+Die Bedeutung der Mailaliases im einzelnen:
+
+   adm, admin, mudadm, mud -> Admins des Mud
+   faehren -> Admins der Schifffahrtsverbindungen
+   gilden -> Admins für Gildenfragen
+   gouverneure, gouv, gov -> Alle Admins (Mud,Gilden,Spiele,Rätsel,News,Faehren)
+   lords -> alle Domainlords
+   l.* -> Domainlords der entsprechenden Domain.
+   m.* -> Mitglieder der entsprechenden Domains
+   newsadm -> Admin der Newsbretter
+   raetsel -> Rätseladmins
+   spiele -> Spieleadmins
+   vorstand -> Mail an Trägerkreis des Muds.
+
+Die mudweiten Mailaliases sind auch von außen erreichbar, s.u.
+
+private Mailaliase
+------------------
+
+Zusätzlich zun den öffentlichen Aliases aus /static/adm/ALIASES
+kannst du dir eigene im File ~/.mailrc anlegen.
+Das Format istdas gleiche wie das von static/adm/ALIASES
+Beispiel:
+lehrlinge: huddel, schnutz, griesgram
+freunde:   babe, schnuckel
+verein:    yoda,grisu,fizban,garthan,freaky,sissi,monty,viele,mehr
+
+Deine privaten Mailaliases sind verständlicherweise nicht von außen
+erreichbar.
+
+Mail nach außerhalb
+-------------------
+
+Du kannst Mail nach außerhalb schicken, in dem du die volle
+Mailadresse des Empfängers angibst. Bitte achte darauf, dass die
+Adresse richtig geschrieben ist und existiert!!!
+
+Beispiel:
+   schreibe hinzkunz@cray.superduper.de
+
+Mail von außerhalb
+------------------
+
+Du kannst auch Mail von außerhalb in UNItopia empfangen,
+Deine volstaendige Mailadresse lautet:
+   
+   <dein_name>@UNItopia.de
+
+Beispiel:
+   garthan@UNItopia.de
+
+
+Deine Mail extern lesen und beantworten
+---------------------------------------
+
+Du kannst deine Mail statt im Mud auch extern lesen und beantworten,
+in dem Du das File ~/.forward oder ~/priv/.forward anlegst, in dem dann die
+Mailadresse stehen muss, an die Deine Post weitergeschickt (geforwarded) 
+werden soll.

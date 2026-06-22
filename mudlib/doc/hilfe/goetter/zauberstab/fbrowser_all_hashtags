@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Hier werden die Fehler-Zuständigkeitsbereiche für einen Gott angezeigt.
+Mögliche Befehle:
+
+    #<schlagwort>   Schlagwort auswählen, 
+                    können auch mehrere mit , getrennt sein
+    s/alt/neu/  Adminkommando zum Umbenennen von Hashtags.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u / d       Eine Seite hoch- /runterblaettern.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

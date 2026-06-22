@@ -1,0 +1,108 @@
+
+    CREATE TABLE
+    
+               Befehl ::= CREATE [TEMP | TEMPORARY] TABLE Tabellenname (
+	                  Spaltendefinition [, Spaltendefinition]* 
+			  [, Bedingung]* )
+	              ::= CREATE [TEMP | TEMPORARY] TABLE [Datenbank .] 
+		          Tabellenname AS Select-Befehl
+
+    Spaltendefinition ::= Name [Typ] [[CONSTRAINT Name] Spaltenbedingung]*
+
+                  Typ ::= Typname
+		      ::= Typname ( Nummer )
+		      ::= Typname ( Nummer, Nummer )
+
+    Spaltenbedingung  ::= NOT NULL [Konfliktklausel]
+                      ::= PRIMARY KEY [Sortierung] [Konfliktklausel]
+		          [AUTOINCREMENT]
+		      ::= UNIQUE [Konfliktklausel]
+		      ::= CHECK ( Ausdruck ) [Konfliktklausel]
+		      ::= DEFAULT Wert
+		      ::= COLLATE Sortiermethode
+		      
+            Bedingung ::= PRIMARY KEY ( Spalten ) [Konfliktklausel]
+	              ::= UNIQUE ( Spalten ) [Konfliktklausel]
+		      ::= CHECK ( Ausdruck ) [Konfliktklausel]
+	
+      Konfliktklausel ::= ON CONFLICT Konfliktstrategie
+      
+    Die 'CREATE TABLE'-Anweisung erstellt eine neue Tabelle mit dem
+    angegebenen Tabellenname. Dieser kann entweder ein Identifier
+    oder ein String sein. Tabellennamen, die mit "sqlite_" beginnen,
+    sind für den internen Gebrauch reserviert.
+    
+    Jede Spaltendefinition besteht zumindest aus deren Namen gefolgt
+    vom Datentyp dieser Spalte und weiteren optionalen Bedingungen.
+    Der Datentyp schränkt nicht die Art der Daten ein, die in dieser
+    Spalte gespeichert werden. Mit Ausnahme von 'INTEGER PRIMARY KEY'-
+    Spalten kann man also in jeder Spalte alle möglichen Arten
+    von Daten speichern. SQLite wird nur probieren, die Daten
+    in den jeweils angegebenen Datentyp zu konvertieren, schlägt
+    der Versuch fehl, werden die Daten in deren ursprünglichen Format
+    gespeichert.
+    
+    Die UNIQUE-Bedingung erstellt einen Index über die angegebenen
+    Spalten, welcher eindeutige Einträge haben muss. Die COLLATE-
+    Klausel gibt an, auf welche Weise Texteintraege sortiert werden
+    sollen (siehe CREATE INDEX), per Default wird BINARY genutzt.
+    
+    Die DEFAULT-Klausel gibt einen Standardwert für Einfuegeoperationen
+    an. Dieser Wert kann NULL, ein String oder eine Zahl sein.
+    Desweiteren werden CURRENT_TIME, CURRENT_DATE und CURRENT_TIMESTAMP
+    unterstützt, welche das Datum und die Uhrzeit in UTC zum Einfüge-
+    zeitpunkt wiedergeben, und zwar im Format HH:MM:SS, JJJJ-MM-TT bzw.
+    "JJJJ-MM-TT HH:MM:SS".
+    
+    Die "PRIMARY KEY"-Angabe erstellt normalerweise nur einen UNIQUE-Index
+    über die angegebenen Spalten. Wenn jedoch nur eine Spalte mit dem
+    Datentyp INTEGER angegeben wurde, so wird diese Spalte auch für
+    die interne Sortierung im B-Baum genutzt, so dass diese Spalte dann
+    auch nur Integer-Werte beinhalten darf. Falls eine Tabelle keine
+    'INTEGER PRIMARY KEY'-Spalte hat, so erstellt SQLite automatisch
+    eine solche für den internen Gebrauch. Die Werte in dieser Spalte
+    können mit via ROWID, OID oder _ROWID_ abgefragt werden (solange
+    keine echte Spalte diesen Namen traegt). Eine 'INTEGER PRIMARY KEY'-
+    Spalte kann auch das Schlüsselwort 'AUTOINCREMENT' erhalten.
+    Dies garantiert, dass ein Wert in dieser Spalte nicht wiederverwendet
+    wird. Normalerweise, ohne AUTOINCREMENT, belegt SQLite diese
+    Spalte mit einem Wert (sofern keiner manuell angegeben wurde),
+    welcher um 1 größer als der höchste Eintrag in dieser Spalte ist.
+    Mit AUTOINCREMENT wird der höchste, jemals vorhandene Wert
+    um eins erhöht, so dass hier auch gelöschte Werte nicht nochmal
+    vorkommen.
+    
+    Falls die TEMP- oder TEMPORARY-Option angegeben wurde, so wird diese
+    Tabelle nur vom aktuellen Objekt gesehen und automatisch gelöscht,
+    wenn die Datenbank geschlossen wird. Alle Indizes dieser Tabelle
+    sind ebenfalls temporär.
+    
+    Die Optionale Konfliktklausel hinter jeder Bedingung erlaubt es,
+    alternative Strategien neben dem Default ABORT (d.h. einen Fehler
+    ausloesen) anzugeben. Verschiedene Bedingungen dürfen verschiedene
+    Konfliktstrategien haben. Falls ein INSERT- oder UPDATE-Befehl eine
+    eigene Strategie angibt, so hat diese Vorrang vor der im 'CREATE TABLE'
+    angegebenen. Siehe bei 'ON CONFLICT' für weitere Informationen.
+    
+    CHECK-Bedingungen sind derzeit nicht implementiert und werden ignoriert.
+    'NOT NULL'- (NULL-Werte sind verboten), 'PRIMARY KEY'- und UNIQUE-
+    Bedingungen funktionieren.
+    
+    Es gibt keine Beschränkungen bezüglich der Anzahl an Spalten
+    oder Anzahl an Bedingungen.
+    
+    Die 'CREATE TABLE AS'-Variante erlaubt es, eine Tabelle als Ergebnis
+    einer SELECT-Abfrage zu definieren. Die Namen der Spalten in der
+    neuen Tabelle ergeben sich dann aus den Namen der Spalten im
+    Abfrageergebnis.
+    
+    Der exakte Text einer 'CREATE TABLE'-Anweisung wird in der
+    sqlite_master-Tabelle gespeichert. Jedes Mal, wenn die Datenbank
+    geöffnet wird, werden sie eingelesen, um die interne Repräsentation
+    des Datenbanklayouts wiederherzustellen. Falls der Originalbefehl
+    ein 'CREATE TABLE AS' war, so wird eine äquivalente 'CREATE TABLE'-
+    Anweisung stattdessen gespeichert. Die Anweisungen für temporäre
+    Tabellen werden in der sqlite_temp_master-Tabelle gespeichert.
+    
+    Tabellen werden mit dem 'DROP TABLE'-Befehl entfernt.
+

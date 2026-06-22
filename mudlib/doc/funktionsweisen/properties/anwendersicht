@@ -1,0 +1,40 @@
+Anwendersicht
+-------------
+
+Properties erlauben es, Eigenschaften von Objekten (derzeit Items und Raeume) 
+zu setzen, ohne dass man dazu im Objekt entsprechende
+set_xxx- und query_xxx-Funktionen implementieren muss. Deswegen hat nun
+jedes Item eine generische set()-, query()-, add()- und delete()-Funktion.
+
+Außerdem werden query/set/add/delete_xxx-Aufrufe, wo es keine passende Lfun
+gibt und das 'xxx' der kurze Name einer Property (PI_SHORTNAME) ist, auf diese
+Property umgeleitet.
+
+Beispiel:
+    item->set(P_LOOK_MSG, "$Der(OBJ_TP) schaut $den() verwirrt an.");
+
+Die Namen der Properties sind Strings, doch möge man bitte dafür die
+Defines verwenden. Mudlib-Properties wandern nach /sys/properties.h.
+Abgefragt werden sie entsprechend mit item->query(P_LOOK_MSG).
+
+Für bestimmte Datentypen wird zudem add() und delete() bereitgestellt.
+Wenn die Eigenschaft ein Mapping ist, kann man mit add(P_XXX, key, value)
+Einträge hinzufügen und mit delete(P_XXX, key) löschen. Wenn es ein
+Array ist, wird mit add(P_XXX, wert) bzw. delete(P_XXX, wert) ein
+Wert hinzugefügt bzw. gelöscht. Ansonsten führt add(P_XXX, wert) bzw.
+delete(P_XXX, wert) eine simple Addition bzw. Subtraktion auf den
+Eigenschaftswert durch.
+
+Im Standardfalle liefert query() genau den mit set() gesetzten Wert
+zurück. Hat man jedoch eine Closure gesetzt, so wird diese bei query()
+ausgeführt (sie erhält den freiwilligen zweiten Parameter von query
+als Argument) und das Ergebnis dann zurückgeliefert.
+
+Das delete() führt bei simplen Datentypen keine Subtraktion durch, 
+sondern wirft einen Fehler. Wenn man von einer Property z.B. 10 abziehen will, 
+soll man bitte add(P_xxx, -10) verwenden. Das ersparrt, dass man immer 
+Controller für add und delete anmelden müsste.
+
+In UNItopia gibt es das Plugin /p/Plugins/zproperties. Zum einen kann man
+globale Properties sehen oder speziell die gesetzten Werte eines 
+Objekts/Raums/usw abfragen.

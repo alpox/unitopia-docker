@@ -1,0 +1,12 @@
+
+    DELETE
+    
+    Befehl ::= DELETE FROM [Datenbank .] Tabelle [WHERE Ausdruck]
+
+    Der DELETE-Befehl wird genutzt, um Zeilen aus einer Tabelle zu
+    entfernen.
+    
+    Ohne eine WHERE-Klausel werden alle Zeilen gelöscht. Ansonsten
+    werden nur jene Zeilen entfernt, für die der angegebene Ausdruck
+    wahr ist.
+

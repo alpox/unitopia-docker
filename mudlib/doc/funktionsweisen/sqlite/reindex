@@ -1,0 +1,17 @@
+
+    REINDEX
+    
+    Befehl ::= REINDEX Sortiermethode
+           ::= REINDEX [Datenbank .] Tabelle
+           ::= REINDEX [Datenbank .] Indexname
+
+    Der REINDEX-Befehl wird verwendet, um alle Indizes zu löschen
+    und von Grund auf neu zu erstellen. Dies ist vor allem dann
+    nützlich, wenn sich die Definition der Sortiermethode geändert
+    hat.
+    
+    In der ersten Form werden alle Indizes in der Datenbank, welche
+    die angegebene Sortiermethode verwenden, neu erstellt, in der
+    zweiten Form alle Indizes einer Tabelle, in der dritten Form
+    der angegebene Index.
+

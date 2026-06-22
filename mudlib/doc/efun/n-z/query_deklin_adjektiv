@@ -1,0 +1,68 @@
+FUNKTION: query_deklin_adjektiv
+DEKLARATION: varargs string query_deklin_adjektiv(object|mapping who, string|<string|int|<string|int>*>*|int adj, int fall)
+BESCHREIBUNG:
+Diese Funktion liefert eine fertig deklinierte (gebeugte), komma
+getrennte Liste von Adjektiven eines Objekts oder ein fremdes,
+vorher uebergegebenes, dekliniertes Adjektiv.
+
+who
+   Das Objekt dessen Adjektive dekliniert werden.
+
+adj
+   hat ENTWEDER die Syntax eines ELEMENTS der Adjektivliste:
+      string    Grundform eines Adjektivs  ("gruen", "blau",...)
+      string *  Ein zweielementiges Feld:
+                ({ grundform, unregelmaessiger_wortstamm })
+		oder ein Feld aus mehreren Adjektiven:
+		({ "jung", "gruen", "gut riechend" })
+		(Bei 2 Adjektiven muss eines als Array 
+		z.B. ({"jung"}) angegeben werden)
+   ODER folgende Syntax zur AUSWAHL bestimmter Adjektive des Objekts
+      int i :  i == 0 : ALLE Adjektive des Objekts
+               i >  0 : die ERSTEN i Adjektive des Objekts
+               i <  0 : das -i. Adjektiv des Objekts
+      int *ip: ip == ({ a, b }) Alle Adjektive vom a. bis zum b.
+               Ist a, b negativ oder 0 dann wird von hinten gezaehlt.
+               ( 1 ist das erste Adjektiv,
+                 0 ist das letzte Adjektiv,
+                -1 das vorletzte,...)
+
+fall  0,1   Nominativ
+      2     Genitiv
+      3     Dativ
+      4     Akkusativ
+      5     Nominativ unbestimmte Form
+      6     Genitiv unbestimmte Form
+      7     Dativ  unbestimmte Form
+      8     Akkusativ unbestimmte Form
+
+BEISPIEL:
+   Das Objekt ob habe folgende Adjektivliste mit set_adjektiv definiert
+   und sei maennlich.
+
+   set_adjektiv( ({"offen", ({ "lila", "lilan" }), "voll"}) );
+
+   Dann liefert         (wenn zweites Argument fehlt, dann Nominativ)
+      query_deklin_adjektiv(ob)               "offene, lilane, volle"
+      query_deklin_adjektiv(ob,0)             "offene, lilane, volle"
+      query_deklin_adjektiv(ob,1)             "offene"
+      query_deklin_adjektiv(ob,2)             "offene, lilane"
+      query_deklin_adjektiv(ob,3,4)           "offenen, lilanen, vollen"
+      query_deklin_adjektiv(ob,-1)            "offene"
+      query_deklin_adjektiv(ob,-2,4)          "lilanen"
+      query_deklin_adjektiv(ob,-3)            "vollen"
+      query_deklin_adjektiv(ob,({1,2})        "offene, lilane"
+      query_deklin_adjektiv(ob,({2,3})        "lilane, volle"
+      query_deklin_adjektiv(ob,({2,2})        "lilane"
+      query_deklin_adjektiv(ob,({2,0})        "lilane, volle"
+      query_deklin_adjektiv(ob,({2,-1})       "lilane"
+
+      query_deklin_adjektiv("rote",3)      "roten"
+      query_deklin_adjektiv(({"rosa","rosan"}),3) "rosanen"
+
+VERWEISE: set_adjektiv, query_adjektiv, adjektiv,
+          add_adjektiv, delete_adjektiv,
+          set_id, query_id, id, add_id, delete_id,
+          query_deklin, wer, der
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

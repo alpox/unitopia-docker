@@ -1,0 +1,5 @@
+Die Anzeige aller Ausgangsevents zeigt die Eventid zu dem aktuellen Namen,
+den Erstellungszeitpunkt und den Betreff des Events.
+  <nr>       Den Ausgangsevent in der Einzelansicht anschauen.
+  z          Zurück zur vorherigen Ebene
+  q          Menü ganz verlassen.

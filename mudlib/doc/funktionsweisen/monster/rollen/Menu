@@ -1,0 +1,10 @@
+intro           Intro              Wozu braucht man Rollen?
+grundbefehle    Grundbefehle       Script-Header und Basiskommandos
+funktionen      Funktionen         Wichtige Funktionen (LFuns) zu den Rollen
+ifelse          If/Else            Mehr Dynamik mit if/else-Anweisungen
+spruenge        GoTo/GoSub         Von direkten und indirekten Sprüngen
+variablen       Variablen          Auch Rollen können sich etwas merken
+sonstige_befehle Sonstige Befehle   Was es sonst noch alles gibt
+referenz        Referenz           Eine Kurzreferenz über alle Befehle
+version1        Alte Rollen        Wie konvertiert man alte Rollen
+beispiele       Beispiele...       Beispiel-Rollen zum abgucken

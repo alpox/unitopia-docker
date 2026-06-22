@@ -1,0 +1,35 @@
+In diesem Menü kannst Du auswählen, welche Meldungen des Spielers nicht
+mehr zu Dir durchdringen.
+
+   S: Sagen
+      Alle Meldungen, die zur lokalen Kommunikation dienen.
+      (Sagen, Fragen, Flüstern, Erläutern, Murmeln, Singen etc.)
+
+   R: Reden
+      Die Meldungen, wenn derjenige zu Dir redet.
+      (Auch Gildenkommunikation.)
+
+   B: Brüllen
+      Alle vom Kurier ausgetragenen Meldungen.
+      (Bei den Einstellungen zum Kurier kann man für jeden Kanal einzeln
+      festlegen, ob Meldungen eines Spielers durchkommen.)
+
+   S: Seele
+      Alle Seele-Meldungen (auch Meldungen des ich-Befehls).
+
+   W: Waffen
+      Meldungen, wenn derjenige Waffen führt oder senkt.
+
+   A: Sonstige Aktionen
+      Meldungen, wenn derjenige etwas betrachtet, liest, betastet, schmecht,
+      an etwas riecht oder horcht, etwas an- oder auszieht, etwas isst oder
+      trinkt.
+         
+ Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

@@ -1,0 +1,34 @@
+
+Der Trustmechanismus
+--------------------
+
+Manche Goettertools benötigen zur korrekten Ausführung die Lese/Schreib-
+Rechte des Ausführenden und nicht die des Programmierers.
+
+Der Programmierer erreicht das, in dem er in seinem Objekt das
+File "/i/tools/trust" inherited und in der gegebenenfalls vorhandenen
+init() Routine ::init() aufruft.
+Jetzt braucht er nur noch vor jeder Aktion, die die Rechte des Ausführenden
+benötigt, den Befehl
+
+   if(!trusted())
+      return 0;
+
+schreiben.
+Außerdem sollte der Programmierer auch noch im create() die
+Funktion set_trust_reason() setzen, mit der er dem Benutzer den
+Grund dafür mitteilt, warum er die UserId des Benutzer braucht:
+
+   Bsp:
+      set_trust_reason("Der Tacker benötigt Deine Lese- und Schreibrechte "+
+		       "um Nachrichten unter deinem Namewn ans Brett "+
+		       "hängen zu können.");
+
+Die Meldung kann mit query_trust_reason() abgefragt werden.
+
+Ein trust::init() im init() wär auch nicht schlecht.
+Und ein seteuid(...) sollte auch nicht im create() sein. (das macht der trust)
+
+Später läuft das Programm dann nur, wenn der Ausführende mit dem
+'vertraue' Befehl sein Einverständnis gibt.
+Zu diesem Befehl schaue man sich am besten die Hilfe mit 'hilfe vertraue' an.

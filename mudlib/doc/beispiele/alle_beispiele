@@ -1,0 +1,72 @@
+BEISPIEL: read_v_item_cl
+// vor dem create, Name kann abgepasst werden:
+string read_schild(string parse_rest, 
+            string str,mapping vitem, object leser)
+{
+    // Beispiel 1: leser->more... siehe more_file
+    // dann return "";
+    // oder:
+    return "Da gibt es nix zu lesen.";
+}
+// und im add_v_item
+    "read" : #'read_schild,
+VERWEISE: v_item1
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c,
+        /w/myonara/enzy/API
+-------------------------------------------------------------------------------
+BEISPIEL: take_v_item_cl
+// vor dem create, Name kann abgepasst werden:
+string take_fackel(mapping vitem)
+{
+    object ob = clone_object("/obj/fackel");
+    ob->move(TP,([MOVE_FLAGS:MOVE_ERR_REMOVE]));
+    if (ob)
+        return "Du nimmst eine Fackel.";
+    else 
+        return "Du kannst keine Fackel nehmen.";
+    // solche Endlos-Reservoire sind verpoent.
+    // Vlt einen globalen Zaehler pro Reset nutzen.
+}
+// und im add_v_item
+    "take" : #'take_fackel,
+VERWEISE: v_item1
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c,
+        /w/myonara/enzy/API
+-------------------------------------------------------------------------------
+BEISPIEL: v_item
+    add_v_item( ([
+        "name" : "schatz",
+        "gender" : "saechlich",
+        "id" : ({ "schatz"}),
+        "long" : "Ein wertvoller Schatz.",
+    ]) );
+VERWEISE: v_item1
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c,
+        /w/myonara/enzy/API
+-------------------------------------------------------------------------------
+BEISPIEL: v_item1
+    add_v_item( ([ // Kann gefuellt/Geaendert werden
+        "name" : "schatz",
+        "gender" : "saechlich",
+        "id" : ({ "schatz"}),
+        "long" : "Ein wertvoller Schatz.",
+        "look_msg" : "",
+        "read" : "Nichts zu lesen.", // read_v_item_cl
+        "read_msg" : "",
+        "smell": "Nichts zu riechen.",
+        "smell_msg" : "",
+        "noise": "Nichts zu hoeren.",
+        "hear_msg": "",
+        "feel": "Fuehlt sich glatt an.",
+        "feel_msg" : "",
+        "take": "Der Schatz ist befestigt.", // take_v_item_cl
+        "take_msg": "",
+    ]) );
+VERWEISE: v_item0, read_v_item_cl, take_v_item_cl
+GRUPPEN: virtuell
+SOURCE: /i/item/v_item.c,
+        /w/myonara/enzy/API
+-------------------------------------------------------------------------------

@@ -1,0 +1,9 @@
+
+    DROP VIEW
+    
+    Befehl ::= DROP VIEW Viewname
+    
+    Die 'DROP VIEW'-Anweisung entfernt eine (mit 'CREATE VIEW' erstellte)
+    View. Diese View wird aus dem Datenbankschema entfernt, aber es
+    werden keinerlei unterliegende Daten verändert.
+

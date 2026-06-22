@@ -1,0 +1,4 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität bietet hash(TLS_HASH_SHA1, ...).
+

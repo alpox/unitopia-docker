@@ -1,0 +1,6 @@
+
+        DIESE FUNKTION IST VERALTET.
+        Die gleiche Funktionalität (und mehr) bietet filter,
+	wobei man da aber beachten muss, dass filter der Funktion/Closure
+	auch die Werte des Mappings vor den extra Parametern übergibt.
+

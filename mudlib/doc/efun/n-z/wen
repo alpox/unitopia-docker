@@ -1,0 +1,9 @@
+FUNKTION: wen
+DEKLARATION: varargs string wen(object|mapping|int who, int art, string|<string|int|<string|int>*>*|int adjektiv, object|mapping|int owner)
+BESCHREIBUNG:
+Liefert im Akkusativ deklinierte Form eines Objektnamens.
+Dabei wird beruecksichtigt, ob das Objekt ein personal_name hat.
+Weitere Beschreibung ->wer
+VERWEISE: wer, wem
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

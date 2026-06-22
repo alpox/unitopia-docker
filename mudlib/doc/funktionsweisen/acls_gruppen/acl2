@@ -1,0 +1,24 @@
+2. Für WEN werden per ACLs Rechte vergeben?
+
+Rechte können vergeben werden an:
+   - einzelne Götter:
+         dürfte klar sein.
+         Beispiel: copperhead.
+   - Gruppen von Göttern:
+         Götter können zu Gruppen zusammengefasst werden, (s.u.), diesen
+         Gruppen können Rechte gegeben werden, welche dann für alle
+         Gruppemitglieder gültig sind. Neben Göttern können auch
+         Gruppen Mitglieder von Gruppen sein.
+         Beispiel: Gilden:Druidengilde.
+   - einzelne Objekte im Mud
+         Damit sind Objekte im Mud gemeint, die während des Spielbetriebes
+         irgendwo zugreifen sollen; sich abspeichern, log-Dateien, texte,
+         listen schreiben. Rechte für Blueprints gelten genauso für
+	 alle Clones.
+         Beispiele: der Gescher auf dem K-Platz, Emma, Bücher, in welche
+             Spieler Texte schreiben können
+
+Dabei gelten folgende Einschränkungen:
+   - ein Gott oder eine Gruppe kann nie ein Restore-Object oder
+     Save-Object-Recht bekommen (wuerde ja auch keinen Sinn ergeben),
+   - ein Objekt im Mud kann niemals ein Debug - Recht erhalten.

@@ -1,0 +1,5 @@
+
+        Die Möglichkeit mit der Angabe einer Funktion oder Closure
+	funktioniert nicht, da input_to-Funktionen aufgrund der
+	Umlautkonvertierung nicht direkt angemeldet werden.
+

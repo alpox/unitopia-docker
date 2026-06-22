@@ -1,0 +1,21 @@
+In diesem Menü können Einstellungen zur Kampfanzeige angepasst werden.
+
+ Kampfanzeige:
+ 
+   M: Untermenü zur Einstellung der Filter "Meldungen von mir"
+      
+   G: Untermenü zur Einstellung der Filter "Meldungen vom Gegner"
+      
+   A: Untermenü zur Einstellung der Filter "Meldungen von anderen"
+            
+   X: Maximalanzahl Meldungen
+      Man kann nur zwischen 1 und 20 Maximalmeldungen unterdrücken.
+
+  Weitere Befehle:
+ 
+   Q: Menü beenden
+   Z: Zum Hauptmenü zurückkehren
+   ?: Diese Hilfe anzeigen.
+      Diesem Befehl kann ein Buchstabe angefügt werden, um nur die Hilfe
+      eines speziellen Befehls anzuzeigen.
+

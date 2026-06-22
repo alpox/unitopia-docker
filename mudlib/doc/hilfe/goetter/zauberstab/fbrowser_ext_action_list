@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Hier werden alle Aktionen einer Workflow-Liste angezeigt.
+Mögliche Befehle:
+
+    <nr>        Aktion Nummer <nr> anzeigen.
+    n           Neue Aktion anlegen.
+    < / >       Zur ersten / letzten Seite der Übersicht springen.
+    u / d       Eine Seite hoch- /runterblaettern.
+    z           Eine Ebene zurück, falls möglich.
+    q           Fehler-Browser verlassen.
+    ?           Diese Hilfe.
+-------------------------------------------------------------------------------

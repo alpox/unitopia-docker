@@ -1,0 +1,9 @@
+In UNItopia müssen viele verschiedene Shadows mit vielen verschiedenen
+Objekten zusammenarbeiten ohne dass es zu Fehlern aufgrund von einzelnen
+Objekten kommt, welche Shadows generell verbieten. Daher gelten folgende
+Regeln in Bezug auf Shadow-verbietende LPC-Konstrukte:
+  
+'#pragma no_shadow' darf nicht in Gegenständen oder Räumen (Objekte,
+welche /i/item, /i/move oder /i/room inheriten) verwendet werden.
+Eine Funktion, welche entsprechend der Enzy nicht als nomask definiert
+wurde, darf nicht als nomask deklariert werden.

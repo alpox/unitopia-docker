@@ -1,0 +1,8 @@
+FUNKTION: add_dot_to_msg
+DEKLARATION: string add_dot_to_msg(string msg)
+BESCHREIBUNG:
+Haengt an <msg> einen Punkt an, wenn <msg> kein Satzzeichen !?.,;:
+am Ende enthaelt. Hat <msg> ein '$' am Ende, so wird dieses abgeschnitten.
+GRUPPEN: simul_efun, string
+VERWEISE:
+SOURCE: /secure/simul_efun/string.inc

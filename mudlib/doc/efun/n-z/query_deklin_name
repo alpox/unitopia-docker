@@ -1,0 +1,32 @@
+FUNKTION: query_deklin_name
+DEKLARATION: string query_deklin_name(object|mapping who, int fall)
+BESCHREIBUNG:
+Diese Funktion liefert ein dekliniertes Nomen.
+
+who       Das Objekt dessen Namen gewuenscht ist
+
+fall (default ist 1)
+      1            Nominativ (mit bestimmtem Artikel davor)
+      2            Genitiv        "          "
+      3            Dativ          "          "
+      4            Akkusativ      "          "
+      5            Nominativ (mit unbestimmtem Artikel davor)
+      6            Genitiv        "          "
+      7            Dativ          "          "
+      8            Akkusativ      "          "
+      9            Nominativ (ohne Artikel davor)
+     10            Genitiv        "          "
+     11            Dativ          "          "
+     12            Akkusativ      "          "
+
+Im Normalfalle liefert diese Funktion einfach who->query_cap_name(),
+welches bei Genitiv gegebenenfalls ein "es", "s" oder "'" angehaengt
+bekommt.
+Man kann aber Ausnahmen definieren, indem man entweder eine Funktion
+query_dekliniert  oder Funktionen query_genitiv, query_dativ und
+query_akkusativ im Objekt implementiert.
+
+VERWEISE: query_deklin, query_dekliniert, wer, der,
+          query_genitiv, query_dativ, query_akkusativ
+GRUPPEN: simul_efun, grammatik
+SOURCE: /secure/simul_efun/deklin.c

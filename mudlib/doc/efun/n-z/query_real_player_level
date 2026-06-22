@@ -1,0 +1,8 @@
+FUNKTION: query_real_player_level
+DEKLARATION: int query_real_player_level(object player)
+BESCHREIBUNG:
+Liefert den Level eines Spielers (wenn 'ob' einer ist)
+ansosnten 0
+GRUPPEN: simul_efun, player
+VERWEISE: playerp
+SOURCE: /secure/simul_efun/util.inc

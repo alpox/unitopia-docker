@@ -1,0 +1,17 @@
+------------------------------------------------------------------------------
+schaue                    Liefert eine Beschreibung der Umgebung.
+
+schau  <etwas> an         Liefert ein Beschreibung von <etwas>,
+schau  auf <etwas>        soweit möglich.
+                          <etwas> kann dabei folgendermaßen aussehen:
+                                  uhr, 2. buch, mein buch, meine 2. tasche
+				  schaue den knauf an dem schwert an
+
+			  An Präpositionen gehen nur: auf, von, an;
+			  nicht aber: vom und am.
+
+sc                        'sc' ist ein Kürzel für 'schau'
+sa                        'sa' ist ein Kürzel für 'schau auf'
+
+siehe auch:   betrachte, rieche, horche, (be)fuehle
+------------------------------------------------------------------------------
