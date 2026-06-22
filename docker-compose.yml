@@ -1,0 +1,15 @@
+services:
+  unitopia:
+    build: ./UNItopia
+    image: unitopia
+    container_name: unitopia
+    user: "1000:1000"     # run as host user 'elias' so mudlib files stay owned by you
+    ports:
+      - "3333:3333"       # TCP: telnet/game port
+      - "3335:3335/udp"   # UDP: intermud
+    volumes:
+      # Persistent mudlib on the host. The driver only unpacks the baked-in
+      # mudlib when this directory is empty (no secure/master.c), so the
+      # pre-populated ./mudlib copied out of the image is used as-is.
+      - ./mudlib:/mud/lib
+    restart: unless-stopped

@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bookworm@sha256:49ba348354a28e39c70beffd6cf43bdb8d55d81ce4b746b0428717d054b8bbc4
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends build-essential ca-certificates git bison autoconf autogen automake wget pkg-config libgcrypt20-dev libgnutls28-dev libsqlite3-dev python3-dev libxml2-dev zlib1g-dev libpcre3-dev libc-ares-dev python3-hunspell hunspell-de-de locales \
@@ -6,7 +6,8 @@ RUN apt-get update \
  && dpkg-reconfigure --frontend=noninteractive locales \
  && update-locale LANG=de_DE.UTF-8 \
  && git clone -b unitopia https://github.com/amotzkau/ldmud.git \
- && cd ldmud/src && ./autogen.sh && settings/unitopia --prefix=/usr/local && make install-driver && cd ../.. \
+ && cd ldmud && git checkout 591454a81df608bf24185c6389affb1862a28c39 \
+ && cd src && ./autogen.sh && settings/unitopia --prefix=/usr/local --disable-use-ipv6 && make install-driver install-utils && cd ../.. \
  && rm -rf ldmud \
  && mkdir /mud && cd /mud \
  && wget -O - https://www.unitopia.de/pub/UNItopia/mudlib.tar.gz | tar -zxf - \
